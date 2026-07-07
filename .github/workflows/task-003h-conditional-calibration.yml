@@ -1,0 +1,139 @@
+name: TASK-003H conditional magnitude calibration
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "vnext/model_artifacts_conditional_calibrated.py"
+      - "vnext/run_task003h_folds.py"
+      - "vnext/run_task003h_comparison.py"
+      - "vnext/tests/test_task003h_conditional_calibration.py"
+      - "vnext/tests/test_task003h_comparison.py"
+      - "docs/current/TASK-003H-CONDITIONAL-CALIBRATION-EXPERIMENT.md"
+      - ".github/workflows/task-003h-conditional-calibration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cohorts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+      - run: python scripts/verify_legacy_manifest.py
+      - name: Build locked cohorts
+        run: python vnext/build_historical_cohorts.py --out build/task-003h-cohorts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task-003h-cohorts
+          path: build/task-003h-cohorts
+          if-no-files-found: error
+          retention-days: 14
+
+  current-vnext:
+    needs: cohorts
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: task-003h-cohorts
+          path: build/task-003h-cohorts
+      - name: Run unchanged current vNext folds
+        run: >-
+          python vnext/run_historical_folds.py
+          --out build/task-003h-current
+          --cohort-dir build/task-003h-cohorts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task-003h-current
+          path: build/task-003h-current
+          if-no-files-found: error
+          retention-days: 14
+
+  calibrated-candidate:
+    needs: cohorts
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: task-003h-cohorts
+          path: build/task-003h-cohorts
+      - name: Run calibrated candidate folds
+        run: >-
+          python vnext/run_task003h_folds.py
+          --out build/task-003h-candidate
+          --cohort-dir build/task-003h-cohorts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task-003h-candidate
+          path: build/task-003h-candidate
+          if-no-files-found: error
+          retention-days: 14
+
+  compare:
+    needs: [cohorts, current-vnext, calibrated-candidate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: task-003h-cohorts
+          path: build/task-003h-cohorts
+      - uses: actions/download-artifact@v4
+        with:
+          name: task-003h-current
+          path: build/task-003h-current
+      - uses: actions/download-artifact@v4
+        with:
+          name: task-003h-candidate
+          path: build/task-003h-candidate
+      - name: Compare candidate with unchanged current vNext
+        run: >-
+          python vnext/run_task003h_comparison.py
+          --current-predictions build/task-003h-current/vnext_predictions.csv
+          --candidate-predictions build/task-003h-candidate/candidate_predictions.csv
+          --cohort-dir build/task-003h-cohorts
+          --out build/task-003h-comparison
+          --bootstrap-repetitions 1000
+      - name: Run focused tests
+        run: >-
+          cd vnext && pytest -q
+          tests/test_task003h_conditional_calibration.py
+          tests/test_task003h_comparison.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task-003h-conditional-calibration
+          path: |
+            build/task-003h-comparison
+            build/task-003h-current/prediction_manifest.json
+            build/task-003h-candidate/prediction_manifest.json
+            build/task-003h-candidate/fold_artifact_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
