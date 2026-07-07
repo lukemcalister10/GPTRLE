@@ -1,6 +1,6 @@
 import pandas as pd
 
-from vnext.analyse_task003e_regressions import material_regressions
+from analyse_task003e_regressions import material_regressions
 
 
 def test_material_regressions_rank_severity_and_burden():
