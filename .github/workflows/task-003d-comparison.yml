@@ -5,8 +5,12 @@ on:
     branches: [vnext]
     paths:
       - "vnext/comparison_harness.py"
+      - "vnext/comparison_diagnostics.py"
+      - "vnext/comparison_outputs.py"
       - "vnext/run_comparison.py"
       - "vnext/test_task003_comparison.py"
+      - "vnext/test_comparison_diagnostics.py"
+      - "vnext/test_comparison_rejects_legacy_proxy.py"
       - ".github/workflows/task-003d-comparison.yml"
   workflow_dispatch:
 
@@ -45,11 +49,19 @@ jobs:
           assert manifest_first == manifest_second
           assert manifest_first["models"] == ["baseline_recent_scoring"]
           assert manifest_first["expected_rows_per_model"] == 20094
+          assert manifest_first["formal_legacy_included"] is False
+          assert manifest_first["diagnostic_legacy_proxy_allowed"] is False
           for name in [
               "baseline_predictions.csv",
               "predictions.csv",
               "metrics_by_lead.csv",
               "metrics_summary.csv",
+              "metrics_by_origin_lead.csv",
+              "fold_differences_vs_baseline.csv",
+              "player_block_bootstrap.csv",
+              "reliability.csv",
+              "slice_metrics.csv",
+              "comparison_report.md",
               "key_validation.json",
           ]:
               assert (first / name).read_bytes() == (second / name).read_bytes(), name
