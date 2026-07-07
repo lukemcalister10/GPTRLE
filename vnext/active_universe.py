@@ -22,6 +22,32 @@ VALID_ELIGIBILITIES = {"K-DEF", "G-DEF", "K-FWD", "G-FWD", "RUCK", "MID"}
 ELIGIBILITY_ALIASES = {"RUC": "RUCK", "SD": "G-DEF", "SF": "G-FWD"}
 ROOT = Path(__file__).resolve().parents[1]
 
+# Explicit identity-evidence corrections for known same/display-name hazards.
+# These are deliberately narrow and evidence-only: they do not alter the current
+# 2026 universe, AFFL ownership, current eligibility, historical scoring rows, or
+# production legacy files. They prevent a bad upstream identity fact from changing
+# stable ids or letting one player inherit another player's history.
+KNOWN_IDENTITY_EVIDENCE_OVERRIDES: dict[str, dict[str, Any]] = {
+    # St Kilda Max King: pick 4, 2018 national draft; born 2000-07-07.
+    # The historical source can otherwise carry the younger Max/Maxwell King's
+    # 2007 birth date for this legacy key, which is an impossible draft-age join.
+    "max-king-stk": {
+        "birth_date": "2000-07-07",
+        "birth_year": 2000,
+        "draft_pick": 4,
+        "draft_type": "ND",
+        "draft_year": 2018,
+    },
+    # Younger Sydney-origin Max/Maxwell King: keep a separate identity and alias.
+    "max-king-syd": {
+        "birth_date": "2007-01-09",
+        "birth_year": 2007,
+        "draft_pick": 49,
+        "draft_type": "ND",
+        "draft_year": 2025,
+    },
+}
+
 
 def normalise_name(value: str) -> str:
     value = unicodedata.normalize("NFKD", str(value)).encode("ascii", "ignore").decode()
@@ -82,6 +108,9 @@ def identity_evidence(legacy_player: dict[str, Any], historical_player: dict[str
         "birth_year": historical_player.get("_by") or "",
         "birth_date": historical_player.get("_bd") or "",
     }
+    overrides = KNOWN_IDENTITY_EVIDENCE_OVERRIDES.get(str(fields["legacy_key"]))
+    if overrides:
+        fields.update(overrides)
     return {k: fields[k] for k in sorted(fields)}
 
 
@@ -106,6 +135,65 @@ def canonical_legacy_eligibility(fut: Any) -> tuple[str, ...]:
         if code not in out:
             out.append(code)
     return tuple(out)
+
+
+def _as_int(value: Any) -> int | None:
+    if value in (None, ""):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def identity_health_issues(matched: pd.DataFrame) -> pd.DataFrame:
+    """Return machine-readable identity issues that should block registry release."""
+    issues: list[dict[str, Any]] = []
+
+    for column, code in (("stable_player_id", "duplicate_stable_player_id"), ("legacy_key", "duplicate_legacy_key")):
+        duplicated = matched[(matched[column] != "") & matched[column].duplicated(keep=False)].sort_values(column)
+        for _, row in duplicated.iterrows():
+            issues.append({
+                "severity": "critical",
+                "issue_code": code,
+                "legacy_key": row.get("legacy_key", ""),
+                "stable_player_id": row.get("stable_player_id", ""),
+                "player_name": row.get("player_name", ""),
+                "detail": f"{column} is not unique",
+                "recommended_disposition": "Fix identity evidence before release.",
+            })
+
+    display_dupes = matched[(matched["player_name"] != "") & matched["player_name"].duplicated(keep=False)].sort_values("player_name")
+    for _, row in display_dupes.iterrows():
+        issues.append({
+            "severity": "review",
+            "issue_code": "duplicate_display_name",
+            "legacy_key": row.get("legacy_key", ""),
+            "stable_player_id": row.get("stable_player_id", ""),
+            "player_name": row.get("player_name", ""),
+            "detail": "Display names can duplicate, but joins must use stable_player_id or legacy_key.",
+            "recommended_disposition": "Allow only when stable_player_id and legacy_key remain distinct.",
+        })
+
+    for _, row in matched.iterrows():
+        evidence = json.loads(row.get("identity_evidence_json") or "{}")
+        birth_year = _as_int(evidence.get("birth_year"))
+        draft_year = _as_int(evidence.get("draft_year"))
+        draft_type = str(evidence.get("draft_type") or "")
+        if birth_year is not None and draft_year is not None and draft_type in {"ND", "RD", "MSD"}:
+            draft_age = draft_year - birth_year
+            if draft_age < 16 or draft_age > 35:
+                issues.append({
+                    "severity": "critical",
+                    "issue_code": "implausible_draft_age",
+                    "legacy_key": row.get("legacy_key", ""),
+                    "stable_player_id": row.get("stable_player_id", ""),
+                    "player_name": row.get("player_name", ""),
+                    "detail": f"{draft_type} draft age is {draft_age} from birth_year={birth_year}, draft_year={draft_year}",
+                    "recommended_disposition": "Correct birth/draft evidence before release.",
+                })
+
+    return pd.DataFrame(issues, columns=["severity", "issue_code", "legacy_key", "stable_player_id", "player_name", "detail", "recommended_disposition"])
 
 
 def build_reconciliation(auth: pd.DataFrame, legacy: list[dict[str, Any]], previous: list[dict[str, Any]]) -> dict[str, pd.DataFrame]:
@@ -159,7 +247,7 @@ def build_reconciliation(auth: pd.DataFrame, legacy: list[dict[str, Any]], previ
     elig_dis = matched[(matched.match_status == "matched") & (matched.eligibilities != matched.legacy_eligibilities)].copy()
     missing_identity = matched[(matched.match_status == "matched") & (matched.missing_identity_evidence != "")].copy()
     wrongly = matched[(matched.match_status == "matched") & (~matched.previous_vnext_included)].copy()
-    return {"authoritative_universe": matched, "matched_players": matched[matched.match_status == "matched"], "unmatched_authoritative_players": matched[matched.match_status == "unmatched"], "legacy_only_players": legacy_only, "ambiguous_matches": pd.DataFrame(ambiguous), "duplicate_name_cases": pd.concat([dup_auth.assign(source="authoritative"), dup_legacy.assign(source="legacy")], ignore_index=True), "affl_ownership_comparison_unavailable": affl_unavailable, "eligibility_disagreements": elig_dis, "invalid_or_missing_fields": pd.DataFrame(invalid), "missing_identity_evidence": missing_identity, "players_wrongly_excluded_by_current_scoring_or_recent_play_logic": wrongly}
+    return {"authoritative_universe": matched, "matched_players": matched[matched.match_status == "matched"], "unmatched_authoritative_players": matched[matched.match_status == "unmatched"], "legacy_only_players": legacy_only, "ambiguous_matches": pd.DataFrame(ambiguous), "duplicate_name_cases": pd.concat([dup_auth.assign(source="authoritative"), dup_legacy.assign(source="legacy")], ignore_index=True), "affl_ownership_comparison_unavailable": affl_unavailable, "eligibility_disagreements": elig_dis, "invalid_or_missing_fields": pd.DataFrame(invalid), "missing_identity_evidence": missing_identity, "players_wrongly_excluded_by_current_scoring_or_recent_play_logic": wrongly, "identity_health_issues": identity_health_issues(matched[matched.match_status == "matched"])}
 
 
 def write_reports(reports: dict[str, pd.DataFrame], out: Path) -> dict[str, str]:
@@ -169,7 +257,7 @@ def write_reports(reports: dict[str, pd.DataFrame], out: Path) -> dict[str, str]
         path = out / f"{name}.csv"
         df.to_csv(path, index=False, lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
         hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
-    manifest = {"reports": hashes, "authoritative_rows": int(len(reports["authoritative_universe"])), "matched_rows": int(len(reports["matched_players"])), "legacy_only_rows": int(len(reports["legacy_only_players"])), "previous_vnext_wrongly_excluded_rows": int(len(reports["players_wrongly_excluded_by_current_scoring_or_recent_play_logic"]))}
+    manifest = {"reports": hashes, "authoritative_rows": int(len(reports["authoritative_universe"])), "matched_rows": int(len(reports["matched_players"])), "legacy_only_rows": int(len(reports["legacy_only_players"])), "previous_vnext_wrongly_excluded_rows": int(len(reports["players_wrongly_excluded_by_current_scoring_or_recent_play_logic"])), "critical_identity_issue_rows": int((reports["identity_health_issues"].get("severity") == "critical").sum()) if not reports["identity_health_issues"].empty else 0}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     return hashes
 
