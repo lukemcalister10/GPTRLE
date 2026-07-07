@@ -164,11 +164,43 @@ def _overlap_tables(target: pd.DataFrame) -> dict[str, pd.DataFrame]:
     return tables
 
 
+def _normalise_key(frame: pd.DataFrame) -> pd.DataFrame:
+    if "key" not in frame.columns and "player_key" in frame.columns:
+        return frame.rename(columns={"player_key": "key"})
+    return frame
+
+
+def _add_actuals_from_annual(frame: pd.DataFrame) -> pd.DataFrame:
+    out = frame.copy()
+    if "actual_games" in out.columns:
+        return out
+    for metric, suffix in [
+        ("actual_games", "games"),
+        ("actual_avg", "avg"),
+        ("actual_points", "points"),
+        ("actual_meaningful", "meaningful"),
+    ]:
+        values = []
+        for row in out.itertuples(index=False):
+            col = f"l{int(row.lead)}_{suffix}"
+            if col not in out.columns:
+                raise ValueError(f"annual rows are missing required target column {col}")
+            values.append(getattr(row, col))
+        out[metric] = values
+    return out
+
+
 def _load_inputs(current_path: Path, candidate_path: Path, annual_path: Path) -> pd.DataFrame:
-    current = pd.read_csv(current_path)
-    candidate = pd.read_csv(candidate_path)
-    annual_cols = ["key", "origin_year", "age", "tenure", "total_games", "position", "pick"]
-    annual = pd.read_csv(annual_path)[annual_cols]
+    current = _normalise_key(pd.read_csv(current_path))
+    candidate = _normalise_key(pd.read_csv(candidate_path))
+    annual = _normalise_key(pd.read_csv(annual_path))
+    required_annual = ["key", "origin_year", "age", "tenure", "total_games", "position", "pick"]
+    missing = [col for col in required_annual if col not in annual.columns]
+    if missing:
+        raise ValueError(f"annual rows are missing required columns: {missing}")
+    lead_target_cols = [c for c in annual.columns if c.startswith("l") and c.split("_", 1)[0][1:].isdigit()]
+    annual_cols = required_annual + [c for c in lead_target_cols if c not in required_annual]
+    annual = annual[annual_cols]
     join_cols = ["key", "origin_year", "lead"]
     actual_cols = ["player", "position", "pick", "actual_games", "actual_avg", "actual_points", "actual_meaningful"]
     current_raw = _raw_column(current)
@@ -193,11 +225,20 @@ def _load_inputs(current_path: Path, candidate_path: Path, annual_path: Path) ->
     if candidate_raw:
         rename[f"{candidate_raw}_candidate"] = "candidate_raw_p_meaningful"
     merged = merged.rename(columns=rename)
+    if "player" not in merged.columns:
+        merged["player"] = merged["key"]
     merged = merged.merge(annual, on=["key", "origin_year"], how="left", suffixes=("", "_origin"), validate="many_to_one")
     if "position_origin" in merged.columns:
-        merged["position"] = merged["position"].fillna(merged["position_origin"])
+        if "position" not in merged.columns:
+            merged["position"] = merged["position_origin"]
+        else:
+            merged["position"] = merged["position"].fillna(merged["position_origin"])
     if "pick_origin" in merged.columns:
-        merged["pick"] = merged["pick"].fillna(merged["pick_origin"])
+        if "pick" not in merged.columns:
+            merged["pick"] = merged["pick_origin"]
+        else:
+            merged["pick"] = merged["pick"].fillna(merged["pick_origin"])
+    merged = _add_actuals_from_annual(merged)
     return _add_bands(merged)
 
 
