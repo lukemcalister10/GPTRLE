@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   scrape:
@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
@@ -81,6 +83,39 @@ jobs:
           print(json.dumps(match_summary, indent=2, sort_keys=True))
           print(json.dumps(final, indent=2, sort_keys=True))
           PY
+
+      - name: Persist reviewed outputs on the PR branch
+        if: github.event_name == 'pull_request'
+        run: |
+          python - <<'PY'
+          import base64
+          import gzip
+          from pathlib import Path
+
+          source = Path("build/draftguru")
+          target = Path("data/historical")
+          target.mkdir(parents=True, exist_ok=True)
+          names = [
+              "historical_eligibility_2018_2024.csv",
+              "draftguru_player_key_map_final.csv",
+              "draftguru_players_excluded_from_repository_mapping.csv",
+              "database_player_keys.csv",
+          ]
+          for name in names:
+              raw = (source / name).read_bytes()
+              encoded = base64.b64encode(gzip.compress(raw, compresslevel=9, mtime=0)).decode("ascii")
+              wrapped = "\n".join(encoded[i:i + 76] for i in range(0, len(encoded), 76)) + "\n"
+              (target / f"{name}.gz.b64").write_text(wrapped, encoding="ascii")
+          for name in ["finalization_summary.json", "final_manifest.json"]:
+              (target / name).write_bytes((source / name).read_bytes())
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/historical/*.gz.b64 data/historical/finalization_summary.json data/historical/final_manifest.json
+          if ! git diff --cached --quiet; then
+            git commit -m "DATA: persist reviewed DraftGuru eligibility outputs"
+            git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+          fi
 
       - name: Upload extracted data, final evidence and source cache
         uses: actions/upload-artifact@v4
