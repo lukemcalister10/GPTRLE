@@ -17,14 +17,19 @@ class Task003QArtifact:
     current: Any
     candidate: Any
 
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self.current, name)
+    def __getattr__(self, name):
+        current = object.__getattribute__(self, "__dict__").get("current")
+        if current is None:
+            raise AttributeError(name)
+        return getattr(current, name)
 
 
 def train_lead(train: pd.DataFrame, lead: int) -> Task003QArtifact:
-    current = model_artifacts.train_lead(train, lead)
-    candidate = model_artifacts_event_logistic.train_lead(train, lead)
-    return Task003QArtifact(lead=lead, current=current, candidate=candidate)
+    return Task003QArtifact(
+        lead=lead,
+        current=model_artifacts.train_lead(train, lead),
+        candidate=model_artifacts_event_logistic.train_lead(train, lead),
+    )
 
 
 def predict(artifact: Task003QArtifact, rows: pd.DataFrame) -> pd.DataFrame:
