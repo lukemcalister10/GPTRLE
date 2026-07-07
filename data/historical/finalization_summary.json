@@ -1,0 +1,31 @@
+{
+  "database_unique_keys": 2652,
+  "draftguru_unique_people": 1465,
+  "excluded_draftguru_people": 25,
+  "manual_decision_rows": 112,
+  "manual_exclusions": 25,
+  "manual_matches": 87,
+  "match_methods": {
+    "duplicate_name_identity_correction": 8,
+    "exact_name_disambiguated_by_identity": 10,
+    "exact_normalised_name": 1311,
+    "high_name_birth_year": 2,
+    "manual_identity_resolution": 1,
+    "not_in_repository_database_or_intentionally_excluded": 25,
+    "supported_fuzzy_name": 30,
+    "user_confirmed_match": 78
+  },
+  "matched_draftguru_people": 1440,
+  "matrix_rows": 18564,
+  "verified_absent_player_years": 12942,
+  "verified_present_player_years": 5622,
+  "years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ]
+}

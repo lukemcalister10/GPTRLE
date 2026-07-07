@@ -1,0 +1,81 @@
+name: DraftGuru data verification
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "scripts/scrape_draftguru_lists.py"
+      - "scripts/match_draftguru_lists.py"
+      - "scripts/finalize_draftguru_eligibility.py"
+      - "scripts/materialize_draftguru_historical.py"
+      - "vnext/test_draftguru_historical_data.py"
+      - "data/historical/**"
+      - ".github/workflows/draftguru-data-acquisition.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4 rapidfuzz python-dateutil
+
+      - name: Verify committed sources
+        run: python scripts/materialize_draftguru_historical.py --check-only
+
+      - name: Regenerate DraftGuru evidence
+        run: |
+          python scripts/scrape_draftguru_lists.py --years 2018-2024 --out build/draftguru --delay 0.50
+          python scripts/match_draftguru_lists.py --draftguru build/draftguru/draftguru_eligibility_2018_2024.csv --database engine/rl_after/rl_model_data.json --out build/draftguru
+          python scripts/finalize_draftguru_eligibility.py --eligibility build/draftguru/draftguru_eligibility_2018_2024.csv --mapping build/draftguru/draftguru_player_key_map.csv --manual-decisions data/historical/draftguru_manual_decisions_2018_2024.csv --database engine/rl_after/rl_model_data.json --out build/draftguru
+
+      - name: Validate and compare regenerated evidence
+        run: |
+          python scripts/materialize_draftguru_historical.py --output-dir build/committed
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          generated = Path("build/draftguru")
+          committed = Path("build/committed")
+          summary = json.loads((generated / "finalization_summary.json").read_text())
+          assert summary["matched_draftguru_people"] == 1440
+          assert summary["excluded_draftguru_people"] == 25
+          assert summary["verified_present_player_years"] == 5622
+          assert summary["matrix_rows"] == 18564
+
+          names = [
+              "historical_eligibility_2018_2024.csv",
+              "draftguru_player_key_map_final.csv",
+              "draftguru_players_excluded_from_repository_mapping.csv",
+              "database_player_keys.csv",
+          ]
+          for name in names:
+              assert (generated / name).read_bytes() == (committed / name).read_bytes(), name
+          assert (generated / "finalization_summary.json").read_bytes() == Path("data/historical/finalization_summary.json").read_bytes()
+          assert (generated / "final_manifest.json").read_bytes() == Path("data/historical/final_manifest.json").read_bytes()
+
+          with (generated / "historical_eligibility_2018_2024.csv").open(newline="", encoding="utf-8") as handle:
+              rows = list(csv.DictReader(handle))
+          assert len(rows) == 18564
+          assert len({(row["player_key"], row["origin_year"]) for row in rows}) == len(rows)
+          PY
+
+      - name: Upload regenerated evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: draftguru-lists-2018-2024
+          path: build/draftguru
+          if-no-files-found: error
+          retention-days: 14
