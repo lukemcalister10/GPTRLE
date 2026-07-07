@@ -1,6 +1,0 @@
-check,status,detail
-local_authoritative_universe_rows,pass,804 rows in data/current/Players_2026.csv
-github_state_verification,blocked,"git fetch origin failed: could not read Username for https://github.com"
-task003k_candidate_artifacts,blocked,PR #19 artifacts were not available locally and could not be fetched
-model_fitting,pass,no model fitting was performed
-current_board_tuning_guardrail,pass,diagnostic script consumes persisted artifacts only and current-board smoke output was not used to tune any candidate

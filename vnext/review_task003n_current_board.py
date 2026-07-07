@@ -23,8 +23,9 @@ from snapshot import build_snapshot, canonical_position
 
 ROOT = Path(__file__).resolve().parents[1]
 ANNUAL_METRICS = ["p_meaningful", "exp_games", "exp_avg", "exp_points", "cond_games", "cond_avg"]
-QUANTILE_METRICS = ["p80", "p90", "p100", "p110"]
-RANK_METRICS = ["exp_points_5y", "exp_games_5y", "p_meaningful_5y", "p100_any_5y"]
+THRESHOLD_METRICS = ["p80", "p90", "p100", "p110", "p120"]
+POINT_QUANTILE_METRICS = ["points_q10", "points_q25", "points_q50", "points_q75", "points_q90", "points_q97"]
+RANK_METRICS = ["exp_points_5y", "exp_games_5y", "expected_meaningful_seasons_5y", "p100_any_5y_independence"]
 
 
 def sha256_file(path: Path) -> str:
@@ -87,7 +88,7 @@ def predict_board(label: str, artifact_dir: Path, module_name: str, snapshots: p
         out["lead"] = lead
         out["forecast_year"] = 2026 + lead
         # Normalise threshold names produced by model_artifacts.
-        for t in (80, 90, 100, 110):
+        for t in (80, 90, 100, 110, 120):
             if f"p{t}" not in out.columns and f"p_avg_ge_{t}" in out.columns:
                 out[f"p{t}"] = out[f"p_avg_ge_{t}"]
         pieces.append(out)
@@ -100,7 +101,7 @@ def predict_board(label: str, artifact_dir: Path, module_name: str, snapshots: p
 
 def validation_checks(annual: pd.DataFrame) -> pd.DataFrame:
     keys = ["model_id", "stable_player_id", "lead"]
-    required = ANNUAL_METRICS + QUANTILE_METRICS
+    required = ANNUAL_METRICS + THRESHOLD_METRICS
     rows = []
     for model, g in annual.groupby("model_id"):
         rows.append({
@@ -111,6 +112,9 @@ def validation_checks(annual: pd.DataFrame) -> pd.DataFrame:
             "duplicate_keys": int(g.duplicated(keys).sum()),
             "missing_required_values": int(g[required].isna().sum().sum()),
             "non_finite_required_values": int((~np.isfinite(g[required].to_numpy(float))).sum()),
+            "probability_bounds_violations": int(((g[["p_meaningful", *THRESHOLD_METRICS]] < 0) | (g[["p_meaningful", *THRESHOLD_METRICS]] > 1)).sum().sum()),
+            "threshold_monotonicity_violations": int((np.diff(g[THRESHOLD_METRICS].to_numpy(float), axis=1) > 1e-12).sum()),
+            "quantile_non_crossing_violations": int((np.diff(g[[c for c in POINT_QUANTILE_METRICS if c in g]].to_numpy(float), axis=1) < -1e-12).sum()) if any(c in g for c in POINT_QUANTILE_METRICS) else 0,
         })
     return pd.DataFrame(rows)
 
@@ -118,10 +122,11 @@ def validation_checks(annual: pd.DataFrame) -> pd.DataFrame:
 def deltas(current: pd.DataFrame, candidate: pd.DataFrame) -> pd.DataFrame:
     idx = ["stable_player_id", "lead"]
     cols = ["key", "player_name", "affl_team", "eligibilities", "position", "position_utility", "age", "tenure", "pick", "draft_pathway", "prior_games", "zero_history", "age_band", "tenure_band"]
-    c = current[idx + cols + ANNUAL_METRICS + QUANTILE_METRICS].rename(columns={m: f"current_{m}" for m in ANNUAL_METRICS + QUANTILE_METRICS})
-    k = candidate[idx + ANNUAL_METRICS + QUANTILE_METRICS].rename(columns={m: f"candidate_{m}" for m in ANNUAL_METRICS + QUANTILE_METRICS})
+    metrics = ANNUAL_METRICS + THRESHOLD_METRICS + [c for c in POINT_QUANTILE_METRICS if c in current and c in candidate]
+    c = current[idx + cols + metrics].rename(columns={m: f"current_{m}" for m in metrics})
+    k = candidate[idx + metrics].rename(columns={m: f"candidate_{m}" for m in metrics})
     out = c.merge(k, on=idx, validate="one_to_one")
-    for m in ANNUAL_METRICS + QUANTILE_METRICS:
+    for m in metrics:
         out[f"delta_{m}"] = out[f"candidate_{m}"] - out[f"current_{m}"]
     return out
 
@@ -132,8 +137,8 @@ def player_rollup(d: pd.DataFrame) -> pd.DataFrame:
         position=("position", "first"), position_utility=("position_utility", "first"), age=("age", "first"), tenure=("tenure", "first"), pick=("pick", "first"), draft_pathway=("draft_pathway", "first"), prior_games=("prior_games", "first"), zero_history=("zero_history", "first"), age_band=("age_band", "first"), tenure_band=("tenure_band", "first"),
         current_exp_points_5y=("current_exp_points", "sum"), candidate_exp_points_5y=("candidate_exp_points", "sum"),
         current_exp_games_5y=("current_exp_games", "sum"), candidate_exp_games_5y=("candidate_exp_games", "sum"),
-        current_p_meaningful_5y=("current_p_meaningful", "sum"), candidate_p_meaningful_5y=("candidate_p_meaningful", "sum"),
-        current_p100_any_5y=("current_p100", lambda s: 1 - float(np.prod(1 - s))), candidate_p100_any_5y=("candidate_p100", lambda s: 1 - float(np.prod(1 - s))),
+        current_expected_meaningful_seasons_5y=("current_p_meaningful", "sum"), candidate_expected_meaningful_seasons_5y=("candidate_p_meaningful", "sum"),
+        current_p100_any_5y_independence=("current_p100", lambda s: 1 - float(np.prod(1 - s))), candidate_p100_any_5y_independence=("candidate_p100", lambda s: 1 - float(np.prod(1 - s))),
     )
     for m in RANK_METRICS:
         q[f"delta_{m}"] = q[f"candidate_{m}"] - q[f"current_{m}"]
@@ -148,8 +153,55 @@ def slice_summary(d: pd.DataFrame) -> pd.DataFrame:
     rows = []
     for name, col in specs.items():
         for (lead, val), g in d.groupby(["lead", col], observed=False, dropna=False):
-            rows.append({"slice_type": name, "slice_value": str(val), "lead": int(lead), "players": int(g.stable_player_id.nunique()), **{f"mean_delta_{m}": float(g[f"delta_{m}"].mean()) for m in ANNUAL_METRICS + QUANTILE_METRICS}})
+            delta_cols = [c for c in g.columns if c.startswith("delta_")]
+            rows.append({"slice_type": name, "slice_value": str(val), "lead": int(lead), "players": int(g.stable_player_id.nunique()), **{f"mean_{c}": float(g[c].mean()) for c in delta_cols}})
     return pd.DataFrame(rows)
+
+
+def artifact_summary(label: str, artifact_dir: Path) -> dict[str, Any]:
+    summary: dict[str, Any] = {"label": label, "artifact_dir": str(artifact_dir), "leads": {}}
+    manifest_path = artifact_dir / "manifest.json"
+    if manifest_path.exists():
+        summary["manifest_sha256"] = sha256_file(manifest_path)
+        try:
+            summary["manifest"] = json.loads(manifest_path.read_text())
+        except json.JSONDecodeError:
+            summary["manifest_parse_error"] = True
+    for lead in range(1, 6):
+        artifact_path = artifact_dir / f"lead_{lead}.joblib"
+        if not artifact_path.exists():
+            continue
+        artifact = joblib.load(artifact_path)
+        summary["leads"][str(lead)] = {
+            "artifact_sha256": sha256_file(artifact_path),
+            "train_max_origin": getattr(artifact, "train_max_origin", None),
+            "n_fit": getattr(artifact, "n_fit", None),
+            "n_cal": getattr(artifact, "n_cal", None),
+            "event_model_class": type(getattr(artifact, "event_model", None)).__name__,
+            "games_model_class": type(getattr(artifact, "games_model", None)).__name__,
+            "avg_model_class": type(getattr(artifact, "avg_model", None)).__name__,
+            "threshold_model_classes": {str(k): (None if v is None else type(v).__name__) for k, v in sorted(getattr(artifact, "threshold_models", {}).items())},
+        }
+    return summary
+
+
+def single_change_evidence(current_summary: dict[str, Any], candidate_summary: dict[str, Any]) -> dict[str, Any]:
+    rows = []
+    for lead in range(1, 6):
+        c = current_summary.get("leads", {}).get(str(lead), {})
+        k = candidate_summary.get("leads", {}).get(str(lead), {})
+        rows.append({
+            "lead": lead,
+            "same_train_max_origin": c.get("train_max_origin") == k.get("train_max_origin"),
+            "same_n_fit": c.get("n_fit") == k.get("n_fit"),
+            "same_n_cal": c.get("n_cal") == k.get("n_cal"),
+            "current_event_model_class": c.get("event_model_class"),
+            "candidate_event_model_class": k.get("event_model_class"),
+            "same_games_model_class": c.get("games_model_class") == k.get("games_model_class"),
+            "same_avg_model_class": c.get("avg_model_class") == k.get("avg_model_class"),
+            "same_threshold_model_classes": c.get("threshold_model_classes") == k.get("threshold_model_classes"),
+        })
+    return {"interpretation": "single-change screen: training support/cutoffs should match and non-event model classes should remain unchanged; meaningful-season event model class may differ for TASK-003K", "by_lead": rows}
 
 
 def main() -> None:
@@ -174,7 +226,7 @@ def main() -> None:
     cand = predict_board("candidate", Path(args.candidate_artifacts), args.candidate_module, snapshots)
     annual = pd.concat([cur, cand], ignore_index=True)
     checks = validation_checks(annual)
-    if not ((checks.players == 804) & (checks.rows == 4020) & (checks.duplicate_keys == 0) & (checks.missing_required_values == 0) & (checks.non_finite_required_values == 0)).all():
+    if not ((checks.players == 804) & (checks.rows == 4020) & (checks.duplicate_keys == 0) & (checks.missing_required_values == 0) & (checks.non_finite_required_values == 0) & (checks.probability_bounds_violations == 0) & (checks.threshold_monotonicity_violations == 0) & (checks.quantile_non_crossing_violations == 0)).all():
         raise ValueError(f"current-board validation checks failed:\n{checks.to_string(index=False)}")
     d = deltas(cur, cand)
     roll = player_rollup(d)
@@ -194,6 +246,8 @@ def main() -> None:
         "zero_history_players.csv": write_csv(out / "zero_history_players.csv", zero_history),
         "validation_checks.csv": write_csv(out / "validation_checks.csv", checks),
     }
+    current_artifacts_summary = artifact_summary("current", Path(args.current_artifacts))
+    candidate_artifacts_summary = artifact_summary("candidate", Path(args.candidate_artifacts))
     manifest = {
         "task": "TASK-003N-current-board-impact-review",
         "issue": 21,
@@ -206,7 +260,13 @@ def main() -> None:
         "current_module": args.current_module,
         "candidate_module": args.candidate_module,
         "input_hashes": {p: sha256_file(Path(p)) for p in [args.authoritative, args.legacy, args.previous_vnext] if Path(p).is_file()},
-        "artifact_hashes": hashes,
+        "output_hashes": hashes,
+        "current_artifacts_summary": current_artifacts_summary,
+        "candidate_artifacts_summary": candidate_artifacts_summary,
+        "single_change_evidence": single_change_evidence(current_artifacts_summary, candidate_artifacts_summary),
+        "forecast_origin_year_convention": "existing current-board pipeline uses origin 2026 and forecast_year = 2026 + lead for leads 1..5",
+        "forecast_years": [2027, 2028, 2029, 2030, 2031],
+        "any_probability_columns_label": "p*_any_5y_independence columns use 1 - product(1 - annual_probability) and are independence approximations, not true joint probabilities",
         "commands": ["PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts <TASK-003K_ARTIFACT_DIR> --candidate-module <TASK-003K_MODULE> --out reports/task-003n-current-board-impact"],
         "guardrail_confirmation": "Current-board outputs are generated after persisted candidate artifacts are supplied; this script performs no fitting and must not be used to tune the historical candidate.",
     }

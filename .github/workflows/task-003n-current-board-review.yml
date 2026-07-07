@@ -1,0 +1,44 @@
+name: TASK-003N current-board review
+
+on:
+  pull_request:
+    paths:
+      - 'vnext/**'
+      - 'docs/current/**'
+      - 'reports/task-003n-current-board-impact/**'
+      - '.github/workflows/task-003n-current-board-review.yml'
+  workflow_dispatch:
+
+jobs:
+  current-board-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install -r requirements-vnext.txt
+      - name: Build annual training dataset
+        run: python vnext/build_annual_dataset.py --data engine/rl_after/rl_model_data.json --out build/task-003n/annual_rows.csv --min-origin 2008 --max-origin 2026
+      - name: Build full-current unchanged vNext artifacts
+        run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task-003n/annual_rows.csv --out build/task-003n/artifacts-current --module model_artifacts --target-cutoff 2025
+      - name: Build full-current TASK-003K event-logistic candidate artifacts
+        run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task-003n/annual_rows.csv --out build/task-003n/artifacts-task003k --module model_artifacts_event_logistic --target-cutoff 2025
+      - name: Run real 804-player current-board comparison
+        run: PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task-003n/artifacts-current --candidate-artifacts build/task-003n/artifacts-task003k --current-module model_artifacts --candidate-module model_artifacts_event_logistic --out reports/task-003n-current-board-impact
+      - name: Run vNext tests
+        run: cd vnext && pytest -q
+      - name: Upload TASK-003N board-review outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003n-current-board-impact-review
+          path: |
+            reports/task-003n-current-board-impact
+            build/task-003n/artifacts-current/manifest.json
+            build/task-003n/artifacts-current/training_summary.csv
+            build/task-003n/artifacts-task003k/manifest.json
+            build/task-003n/artifacts-task003k/training_summary.csv
+            build/task-003n/annual_rows.csv
