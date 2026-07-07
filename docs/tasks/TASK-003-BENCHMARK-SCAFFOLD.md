@@ -7,7 +7,7 @@ legacy-vNext comparisons can be run without touching current-season source data,
 current-universe logic, stable-ID ownership, player values, keeper utility, or
 the frozen legacy engine.
 
-The scaffold has five separable layers:
+The scaffold has six separable layers:
 
 1. **Historical as-of contract** — `AsOfContract` defines an origin-year cutoff
    and the allowed source fields for a snapshot. Snapshot construction sanitizes
@@ -20,24 +20,59 @@ The scaffold has five separable layers:
    keyed by `player_key` and `origin_year`. Missing historical eligibility is
    reported as an exclusion and, by default, prevents the definitive benchmark
    from proceeding.
-3. **Rolling-origin cohorts** — `LOCKED_FOLDS` encodes the locked folds from
-   `docs/current/VALIDATION_PROTOCOL.md`: lead 1 origins 2018-2024, lead 2
-   origins 2018-2023, lead 3 origins 2018-2022, lead 4 origins 2018-2021, and
-   lead 5 origins 2018-2020. `build_evaluation_cohorts` creates included
-   snapshots, excluded rows with reasons, and realised targets from the same
-   player/origin/lead keys.
-4. **Common prediction adapters** — `BaselineAdapter`, `LegacyAdapter` and
-   `VNextAdapter` normalise predictions into one schema keyed by
-   `player_key`, `origin_year` and `lead`. The schema distinguishes
-   `p_meaningful`, `cond_games`, `cond_avg`, `exp_games`, `exp_points`, threshold
-   event probabilities and explicit point quantiles. Legacy execution is injected
-   as a callable so frozen legacy behaviour does not need to be modified.
-5. **Common targets, metrics and artifacts** — `realised_targets` keeps zero-game
+3. **Rolling-origin fold plan** — `LOCKED_FOLDS` encodes the locked test origins
+   from `docs/current/VALIDATION_PROTOCOL.md`, while `build_fold_plan` records
+   each lead/test-origin pair, the permitted training origins and the maximum
+   training target year. A training row is legal only when
+   `training_origin + lead < test_origin`.
+4. **Prediction-key-only adapter boundary** — `BaselineAdapter`, `LegacyAdapter`
+   and `VNextAdapter` receive only sanitized historical snapshots and a key frame
+   containing exactly `player_key`, `origin_year` and `lead`. Adapters never
+   receive realised games, averages, points, meaningful flags or threshold
+   outcomes. `LegacyAdapter` passes only those sanitized snapshots and keys to
+   its injected runner.
+5. **Model provenance enforcement** — `VNextAdapter` resolves artifacts by
+   `(lead, test_origin)` or an injected resolver, validates artifact training
+   cutoff metadata, and rejects artifacts whose training targets reach or pass
+   the test origin. `LegacyAdapter` requires equivalent as-of provenance from an
+   injected provenance resolver. Per-fold model/artifact identifiers, training
+   cutoff years and quantile methods are recorded for artifact publication.
+6. **Common targets, metrics and artifacts** — `realised_targets` keeps zero-game
    and other short-career outcomes in the target table. `score_predictions`
    calculates the scaffolded metrics implemented now, and
-   `write_benchmark_artifacts` writes folds, included rows, excluded rows,
-   targets, normalised predictions, metrics and a JSON manifest with counts,
-   model identifiers, target definitions, hashes and reproduction commands.
+   `write_benchmark_artifacts` writes fold plans, included rows, excluded rows,
+   target failures, targets, normalised predictions, metrics, per-fold model
+   metadata and a JSON manifest with counts, model identifiers, target
+   definitions, hashes and reproduction commands.
+
+## Target-data failure handling
+
+Target construction does not rely on silent target fallback behaviour:
+
+- no scoring row for the exact target year is a legitimate zero-game outcome;
+- exactly one valid row for the target year produces the realised target;
+- malformed exact target-year rows are reported as target-data failures;
+- duplicate exact target-year rows are reported as target-data failures.
+
+Unexpected target-data failures prevent the definitive benchmark by default.
+Callers may disable that guard only to publish or inspect the `target_failures`
+artifact during investigation.
+
+## Quantile provenance
+
+The common prediction schema requires explicit `points_q10`, `points_q25`,
+`points_q50`, `points_q75`, `points_q90` and `points_q97` columns.
+
+- `BaselineAdapter` uses a documented degenerate distribution by emitting the
+  same `exp_points` value into every quantile column.
+- `VNextAdapter` requires artifact output or an injected prediction function to
+  provide real quantile columns. It does not silently convert `exp_points` into
+  all six quantiles.
+- `LegacyAdapter` requires its injected runner to provide the full prediction
+  schema.
+
+Quantile method names are recorded per model and per fold so diagnostic or
+degenerate quantiles cannot be mistaken for genuine distribution forecasts.
 
 ## Metrics implemented now
 
@@ -55,10 +90,8 @@ needed for a first identical-row comparison:
 - point-forecast quantile pinball loss for q10/q25/q50/q75/q90/q97, using the
   matching explicit `points_qXX` prediction column.
 
-The deterministic baseline emits the same `exp_points` forecast into each
-`points_qXX` column as an explicit degenerate distribution. The scoring function
-requires those columns and does not substitute a mean forecast when they are
-missing.
+The scoring function requires quantile columns and does not substitute a mean
+forecast when they are missing.
 
 ## Protocol components intentionally deferred
 

@@ -10,14 +10,19 @@ from benchmark import (
     BaselineAdapter,
     EligibilityDecision,
     StaticEligibilityResolver,
+    VNextAdapter,
+    LegacyAdapter,
     calibration_intercept_slope,
     LOCKED_FOLDS,
+    build_fold_plan,
     QUANTILE_COLUMNS,
     REQUIRED_PREDICTION_COLUMNS,
     assert_common_keys_and_targets,
     build_asof_snapshot,
     build_evaluation_cohorts,
+    degenerate_point_quantiles,
     normalise_predictions,
+    prediction_keys_from_targets,
     score_predictions,
     write_benchmark_artifacts,
 )
@@ -141,7 +146,7 @@ def test_identical_keys_targets_and_zero_game_outcomes_remain():
     cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
     assert len(cohorts["targets"]) == 2
     assert (cohorts["targets"]["games"] == 0).any()
-    pred_a = BaselineAdapter("baseline_a").predict(cohorts["included"], cohorts["targets"])
+    pred_a = BaselineAdapter("baseline_a").predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"]))
     pred_b = pred_a.assign(model_id="baseline_b")
     assert_common_keys_and_targets({"baseline_a": pred_a, "baseline_b": pred_b}, cohorts["targets"])
     pd.testing.assert_frame_equal(
@@ -191,7 +196,7 @@ def test_prediction_validation_missing_duplicate_invalid_probability_and_crossin
 def test_baseline_emits_required_prediction_schema_and_degenerate_quantiles():
     players = [player("p1")]
     cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
-    pred = BaselineAdapter().predict(cohorts["included"], cohorts["targets"])
+    pred = BaselineAdapter().predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"]))
     assert set(REQUIRED_PREDICTION_COLUMNS).issubset(pred.columns)
     assert all((pred[col] == pred["exp_points"]).all() for col in QUANTILE_COLUMNS)
 
@@ -199,7 +204,7 @@ def test_baseline_emits_required_prediction_schema_and_degenerate_quantiles():
 def test_metrics_and_artifacts_are_deterministic(tmp_path: Path):
     players = [player("p1"), player("p2", pick=50)]
     cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
-    pred = BaselineAdapter().predict(cohorts["included"], cohorts["targets"])
+    pred = BaselineAdapter().predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"]))
     metrics = score_predictions(pred, cohorts["targets"])
     first = write_benchmark_artifacts(tmp_path / "a", cohorts, {"baseline_recent_scoring": pred}, metrics, ["pytest vnext/test_benchmark.py"])
     second = write_benchmark_artifacts(tmp_path / "b", cohorts, {"baseline_recent_scoring": pred}, metrics, ["pytest vnext/test_benchmark.py"])
@@ -210,6 +215,116 @@ def test_metrics_and_artifacts_are_deterministic(tmp_path: Path):
 def test_common_key_assertion_fails_loudly_on_missing_prediction_row():
     players = [player("p1"), player("p2")]
     cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
-    pred = BaselineAdapter().predict(cohorts["included"], cohorts["targets"]).iloc[:1]
+    pred = BaselineAdapter().predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"])).iloc[:1]
     with pytest.raises(AssertionError):
         assert_common_keys_and_targets({"bad_model": pred}, cohorts["targets"])
+
+
+def test_adapters_receive_prediction_keys_not_realised_targets():
+    players = [player("p1", scoring=[{"year": 2018, "avg": 60, "games": 8}, {"year": 2019, "avg": 90, "games": 20}])]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+    keys = prediction_keys_from_targets(cohorts["targets"])
+    first = BaselineAdapter().predict(cohorts["included"], keys)
+    mutated_targets = cohorts["targets"].copy()
+    for col in ["games", "avg", "points", "meaningful", "avg_ge_80", "avg_ge_90", "avg_ge_100", "avg_ge_110", "avg_ge_120"]:
+        mutated_targets[col] = 999 if col not in {"meaningful", "avg_ge_80", "avg_ge_90", "avg_ge_100", "avg_ge_110", "avg_ge_120"} else 1 - mutated_targets[col]
+    second = BaselineAdapter().predict(cohorts["included"], prediction_keys_from_targets(mutated_targets))
+    pd.testing.assert_frame_equal(first, second)
+
+
+def test_adapter_rejects_prediction_keys_with_realised_target_columns():
+    players = [player("p1")]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+    with pytest.raises(ValueError, match="prediction_keys must contain exactly"):
+        BaselineAdapter().predict(cohorts["included"], cohorts["targets"])
+
+
+def test_fold_plan_records_strict_training_boundary():
+    plan = [p for p in build_fold_plan({1: [2018], 3: [2022]}) if p.lead == 1][0]
+    assert plan.test_origin == 2018
+    assert max(plan.allowed_training_origins) == 2016
+    assert all(origin + plan.lead < plan.test_origin for origin in plan.allowed_training_origins)
+    h3 = [p for p in build_fold_plan({3: [2022]}) if p.lead == 3][0]
+    assert 2019 not in h3.allowed_training_origins  # 2019 + 3 == 2022 must be rejected.
+    assert 2018 in h3.allowed_training_origins
+
+
+def vnext_prediction_function(artifact, rows):
+    out = prediction_frame().iloc[:0].copy()
+    out["player_key"] = rows["player_key"].to_numpy()
+    out["origin_year"] = rows["origin_year"].to_numpy()
+    out["lead"] = rows["lead"].to_numpy()
+    for col in [c for c in REQUIRED_PREDICTION_COLUMNS if c not in {"player_key", "origin_year", "lead"}]:
+        out[col] = prediction_frame().iloc[0][col]
+    return out.drop(columns=["player_key", "origin_year", "lead"])
+
+
+def test_vnext_adapter_accepts_valid_earlier_trained_artifact_and_records_metadata():
+    players = [player("p1")]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+    adapter = VNextAdapter(artifacts={(1, 2018): {"artifact_id": "lead1_origin2018", "training_target_max_year": 2017}}, prediction_function=vnext_prediction_function)
+    pred = adapter.predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"]))
+    assert len(pred) == 1
+    assert adapter.fold_metadata == [{"model_id": "vnext_artifact", "lead": 1, "origin_year": 2018, "artifact_id": "lead1_origin2018", "training_target_max_year": 2017, "quantile_method": "provided_distribution"}]
+
+
+def test_vnext_adapter_rejects_later_or_boundary_training_targets():
+    players = [player("p1")]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+    keys = prediction_keys_from_targets(cohorts["targets"])
+    for cutoff in (2018, 2019):
+        adapter = VNextAdapter(artifacts={(1, 2018): {"artifact_id": f"bad_{cutoff}", "training_target_max_year": cutoff}}, prediction_function=vnext_prediction_function)
+        with pytest.raises(ValueError, match="must end before 2018"):
+            adapter.predict(cohorts["included"], keys)
+
+
+def test_legacy_adapter_passes_only_sanitized_snapshots_and_prediction_keys():
+    players = [player("p1")]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+    seen = {}
+
+    def runner(snapshots, prediction_keys):
+        seen["snapshot_columns"] = set(snapshots.columns)
+        seen["key_columns"] = list(prediction_keys.columns)
+        out = prediction_keys.copy()
+        for col, value in prediction_frame().iloc[0].items():
+            if col not in out:
+                out[col] = value
+        return out
+
+    adapter = LegacyAdapter(runner, provenance_resolver=lambda lead, origin: {"artifact_id": "legacy_asof", "training_target_max_year": 2017})
+    adapter.predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"]))
+    assert seen["key_columns"] == ["player_key", "origin_year", "lead"]
+    assert not {"games", "avg", "points", "meaningful", "avg_ge_80"} & seen["snapshot_columns"]
+
+
+def test_target_year_malformed_and_duplicate_rows_are_reported():
+    malformed = [player("bad", scoring=[{"year": 2018, "avg": 60, "games": 8}, {"year": 2019, "avg": "bad", "games": 10}])]
+    with pytest.raises(ValueError, match="target data failures"):
+        build_evaluation_cohorts(malformed, folds={1: [2018]}, eligibility_resolver=eligible(malformed))
+    cohorts = build_evaluation_cohorts(malformed, folds={1: [2018]}, eligibility_resolver=eligible(malformed), fail_on_target_failures=False)
+    assert cohorts["target_failures"].iloc[0]["reason"] == "malformed_target_year_row"
+
+    duplicate = [player("dup", scoring=[{"year": 2018, "avg": 60, "games": 8}, {"year": 2019, "avg": 70, "games": 8}, {"year": 2019, "avg": 80, "games": 9}])]
+    cohorts = build_evaluation_cohorts(duplicate, folds={1: [2018]}, eligibility_resolver=eligible(duplicate), fail_on_target_failures=False)
+    assert cohorts["target_failures"].iloc[0]["reason"] == "duplicate_target_year_rows"
+
+
+def test_missing_target_year_is_legitimate_zero_game_outcome():
+    players = [player("zero", scoring=[{"year": 2018, "avg": 60, "games": 8}])]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+    assert cohorts["targets"].iloc[0]["games"] == 0
+    assert cohorts["targets"].iloc[0]["points"] == 0
+
+
+def test_vnext_adapter_requires_real_quantile_columns():
+    players = [player("p1")]
+    cohorts = build_evaluation_cohorts(players, folds={1: [2018]}, eligibility_resolver=eligible(players))
+
+    def no_quantiles(artifact, rows):
+        frame = vnext_prediction_function(artifact, rows)
+        return frame.drop(columns=list(QUANTILE_COLUMNS))
+
+    adapter = VNextAdapter(artifacts={(1, 2018): {"artifact_id": "q_missing", "training_target_max_year": 2017}}, prediction_function=no_quantiles)
+    with pytest.raises(ValueError, match="missing quantile columns"):
+        adapter.predict(cohorts["included"], prediction_keys_from_targets(cohorts["targets"]))

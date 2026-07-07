@@ -17,7 +17,7 @@ import pandas as pd
 from scipy.optimize import minimize
 from sklearn.metrics import brier_score_loss, log_loss, mean_absolute_error, roc_auc_score
 
-from snapshot import build_snapshot, season_at
+from snapshot import build_snapshot
 
 LOCKED_FOLDS: dict[int, list[int]] = {
     1: list(range(2018, 2025)),
@@ -78,7 +78,28 @@ class EligibilityDecision:
     reason: str
 
 
+@dataclass(frozen=True)
+class FoldPlan:
+    """One locked rolling-origin test fold plus its legal training boundary."""
+
+    lead: int
+    test_origin: int
+    allowed_training_origins: tuple[int, ...]
+    max_training_target_year: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "lead": self.lead,
+            "origin_year": self.test_origin,
+            "allowed_training_origins": "|".join(str(y) for y in self.allowed_training_origins),
+            "max_training_target_year": self.max_training_target_year,
+        }
+
+
 EligibilityResolver = Callable[[dict[str, Any], int], EligibilityDecision | bool | None]
+ArtifactResolver = Callable[[int, int], Any]
+PredictFunction = Callable[[Any, pd.DataFrame], pd.DataFrame]
+ProvenanceResolver = Callable[[int, int], dict[str, Any]]
 
 
 class StaticEligibilityResolver:
@@ -97,6 +118,18 @@ class StaticEligibilityResolver:
         if isinstance(value, str):
             return EligibilityDecision(False, value)
         return EligibilityDecision(bool(value), "historically_eligible" if value else "not_listed_at_origin")
+
+
+def build_fold_plan(folds: dict[int, list[int]] | None = None, min_training_origin: int = 2008) -> list[FoldPlan]:
+    """Build locked folds with training rows ending strictly before each test origin."""
+
+    folds = folds or LOCKED_FOLDS
+    plans: list[FoldPlan] = []
+    for lead, origins in folds.items():
+        for test_origin in origins:
+            allowed = tuple(y for y in range(min_training_origin, test_origin) if y + lead < test_origin)
+            plans.append(FoldPlan(lead=int(lead), test_origin=int(test_origin), allowed_training_origins=allowed, max_training_target_year=int(test_origin - 1)))
+    return plans
 
 
 def stable_json(value: Any) -> str:
@@ -183,9 +216,34 @@ def coerce_eligibility(decision: EligibilityDecision | bool | None) -> Eligibili
     return EligibilityDecision(bool(decision), "historically_eligible" if decision else "not_listed_at_origin")
 
 
-def realised_targets(player: dict[str, Any], origin_year: int, lead: int) -> dict[str, Any]:
+def exact_target_season(player: dict[str, Any], origin_year: int, lead: int) -> tuple[dict[str, float] | None, dict[str, Any] | None]:
+    """Build a target-year season without silently swallowing malformed exact rows."""
+
+    target_year = int(origin_year + lead)
+    matches: list[dict[str, Any]] = []
+    for row in player.get("scoring") or []:
+        try:
+            year = int(row["year"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if year == target_year:
+            matches.append(row)
+    if len(matches) > 1:
+        return None, {**_fail(player, origin_year, "duplicate_target_year_rows"), "lead": int(lead), "target_year": target_year}
+    if not matches:
+        return {"year": target_year, "avg": 0.0, "games": 0}, None
+    try:
+        return {"year": target_year, "avg": float(matches[0].get("avg", 0.0) or 0.0), "games": int(matches[0].get("games", 0) or 0)}, None
+    except (TypeError, ValueError):
+        return None, {**_fail(player, origin_year, "malformed_target_year_row"), "lead": int(lead), "target_year": target_year}
+
+
+def realised_targets(player: dict[str, Any], origin_year: int, lead: int) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    s, failure = exact_target_season(player, origin_year, lead)
+    if failure is not None:
+        return None, failure
+    assert s is not None
     target_year = origin_year + lead
-    s = season_at(player, target_year)
     games = int(s["games"])
     avg = float(s["avg"])
     meaningful = int(games >= 6)
@@ -201,7 +259,7 @@ def realised_targets(player: dict[str, Any], origin_year: int, lead: int) -> dic
     }
     for threshold in THRESHOLDS:
         out[f"avg_ge_{threshold}"] = int(meaningful and avg >= threshold)
-    return out
+    return out, None
 
 
 def build_evaluation_cohorts(
@@ -210,55 +268,74 @@ def build_evaluation_cohorts(
     eligibility_resolver: EligibilityResolver | None = None,
     *,
     fail_on_unavailable_eligibility: bool = True,
+    fail_on_target_failures: bool = True,
 ) -> dict[str, pd.DataFrame]:
     folds = folds or LOCKED_FOLDS
+    fold_plan = build_fold_plan(folds)
     included: list[dict[str, Any]] = []
     excluded: list[dict[str, Any]] = []
     targets: list[dict[str, Any]] = []
+    target_failures: list[dict[str, Any]] = []
     seen_snapshot_keys: set[tuple[str, int]] = set()
     by_key = {str(p.get("key") or p.get("player") or ""): p for p in players}
     eligibility_unavailable = False
-    for lead, origins in folds.items():
-        for origin in origins:
-            contract = AsOfContract(origin, f"end_of_{origin}_season")
-            for p in players:
-                decision = coerce_eligibility(eligibility_resolver(p, origin) if eligibility_resolver else None)
-                if decision.eligible is not True:
-                    excluded.append({**_fail(p, origin, decision.reason), "lead": lead})
-                    eligibility_unavailable = eligibility_unavailable or decision.eligible is None
-                    continue
-                row, fail = build_asof_snapshot(p, contract)
-                if fail is not None:
-                    excluded.append({**fail, "lead": lead})
-                    continue
-                assert row is not None
-                row_key = (row["player_key"], origin)
-                if row_key not in seen_snapshot_keys:
-                    included.append(row)
-                    seen_snapshot_keys.add(row_key)
-                targets.append(realised_targets(by_key[row["player_key"]], origin, lead))
+    for plan in fold_plan:
+        lead = plan.lead
+        origin = plan.test_origin
+        contract = AsOfContract(origin, f"end_of_{origin}_season")
+        for p in players:
+            decision = coerce_eligibility(eligibility_resolver(p, origin) if eligibility_resolver else None)
+            if decision.eligible is not True:
+                excluded.append({**_fail(p, origin, decision.reason), "lead": lead})
+                eligibility_unavailable = eligibility_unavailable or decision.eligible is None
+                continue
+            row, fail = build_asof_snapshot(p, contract)
+            if fail is not None:
+                excluded.append({**fail, "lead": lead})
+                continue
+            assert row is not None
+            target, target_failure = realised_targets(by_key[row["player_key"]], origin, lead)
+            if target_failure is not None:
+                target_failures.append(target_failure)
+                continue
+            assert target is not None
+            row_key = (row["player_key"], origin)
+            if row_key not in seen_snapshot_keys:
+                included.append(row)
+                seen_snapshot_keys.add(row_key)
+            targets.append(target)
     excluded_frame = pd.DataFrame(excluded).sort_values(["origin_year", "lead", "player_key"]).reset_index(drop=True) if excluded else pd.DataFrame(columns=["player_key", "player", "origin_year", "lead", "reason"])
+    target_failures_frame = pd.DataFrame(target_failures).sort_values(["origin_year", "lead", "player_key"]).reset_index(drop=True) if target_failures else pd.DataFrame(columns=["player_key", "player", "origin_year", "lead", "target_year", "reason"])
     if eligibility_unavailable and fail_on_unavailable_eligibility:
         sample = excluded_frame[excluded_frame.reason == "historical_eligibility_unavailable"].head(5).to_dict("records")
         raise ValueError(f"historical eligibility unavailable for benchmark rows: {sample}")
+    if len(target_failures_frame) and fail_on_target_failures:
+        sample = target_failures_frame.head(5).to_dict("records")
+        raise ValueError(f"target data failures for benchmark rows: {sample}")
     return {
-        "folds": pd.DataFrame([{"lead": l, "origin_year": y} for l, ys in folds.items() for y in ys]),
+        "fold_plan": pd.DataFrame([plan.to_dict() for plan in fold_plan]),
         "included": pd.DataFrame(included).sort_values(["origin_year", "player_key"]).reset_index(drop=True) if included else pd.DataFrame(),
         "excluded": excluded_frame,
+        "target_failures": target_failures_frame,
         "targets": pd.DataFrame(targets).sort_values(PREDICTION_KEY).reset_index(drop=True) if targets else pd.DataFrame(columns=PREDICTION_KEY),
     }
 
 
 class PredictionAdapter(Protocol):
     model_id: str
+    quantile_method: str
 
-    def predict(self, snapshots: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame: ...
+    def predict(self, snapshots: pd.DataFrame, prediction_keys: pd.DataFrame) -> pd.DataFrame: ...
 
 
 def degenerate_point_quantiles(points: pd.Series | np.ndarray) -> dict[str, pd.Series | np.ndarray]:
     """Emit an explicit degenerate point distribution for deterministic adapters."""
 
     return {col: points for col in QUANTILE_COLUMNS}
+
+
+def prediction_keys_from_targets(targets: pd.DataFrame) -> pd.DataFrame:
+    return targets[PREDICTION_KEY].copy().sort_values(PREDICTION_KEY).reset_index(drop=True)
 
 
 def normalise_predictions(model_id: str, frame: pd.DataFrame) -> pd.DataFrame:
@@ -291,12 +368,20 @@ def normalise_predictions(model_id: str, frame: pd.DataFrame) -> pd.DataFrame:
     return out[["model_id", *REQUIRED_PREDICTION_COLUMNS]].sort_values(PREDICTION_KEY).reset_index(drop=True)
 
 
+def _ensure_prediction_keys_only(prediction_keys: pd.DataFrame) -> pd.DataFrame:
+    if list(prediction_keys.columns) != PREDICTION_KEY:
+        raise ValueError(f"prediction_keys must contain exactly {PREDICTION_KEY}")
+    return prediction_keys.copy()
+
+
 @dataclass
 class BaselineAdapter:
     model_id: str = "baseline_recent_scoring"
+    quantile_method: str = "degenerate_exp_points"
 
-    def predict(self, snapshots: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame:
-        base = targets[PREDICTION_KEY].merge(snapshots, on=["player_key", "origin_year"], how="left", validate="many_to_one")
+    def predict(self, snapshots: pd.DataFrame, prediction_keys: pd.DataFrame) -> pd.DataFrame:
+        keys = _ensure_prediction_keys_only(prediction_keys)
+        base = keys.merge(snapshots, on=["player_key", "origin_year"], how="left", validate="many_to_one")
         if base.isna().any(axis=None):
             bad = base[base.isna().any(axis=1)][PREDICTION_KEY].to_dict("records")
             raise ValueError(f"baseline snapshot join failed for rows: {bad[:5]}")
@@ -312,24 +397,73 @@ class BaselineAdapter:
         return normalise_predictions(self.model_id, out)
 
 
+def artifact_training_target_year(artifact: Any, lead: int) -> int:
+    if isinstance(artifact, dict):
+        if "training_target_max_year" in artifact:
+            return int(artifact["training_target_max_year"])
+        if "train_max_origin" in artifact:
+            return int(artifact["train_max_origin"]) + int(lead)
+    if hasattr(artifact, "training_target_max_year"):
+        return int(getattr(artifact, "training_target_max_year"))
+    if hasattr(artifact, "train_max_origin"):
+        return int(getattr(artifact, "train_max_origin")) + int(lead)
+    raise ValueError("artifact missing training cutoff metadata")
+
+
+def artifact_identifier(artifact: Any, lead: int, test_origin: int) -> str:
+    if isinstance(artifact, dict) and "artifact_id" in artifact:
+        return str(artifact["artifact_id"])
+    if hasattr(artifact, "artifact_id"):
+        return str(getattr(artifact, "artifact_id"))
+    return f"lead_{lead}_origin_{test_origin}"
+
+
+def validate_training_cutoff(model_id: str, lead: int, test_origin: int, training_target_max_year: int) -> None:
+    if int(training_target_max_year) >= int(test_origin):
+        raise ValueError(f"{model_id} artifact for lead {lead} origin {test_origin} has training targets through {training_target_max_year}; must end before {test_origin}")
+
+
 @dataclass
 class VNextAdapter:
-    artifacts: dict[int, Any]
+    artifact_resolver: ArtifactResolver | None = None
+    artifacts: dict[tuple[int, int], Any] | None = None
+    prediction_function: PredictFunction | None = None
     model_id: str = "vnext_artifact"
+    quantile_method: str = "provided_distribution"
 
-    def predict(self, snapshots: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame:
+    def __post_init__(self) -> None:
+        self.fold_metadata: list[dict[str, Any]] = []
+
+    def _resolve_artifact(self, lead: int, test_origin: int) -> Any:
+        if self.artifact_resolver is not None:
+            return self.artifact_resolver(int(lead), int(test_origin))
+        if self.artifacts is not None and (int(lead), int(test_origin)) in self.artifacts:
+            return self.artifacts[(int(lead), int(test_origin))]
+        raise ValueError(f"missing vNext artifact for lead {lead} origin {test_origin}")
+
+    def _predict_artifact(self, artifact: Any, rows: pd.DataFrame) -> pd.DataFrame:
+        if self.prediction_function is not None:
+            return self.prediction_function(artifact, rows)
         from model_artifacts import predict as predict_lead
 
+        return predict_lead(artifact, rows)
+
+    def predict(self, snapshots: pd.DataFrame, prediction_keys: pd.DataFrame) -> pd.DataFrame:
+        keys = _ensure_prediction_keys_only(prediction_keys)
         pieces = []
-        for lead, target_rows in targets.groupby("lead", sort=True):
-            if int(lead) not in self.artifacts:
-                raise ValueError(f"missing vNext artifact for lead {lead}")
-            joined = target_rows[PREDICTION_KEY].merge(snapshots, on=["player_key", "origin_year"], how="left", validate="many_to_one")
-            pred = predict_lead(self.artifacts[int(lead)], joined).rename(columns={f"p{t}": f"p_avg_ge_{t}" for t in THRESHOLDS})
+        self.fold_metadata = []
+        for (lead, test_origin), key_rows in keys.groupby(["lead", "origin_year"], sort=True):
+            artifact = self._resolve_artifact(int(lead), int(test_origin))
+            training_target_max_year = artifact_training_target_year(artifact, int(lead))
+            validate_training_cutoff(self.model_id, int(lead), int(test_origin), training_target_max_year)
+            joined = key_rows.merge(snapshots, on=["player_key", "origin_year"], how="left", validate="many_to_one")
+            pred = self._predict_artifact(artifact, joined).rename(columns={f"p{t}": f"p_avg_ge_{t}" for t in THRESHOLDS})
+            missing_quantiles = [col for col in QUANTILE_COLUMNS if col not in pred]
+            if missing_quantiles:
+                raise ValueError(f"{self.model_id} artifact for lead {lead} origin {test_origin} missing quantile columns: {missing_quantiles}")
             pred["cond_games"] = pred.get("cond_games", pred["exp_games"] / np.clip(pred["p_meaningful"], 0.001, None))
             pred["cond_avg"] = pred.get("cond_avg", np.where(pred["cond_games"] > 0, pred["exp_points"] / np.clip(pred["p_meaningful"] * pred["cond_games"], 0.001, None), 0.0))
-            for col, values in degenerate_point_quantiles(pred["exp_points"]).items():
-                pred[col] = values
+            self.fold_metadata.append({"model_id": self.model_id, "lead": int(lead), "origin_year": int(test_origin), "artifact_id": artifact_identifier(artifact, int(lead), int(test_origin)), "training_target_max_year": training_target_max_year, "quantile_method": self.quantile_method})
             pieces.append(pd.concat([joined[PREDICTION_KEY].reset_index(drop=True), pred.reset_index(drop=True)], axis=1))
         return normalise_predictions(self.model_id, pd.concat(pieces, ignore_index=True))
 
@@ -337,10 +471,24 @@ class VNextAdapter:
 @dataclass
 class LegacyAdapter:
     legacy_runner: Any
+    provenance_resolver: ProvenanceResolver
     model_id: str = "legacy_frozen"
+    quantile_method: str = "legacy_runner_provided"
 
-    def predict(self, snapshots: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame:
-        raw = self.legacy_runner(snapshots.copy(), targets.copy())
+    def __post_init__(self) -> None:
+        self.fold_metadata: list[dict[str, Any]] = []
+
+    def predict(self, snapshots: pd.DataFrame, prediction_keys: pd.DataFrame) -> pd.DataFrame:
+        keys = _ensure_prediction_keys_only(prediction_keys)
+        self.fold_metadata = []
+        for (lead, test_origin), _ in keys.groupby(["lead", "origin_year"], sort=True):
+            provenance = self.provenance_resolver(int(lead), int(test_origin))
+            if "training_target_max_year" not in provenance:
+                raise ValueError(f"{self.model_id} provenance missing training_target_max_year for lead {lead} origin {test_origin}")
+            training_target_max_year = int(provenance["training_target_max_year"])
+            validate_training_cutoff(self.model_id, int(lead), int(test_origin), training_target_max_year)
+            self.fold_metadata.append({"model_id": self.model_id, "lead": int(lead), "origin_year": int(test_origin), "artifact_id": str(provenance.get("artifact_id", f"legacy_{lead}_{test_origin}")), "training_target_max_year": training_target_max_year, "quantile_method": self.quantile_method})
+        raw = self.legacy_runner(snapshots.copy(), keys.copy())
         return normalise_predictions(self.model_id, raw)
 
 
@@ -426,18 +574,30 @@ def score_predictions(predictions: pd.DataFrame, targets: pd.DataFrame) -> pd.Da
     return pd.DataFrame(rows).sort_values(["model_id", "lead"]).reset_index(drop=True)
 
 
-def write_benchmark_artifacts(out_dir: Path, cohorts: dict[str, pd.DataFrame], predictions: dict[str, pd.DataFrame], metrics: pd.DataFrame, reproduction_commands: list[str]) -> dict[str, Any]:
+def write_benchmark_artifacts(
+    out_dir: Path,
+    cohorts: dict[str, pd.DataFrame],
+    predictions: dict[str, pd.DataFrame],
+    metrics: pd.DataFrame,
+    reproduction_commands: list[str],
+    *,
+    model_fold_metadata: pd.DataFrame | None = None,
+    quantile_methods: dict[str, str] | None = None,
+) -> dict[str, Any]:
     out_dir.mkdir(parents=True, exist_ok=True)
     all_predictions = pd.concat(predictions.values(), ignore_index=True).sort_values(["model_id"] + PREDICTION_KEY).reset_index(drop=True)
-    frames = {**cohorts, "predictions": all_predictions, "metrics": metrics}
+    metadata = model_fold_metadata if model_fold_metadata is not None else pd.DataFrame(columns=["model_id", "lead", "origin_year", "artifact_id", "training_target_max_year", "quantile_method"])
+    frames = {**cohorts, "predictions": all_predictions, "metrics": metrics, "model_fold_metadata": metadata}
     manifest: dict[str, Any] = {
         "task": "TASK-003-LEGACY-BENCHMARK",
         "folds": LOCKED_FOLDS,
         "model_identifiers": sorted(predictions),
+        "model_quantile_methods": quantile_methods or {},
         "cohort_counts": {
             "included_snapshot_rows": int(len(cohorts["included"])),
             "excluded_rows": int(len(cohorts["excluded"])),
             "target_rows": int(len(cohorts["targets"])),
+            "target_failure_rows": int(len(cohorts.get("target_failures", []))),
         },
         "target_definitions": {"meaningful": "games >= 6", "points": "season average times games", "zero_game_future_outcomes": "retained with games=0, avg=0, points=0"},
         "prediction_schema": list(REQUIRED_PREDICTION_COLUMNS),
