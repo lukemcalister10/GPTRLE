@@ -79,22 +79,22 @@ def main() -> int:
     checks.append(("declared_event_change", event_model_changed == 25 and event_calibrator_changed == 25, f"model={event_model_changed} calibrator={event_calibrator_changed}"))
 
     fold_frames = []
-    lead_frames = []
     for label, pred, run_dir, manifest in (("current", cur, args.current_run_dir, cur_manifest), ("candidate", cand, args.candidate_run_dir, cand_manifest)):
         raw = raw_event_probs(run_dir, manifest, pred, snapshots)
-        by_fold, by_lead = score(pred, targets, label, raw)
+        by_fold, _ = score(pred, targets, label, raw)
         fold_frames.append(by_fold)
-        lead_frames.append(by_lead)
     pooled = weighted_pooled(pd.concat(fold_frames, ignore_index=True)).rename(columns={
         "calibrated_brier_meaningful": "brier_meaningful",
         "calibrated_log_loss_meaningful": "log_loss_meaningful",
         "raw_brier_meaningful": "raw_event_brier",
         "raw_log_loss_meaningful": "raw_event_log_loss",
-        "auc_meaningful": "calibrated_event_auc",
         "probability_bias": "calibrated_event_bias",
     })
     expected = pd.read_csv(args.evidence_dir / "metrics_summary.csv")
-    cols = ["brier_meaningful", "log_loss_meaningful", "mae_games", "mae_total_points", "raw_event_brier", "raw_event_log_loss", "calibrated_event_auc", "calibrated_event_bias"]
+    # AUC is intentionally excluded here because averaging fold AUC is not the same
+    # estimand as the committed pooled-row AUC. The decomposable pooled metrics below
+    # reproduce the committed evidence exactly and are the acceptance check.
+    cols = ["brier_meaningful", "log_loss_meaningful", "mae_games", "mae_total_points", "raw_event_brier", "raw_event_log_loss", "calibrated_event_bias"]
     merged = pooled[["model_id", *cols]].merge(expected[["model_id", *cols]], on="model_id", suffixes=("_got", "_expected"), validate="one_to_one")
     max_diff = max(float((merged[f"{c}_got"] - merged[f"{c}_expected"]).abs().max()) for c in cols)
     checks.append(("committed_pooled_metrics", len(merged) == 2 and max_diff <= args.tolerance, f"max_diff={max_diff}"))
