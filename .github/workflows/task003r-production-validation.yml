@@ -43,13 +43,13 @@ jobs:
           PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task003r/current --candidate-artifacts build/task003r/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task003r/review 2>&1 | tee build/task003r/board.log
       - name: Validate production output and build Claude handoff
         id: validate
-        if: always() && steps.boards.outcome == 'success'
+        if: ${{ always() && steps.boards.outcome == 'success' }}
         run: PYTHONPATH=vnext python vnext/validate_task003r_production.py --review-dir build/task003r/review --out build/task003r/claude-handoff
       - name: Run vNext tests
         if: always()
         run: cd vnext && pytest -q
       - name: Package handoff
-        if: always() && steps.validate.outcome == 'success'
+        if: ${{ always() && steps.validate.outcome == 'success' }}
         run: cd build/task003r && zip -r claude-task003q-handoff.zip claude-handoff
       - name: Upload production evidence
         if: always()
