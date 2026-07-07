@@ -6,11 +6,16 @@ import argparse
 import csv
 import hashlib
 import json
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
 YEARS = tuple(range(2018, 2025))
+MANUAL_MATCH_METHODS = {
+    "user_confirmed_match",
+    "manual_identity_resolution",
+    "duplicate_name_identity_correction",
+}
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -61,31 +66,30 @@ def main() -> int:
             database_names[key] = str(row.get("player") or key)
     database_keys = sorted(database_names)
 
+    mapping_slugs = {row["draftguru_player_slug"] for row in mapping}
+    review_slugs = {row["draftguru_player_slug"] for row in mapping if row["match_status"] != "matched"}
     decision_by_slug = {row["draftguru_player_slug"]: row for row in decisions}
     if len(decision_by_slug) != len(decisions):
         raise ValueError("manual decision file contains duplicate DraftGuru slugs")
+    missing_review = sorted(review_slugs - set(decision_by_slug))
+    unknown_decisions = sorted(set(decision_by_slug) - mapping_slugs)
+    if missing_review or unknown_decisions:
+        raise ValueError(
+            f"manual decision coverage mismatch missing_review={missing_review[:5]} "
+            f"unknown_decisions={unknown_decisions[:5]}"
+        )
 
     final_map: list[dict[str, Any]] = []
     map_key_by_slug: dict[str, str] = {}
     excluded_slugs: set[str] = set()
-    review_slugs: set[str] = set()
 
     for row in mapping:
         slug = row["draftguru_player_slug"]
-        status = row["match_status"]
-        method = row["match_method"]
+        decision = decision_by_slug.get(slug)
         key = row["legacy_key"].strip()
         reason = ""
-        if status == "matched":
-            if not key:
-                raise ValueError(f"automatic match missing key: {slug}")
-            final_status = "matched"
-            final_method = method
-        else:
-            review_slugs.add(slug)
-            decision = decision_by_slug.get(slug)
-            if decision is None:
-                raise ValueError(f"review slug missing manual decision: {slug}")
+
+        if decision is not None:
             if decision["decision"] == "match":
                 key = decision["legacy_key"].strip()
                 final_status = "matched"
@@ -99,6 +103,13 @@ def main() -> int:
                 excluded_slugs.add(slug)
             else:
                 raise ValueError(f"invalid manual decision for {slug}: {decision['decision']}")
+        elif row["match_status"] == "matched":
+            if not key:
+                raise ValueError(f"automatic match missing key: {slug}")
+            final_status = "matched"
+            final_method = row["match_method"]
+        else:
+            raise ValueError(f"review slug missing manual decision: {slug}")
 
         if key:
             if key not in database_names:
@@ -123,10 +134,13 @@ def main() -> int:
             }
         )
 
-    if set(decision_by_slug) != review_slugs:
-        extras = sorted(set(decision_by_slug) - review_slugs)
-        missing = sorted(review_slugs - set(decision_by_slug))
-        raise ValueError(f"manual decision coverage mismatch extras={extras[:5]} missing={missing[:5]}")
+    slugs_by_key: dict[str, list[str]] = defaultdict(list)
+    for slug, key in map_key_by_slug.items():
+        slugs_by_key[key].append(slug)
+    duplicate_people = {key: slugs for key, slugs in slugs_by_key.items() if len(slugs) > 1}
+    if duplicate_people:
+        sample = dict(list(sorted(duplicate_people.items()))[:5])
+        raise ValueError(f"multiple DraftGuru people map to one repository key: {sample}")
 
     positive: dict[tuple[str, int], dict[str, Any]] = {}
     excluded_rows: list[dict[str, Any]] = []
@@ -230,7 +244,8 @@ def main() -> int:
         "draftguru_unique_people": len(final_map),
         "matched_draftguru_people": sum(row["final_status"] == "matched" for row in final_map),
         "excluded_draftguru_people": sum(row["final_status"] == "excluded" for row in final_map),
-        "manual_matches": sum(row["final_match_method"] in {"user_confirmed_match", "manual_identity_resolution"} for row in final_map),
+        "manual_decision_rows": len(decisions),
+        "manual_matches": sum(row["final_match_method"] in MANUAL_MATCH_METHODS for row in final_map),
         "manual_exclusions": len(excluded_slugs),
         "verified_present_player_years": len(positive),
         "verified_absent_player_years": expected_rows - len(positive),
