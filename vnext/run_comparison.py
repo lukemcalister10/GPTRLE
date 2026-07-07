@@ -14,11 +14,11 @@ from benchmark import (
     REQUIRED_PREDICTION_COLUMNS,
     assert_common_keys_and_targets,
     prediction_keys_from_targets,
-    score_predictions,
 )
 from build_historical_cohorts import build_locked_cohorts
 from comparison_harness import (
     load_external_predictions,
+    score_predictions_stable,
     sha256_file,
     weighted_metric_summary,
     write_csv,
@@ -70,7 +70,7 @@ def run_comparison(
         .sort_values(["model_id", *PREDICTION_KEY])
         .reset_index(drop=True)
     )
-    metrics = score_predictions(all_predictions, targets)
+    metrics = score_predictions_stable(all_predictions, targets)
     summary = weighted_metric_summary(metrics)
 
     artifacts = {
@@ -109,6 +109,7 @@ def run_comparison(
         "expected_rows_per_model": int(len(targets)),
         "cohort_manifest_sha256": sha256_file(cohort_dir / "manifest.json"),
         "cohort_target_rows": int(cohort_manifest["target_rows"]),
+        "calibration_solver": "L-BFGS-B with analytic gradient",
         "input_files": input_files,
         "artifacts": artifacts,
         "reproduction_command": "python vnext/run_comparison.py --out build/task-003-comparison",
