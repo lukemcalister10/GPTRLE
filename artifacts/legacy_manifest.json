@@ -1,0 +1,15 @@
+{
+  "purpose": "Freeze critical legacy production files during vNext bootstrap and challenger development.",
+  "files": {
+    "engine/rl_after/_merged_recover.py": "cd48593103560b2307db0afdcad6286893ac7ee9145450430de4c55122b62934",
+    "engine/rl_after/rl_model.py": "53b04c5c1a5bb3795b483997b470d5ffd03137536219e02273841a0d00464fc1",
+    "engine/rl_after/rl_model_data.json": "c450a160d27554782a07179415c71baec3851de5f6e4d074e2991f7deceed466",
+    "engine/rl_after/rl_export.py": "3b104bd83499cd0690b6c25e3a2a740349f1067813b406d914f41683e443722d",
+    "engine/rl_after/compute.py": "d1f68aea74661773fcfe99a510f2a0177bd6908ecb111527846a1aa0e165edf4",
+    "engine/rl_after/rl_build_html.py": "ab25eaceb745b80dc8a1c73ec313c0a16f60be497a463dd2671eb2c69c800372",
+    "engine/forward_valuation/conditional_prior.py": "886887d2f6b12ff5fe1a4b489c66827aa37b6530d92748ffc0033237565307c6",
+    "engine/forward_valuation/dist_redesign.py": "b4fcf7183a726edc8a1c26069a58fa9b3e818574cb9e4c3e4d23e1e828c740f7",
+    "engine/forward_valuation/distribution_pricing.py": "2d0c4535a93ed47e51f290d8e0da63516109223cf1861185d5f8005a29f9402c",
+    "engine/forward_valuation/par_redesign.py": "b218dec4d210aaffc1d7f2fd41522a645334a1257c78ea2a4b3b263ba6f82d3f"
+  }
+}

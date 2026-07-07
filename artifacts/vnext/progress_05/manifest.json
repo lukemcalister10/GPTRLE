@@ -1,0 +1,45 @@
+{
+  "target_cutoff": 2025,
+  "leads": {
+    "1": {
+      "rows": 28112,
+      "max_origin": 2024,
+      "n_fit": 16539,
+      "n_cal": 11573,
+      "games_resid_sd": 5.279668799388872,
+      "avg_resid_sd": 15.018206619497652
+    },
+    "2": {
+      "rows": 25580,
+      "max_origin": 2023,
+      "n_fit": 14527,
+      "n_cal": 11053,
+      "games_resid_sd": 5.659801858947956,
+      "avg_resid_sd": 16.43508190449017
+    },
+    "3": {
+      "rows": 23165,
+      "max_origin": 2022,
+      "n_fit": 14527,
+      "n_cal": 8638,
+      "games_resid_sd": 5.873711606127564,
+      "avg_resid_sd": 17.38615574883143
+    },
+    "4": {
+      "rows": 20848,
+      "max_origin": 2021,
+      "n_fit": 12616,
+      "n_cal": 8232,
+      "games_resid_sd": 6.126480413413646,
+      "avg_resid_sd": 18.632803150112288
+    },
+    "5": {
+      "rows": 18639,
+      "max_origin": 2020,
+      "n_fit": 10831,
+      "n_cal": 7808,
+      "games_resid_sd": 6.302731194456007,
+      "avg_resid_sd": 19.60818883474389
+    }
+  }
+}
