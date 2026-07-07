@@ -31,7 +31,8 @@ The workflow intentionally does not fetch or authenticate to GitHub from inside 
 - `overlap_by_tenure_band.csv`: overlap with tenure bands;
 - `overlap_by_prior_games_band.csv`: overlap with prior-games bands;
 - `overlap_by_task003j_support_risk.csv`: overlap with TASK-003J support-risk cohorts (`zero_prior_games`, `ruck`, `age_27_29`, `tenure_4_5`, `pick_61_undrafted`, and `none`);
-- `recommendation.txt`: the single TASK-003O recommendation.
+- `recommendation_diagnostics.csv`: Boolean sensitivity checks and largest-player influence share used to choose the recommendation;
+- `recommendation.txt`: the single TASK-003O recommendation, one of `block TASK-003K`, `do not block TASK-003K`, or `insufficient evidence`.
 
 The analysis fails fast if the age-30+ lead-5 population is not exactly `n=278`, preventing accidental adjudication on the wrong population.
 
@@ -58,8 +59,8 @@ python vnext/analyse_task003o_age30_lead5.py \
 cd vnext && pytest -q
 ```
 
-## Recommendation
+## Recommendation policy
 
-**insufficient evidence**
+The generated `recommendation.txt` contains exactly one recommendation. It is `block TASK-003K` only when the age-30+ lead-5 Brier, games MAE and total-points MAE all worsen, the worsening survives every leave-one-origin-out slice, the player-block bootstrap intervals are wholly worse for every primary metric, and the effect is not dominated by a single player block. It is `do not block TASK-003K` when the primary metrics do not all worsen or the player-block bootstrap supports non-worsening. Otherwise it is `insufficient evidence`.
 
-The recommendation remains insufficient evidence until the uploaded TASK-003O workflow artifacts show whether the reported age-30+ lead-5 regression survives by-origin, leave-one-origin-out, influential-player-block, player-block bootstrap, probability-bias, and support-overlap sensitivity on the exact `n=278` PR #19 population. This does not invent or change acceptance thresholds retrospectively.
+This operationalises the existing critical-subgroup rule for this diagnostic without changing model-acceptance thresholds retrospectively.

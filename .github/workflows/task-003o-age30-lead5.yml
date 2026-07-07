@@ -44,11 +44,28 @@ jobs:
           python vnext/run_task003k_folds.py
           --out build/task-003o-candidate
           --cohort-dir build/task-003o-cohorts
+      - name: Resolve TASK-003O prediction files
+        id: prediction-files
+        shell: bash
+        run: |
+          set -euo pipefail
+          current="build/task-003o-current/vnext_predictions.csv"
+          if [[ -f build/task-003o-candidate/candidate_predictions.csv ]]; then
+            candidate="build/task-003o-candidate/candidate_predictions.csv"
+          elif [[ -f build/task-003o-candidate/vnext_predictions.csv ]]; then
+            candidate="build/task-003o-candidate/vnext_predictions.csv"
+          else
+            echo "No candidate prediction CSV found in build/task-003o-candidate" >&2
+            find build/task-003o-candidate -maxdepth 2 -type f | sort >&2
+            exit 1
+          fi
+          echo "current=${current}" >> "$GITHUB_OUTPUT"
+          echo "candidate=${candidate}" >> "$GITHUB_OUTPUT"
       - name: Run TASK-003O age-30+ lead-5 analysis
         run: >-
           python vnext/analyse_task003o_age30_lead5.py
-          --current build/task-003o-current/vnext_predictions.csv
-          --candidate build/task-003o-candidate/candidate_predictions.csv
+          --current "${{ steps.prediction-files.outputs.current }}"
+          --candidate "${{ steps.prediction-files.outputs.candidate }}"
           --annual build/task-003o-current/training_dataset.csv
           --out build/task-003o-analysis
           --expected-age30-lead5-n 278

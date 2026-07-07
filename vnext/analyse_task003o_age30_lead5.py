@@ -242,6 +242,49 @@ def _load_inputs(current_path: Path, candidate_path: Path, annual_path: Path) ->
     return _add_bands(merged)
 
 
+
+def _recommendation(
+    summary: pd.DataFrame,
+    leave_one_origin_out: pd.DataFrame,
+    bootstrap: pd.DataFrame,
+    influential: pd.DataFrame,
+) -> tuple[str, pd.DataFrame]:
+    lead5 = summary[summary["slice"].eq("age_30_plus_lead_5")].iloc[0]
+    primary_worse = all(float(lead5[f"{metric}_change_pct"]) > 0.0 for metric in METRICS)
+    loo_worse = all(
+        float(row[f"{metric}_change_pct"]) > 0.0
+        for _, row in leave_one_origin_out.iterrows()
+        for metric in METRICS
+    )
+    bootstrap_worse = all(float(row["ci025"]) > 0.0 for _, row in bootstrap.iterrows())
+    bootstrap_not_worse = any(float(row["ci975"]) <= 0.0 for _, row in bootstrap.iterrows())
+    positive_points = influential["delta_points_abs_err"].clip(lower=0.0)
+    total_positive_points = float(positive_points.sum())
+    largest_player_share = (
+        float(positive_points.max() / total_positive_points)
+        if total_positive_points > 0.0
+        else 0.0
+    )
+    dominated_by_one_player = largest_player_share >= 0.50
+
+    diagnostics = pd.DataFrame(
+        [
+            {
+                "primary_metrics_all_worse": primary_worse,
+                "leave_one_origin_out_all_worse": loo_worse,
+                "player_block_bootstrap_ci_all_worse": bootstrap_worse,
+                "player_block_bootstrap_any_not_worse": bootstrap_not_worse,
+                "largest_player_positive_points_share": largest_player_share,
+                "dominated_by_one_player": dominated_by_one_player,
+            }
+        ]
+    )
+    if primary_worse and loo_worse and bootstrap_worse and not dominated_by_one_player:
+        return "block TASK-003K", diagnostics
+    if (not primary_worse) or bootstrap_not_worse:
+        return "do not block TASK-003K", diagnostics
+    return "insufficient evidence", diagnostics
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--current", type=Path, required=True)
@@ -260,17 +303,25 @@ def main() -> int:
         raise ValueError(f"age-30+ lead-5 population changed: expected {args.expected_age30_lead5_n} got {len(target)}")
     lead4 = df[(df.age >= 30) & (df.lead == 4)].copy()
 
-    pd.DataFrame([_summary(target, "age_30_plus_lead_5"), _summary(lead4, "age_30_plus_lead_4")]).to_csv(args.out / "summary.csv", index=False)
-    pd.DataFrame([_summary(g, f"origin={k}") for k, g in target.groupby("origin_year")]).to_csv(args.out / "by_origin.csv", index=False)
-    pd.DataFrame([_summary(target[target.origin_year != y], f"drop_origin={y}") for y in sorted(target.origin_year.unique())]).to_csv(args.out / "leave_one_origin_out.csv", index=False)
+    summary = pd.DataFrame([_summary(target, "age_30_plus_lead_5"), _summary(lead4, "age_30_plus_lead_4")])
+    by_origin = pd.DataFrame([_summary(g, f"origin={k}") for k, g in target.groupby("origin_year")])
+    leave_one_origin_out = pd.DataFrame([_summary(target[target.origin_year != y], f"drop_origin={y}") for y in sorted(target.origin_year.unique())])
+
+    summary.to_csv(args.out / "summary.csv", index=False)
+    by_origin.to_csv(args.out / "by_origin.csv", index=False)
+    leave_one_origin_out.to_csv(args.out / "leave_one_origin_out.csv", index=False)
 
     diffs = _paired_diffs(target)
     diffs.to_csv(args.out / "row_deltas.csv", index=False)
-    diffs.groupby(["key", "player"], as_index=False)[["delta_brier_err", "delta_games_abs_err", "delta_points_abs_err"]].sum().sort_values("delta_points_abs_err", ascending=False).to_csv(args.out / "influential_players.csv", index=False)
-    _bootstrap_by_player(diffs, args.bootstrap_reps, args.seed).to_csv(args.out / "player_block_bootstrap.csv", index=False)
+    influential = diffs.groupby(["key", "player"], as_index=False)[["delta_brier_err", "delta_games_abs_err", "delta_points_abs_err"]].sum().sort_values("delta_points_abs_err", ascending=False)
+    influential.to_csv(args.out / "influential_players.csv", index=False)
+    bootstrap = _bootstrap_by_player(diffs, args.bootstrap_reps, args.seed)
+    bootstrap.to_csv(args.out / "player_block_bootstrap.csv", index=False)
     for name, table in _overlap_tables(target).items():
         table.to_csv(args.out / name, index=False)
-    (args.out / "recommendation.txt").write_text("insufficient evidence\n", encoding="utf-8")
+    recommendation, recommendation_diagnostics = _recommendation(summary, leave_one_origin_out, bootstrap, influential)
+    recommendation_diagnostics.to_csv(args.out / "recommendation_diagnostics.csv", index=False)
+    (args.out / "recommendation.txt").write_text(f"{recommendation}\n", encoding="utf-8")
     return 0
 
 
