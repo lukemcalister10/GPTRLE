@@ -1,0 +1,17 @@
+cohort,reference,probe_rows_sum,probe_any_unseen_category_share,unseen_category_tokens
+zero_prior_games,meaningful_fit_rows,2594,0.157671549730,PDN|SSP|UNK|draft_type:MSD|draft_type:PDN|position:UNK
+pick_61_undrafted,meaningful_fit_rows,3256,0.151105651106,SSP|UNK|draft_type:PDN|draft_type:SSP|position:UNK
+ruck,meaningful_fit_rows,1457,0.082361015786,PDN|SSP|draft_type:MSD
+age_21_23,meaningful_fit_rows,5648,0.060906515581,PDN|SSP|draft_type:MSD|draft_type:PDN
+all,meaningful_fit_rows,20094,0.045386682592,PDN|SSP|UNK|draft_type:MSD|draft_type:PDN|position:UNK
+age_24_26,meaningful_fit_rows,4333,0.038310639280,PDN|SSP|draft_type:MSD|draft_type:PDN
+tenure_4_5,meaningful_fit_rows,3603,0.017485428809,SSP|draft_type:MSD|draft_type:PDN
+age_27_29,meaningful_fit_rows,3331,0.014710297208,PDN|draft_type:MSD|draft_type:SSP
+zero_prior_games,temporal_calibration_rows,2594,0.088280647648,PDN|SSP|UNK|draft_type:MSD|draft_type:PDN|draft_type:UNK|position:UNK
+pick_61_undrafted,temporal_calibration_rows,3256,0.074631449631,SSP|draft_type:PDN|draft_type:SSP|draft_type:UNK|position:UNK
+ruck,temporal_calibration_rows,1457,0.038435140700,PDN|SSP|draft_type:MSD
+age_21_23,temporal_calibration_rows,5648,0.024433427762,PDN|SSP|draft_type:MSD|draft_type:PDN
+all,temporal_calibration_rows,20094,0.021449188813,PDN|SSP|UNK|draft_type:MSD|draft_type:PDN|draft_type:UNK|position:UNK
+age_24_26,temporal_calibration_rows,4333,0.015924301869,PDN|SSP|draft_type:MSD|draft_type:PDN|draft_type:SSP
+age_27_29,temporal_calibration_rows,3331,0.007505253678,PDN|draft_type:MSD|draft_type:SSP
+tenure_4_5,temporal_calibration_rows,3603,0.001665278934,draft_type:PDN
