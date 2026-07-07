@@ -1,0 +1,9 @@
+name,status,details
+exact locked target row count,pass,rows=20094
+current predictions present,incomplete,missing build/task-003b-vnext-folds/vnext_predictions.csv
+candidate predictions present,incomplete,missing build/task-003k-candidate-folds/vnext_predictions.csv
+current fold manifest present,incomplete,missing build/task-003b-vnext-folds/fold_artifact_manifest.csv
+candidate fold manifest present,incomplete,missing build/task-003k-candidate-folds/fold_artifact_manifest.csv
+artifact invariant validation,incomplete,requires both fold manifests and predictions
+independent validation computations complete,incomplete,missing current or candidate predictions/artifacts
+PR #19 evidence directory present,incomplete,missing reports/task-003k-event-logistic
