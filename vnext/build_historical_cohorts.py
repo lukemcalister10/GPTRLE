@@ -25,7 +25,7 @@ def draft_year(player: dict[str, Any]) -> int:
 
 
 def canonical_players(players: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Collapse duplicate records while preserving the earliest known list entry."""
+    """Collapse duplicate records while preserving the earliest repository entry."""
 
     grouped: dict[str, list[dict[str, Any]]] = {}
     for player in players:
@@ -47,6 +47,49 @@ def canonical_players(players: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return canonical
 
 
+def align_entries_to_verified_history(
+    players: list[dict[str, Any]], evidence: pd.DataFrame
+) -> tuple[list[dict[str, Any]], pd.DataFrame]:
+    """Neutralise later-entry draft facts when verified list history starts earlier."""
+
+    first_listed = (
+        evidence[evidence["eligible"]]
+        .groupby("player_key", as_index=True)["origin_year"]
+        .min()
+        .astype(int)
+        .to_dict()
+    )
+    aligned = []
+    corrections = []
+    for player in players:
+        key = str(player["key"])
+        first_year = first_listed.get(key)
+        repository_year = draft_year(player)
+        if first_year is not None and repository_year > first_year:
+            corrected = dict(player)
+            corrected["year"] = int(first_year)
+            corrected["pick"] = 80
+            corrected["type"] = "UNK"
+            corrected["_draft"] = "UNK"
+            corrected["drafted_position"] = "UNK"
+            aligned.append(corrected)
+            corrections.append(
+                {
+                    "player_key": key,
+                    "player": str(player.get("player") or ""),
+                    "repository_draft_year": repository_year,
+                    "verified_first_list_year": int(first_year),
+                    "corrected_draft_year": int(first_year),
+                    "corrected_pick": 80,
+                    "corrected_draft_type": "UNK",
+                    "reason": "verified_list_presence_precedes_repository_entry",
+                }
+            )
+        else:
+            aligned.append(player)
+    return aligned, pd.DataFrame(corrections)
+
+
 def write_csv(path: Path, frame: pd.DataFrame) -> dict[str, Any]:
     frame.to_csv(path, index=False, lineterminator="\n")
     return {
@@ -58,7 +101,9 @@ def write_csv(path: Path, frame: pd.DataFrame) -> dict[str, Any]:
 
 def build_locked_cohorts(out_dir: Path = DEFAULT_OUT) -> dict[str, Any]:
     resolver = DraftGuruEligibilityResolver()
+    evidence = resolver.evidence_frame()
     players = canonical_players(load_historical_players(PLAYER_DATA))
+    players, entry_corrections = align_entries_to_verified_history(players, evidence)
     player_keys = {str(player["key"]) for player in players}
     evidence_keys = set(resolver.database_keys["player_key"])
     if player_keys != evidence_keys:
@@ -69,7 +114,6 @@ def build_locked_cohorts(out_dir: Path = DEFAULT_OUT) -> dict[str, Any]:
         )
 
     cohorts = build_evaluation_cohorts(players, eligibility_resolver=resolver)
-    evidence = resolver.evidence_frame()
 
     included = cohorts["included"].merge(
         evidence,
@@ -126,6 +170,7 @@ def build_locked_cohorts(out_dir: Path = DEFAULT_OUT) -> dict[str, Any]:
         "cohort_counts": counts,
         "exclusion_counts": exclusion_counts,
         "identity_exclusions": resolver.identity_exclusions.sort_values(["season", "player_name"]).reset_index(drop=True),
+        "entry_corrections": entry_corrections.sort_values(["player_key"]).reset_index(drop=True),
     }
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -145,6 +190,7 @@ def build_locked_cohorts(out_dir: Path = DEFAULT_OUT) -> dict[str, Any]:
         "excluded_rows": int(len(excluded)),
         "target_failure_rows": int(len(cohorts["target_failures"])),
         "identity_exclusion_rows": int(len(resolver.identity_exclusions)),
+        "entry_correction_rows": int(len(entry_corrections)),
         "reproduction_command": "python vnext/build_historical_cohorts.py --out build/task-003-cohorts",
         "artifacts": artifacts,
     }
