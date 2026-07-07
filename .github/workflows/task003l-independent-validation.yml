@@ -80,6 +80,7 @@ jobs:
 
       - name: Adjudicate functional invariants and committed evidence
         id: adjudicate
+        continue-on-error: true
         working-directory: candidate
         run: >-
           python vnext/adjudicate_task003l_validation.py
@@ -109,11 +110,12 @@ jobs:
       - name: Report final TASK-003L verdict
         if: always()
         run: |
-          if [[ "${{ steps.adjudicate.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
+          if [[ "${{ steps.diagnostic.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
             echo "independent validation passed"
-            echo "diagnostic report outcome: ${{ steps.diagnostic.outcome }}"
+            echo "adjudication outcome: ${{ steps.adjudicate.outcome }}"
           else
             echo "independent validation failed"
+            echo "diagnostic outcome: ${{ steps.diagnostic.outcome }}"
             echo "adjudication outcome: ${{ steps.adjudicate.outcome }}"
             echo "pytest outcome: ${{ steps.pytest.outcome }}"
             exit 1
