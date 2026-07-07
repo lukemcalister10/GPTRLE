@@ -48,8 +48,8 @@ def run_comparison(
     input_files: dict[str, dict[str, str]] = {}
 
     if vnext_predictions is not None:
-        predictions["vnext_artifact"] = load_external_predictions(
-            vnext_predictions, "vnext_artifact"
+        predictions["vnext_fold_specific"] = load_external_predictions(
+            vnext_predictions, "vnext_fold_specific"
         )
         input_files["vnext_predictions"] = {
             "path": str(vnext_predictions),
