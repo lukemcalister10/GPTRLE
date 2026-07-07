@@ -1,0 +1,18 @@
+{
+  "authoritative_rows": 804,
+  "legacy_only_rows": 1,
+  "matched_rows": 804,
+  "previous_vnext_wrongly_excluded_rows": 53,
+  "reports": {
+    "affl_team_disagreements.csv": "411c78925bcbb0bbd5b221a2d4acd5cf86f5d73a5be7d52c4f321306913dfbab",
+    "ambiguous_matches.csv": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "authoritative_universe.csv": "9868d8d607facda2f48dc0300c127e0d63d49baaa9fd942d35de689cc9494d25",
+    "duplicate_name_cases.csv": "b8bb034f9b63bd0254fbc7c157cae746c75853f4643d6cea844dc48ddb57f522",
+    "eligibility_disagreements.csv": "e81b2bfb1da5f314ec757437568f8f42f8d792bd5534f60e369695a16d2e605c",
+    "invalid_or_missing_fields.csv": "80dee6884eb2a98e39f19a9b469cf5da5d1223c72d6a38a110234b28a4b834e3",
+    "legacy_only_players.csv": "c5a9178371cab3d35f839c0df4297ff67857117ce469de1c61043342a06dcc6d",
+    "matched_players.csv": "9868d8d607facda2f48dc0300c127e0d63d49baaa9fd942d35de689cc9494d25",
+    "players_wrongly_excluded_by_current_scoring_or_recent_play_logic.csv": "c19a9a977a9db8ad73f15a81e400caff45b872a27aaafdbeeddbf305f4f45b23",
+    "unmatched_authoritative_players.csv": "d86a223aab39372f9974908d0d518f7a51fddadb62e83d1739f2eb309db3bd7d"
+  }
+}

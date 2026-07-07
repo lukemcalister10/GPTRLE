@@ -1,0 +1,10 @@
+source_row,player_name,raw_eligibilities,normalised_eligibilities,bad_eligibilities_after_normalisation,normalised_aliases,missing_name,missing_affl_team,missing_eligibility
+137,Iliro Smit,RUC,RUCK,,RUC,False,False,False
+392,Jesse Mellor,SF,G-FWD,,SF,False,False,False
+393,Finlay Macrae,"SF,MID","G-FWD,MID",,SF,False,False,False
+577,Nick Driscoll,SF,G-FWD,,SF,False,False,False
+798,James Trezise,"SD,MID","G-DEF,MID",,SD,False,False,False
+799,Matt Carroll,"SD,MID","G-DEF,MID",,SD,False,False,False
+800,Changkuoth Jiath,SD,G-DEF,,SD,False,False,False
+801,Hussien El Achkar,SF,G-FWD,,SF,False,False,False
+804,Mitchell Edwards,RUC,RUCK,,RUC,False,False,False

@@ -1,0 +1,54 @@
+source_row,stable_id,player_name,affl_team,eligibilities,match_status,legacy_name,legacy_team,legacy_eligibilities,previous_vnext_included,previous_vnext_exclusion_reason
+39,alex-van-wyk,Alex Van Wyk,Adelaide Crows,RUCK,matched,Alex Van Wyk,Port Adelaide,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+284,balyn-o-brien,Balyn O'Brien,Free agents,G-DEF,matched,Balyn O'Brien,Port Adelaide,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+504,ben-murphy,Ben Murphy,North Melbourne Kangaroos,G-DEF,matched,Ben Murphy,,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+236,benny-barrett,Benny Barrett,Free agents,G-FWD,matched,Benny Barrett,Port Adelaide,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+586,brayden-george,Brayden George,Richmond Tigers,G-FWD,matched,Brayden George,North Melbourne,GEN_FWD,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+256,caleb-graham,Caleb Graham,Free agents,"K-DEF,G-DEF",matched,Caleb Graham,Gold Coast,K-DEF,False,no_recent_activity_signal+not_recent_unplayed_draftee
+271,caleb-lewis,Caleb Lewis,Free agents,"K-FWD,G-FWD",matched,Caleb Lewis,Gold Coast,K-FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+461,caleb-may,Caleb May,Melbourne Demons,RUCK,matched,Caleb May,Western Bulldogs,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+241,cillian-bourke,Cillian Bourke,Free agents,G-DEF,matched,Cillian Bourke,,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+562,cillian-burke,Cillian Burke,Port Adelaide Power,G-DEF,matched,Cillian Burke,Geelong,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+411,eamonn-armstrong,Eamonn Armstrong,Hawthorn Hawks,G-DEF,matched,Eamonn Armstrong,St Kilda,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+2,flynn-riley,Flynn Riley,Adelaide Crows,RUCK,matched,Flynn Riley,Carlton,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+566,harrison-coe,Harrison Coe,Port Adelaide Power,RUCK,matched,Harrison Coe,Collingwood,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+121,harry-demattia,Harry Demattia,Carlton Blues,MID,matched,Harry DeMattia,Collingwood,MID,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+137,iliro-smit,Iliro Smit,Carlton Blues,RUCK,matched,Iliro Smit,Collingwood,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+403,indy-cotton,Indy Cotton,Hawthorn Hawks,G-FWD,matched,Indy Cotton,,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+323,jacob-moss,Jacob Moss,Fremantle Dockers,"G-DEF,K-DEF",matched,Jacob Moss,Port Adelaide,K-FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+722,jai-saxena,Jai Saxena,West Coast Eagles,G-FWD,matched,Jai Saxena,Collingwood,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+296,jaime-uhr-henry,Jaime Uhr-Henry,Free agents,RUCK,matched,Jaime Uhr-Henry,Hawthorn,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+217,jakob-ryan,Jakob Ryan,West Coast Eagles,G-DEF,matched,Jakob Ryan,Collingwood,GEN_DEF,False,no_recent_activity_signal+not_recent_unplayed_draftee
+240,james-blanck,James Blanck,Free agents,"K-DEF,G-DEF",matched,James Blanck,Hawthorn,K-DEF,False,no_recent_activity_signal+not_recent_unplayed_draftee
+402,jaxon-artemis,Jaxon Artemis,Hawthorn Hawks,G-DEF,matched,Jaxon Artemis,Essendon,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+392,jesse-mellor,Jesse Mellor,Geelong Cats,G-FWD,matched,Jesse Mellor,Geelong,MID,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+746,kalani-white,Kalani White,West Coast Eagles,"RUCK,G-FWD,K-FWD",matched,Kalani White,Melbourne,K-FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+436,kobe-mcdonald,Kobe McDonald,Hawthorn Hawks,G-DEF,matched,Kobe McDonald,,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+627,liam-hetherton,Liam Hetherton,St Kilda Saints,"G-FWD,K-FWD",matched,Liam Hetherton,Sydney,K-FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+531,liam-puncher,Liam Puncher,North Melbourne Kangaroos,K-DEF,matched,Liam Puncher,Collingwood,K-DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+272,luke-lloyd,Luke Lloyd,Free agents,"K-FWD,G-FWD",matched,Luke Lloyd,Brisbane,K-FWD,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+515,matt-duffy,Matt Duffy,North Melbourne Kangaroos,"G-DEF,K-DEF",matched,Matt Duffy,Carlton,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+261,matt-hill,Matt Hill,Free agents,G-DEF,matched,Matt Hill,Hawthorn,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+97,max-beattie,Max Beattie,Carlton Blues,"MID,G-FWD",matched,Max Beattie,Hawthorn,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+303,max-knobel,Max Knobel,Fremantle Dockers,RUCK,matched,Max Knobel,Fremantle,RUCK,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+692,max-mapley,Max Mapley,Sydney Swans,RUCK,matched,Max Mapley,Melbourne,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+793,nathan-wardius,Nathan Wardius,Western Bulldogs,G-FWD,matched,Nathan Wardius,GWS,GEN_FWD,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+666,noah-chamberlain,Noah Chamberlain,St Kilda Saints,"G-FWD,K-FWD",matched,Noah Chamberlain,Sydney,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+716,noah-howes,Noah Howes,Essendon Bombers,"G-FWD,K-FWD",matched,Noah Howes,Collingwood,K-FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+310,oliver-francou,Oliver Francou,Fremantle Dockers,MID,matched,Oliver Francou,West Coast,MID,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+216,oliver-griffin,Oliver Griffin,Essendon Bombers,G-FWD,matched,Oliver Griffin,North Melbourne,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+648,ollie-murphy,Ollie Murphy,St Kilda Saints,"G-DEF,K-DEF",matched,Ollie Murphy,Fremantle,K-DEF,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+238,oscar-berry,Oscar Berry,Free agents,"K-DEF,G-DEF",matched,Oscar Berry,,K-DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+205,oscar-ryan,Oscar Ryan,Adelaide Crows,G-DEF,matched,Oscar Ryan,Adelaide,GEN_DEF,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+245,patrick-carr,Patrick Carr,Free agents,RUCK,matched,Patrick Carr,,RUCK,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+428,patrick-snell,Patrick Snell,Hawthorn Hawks,"G-DEF,G-FWD,K-FWD,K-DEF",matched,Patrick Snell,Sydney,K-DEF,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+294,reece-torrent,Reece Torrent,Free agents,MID,matched,Reece Torrent,Brisbane,MID,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+772,ricky-mentha,Ricky Mentha,Western Bulldogs,"G-DEF,G-FWD",matched,Ricky Mentha,Melbourne,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+258,riley-hamilton,Riley Hamilton,Free agents,"G-FWD,MID",matched,Riley Hamilton,GWS,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+282,rob-monahan,Rob Monahan,Free agents,G-DEF,matched,Rob Monahan,Carlton,GEN_DEF,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+274,ryda-luke,Ryda Luke,Free agents,G-FWD,matched,Ryda Luke,Fremantle,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+622,toby-whan,Toby Whan,Richmond Tigers,MID,matched,Toby Whan,Fremantle,GEN_FWD,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+206,will-green,Will Green,Essendon Bombers,RUCK,matched,Will Green,Sydney,RUCK,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+300,xavier-walsh,Xavier Walsh,Free agents,"K-FWD,G-FWD",matched,Xavier Walsh,Port Adelaide,K-DEF,False,no_current_or_historical_scoring_games+no_recent_activity_signal+not_recent_unplayed_draftee
+299,zac-walker,Zac Walker,Free agents,"K-DEF,G-DEF",matched,Zac Walker,Western Bulldogs,GEN_DEF,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
+252,zak-evans,Zak Evans,Free agents,MID,matched,Zak Evans,Gold Coast,MID,False,no_current_or_historical_scoring_games+not_recent_unplayed_draftee
