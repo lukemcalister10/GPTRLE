@@ -1,0 +1,45 @@
+name: TASK-003B vNext historical folds
+
+on:
+  pull_request:
+    paths:
+      - 'vnext/**'
+      - 'docs/current/**'
+      - '.github/workflows/task-003b-vnext-folds.yml'
+  workflow_dispatch:
+
+jobs:
+  folds:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install -r requirements-vnext.txt
+      - name: Build locked cohorts
+        run: python vnext/build_historical_cohorts.py --out build/task-003-cohorts
+      - name: Run fold pipeline first pass
+        run: python vnext/run_historical_folds.py --out build/task-003b-pass1 --cohort-dir build/task-003-cohorts
+      - name: Run fold pipeline second pass
+        run: python vnext/run_historical_folds.py --out build/task-003b-pass2 --cohort-dir build/task-003-cohorts
+      - name: Compare deterministic hashes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('build/task-003b-pass1/prediction_manifest.json').read_text())['output_hashes']
+          b=json.loads(Path('build/task-003b-pass2/prediction_manifest.json').read_text())['output_hashes']
+          assert a == b
+          PY
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003b-vnext-folds
+          path: |
+            build/task-003-cohorts
+            build/task-003b-pass1
+            build/task-003b-pass2
