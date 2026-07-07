@@ -28,19 +28,31 @@ jobs:
       - name: Verify frozen legacy files
         run: python scripts/verify_legacy_manifest.py
       - name: Generate unchanged Claude board
+        id: claude
+        continue-on-error: true
         working-directory: engine/rl_after
-        run: python rl_export.py
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ../../build/task004
+          python rl_export.py 2>&1 | tee ../../build/task004/claude-export.log
       - name: Regenerate authoritative registry
+        if: steps.claude.outcome == 'success'
         run: PYTHONPATH=vnext python vnext/active_universe.py --out build/task004/registry
       - name: Build annual training data
+        if: steps.claude.outcome == 'success'
         run: python vnext/build_annual_dataset.py --data engine/rl_after/rl_model_data.json --out build/task004/annual_rows.csv --min-origin 2008 --max-origin 2026
       - name: Train current-vNext artifacts
+        if: steps.claude.outcome == 'success'
         run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task004/annual_rows.csv --out build/task004/current --module model_artifacts --target-cutoff 2025
       - name: Train TASK-003Q artifacts
+        if: steps.claude.outcome == 'success'
         run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task004/annual_rows.csv --out build/task004/task003q --module model_artifacts_task003q --target-cutoff 2025
       - name: Generate validated annual forecasts
+        if: steps.claude.outcome == 'success'
         run: PYTHONPATH=vnext python vnext/review_task003n_current_board.py --registry build/task004/registry/authoritative_universe.csv --current-artifacts build/task004/current --candidate-artifacts build/task004/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task004/forecast-review
       - name: Generate three-board comparison
+        if: steps.claude.outcome == 'success'
         run: >-
           PYTHONPATH=vnext python vnext/task004_claude_adapter.py
           --claude-board engine/rl_after/rl_app_data.json
@@ -52,6 +64,7 @@ jobs:
         if: always()
         run: cd vnext && python -m pytest -q
       - name: Package diagnostic
+        if: steps.claude.outcome == 'success'
         run: cd build/task004 && zip -r task004-three-board-comparison.zip comparison
       - name: Upload TASK-004 evidence
         if: always()
@@ -59,8 +72,12 @@ jobs:
         with:
           name: task004-claude-integration
           path: |
+            build/task004/claude-export.log
             build/task004/comparison
             build/task004/task004-three-board-comparison.zip
             build/task004/forecast-review/validation_checks.csv
             engine/rl_after/rl_app_data.json
           if-no-files-found: warn
+      - name: Final verdict
+        if: always()
+        run: test "${{ steps.claude.outcome }}" = success
