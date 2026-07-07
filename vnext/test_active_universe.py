@@ -1,5 +1,6 @@
 from pathlib import Path
 import hashlib
+import json
 
 from active_universe import (
     VALID_ELIGIBILITIES,
@@ -55,6 +56,33 @@ def test_same_display_name_with_different_identity_facts_gets_different_ids():
     hist_a = {"key": "sam-player-a", "_by": 2006, "_bd": "2006-01-02"}
     hist_b = {"key": "sam-player-b", "_by": 2007, "_bd": "2007-03-04"}
     assert stable_player_id(player_a, hist_a) != stable_player_id(player_b, hist_b)
+
+
+def test_max_king_and_maxwell_king_are_distinct_registry_identities():
+    m = reports()["matched_players"]
+    older = m.loc[m.legacy_key == "max-king-stk"].iloc[0]
+    younger = m.loc[m.legacy_key == "max-king-syd"].iloc[0]
+
+    older_evidence = json.loads(older.identity_evidence_json)
+    younger_evidence = json.loads(younger.identity_evidence_json)
+
+    assert older.player_name == "Max King"
+    assert older_evidence["birth_date"] == "2000-07-07"
+    assert older_evidence["draft_year"] == 2018
+    assert older_evidence["draft_pick"] == 4
+
+    assert younger.player_name == "Maxwell King"
+    assert younger_evidence["birth_date"] == "2007-01-09"
+    assert younger_evidence["draft_year"] == 2025
+    assert younger_evidence["draft_pick"] == 49
+
+    assert older.stable_player_id != younger.stable_player_id
+
+
+def test_registry_health_has_no_critical_identity_issues():
+    issues = reports()["identity_health_issues"]
+    critical = issues.loc[issues.severity == "critical"] if not issues.empty else issues
+    assert critical.empty
 
 
 def test_repeated_runs_produce_identical_stable_ids():
