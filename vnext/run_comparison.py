@@ -72,3 +72,68 @@ def run_comparison(
     )
     metrics = score_predictions(all_predictions, targets)
     summary = weighted_metric_summary(metrics)
+
+    artifacts = {
+        "predictions.csv": write_csv(out_dir / "predictions.csv", all_predictions),
+        "metrics_by_lead.csv": write_csv(out_dir / "metrics_by_lead.csv", metrics),
+        "metrics_summary.csv": write_csv(out_dir / "metrics_summary.csv", summary),
+        "baseline_predictions.csv": write_csv(
+            out_dir / "baseline_predictions.csv", baseline
+        ),
+    }
+    key_report = {
+        "expected_rows_per_model": int(len(targets)),
+        "models": {
+            model_id: {
+                "rows": int(len(frame)),
+                "unique_keys": int(len(frame[PREDICTION_KEY].drop_duplicates())),
+                "exact_target_key_match": True,
+            }
+            for model_id, frame in sorted(predictions.items())
+        },
+    }
+    key_path = out_dir / "key_validation.json"
+    key_path.write_text(
+        json.dumps(key_report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    artifacts["key_validation.json"] = {
+        "rows": len(predictions),
+        "bytes": int(key_path.stat().st_size),
+        "sha256": sha256_file(key_path),
+    }
+
+    manifest = {
+        "task": "TASK-003D-COMPARISON-HARNESS",
+        "models": sorted(predictions),
+        "prediction_schema": list(REQUIRED_PREDICTION_COLUMNS),
+        "expected_rows_per_model": int(len(targets)),
+        "cohort_manifest_sha256": sha256_file(cohort_dir / "manifest.json"),
+        "cohort_target_rows": int(cohort_manifest["target_rows"]),
+        "input_files": input_files,
+        "artifacts": artifacts,
+        "reproduction_command": "python vnext/run_comparison.py --out build/task-003-comparison",
+    }
+    manifest_path = out_dir / "manifest.json"
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return manifest
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--vnext-predictions", type=Path)
+    parser.add_argument("--legacy-predictions", type=Path)
+    args = parser.parse_args()
+    manifest = run_comparison(
+        args.out,
+        vnext_predictions=args.vnext_predictions,
+        legacy_predictions=args.legacy_predictions,
+    )
+    print(json.dumps(manifest, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
