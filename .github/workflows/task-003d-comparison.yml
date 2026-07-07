@@ -1,0 +1,77 @@
+name: TASK-003D comparison harness
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "vnext/comparison_harness.py"
+      - "vnext/comparison_diagnostics.py"
+      - "vnext/comparison_outputs.py"
+      - "vnext/run_comparison.py"
+      - "vnext/test_task003_comparison.py"
+      - "vnext/test_comparison_diagnostics.py"
+      - "vnext/test_comparison_rejects_legacy_proxy.py"
+      - ".github/workflows/task-003d-comparison.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install vNext dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+
+      - name: Run comparison harness twice
+        run: |
+          python vnext/run_comparison.py --out build/task-003d-first
+          python vnext/run_comparison.py --out build/task-003d-second
+
+      - name: Verify deterministic baseline outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          first = Path("build/task-003d-first")
+          second = Path("build/task-003d-second")
+          manifest_first = json.loads((first / "manifest.json").read_text())
+          manifest_second = json.loads((second / "manifest.json").read_text())
+          assert manifest_first == manifest_second
+          assert manifest_first["models"] == ["baseline_recent_scoring"]
+          assert manifest_first["expected_rows_per_model"] == 20094
+          assert manifest_first["formal_legacy_included"] is False
+          assert manifest_first["diagnostic_legacy_proxy_allowed"] is False
+          for name in [
+              "baseline_predictions.csv",
+              "predictions.csv",
+              "metrics_by_lead.csv",
+              "metrics_summary.csv",
+              "metrics_by_origin_lead.csv",
+              "fold_differences_vs_baseline.csv",
+              "player_block_bootstrap.csv",
+              "reliability.csv",
+              "slice_metrics.csv",
+              "comparison_report.md",
+              "key_validation.json",
+          ]:
+              assert (first / name).read_bytes() == (second / name).read_bytes(), name
+          print(json.dumps(manifest_first, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload baseline comparison artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003d-baseline-comparison
+          path: build/task-003d-first
+          if-no-files-found: error
+          retention-days: 14
