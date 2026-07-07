@@ -1,0 +1,21 @@
+{
+  "inputs": {
+    "universe": "reports/task-002-active-universe/authoritative_universe.csv",
+    "legacy": null,
+    "vnext": "vnext/output/current/current_annual_forecast.csv",
+    "candidate": null
+  },
+  "hashes": {
+    "universe": "6f0fa73ed180154e795ec6332944073de8e80498b799544032081f1a2b53a2b8",
+    "vnext": "2a84a406b9be52f89d820c1c17cf40438711689e40503982bab1fd8e654d303e"
+  },
+  "thresholds": {
+    "hard_player_coverage_min": 804,
+    "probability_bounds": "all probability columns within [0,1]",
+    "threshold_probabilities": "non-increasing p80>=p90>=p100>=p110>=p120",
+    "non_finite_required_outputs": 0,
+    "inference_fitting_allowed": false,
+    "shadow_mode_min_duration": "one full refresh cycle before release decision",
+    "approval": "requires separate release PR and explicit owner approval"
+  }
+}
