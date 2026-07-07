@@ -21,9 +21,7 @@ TASK-003L is a diagnostic-only independent validation of the TASK-003K event-log
 
 ## Current status
 
-Latest review requested rebasing/retargeting onto `agent/task003k-event-logistic` and running against PR #19 actual code and evidence. In this workspace, fetching `agent/task003k-event-logistic`, PR #19, and PR #20 from GitHub failed because the repository requires credentials that are unavailable to the non-interactive environment. No local `agent/task003k-event-logistic` branch, `build/task-003k-candidate-folds`, or `reports/task-003k-event-logistic` directories existed. The committed machine-readable TASK-003L report is therefore `validation incomplete` with exact missing evidence and missing base branch, not a pass.
-
-Do not interpret this as independent validation of TASK-003K. It is a reproducible validator plus an explicit incomplete status until the PR #19 branch/artifacts/evidence are present in the workspace or supplied as inputs.
+The existing PR is stacked on `agent/task003k-event-logistic`. In GitHub Actions the stacked PR checkout already contains the TASK-003K candidate code and evidence, so the validator does not require a local base branch. The dedicated TASK-003L workflow checks out `vnext` separately to build unchanged current-vNext folds, builds candidate folds from the stacked PR checkout, runs the validator with `--require-complete`, runs the vNext test suite, and uploads validation outputs as a workflow artifact. With `--require-complete`, the workflow verdict is always either `independent validation passed` or `independent validation failed`.
 
 ## Reproduction
 
@@ -38,5 +36,5 @@ python vnext/validate_task003l_independent.py \
   --evidence-dir reports/task-003k-event-logistic \
   --bootstrap-repetitions 1000 \
   --tolerance 1e-9 \
-  --required-base-branch agent/task003k-event-logistic
+  --require-complete
 ```
