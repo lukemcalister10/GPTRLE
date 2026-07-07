@@ -8,12 +8,13 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Protocol
+from typing import Any, Callable, Iterable, Protocol
 
 import numpy as np
 import pandas as pd
+from scipy.optimize import minimize
 from sklearn.metrics import brier_score_loss, log_loss, mean_absolute_error, roc_auc_score
 
 from snapshot import build_snapshot, season_at
@@ -27,7 +28,11 @@ LOCKED_FOLDS: dict[int, list[int]] = {
 }
 THRESHOLDS = (80, 90, 100, 110, 120)
 PINBALL_QUANTILES = (0.10, 0.25, 0.50, 0.75, 0.90, 0.97)
+QUANTILE_COLUMNS = tuple(f"points_q{int(q * 100):02d}" for q in PINBALL_QUANTILES)
 PREDICTION_KEY = ["player_key", "origin_year", "lead"]
+BASE_PREDICTION_COLUMNS = ("p_meaningful", "cond_games", "cond_avg", "exp_games", "exp_points")
+THRESHOLD_PROB_COLUMNS = tuple(f"p_avg_ge_{t}" for t in THRESHOLDS)
+REQUIRED_PREDICTION_COLUMNS = tuple(PREDICTION_KEY) + BASE_PREDICTION_COLUMNS + THRESHOLD_PROB_COLUMNS + QUANTILE_COLUMNS
 
 
 @dataclass(frozen=True)
@@ -65,6 +70,35 @@ class AsOfContract:
     )
 
 
+@dataclass(frozen=True)
+class EligibilityDecision:
+    """Historical list/eligibility decision for one player at one origin."""
+
+    eligible: bool | None
+    reason: str
+
+
+EligibilityResolver = Callable[[dict[str, Any], int], EligibilityDecision | bool | None]
+
+
+class StaticEligibilityResolver:
+    """Resolve eligibility from explicit historical `(player_key, origin_year)` evidence."""
+
+    def __init__(self, evidence: dict[tuple[str, int], bool | str | EligibilityDecision]):
+        self.evidence = evidence
+
+    def __call__(self, player: dict[str, Any], origin_year: int) -> EligibilityDecision:
+        key = str(player.get("key") or player.get("player") or "")
+        value = self.evidence.get((key, int(origin_year)))
+        if value is None:
+            return EligibilityDecision(None, "historical_eligibility_unavailable")
+        if isinstance(value, EligibilityDecision):
+            return value
+        if isinstance(value, str):
+            return EligibilityDecision(False, value)
+        return EligibilityDecision(bool(value), "historically_eligible" if value else "not_listed_at_origin")
+
+
 def stable_json(value: Any) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), default=str)
 
@@ -86,8 +120,31 @@ def _fail(player: dict[str, Any], origin_year: int, reason: str) -> dict[str, An
     }
 
 
+def sanitize_source_player(player: dict[str, Any], contract: AsOfContract) -> tuple[dict[str, Any], list[str]]:
+    """Keep only as-of allowed fields and validate only information visible at origin."""
+
+    sanitized = {field: player[field] for field in contract.allowed_fields if field in player and field != "scoring"}
+    reasons: list[str] = []
+    scoring: list[dict[str, Any]] = []
+    for row in player.get("scoring") or []:
+        try:
+            year = int(row["year"])
+        except (KeyError, TypeError, ValueError):
+            reasons.append("malformed_scoring_year")
+            break
+        if year > contract.origin_year:
+            continue
+        try:
+            scoring.append({"year": year, "avg": float(row.get("avg", 0.0) or 0.0), "games": int(row.get("games", 0) or 0)})
+        except (TypeError, ValueError):
+            reasons.append("malformed_scoring_row")
+            break
+    sanitized["scoring"] = scoring
+    return sanitized, reasons
+
+
 def validate_source_player(player: dict[str, Any], origin_year: int) -> list[str]:
-    """Return explicit reasons that make a source row unusable for a snapshot."""
+    """Return explicit reasons that make a sanitized source row unusable."""
 
     reasons: list[str] = []
     if not (player.get("key") or player.get("player")):
@@ -99,32 +156,31 @@ def validate_source_player(player: dict[str, Any], origin_year: int) -> list[str
         draft_year = None
     if draft_year is not None and draft_year > origin_year:
         reasons.append("draft_after_origin")
-    for row in player.get("scoring") or []:
-        try:
-            year = int(row["year"])
-            float(row.get("avg", 0.0) or 0.0)
-            int(row.get("games", 0) or 0)
-        except (KeyError, TypeError, ValueError):
-            reasons.append("malformed_scoring_row")
-            break
-        if year > origin_year:
-            continue
     return reasons
 
 
 def build_asof_snapshot(player: dict[str, Any], contract: AsOfContract) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
-    """Build one strict snapshot and a reportable exclusion if it cannot be used."""
+    """Build one strict sanitized snapshot and a reportable exclusion if unusable."""
 
-    reasons = validate_source_player(player, contract.origin_year)
+    sanitized, sanitize_reasons = sanitize_source_player(player, contract)
+    reasons = validate_source_player(sanitized, contract.origin_year) + sanitize_reasons
     if reasons:
         return None, _fail(player, contract.origin_year, ";".join(reasons))
-    snapshot = build_snapshot(player, contract.origin_year)
+    snapshot = build_snapshot(sanitized, contract.origin_year)
     if snapshot is None:
         return None, _fail(player, contract.origin_year, "snapshot_builder_returned_none")
     row = snapshot.to_dict()
     row["player_key"] = row.pop("key")
     row["asof_cutoff"] = contract.cutoff_label
     return row, None
+
+
+def coerce_eligibility(decision: EligibilityDecision | bool | None) -> EligibilityDecision:
+    if isinstance(decision, EligibilityDecision):
+        return decision
+    if decision is None:
+        return EligibilityDecision(None, "historical_eligibility_unavailable")
+    return EligibilityDecision(bool(decision), "historically_eligible" if decision else "not_listed_at_origin")
 
 
 def realised_targets(player: dict[str, Any], origin_year: int, lead: int) -> dict[str, Any]:
@@ -148,17 +204,29 @@ def realised_targets(player: dict[str, Any], origin_year: int, lead: int) -> dic
     return out
 
 
-def build_evaluation_cohorts(players: list[dict[str, Any]], folds: dict[int, list[int]] | None = None) -> dict[str, pd.DataFrame]:
+def build_evaluation_cohorts(
+    players: list[dict[str, Any]],
+    folds: dict[int, list[int]] | None = None,
+    eligibility_resolver: EligibilityResolver | None = None,
+    *,
+    fail_on_unavailable_eligibility: bool = True,
+) -> dict[str, pd.DataFrame]:
     folds = folds or LOCKED_FOLDS
     included: list[dict[str, Any]] = []
     excluded: list[dict[str, Any]] = []
     targets: list[dict[str, Any]] = []
     seen_snapshot_keys: set[tuple[str, int]] = set()
     by_key = {str(p.get("key") or p.get("player") or ""): p for p in players}
+    eligibility_unavailable = False
     for lead, origins in folds.items():
         for origin in origins:
             contract = AsOfContract(origin, f"end_of_{origin}_season")
             for p in players:
+                decision = coerce_eligibility(eligibility_resolver(p, origin) if eligibility_resolver else None)
+                if decision.eligible is not True:
+                    excluded.append({**_fail(p, origin, decision.reason), "lead": lead})
+                    eligibility_unavailable = eligibility_unavailable or decision.eligible is None
+                    continue
                 row, fail = build_asof_snapshot(p, contract)
                 if fail is not None:
                     excluded.append({**fail, "lead": lead})
@@ -169,11 +237,15 @@ def build_evaluation_cohorts(players: list[dict[str, Any]], folds: dict[int, lis
                     included.append(row)
                     seen_snapshot_keys.add(row_key)
                 targets.append(realised_targets(by_key[row["player_key"]], origin, lead))
+    excluded_frame = pd.DataFrame(excluded).sort_values(["origin_year", "lead", "player_key"]).reset_index(drop=True) if excluded else pd.DataFrame(columns=["player_key", "player", "origin_year", "lead", "reason"])
+    if eligibility_unavailable and fail_on_unavailable_eligibility:
+        sample = excluded_frame[excluded_frame.reason == "historical_eligibility_unavailable"].head(5).to_dict("records")
+        raise ValueError(f"historical eligibility unavailable for benchmark rows: {sample}")
     return {
         "folds": pd.DataFrame([{"lead": l, "origin_year": y} for l, ys in folds.items() for y in ys]),
-        "included": pd.DataFrame(included).sort_values(["origin_year", "player_key"]).reset_index(drop=True),
-        "excluded": pd.DataFrame(excluded).sort_values(["origin_year", "lead", "player_key"]).reset_index(drop=True) if excluded else pd.DataFrame(columns=["player_key", "player", "origin_year", "lead", "reason"]),
-        "targets": pd.DataFrame(targets).sort_values(PREDICTION_KEY).reset_index(drop=True),
+        "included": pd.DataFrame(included).sort_values(["origin_year", "player_key"]).reset_index(drop=True) if included else pd.DataFrame(),
+        "excluded": excluded_frame,
+        "targets": pd.DataFrame(targets).sort_values(PREDICTION_KEY).reset_index(drop=True) if targets else pd.DataFrame(columns=PREDICTION_KEY),
     }
 
 
@@ -183,18 +255,40 @@ class PredictionAdapter(Protocol):
     def predict(self, snapshots: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame: ...
 
 
+def degenerate_point_quantiles(points: pd.Series | np.ndarray) -> dict[str, pd.Series | np.ndarray]:
+    """Emit an explicit degenerate point distribution for deterministic adapters."""
+
+    return {col: points for col in QUANTILE_COLUMNS}
+
+
 def normalise_predictions(model_id: str, frame: pd.DataFrame) -> pd.DataFrame:
-    required = set(PREDICTION_KEY + ["p_meaningful", "exp_games", "exp_avg", "exp_points"])
-    missing = sorted(required - set(frame.columns))
+    missing = sorted(set(REQUIRED_PREDICTION_COLUMNS) - set(frame.columns))
     if missing:
         raise ValueError(f"{model_id} predictions missing columns: {missing}")
+    if frame.duplicated(PREDICTION_KEY).any():
+        dupes = frame.loc[frame.duplicated(PREDICTION_KEY, keep=False), PREDICTION_KEY].head(5).to_dict("records")
+        raise ValueError(f"{model_id} predictions contain duplicate keys: {dupes}")
     out = frame.copy()
     out["model_id"] = model_id
-    for threshold in THRESHOLDS:
-        col = f"p_avg_ge_{threshold}"
-        if col not in out:
-            out[col] = out["p_meaningful"] if threshold == 80 else 0.001
-    return out[["model_id"] + PREDICTION_KEY + ["p_meaningful", "exp_games", "exp_avg", "exp_points"] + [f"p_avg_ge_{t}" for t in THRESHOLDS]].sort_values(PREDICTION_KEY).reset_index(drop=True)
+    numeric = list(BASE_PREDICTION_COLUMNS + THRESHOLD_PROB_COLUMNS + QUANTILE_COLUMNS)
+    if out[numeric].isna().any(axis=None):
+        raise ValueError(f"{model_id} predictions contain missing required numeric values")
+    values = out[numeric].to_numpy(float)
+    if not np.isfinite(values).all():
+        raise ValueError(f"{model_id} predictions contain non-finite numeric values")
+    prob_cols = ["p_meaningful", *THRESHOLD_PROB_COLUMNS]
+    if ((out[prob_cols] < 0.0) | (out[prob_cols] > 1.0)).any(axis=None):
+        raise ValueError(f"{model_id} predictions contain probabilities outside [0, 1]")
+    nonnegative_cols = ["cond_games", "cond_avg", "exp_games", "exp_points", *QUANTILE_COLUMNS]
+    if (out[nonnegative_cols] < 0.0).any(axis=None):
+        raise ValueError(f"{model_id} predictions contain negative games or points forecasts")
+    threshold_values = out[list(THRESHOLD_PROB_COLUMNS)].to_numpy(float)
+    if (np.diff(threshold_values, axis=1) > 1e-12).any():
+        raise ValueError(f"{model_id} predictions contain non-monotonic threshold probabilities")
+    quantile_values = out[list(QUANTILE_COLUMNS)].to_numpy(float)
+    if (np.diff(quantile_values, axis=1) < -1e-12).any():
+        raise ValueError(f"{model_id} predictions contain crossing point quantiles")
+    return out[["model_id", *REQUIRED_PREDICTION_COLUMNS]].sort_values(PREDICTION_KEY).reset_index(drop=True)
 
 
 @dataclass
@@ -209,9 +303,12 @@ class BaselineAdapter:
         p = np.clip((base["last_games"].astype(float) + base["games_last_2"].astype(float) / 2.0) / 25.0, 0.001, 0.999)
         cond_games = np.clip(base["last_games"].where(base["last_games"] > 0, base["prev_games"]).astype(float), 1.0, 23.0)
         cond_avg = np.clip(base["weighted_avg"].where(base["weighted_avg"] > 0, base["last_avg"]).astype(float), 0.0, 145.0)
-        out = pd.DataFrame({"player_key": base.player_key, "origin_year": base.origin_year, "lead": base.lead, "p_meaningful": p, "exp_games": p * cond_games, "exp_avg": p * cond_avg, "exp_points": p * cond_games * cond_avg})
+        exp_points = p * cond_games * cond_avg
+        out = pd.DataFrame({"player_key": base.player_key, "origin_year": base.origin_year, "lead": base.lead, "p_meaningful": p, "cond_games": cond_games, "cond_avg": cond_avg, "exp_games": p * cond_games, "exp_points": exp_points})
         for threshold in THRESHOLDS:
-            out[f"p_avg_ge_{threshold}"] = np.clip(p * (cond_avg >= threshold).astype(float), 0.001, 0.999)
+            out[f"p_avg_ge_{threshold}"] = np.clip(p * (cond_avg >= threshold).astype(float), 0.0, 1.0)
+        for col, values in degenerate_point_quantiles(exp_points).items():
+            out[col] = values
         return normalise_predictions(self.model_id, out)
 
 
@@ -228,8 +325,12 @@ class VNextAdapter:
             if int(lead) not in self.artifacts:
                 raise ValueError(f"missing vNext artifact for lead {lead}")
             joined = target_rows[PREDICTION_KEY].merge(snapshots, on=["player_key", "origin_year"], how="left", validate="many_to_one")
-            pred = predict_lead(self.artifacts[int(lead)], joined)
-            pieces.append(pd.concat([joined[PREDICTION_KEY].reset_index(drop=True), pred.reset_index(drop=True).rename(columns={f"p{t}": f"p_avg_ge_{t}" for t in THRESHOLDS})], axis=1))
+            pred = predict_lead(self.artifacts[int(lead)], joined).rename(columns={f"p{t}": f"p_avg_ge_{t}" for t in THRESHOLDS})
+            pred["cond_games"] = pred.get("cond_games", pred["exp_games"] / np.clip(pred["p_meaningful"], 0.001, None))
+            pred["cond_avg"] = pred.get("cond_avg", np.where(pred["cond_games"] > 0, pred["exp_points"] / np.clip(pred["p_meaningful"] * pred["cond_games"], 0.001, None), 0.0))
+            for col, values in degenerate_point_quantiles(pred["exp_points"]).items():
+                pred[col] = values
+            pieces.append(pd.concat([joined[PREDICTION_KEY].reset_index(drop=True), pred.reset_index(drop=True)], axis=1))
         return normalise_predictions(self.model_id, pd.concat(pieces, ignore_index=True))
 
 
@@ -255,14 +356,26 @@ def _safe_auc(y: pd.Series, p: pd.Series) -> float:
     return float(roc_auc_score(y, p)) if y.nunique() > 1 else float("nan")
 
 
+def _logit(p: np.ndarray) -> np.ndarray:
+    p = np.clip(p.astype(float), 1e-6, 1.0 - 1e-6)
+    return np.log(p / (1.0 - p))
+
+
 def calibration_intercept_slope(y: pd.Series, p: pd.Series) -> tuple[float, float]:
     yv = y.to_numpy(float)
-    pv = np.clip(p.to_numpy(float), 0.001, 0.999)
-    logit = np.log(pv / (1.0 - pv))
-    if len(np.unique(yv)) < 2 or np.std(logit) == 0:
+    pv = p.to_numpy(float)
+    x = _logit(pv)
+    if len(np.unique(yv)) < 2 or np.std(x) < 1e-12:
         return float("nan"), float("nan")
-    slope, intercept = np.polyfit(logit, yv, 1)
-    return float(intercept), float(slope)
+
+    def objective(beta: np.ndarray) -> float:
+        eta = beta[0] + beta[1] * x
+        return float(np.sum(np.logaddexp(0.0, eta) - yv * eta))
+
+    result = minimize(objective, np.array([0.0, 1.0]), method="BFGS")
+    if not result.success:
+        raise ValueError(f"logistic calibration fit failed: {result.message}")
+    return float(result.x[0]), float(result.x[1])
 
 
 def pinball_loss(y: pd.Series, q: pd.Series, tau: float) -> float:
@@ -271,9 +384,20 @@ def pinball_loss(y: pd.Series, q: pd.Series, tau: float) -> float:
 
 
 def score_predictions(predictions: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame:
-    joined = predictions.merge(targets, on=PREDICTION_KEY, how="inner", validate="one_to_one")
-    if len(joined) != len(predictions) or len(joined) != len(targets):
-        raise ValueError("prediction/target merge did not preserve one-to-one benchmark rows")
+    if "model_id" not in predictions.columns:
+        raise ValueError("predictions must include model_id")
+    validated = []
+    for model_id, group in predictions.groupby("model_id", sort=True):
+        validated.append(normalise_predictions(str(model_id), group.drop(columns=["model_id"])))
+    predictions = pd.concat(validated, ignore_index=True)
+    joined = predictions.merge(targets, on=PREDICTION_KEY, how="inner", validate="many_to_one")
+    if len(joined) != len(predictions):
+        raise ValueError("prediction/target merge did not preserve benchmark prediction rows")
+    expected = targets[PREDICTION_KEY].sort_values(PREDICTION_KEY).reset_index(drop=True)
+    for model_id, group in predictions.groupby("model_id", sort=True):
+        got = group[PREDICTION_KEY].sort_values(PREDICTION_KEY).reset_index(drop=True)
+        if not got.equals(expected):
+            raise ValueError(f"{model_id} predictions do not cover exactly the target rows")
     rows: list[dict[str, Any]] = []
     for (model_id, lead), g in joined.groupby(["model_id", "lead"], sort=True):
         inter, slope = calibration_intercept_slope(g["meaningful"], g["p_meaningful"])
@@ -290,14 +414,14 @@ def score_predictions(predictions: pd.DataFrame, targets: pd.DataFrame) -> pd.Da
             "mae_total_points": mean_absolute_error(g["points"], g["exp_points"]),
         }
         meaningful = g[g["meaningful"] == 1]
-        row["mae_avg_conditional_meaningful"] = mean_absolute_error(meaningful["avg"], meaningful["exp_avg"]) if len(meaningful) else float("nan")
+        row["mae_avg_conditional_meaningful"] = mean_absolute_error(meaningful["avg"], meaningful["cond_avg"]) if len(meaningful) else float("nan")
         for threshold in THRESHOLDS:
             actual = g[f"avg_ge_{threshold}"]
             prob = g[f"p_avg_ge_{threshold}"]
             row[f"brier_avg_ge_{threshold}"] = brier_score_loss(actual, prob)
             row[f"auc_avg_ge_{threshold}"] = _safe_auc(actual, prob)
-        for tau in PINBALL_QUANTILES:
-            row[f"pinball_points_q{int(tau * 100):02d}"] = pinball_loss(g["points"], g["exp_points"], tau)
+        for tau, col in zip(PINBALL_QUANTILES, QUANTILE_COLUMNS, strict=True):
+            row[f"pinball_points_q{int(tau * 100):02d}"] = pinball_loss(g["points"], g[col], tau)
         rows.append(row)
     return pd.DataFrame(rows).sort_values(["model_id", "lead"]).reset_index(drop=True)
 
@@ -316,6 +440,8 @@ def write_benchmark_artifacts(out_dir: Path, cohorts: dict[str, pd.DataFrame], p
             "target_rows": int(len(cohorts["targets"])),
         },
         "target_definitions": {"meaningful": "games >= 6", "points": "season average times games", "zero_game_future_outcomes": "retained with games=0, avg=0, points=0"},
+        "prediction_schema": list(REQUIRED_PREDICTION_COLUMNS),
+        "deferred_protocol_components": ["reliability_tables", "multi_season_events", "crps_or_coverage", "keeper_utility_metrics", "required_slices", "block_bootstrap_confidence_intervals"],
         "reproduction_commands": reproduction_commands,
         "artifacts": {},
     }
