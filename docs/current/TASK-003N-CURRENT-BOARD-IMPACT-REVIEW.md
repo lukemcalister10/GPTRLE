@@ -19,7 +19,7 @@ The dedicated workflow `.github/workflows/task-003n-current-board-review.yml` ru
 3. build TASK-003K candidate artifacts with `model_artifacts_event_logistic` and target cutoff 2025;
 4. run the real 804-player current-board comparison;
 5. run `cd vnext && pytest -q`;
-6. upload all generated board-review outputs.
+6. upload all generated board-review outputs, even when a later validation or test step fails.
 
 ## Local command equivalent
 

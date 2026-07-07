@@ -32,6 +32,7 @@ jobs:
       - name: Run vNext tests
         run: cd vnext && pytest -q
       - name: Upload TASK-003N board-review outputs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: task-003n-current-board-impact-review
