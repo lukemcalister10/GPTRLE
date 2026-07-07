@@ -1,0 +1,12 @@
+{
+  "age_28_29_ok": true,
+  "age_30_plus_lead_5_ok": true,
+  "pooled_change_pct": {
+    "brier": -0.32240477889137203,
+    "games_mae": -0.23854563455501118,
+    "log_loss": -0.3722134168634003,
+    "points_mae": -0.17968279264275733
+  },
+  "pooled_ok": true,
+  "status": "pass"
+}
