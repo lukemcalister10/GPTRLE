@@ -1,0 +1,3 @@
+lead,slice_type,slice_value,n_current,brier_meaningful_change_pct,mae_games_change_pct,mae_total_points_change_pct
+4,age_band,30+,394,-18.880645444676,-5.730638131509,-3.417252724039
+5,age_band,30+,278,8.956737666176,11.764011413829,9.517230951363
