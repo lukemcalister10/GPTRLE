@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "fold_lead_summary.csv": {
+      "rows": 25,
+      "sha256": "9444821ec97335cc24ce4cd6db858dd0c8c969ba851d299ee57156277111f435"
+    },
+    "locked_slice_fold_summary.csv": {
+      "rows": 81,
+      "sha256": "76dc159b075787c332f823e6296eae24bf0276145f18f7094889157855c4bdfe"
+    },
+    "locked_slice_summary.csv": {
+      "rows": 15,
+      "sha256": "51f76f51b7d6db5d72c917a9b7ca36a4fc3350c0377706bcb3096ebc6df7840c"
+    }
+  },
+  "commands": [
+    "python vnext/build_historical_cohorts.py --out build/task-003h/cohorts",
+    "python vnext/run_historical_folds.py --cohort-dir build/task-003h/cohorts --out build/task-003h/vnext",
+    "python vnext/run_comparison.py --out build/task-003h/comparison --vnext-predictions build/task-003h/vnext/vnext_predictions.csv --bootstrap-repetitions 100",
+    "python vnext/analyse_task003h_calibration.py --comparison-dir build/task-003h/comparison --folds-dir build/task-003h/vnext --out build/task-003h/calibration"
+  ],
+  "model_changes": false,
+  "scope": "raw classifier output versus temporal isotonic calibrated output by fold, lead and TASK-003F locked material slice",
+  "source_prediction_sha256": "0453d4ad942aaa75a4c1e5f96ce9ceb7c8656ca847cc2c85390e2178c12f0c7c",
+  "task": "TASK-003H diagnostic-only meaningful-season probability calibration audit"
+}
