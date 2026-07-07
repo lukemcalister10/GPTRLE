@@ -55,6 +55,8 @@ jobs:
           --rebuild
 
       - name: Run TASK-003L independent validation
+        id: validate
+        continue-on-error: true
         working-directory: candidate
         run: >-
           python vnext/validate_task003l_independent.py
@@ -70,6 +72,8 @@ jobs:
           --require-complete
 
       - name: Run vNext tests
+        id: pytest
+        continue-on-error: true
         working-directory: candidate/vnext
         run: pytest -q
 
@@ -80,3 +84,16 @@ jobs:
           name: task-003l-independent-validation
           path: validation/task-003l-independent-validation/
           if-no-files-found: error
+
+
+      - name: Report final TASK-003L verdict
+        if: always()
+        run: |
+          if [[ "${{ steps.validate.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
+            echo "independent validation passed"
+          else
+            echo "independent validation failed"
+            echo "validator outcome: ${{ steps.validate.outcome }}"
+            echo "pytest outcome: ${{ steps.pytest.outcome }}"
+            exit 1
+          fi
