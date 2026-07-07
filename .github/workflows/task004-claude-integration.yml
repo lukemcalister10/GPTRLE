@@ -30,6 +30,8 @@ jobs:
       - name: Generate unchanged Claude board
         working-directory: engine/rl_after
         shell: bash
+        env:
+          RL_FV: ${{ github.workspace }}/engine/forward_valuation
         run: |
           set -o pipefail
           mkdir -p ../../build/task004
