@@ -26,6 +26,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-vnext.txt
       - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
       - run: python scripts/verify_legacy_manifest.py
       - name: Build locked cohorts
@@ -47,6 +48,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-vnext.txt
       - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
       - uses: actions/download-artifact@v4
         with:
@@ -74,6 +76,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-vnext.txt
       - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
       - uses: actions/download-artifact@v4
         with:
@@ -101,6 +104,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-vnext.txt
       - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
       - uses: actions/download-artifact@v4
         with:
