@@ -67,7 +67,7 @@ def test_locked_cohort_artifacts_are_complete_and_deterministic(tmp_path: Path):
     assert first["target_rows"] == expected_targets
 
     manifest = json.loads((tmp_path / "first" / "manifest.json").read_text())
-    assert manifest == first
+    assert manifest == json.loads(json.dumps(first))
     assert set(first["artifacts"]) == {
         "fold_plan.csv",
         "included_snapshots.csv",
