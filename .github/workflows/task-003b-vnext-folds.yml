@@ -33,10 +33,7 @@ jobs:
           from pathlib import Path
           a=json.loads(Path('build/task-003b-pass1/prediction_manifest.json').read_text())['output_hashes']
           b=json.loads(Path('build/task-003b-pass2/prediction_manifest.json').read_text())['output_hashes']
-          assert a['vnext_predictions.csv']==b['vnext_predictions.csv']
-          assert a['fold_artifact_manifest.csv']==b['fold_artifact_manifest.csv']
-          assert a['fold_training_counts.csv']==b['fold_training_counts.csv']
-          assert a['quantile_method.json']==b['quantile_method.json']
+          assert a == b
           PY
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

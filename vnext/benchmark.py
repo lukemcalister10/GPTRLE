@@ -28,7 +28,7 @@ LOCKED_FOLDS: dict[int, list[int]] = {
 }
 THRESHOLDS = (80, 90, 100, 110, 120)
 PINBALL_QUANTILES = (0.10, 0.25, 0.50, 0.75, 0.90, 0.97)
-QUANTILE_COLUMNS = tuple(f"q{int(q * 100):02d}_points" for q in PINBALL_QUANTILES)
+QUANTILE_COLUMNS = tuple(f"points_q{int(q * 100):02d}" for q in PINBALL_QUANTILES)
 PREDICTION_KEY = ["player_key", "origin_year", "lead"]
 BASE_PREDICTION_COLUMNS = ("p_meaningful", "cond_games", "cond_avg", "exp_games", "exp_points")
 THRESHOLD_PROB_COLUMNS = tuple(f"p_avg_ge_{t}" for t in THRESHOLDS)
@@ -569,7 +569,7 @@ def score_predictions(predictions: pd.DataFrame, targets: pd.DataFrame) -> pd.Da
             row[f"brier_avg_ge_{threshold}"] = brier_score_loss(actual, prob)
             row[f"auc_avg_ge_{threshold}"] = _safe_auc(actual, prob)
         for tau, col in zip(PINBALL_QUANTILES, QUANTILE_COLUMNS, strict=True):
-            row[f"pinball_q{int(tau * 100):02d}_points"] = pinball_loss(g["points"], g[col], tau)
+            row[f"pinball_points_q{int(tau * 100):02d}"] = pinball_loss(g["points"], g[col], tau)
         rows.append(row)
     return pd.DataFrame(rows).sort_values(["model_id", "lead"]).reset_index(drop=True)
 

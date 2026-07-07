@@ -66,12 +66,12 @@ def prediction_frame(**overrides):
         "p_avg_ge_100": 0.2,
         "p_avg_ge_110": 0.1,
         "p_avg_ge_120": 0.05,
-        "q10_points": 400.0,
-        "q25_points": 400.0,
-        "q50_points": 400.0,
-        "q75_points": 400.0,
-        "q90_points": 400.0,
-        "q97_points": 400.0,
+        "points_q10": 400.0,
+        "points_q25": 400.0,
+        "points_q50": 400.0,
+        "points_q75": 400.0,
+        "points_q90": 400.0,
+        "points_q97": 400.0,
     }
     row.update(overrides)
     return pd.DataFrame([row])
@@ -173,11 +173,11 @@ def test_logistic_calibration_well_calibrated_is_intercept_zero_slope_one():
 
 def test_metrics_use_conditional_average_and_matching_quantiles():
     targets = pd.DataFrame([{"player_key": "p1", "origin_year": 2018, "lead": 1, "games": 10, "avg": 80.0, "points": 800.0, "meaningful": 1, "avg_ge_80": 1, "avg_ge_90": 0, "avg_ge_100": 0, "avg_ge_110": 0, "avg_ge_120": 0}])
-    pred = normalise_predictions("m", prediction_frame(p_meaningful=0.5, cond_avg=80.0, exp_points=400.0, q10_points=100.0, q25_points=200.0, q50_points=300.0, q75_points=400.0, q90_points=500.0, q97_points=600.0)).assign(model_id="m")
+    pred = normalise_predictions("m", prediction_frame(p_meaningful=0.5, cond_avg=80.0, exp_points=400.0, points_q10=100.0, points_q25=200.0, points_q50=300.0, points_q75=400.0, points_q90=500.0, points_q97=600.0)).assign(model_id="m")
     metrics = score_predictions(pred, targets)
     assert metrics.iloc[0]["mae_avg_conditional_meaningful"] == 0.0
-    assert metrics.iloc[0]["pinball_q10_points"] == pytest.approx(70.0)
-    assert metrics.iloc[0]["pinball_q97_points"] == pytest.approx(194.0)
+    assert metrics.iloc[0]["pinball_points_q10"] == pytest.approx(70.0)
+    assert metrics.iloc[0]["pinball_points_q97"] == pytest.approx(194.0)
 
 
 def test_prediction_validation_missing_duplicate_invalid_probability_and_crossing_quantiles():
@@ -188,7 +188,7 @@ def test_prediction_validation_missing_duplicate_invalid_probability_and_crossin
     with pytest.raises(ValueError, match=r"outside \[0, 1\]"):
         normalise_predictions("m", prediction_frame(p_meaningful=1.5))
     with pytest.raises(ValueError, match="crossing point quantiles"):
-        normalise_predictions("m", prediction_frame(q10_points=500.0, q25_points=400.0))
+        normalise_predictions("m", prediction_frame(points_q10=500.0, points_q25=400.0))
     with pytest.raises(ValueError, match="non-monotonic threshold"):
         normalise_predictions("m", prediction_frame(p_avg_ge_90=0.7))
 
