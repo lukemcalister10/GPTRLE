@@ -1,0 +1,48 @@
+name: TASK-003C legacy adapter
+
+on:
+  pull_request:
+    paths:
+      - "vnext/**"
+      - "engine/rl_after/**"
+      - "artifacts/legacy_manifest.json"
+      - "scripts/verify_legacy_manifest.py"
+      - ".github/workflows/task-003c-legacy-adapter.yml"
+  workflow_dispatch:
+
+jobs:
+  legacy-adapter:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install vNext requirements
+        run: python -m pip install -r requirements-vnext.txt
+      - name: Verify frozen legacy manifest
+        run: python scripts/verify_legacy_manifest.py
+      - name: Build locked cohorts
+        run: python vnext/build_historical_cohorts.py --out build/task-003c-cohorts
+      - name: Run legacy adapter twice
+        run: |
+          python vnext/legacy_historical_adapter.py --cohort-dir build/task-003c-cohorts --out build/task-003c-legacy-first --no-rebuild-cohorts
+          python vnext/legacy_historical_adapter.py --cohort-dir build/task-003c-cohorts --out build/task-003c-legacy-second --no-rebuild-cohorts
+      - name: Verify deterministic output hashes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          first = json.loads(Path('build/task-003c-legacy-first/legacy_adapter_manifest.json').read_text())
+          second = json.loads(Path('build/task-003c-legacy-second/legacy_adapter_manifest.json').read_text())
+          assert first['prediction_output_hash'] == second['prediction_output_hash']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task-003c-legacy-adapter
+          path: |
+            build/task-003c-cohorts
+            build/task-003c-legacy-first
+            build/task-003c-legacy-second
