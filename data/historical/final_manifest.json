@@ -1,0 +1,35 @@
+{
+  "eligibility_semantics": "presence on any of the 18 annual club lists is eligible; absence is ineligible",
+  "files": {
+    "database_player_keys.csv": {
+      "bytes": 74871,
+      "sha256": "0d09878de110ba3919c600c692cd19bbcea46cdd0772959be9cd7ce13967824a"
+    },
+    "draftguru_player_key_map_final.csv": {
+      "bytes": 282290,
+      "sha256": "45438a7f5c233288d8b5e543b3ffd6b6f7870aedd0fc1443f09849476e9ae24c"
+    },
+    "draftguru_players_excluded_from_repository_mapping.csv": {
+      "bytes": 9943,
+      "sha256": "e37e4f336ffd80198877f4f577d52390b2c53e6ffd2d570d4377e93c102dd0f3"
+    },
+    "finalization_summary.json": {
+      "bytes": 765,
+      "sha256": "3ba5219de16ab8c8c02e8071ee8244c5e4c31d9571c479103cc7d1a2686c4199"
+    },
+    "historical_eligibility_2018_2024.csv": {
+      "bytes": 2298015,
+      "sha256": "0ee11031cfddba5ded05e00135ad1a1236a13a55cd3d3772b3d8239c9e64a54e"
+    }
+  },
+  "source": "DraftGuru annual AFL club-list pages",
+  "years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ]
+}
