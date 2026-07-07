@@ -14,17 +14,36 @@ from historical_eligibility import DraftGuruEligibilityResolver, ROOT, load_hist
 
 DEFAULT_OUT = ROOT / "build" / "task-003-cohorts"
 PLAYER_DATA = ROOT / "engine" / "rl_after" / "rl_model_data.json"
+ENTRY_FIELDS = ("year", "pick", "type", "_draft", "drafted_position")
+
+
+def draft_year(player: dict[str, Any]) -> int:
+    try:
+        return int(player.get("year"))
+    except (TypeError, ValueError):
+        return 9999
 
 
 def canonical_players(players: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Collapse duplicate records while preserving the earliest known list entry."""
+
     grouped: dict[str, list[dict[str, Any]]] = {}
     for player in players:
         key = str(player.get("key") or "").strip()
         if key:
             grouped.setdefault(key, []).append(player)
+
     canonical = []
     for _, group in sorted(grouped.items()):
-        canonical.append(max(group, key=lambda row: len(row.get("scoring") or [])))
+        richest = max(group, key=lambda row: len(row.get("scoring") or []))
+        earliest = min(group, key=lambda row: (draft_year(row), str(row.get("type") or "")))
+        merged = dict(richest)
+        for field in ENTRY_FIELDS:
+            value = earliest.get(field)
+            if value not in (None, ""):
+                merged[field] = value
+        merged["_source_record_count"] = len(group)
+        canonical.append(merged)
     return canonical
 
 
@@ -78,6 +97,10 @@ def build_locked_cohorts(out_dir: Path = DEFAULT_OUT) -> dict[str, Any]:
         validate="many_to_one",
         suffixes=("", "_eligibility"),
     )
+    unexpected = excluded[excluded["reason"] != "draftguru_verified_absence"]
+    if len(unexpected):
+        sample = unexpected[["player_key", "origin_year", "lead", "reason"]].head(10).to_dict("records")
+        raise ValueError(f"verified eligible rows failed cohort construction: {sample}")
 
     counts = (
         membership.groupby(["origin_year", "lead"], as_index=False)
