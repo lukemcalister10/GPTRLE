@@ -1,0 +1,1 @@
+The diagnostic script generates detailed component and per-origin CSV files from the accepted TASK-003E artifact. Compact accepted summaries are committed here; large source predictions remain in the immutable workflow artifact.
