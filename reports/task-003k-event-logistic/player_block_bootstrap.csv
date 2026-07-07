@@ -1,0 +1,4 @@
+model_id,baseline_model_id,metric,difference,ci_low,ci_high,probability_challenger_better,bootstrap_repetitions,player_blocks,seed
+vnext_event_logistic,vnext_fold_specific,brier_meaningful,-0.000836550877,-0.001599478914,-0.000146352667,0.990000000000,1000,1440,3011
+vnext_event_logistic,vnext_fold_specific,absolute_error_games,-0.011357479288,-0.021281207229,-0.002519819551,0.996000000000,1000,1440,3011
+vnext_event_logistic,vnext_fold_specific,absolute_error_total_points,-0.715742215881,-1.371238983368,-0.110069750670,0.988000000000,1000,1440,3011
