@@ -5,6 +5,7 @@ on:
     branches: [vnext]
     paths:
       - "scripts/scrape_draftguru_lists.py"
+      - "scripts/match_draftguru_lists.py"
       - ".github/workflows/draftguru-data-acquisition.yml"
   workflow_dispatch:
 
@@ -22,8 +23,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install scraper dependencies
-        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+      - name: Install scraper and matcher dependencies
+        run: >-
+          python -m pip install --disable-pip-version-check
+          requests beautifulsoup4 rapidfuzz python-dateutil
 
       - name: Scrape DraftGuru annual lists
         run: >-
@@ -31,6 +34,13 @@ jobs:
           --years 2018-2024
           --out build/draftguru
           --delay 0.50
+
+      - name: Match DraftGuru people to repository keys
+        run: >-
+          python scripts/match_draftguru_lists.py
+          --draftguru build/draftguru/draftguru_eligibility_2018_2024.csv
+          --database engine/rl_after/rl_model_data.json
+          --out build/draftguru
 
       - name: Validate expected outputs
         run: |
@@ -40,17 +50,21 @@ jobs:
 
           root = Path("build/draftguru")
           manifest = json.loads((root / "manifest.json").read_text())
+          match_summary = json.loads((root / "match_summary.json").read_text())
           assert manifest["years"] == list(range(2018, 2025)), manifest
           assert manifest["club_pages"] == 126, manifest
           assert manifest["player_season_rows"] > 4_000, manifest
+          assert match_summary["draftguru_unique_people"] > 1_000, match_summary
+          assert match_summary["automatic_matches"] > 900, match_summary
           with (root / "draftguru_eligibility_2018_2024.csv").open(newline="", encoding="utf-8") as fh:
               rows = list(csv.DictReader(fh))
           assert len(rows) == manifest["player_season_rows"]
           assert all(row["source_url"].startswith("https://www.draftguru.com.au/lists/") for row in rows)
           print(json.dumps(manifest, indent=2, sort_keys=True))
+          print(json.dumps(match_summary, indent=2, sort_keys=True))
           PY
 
-      - name: Upload extracted data and source cache
+      - name: Upload extracted data, matching reports and source cache
         uses: actions/upload-artifact@v4
         with:
           name: draftguru-lists-2018-2024
