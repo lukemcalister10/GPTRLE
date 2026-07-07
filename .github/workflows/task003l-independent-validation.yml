@@ -4,6 +4,13 @@ on:
   pull_request:
     branches:
       - agent/task003k-event-logistic
+    paths:
+      - ".github/workflows/task003l-independent-validation.yml"
+      - "vnext/validate_task003l_independent.py"
+      - "vnext/run_task003k_folds.py"
+      - "vnext/run_historical_folds.py"
+      - "vnext/tests/test_task003l_independent_validation.py"
+      - "reports/task-003k-event-logistic/**"
   workflow_dispatch:
 
 jobs:
@@ -84,7 +91,6 @@ jobs:
           name: task-003l-independent-validation
           path: validation/task-003l-independent-validation/
           if-no-files-found: error
-
 
       - name: Report final TASK-003L verdict
         if: always()
