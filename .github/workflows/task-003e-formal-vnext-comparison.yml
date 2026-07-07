@@ -1,0 +1,224 @@
+name: TASK-003E formal vNext comparison
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "vnext/**"
+      - "data/historical/**"
+      - "engine/rl_after/rl_model_data.json"
+      - "artifacts/legacy_manifest.json"
+      - ".github/workflows/task-003e-formal-vnext-comparison.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  formal-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+
+      - name: Install vNext dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+
+      - name: Verify frozen legacy manifest
+        run: python scripts/verify_legacy_manifest.py
+
+      - name: Build locked historical cohorts
+        run: python vnext/build_historical_cohorts.py --out build/task-003e/cohorts
+
+      - name: Train and predict all legal vNext folds
+        run: >-
+          python vnext/run_historical_folds.py
+          --cohort-dir build/task-003e/cohorts
+          --out build/task-003e/vnext
+          --rebuild
+
+      - name: Run formal baseline versus vNext comparison
+        run: >-
+          python vnext/run_comparison.py
+          --out build/task-003e/comparison
+          --vnext-predictions build/task-003e/vnext/vnext_predictions.csv
+          --bootstrap-repetitions 2000
+
+      - name: Validate evidence and write decision summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          root = Path("build/task-003e")
+          fold_manifest = json.loads((root / "vnext/prediction_manifest.json").read_text())
+          comparison_manifest = json.loads((root / "comparison/manifest.json").read_text())
+          summary = pd.read_csv(root / "comparison/metrics_summary.csv").set_index("model_id")
+          by_lead = pd.read_csv(root / "comparison/metrics_by_lead.csv")
+          bootstrap = pd.read_csv(root / "comparison/player_block_bootstrap.csv")
+          slices = pd.read_csv(root / "comparison/slice_metrics.csv")
+
+          assert fold_manifest["prediction_rows"] == 20094
+          assert fold_manifest["target_failure_rows"] == 0
+          assert comparison_manifest["expected_rows_per_model"] == 20094
+          assert comparison_manifest["models"] == [
+              "baseline_recent_scoring",
+              "vnext_fold_specific",
+          ]
+          assert comparison_manifest["formal_legacy_included"] is False
+          assert comparison_manifest["diagnostic_legacy_proxy_allowed"] is False
+          assert set(summary.index) == {
+              "baseline_recent_scoring",
+              "vnext_fold_specific",
+          }
+          assert len(bootstrap) > 0
+          assert len(slices) > 0
+
+          baseline = summary.loc["baseline_recent_scoring"]
+          vnext = summary.loc["vnext_fold_specific"]
+          primary = {
+              "brier_meaningful": "meaningful-season Brier",
+              "mae_games": "games MAE",
+              "mae_total_points": "total-points MAE",
+              "pinball_points_q50": "median-points pinball",
+              "pinball_points_q90": "q90-points pinball",
+          }
+          improvements = {}
+          for column, label in primary.items():
+              assert vnext[column] < baseline[column], (column, baseline[column], vnext[column])
+              improvements[column] = {
+                  "label": label,
+                  "baseline": float(baseline[column]),
+                  "vnext": float(vnext[column]),
+                  "relative_improvement_pct": float(
+                      100.0 * (baseline[column] - vnext[column]) / baseline[column]
+                  ),
+              }
+
+          lead_points = by_lead.pivot(index="lead", columns="model_id", values="mae_total_points")
+          lead_improvements = {
+              str(int(lead)): float(
+                  100.0
+                  * (
+                      row["baseline_recent_scoring"]
+                      - row["vnext_fold_specific"]
+                  )
+                  / row["baseline_recent_scoring"]
+              )
+              for lead, row in lead_points.iterrows()
+          }
+          assert all(value > 0 for value in lead_improvements.values())
+
+          primary_bootstrap = bootstrap[
+              bootstrap["metric"].isin(
+                  [
+                      "brier_meaningful",
+                      "absolute_error_games",
+                      "absolute_error_total_points",
+                      "pinball_points_q50",
+                      "pinball_points_q90",
+                  ]
+              )
+          ]
+          assert len(primary_bootstrap) == 5
+          assert (primary_bootstrap["ci_high"] < 0).all()
+
+          regressions = slices[
+              slices["model_id"] == "vnext_fold_specific"
+          ].merge(
+              slices[slices["model_id"] == "baseline_recent_scoring"],
+              on=["lead", "slice_type", "slice_value"],
+              suffixes=("_vnext", "_baseline"),
+              validate="one_to_one",
+          )
+          regressions["points_mae_change_pct"] = 100.0 * (
+              regressions["mae_total_points_vnext"]
+              - regressions["mae_total_points_baseline"]
+          ) / regressions["mae_total_points_baseline"]
+          material_regressions = regressions[
+              regressions["points_mae_change_pct"] > 3.0
+          ].sort_values("points_mae_change_pct", ascending=False)
+          assert len(material_regressions) > 0
+
+          decision = {
+              "task": "TASK-003E-FORMAL-VNEXT-COMPARISON",
+              "rows_per_model": 20094,
+              "models": comparison_manifest["models"],
+              "formal_legacy_included": False,
+              "primary_metric_improvements": improvements,
+              "total_points_mae_improvement_by_lead_pct": lead_improvements,
+              "primary_bootstrap_intervals_all_favour_vnext": True,
+              "material_slice_regression_count": int(len(material_regressions)),
+              "decision": "continue_vnext_development_do_not_replace_production_yet",
+              "reason": (
+                  "vNext materially and significantly beats the baseline on pooled "
+                  "primary metrics and every lead, but material subgroup regressions "
+                  "remain and a leakage-safe formal legacy head-to-head is unavailable."
+              ),
+              "vnext_prediction_sha256": fold_manifest["output_hashes"][
+                  "vnext_predictions.csv"
+              ],
+              "comparison_artifact_hashes": comparison_manifest["artifacts"],
+          }
+          (root / "formal_decision.json").write_text(
+              json.dumps(decision, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+
+          lines = [
+              "# TASK-003E formal comparison decision",
+              "",
+              "## Decision",
+              "",
+              "**Continue vNext development; do not replace production yet.**",
+              "",
+              decision["reason"],
+              "",
+              "## Primary pooled improvements",
+              "",
+          ]
+          for item in improvements.values():
+              lines.append(
+                  f"- {item['label']}: {item['relative_improvement_pct']:.1f}% better"
+              )
+          lines.extend(["", "## Total-points MAE by lead", ""])
+          for lead, improvement in lead_improvements.items():
+              lines.append(f"- lead {lead}: {improvement:.1f}% better")
+          lines.extend(
+              [
+                  "",
+                  "## Guardrails",
+                  "",
+                  "- All five primary player-block bootstrap intervals favour vNext.",
+                  f"- {len(material_regressions)} slice/lead combinations are more than 3% worse on total-points MAE and require investigation.",
+                  "- No formal frozen-legacy comparison is claimed.",
+                  "",
+              ]
+          )
+          (root / "formal_decision.md").write_text(
+              "\n".join(lines),
+              encoding="utf-8",
+          )
+          print(json.dumps(decision, indent=2, sort_keys=True))
+          PY
+
+      - name: Verify repository guardrails
+        run: |
+          python scripts/verify_legacy_manifest.py
+          cd vnext && pytest -q
+          cd .. && python scripts/generate_handover.py --check
+
+      - name: Upload complete formal evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003e-formal-vnext-comparison
+          path: build/task-003e
+          if-no-files-found: error
+          retention-days: 90
