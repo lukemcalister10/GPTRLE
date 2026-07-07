@@ -1,0 +1,68 @@
+name: TASK-003O age-30 lead-5 adjudication
+
+on:
+  pull_request:
+    branches: [agent/task003k-event-logistic]
+    paths:
+      - "vnext/analyse_task003o_age30_lead5.py"
+      - "vnext/run_task003k_folds.py"
+      - "vnext/model_artifacts*.py"
+      - "vnext/build_historical_cohorts.py"
+      - "vnext/run_historical_folds.py"
+      - "vnext/tests/**"
+      - "reports/task-003o-age30-lead5/**"
+      - ".github/workflows/task-003o-age30-lead5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  task-003o:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - name: Install vNext dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+      - name: Verify legacy manifest
+        run: python scripts/verify_legacy_manifest.py
+      - name: Build locked cohorts
+        run: python vnext/build_historical_cohorts.py --out build/task-003o-cohorts
+      - name: Generate unchanged-current fold predictions and artifacts
+        run: >-
+          python vnext/run_historical_folds.py
+          --out build/task-003o-current
+          --cohort-dir build/task-003o-cohorts
+      - name: Generate TASK-003K candidate fold predictions and artifacts
+        run: >-
+          python vnext/run_task003k_folds.py
+          --out build/task-003o-candidate
+          --cohort-dir build/task-003o-cohorts
+      - name: Run TASK-003O age-30+ lead-5 analysis
+        run: >-
+          python vnext/analyse_task003o_age30_lead5.py
+          --current build/task-003o-current/vnext_predictions.csv
+          --candidate build/task-003o-candidate/candidate_predictions.csv
+          --annual build/task-003o-current/training_dataset.csv
+          --out build/task-003o-analysis
+          --expected-age30-lead5-n 278
+          --bootstrap-reps 2000
+      - name: Run vNext tests
+        run: cd vnext && pytest -q
+      - name: Upload TASK-003O outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003o-age30-lead5
+          path: |
+            build/task-003o-cohorts
+            build/task-003o-current
+            build/task-003o-candidate
+            build/task-003o-analysis
+          if-no-files-found: error
+          retention-days: 30
