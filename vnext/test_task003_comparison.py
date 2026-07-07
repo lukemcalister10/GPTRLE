@@ -32,21 +32,39 @@ def test_baseline_harness_covers_locked_cohort(tmp_path: Path):
     assert key_report["models"]["baseline_recent_scoring"]["exact_target_key_match"]
 
 
-def test_external_prediction_contract_accepts_exact_clone_and_rejects_missing_key(tmp_path: Path):
+def test_external_prediction_contract_accepts_fold_specific_id(tmp_path: Path):
     run_comparison(tmp_path / "base")
     baseline = pd.read_csv(tmp_path / "base" / "baseline_predictions.csv")
     targets = pd.read_csv(tmp_path / "base" / "cohorts" / "targets.csv")
     external_path = tmp_path / "vnext_predictions.csv"
-    baseline.drop(columns=["model_id"]).to_csv(external_path, index=False)
+    external_source = baseline.copy()
+    external_source["model_id"] = "vnext_fold_specific"
+    external_source.to_csv(external_path, index=False)
 
-    external = load_external_predictions(external_path, "vnext_artifact")
-    assert_common_keys_and_targets({"vnext_artifact": external}, targets)
+    external = load_external_predictions(external_path, "vnext_fold_specific")
+    assert_common_keys_and_targets({"vnext_fold_specific": external}, targets)
 
+    manifest = run_comparison(
+        tmp_path / "combined",
+        vnext_predictions=external_path,
+    )
+    assert manifest["models"] == [
+        "baseline_recent_scoring",
+        "vnext_fold_specific",
+    ]
+
+
+def test_external_prediction_contract_rejects_missing_key(tmp_path: Path):
+    run_comparison(tmp_path / "base")
+    baseline = pd.read_csv(tmp_path / "base" / "baseline_predictions.csv")
+    targets = pd.read_csv(tmp_path / "base" / "cohorts" / "targets.csv")
     missing_path = tmp_path / "missing.csv"
-    baseline.drop(columns=["model_id"]).iloc[:-1].to_csv(missing_path, index=False)
-    missing = load_external_predictions(missing_path, "vnext_artifact")
+    missing_source = baseline.iloc[:-1].copy()
+    missing_source["model_id"] = "vnext_fold_specific"
+    missing_source.to_csv(missing_path, index=False)
+    missing = load_external_predictions(missing_path, "vnext_fold_specific")
     with pytest.raises(AssertionError, match="prediction keys differ"):
-        assert_common_keys_and_targets({"vnext_artifact": missing}, targets)
+        assert_common_keys_and_targets({"vnext_fold_specific": missing}, targets)
 
 
 def test_wrong_quantile_name_is_rejected(tmp_path: Path):
@@ -56,4 +74,4 @@ def test_wrong_quantile_name_is_rejected(tmp_path: Path):
     path = tmp_path / "bad.csv"
     bad.to_csv(path, index=False)
     with pytest.raises(ValueError, match="missing columns"):
-        load_external_predictions(path, "vnext_artifact")
+        load_external_predictions(path, "vnext_fold_specific")
