@@ -1,0 +1,12 @@
+{
+  "task": "TASK-003N-current-board-impact-review",
+  "issue": 21,
+  "status": "blocked_before_candidate_comparison",
+  "reason": "The private GitHub repository state and TASK-003K PR #19 candidate artifacts could not be fetched in this environment because no GitHub credentials or gh CLI were available.",
+  "verified_local_authoritative_universe_rows": 804,
+  "diagnostic_script": "vnext/review_task003n_current_board.py",
+  "no_model_fitting_performed": true,
+  "current_board_used_for_tuning": false,
+  "required_command_when_candidate_artifacts_are_available": "PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts <TASK-003K_ARTIFACT_DIR> --candidate-module <TASK-003K_MODULE> --out reports/task-003n-current-board-impact",
+  "smoke_test_command": "PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts artifacts/vnext/progress_05 --candidate-module model_artifacts --out /tmp/task003n-smoke"
+}
