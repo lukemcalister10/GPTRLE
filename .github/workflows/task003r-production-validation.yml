@@ -34,14 +34,22 @@ jobs:
       - name: Train TASK-003Q production artifacts
         run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task003r/annual_rows.csv --out build/task003r/task003q --module model_artifacts_task003q --target-cutoff 2025
       - name: Generate current and TASK-003Q boards
-        run: PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task003r/current --candidate-artifacts build/task003r/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task003r/review
+        id: boards
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p build/task003r
+          PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task003r/current --candidate-artifacts build/task003r/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task003r/review 2>&1 | tee build/task003r/board.log
       - name: Validate production output and build Claude handoff
+        id: validate
+        if: steps.boards.outcome == 'success'
         run: PYTHONPATH=vnext python vnext/validate_task003r_production.py --review-dir build/task003r/review --out build/task003r/claude-handoff
       - name: Run vNext tests
         if: always()
         run: cd vnext && pytest -q
       - name: Package handoff
-        if: always()
+        if: steps.validate.outcome == 'success'
         run: cd build/task003r && zip -r claude-task003q-handoff.zip claude-handoff
       - name: Upload production evidence
         if: always()
@@ -49,9 +57,15 @@ jobs:
         with:
           name: task003r-production-validation
           path: |
+            build/task003r/board.log
             build/task003r/review
             build/task003r/claude-handoff
             build/task003r/claude-task003q-handoff.zip
             build/task003r/current/manifest.json
             build/task003r/task003q/manifest.json
-          if-no-files-found: error
+          if-no-files-found: warn
+      - name: Final verdict
+        if: always()
+        run: |
+          test "${{ steps.boards.outcome }}" = success
+          test "${{ steps.validate.outcome }}" = success
