@@ -69,7 +69,8 @@ jobs:
           assert match_summary["draftguru_unique_people"] == 1465, match_summary
           assert final["matched_draftguru_people"] == 1440, final
           assert final["excluded_draftguru_people"] == 25, final
-          assert final["manual_matches"] == 79, final
+          assert final["manual_decision_rows"] == 112, final
+          assert final["manual_matches"] == 87, final
           assert final["manual_exclusions"] == 25, final
           assert final["matrix_rows"] == final["database_unique_keys"] * 7, final
           with (root / "historical_eligibility_2018_2024.csv").open(newline="", encoding="utf-8") as fh:
