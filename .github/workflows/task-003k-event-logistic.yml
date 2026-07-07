@@ -1,0 +1,68 @@
+name: TASK-003K event logistic experiment
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "vnext/model_artifacts_event_logistic.py"
+      - "vnext/run_task003k_folds.py"
+      - "vnext/run_task003k_comparison.py"
+      - "vnext/tests/test_task003k_event_logistic.py"
+      - "vnext/tests/test_task003k_comparison.py"
+      - "docs/current/TASK-003K-EVENT-LOGISTIC-EXPERIMENT.md"
+      - ".github/workflows/task-003k-event-logistic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+      - run: python scripts/verify_legacy_manifest.py
+      - name: Build locked cohorts
+        run: python vnext/build_historical_cohorts.py --out build/task-003k-cohorts
+      - name: Run unchanged current vNext
+        run: >-
+          python vnext/run_historical_folds.py
+          --out build/task-003k-current
+          --cohort-dir build/task-003k-cohorts
+      - name: Run event-logistic candidate
+        run: >-
+          python vnext/run_task003k_folds.py
+          --out build/task-003k-candidate
+          --cohort-dir build/task-003k-cohorts
+      - name: Compare candidate with current vNext
+        run: >-
+          python vnext/run_task003k_comparison.py
+          --current-predictions build/task-003k-current/vnext_predictions.csv
+          --candidate-predictions build/task-003k-candidate/vnext_predictions.csv
+          --current-folds build/task-003k-current
+          --candidate-folds build/task-003k-candidate
+          --cohort-dir build/task-003k-cohorts
+          --out build/task-003k-comparison
+          --bootstrap-repetitions 1000
+      - name: Run focused tests
+        run: >-
+          cd vnext && python -m pytest -q
+          tests/test_task003k_event_logistic.py
+          tests/test_task003k_comparison.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task-003k-event-logistic
+          path: |
+            build/task-003k-comparison
+            build/task-003k-current/prediction_manifest.json
+            build/task-003k-candidate/prediction_manifest.json
+            build/task-003k-candidate/fold_artifact_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
