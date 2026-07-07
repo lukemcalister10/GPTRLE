@@ -1,0 +1,99 @@
+name: TASK-003L independent validation
+
+on:
+  pull_request:
+    branches:
+      - agent/task003k-event-logistic
+  workflow_dispatch:
+
+jobs:
+  validate-task003l:
+    name: Independent validation of TASK-003K
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out TASK-003K candidate stack
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+
+      - name: Check out unchanged vNext current engine
+        uses: actions/checkout@v4
+        with:
+          ref: vnext
+          path: current-vnext
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: candidate/requirements-vnext.txt
+
+      - name: Install dependencies
+        run: python -m pip install -r candidate/requirements-vnext.txt
+
+      - name: Build locked historical cohorts
+        working-directory: candidate
+        run: python vnext/build_historical_cohorts.py --out ../validation/cohorts
+
+      - name: Generate unchanged current-vNext 25-fold predictions and artifacts
+        working-directory: current-vnext
+        run: >-
+          python vnext/run_historical_folds.py
+          --cohort-dir ../validation/cohorts
+          --out ../validation/current-vnext-folds
+          --rebuild
+
+      - name: Generate TASK-003K candidate 25-fold predictions and artifacts
+        working-directory: candidate
+        run: >-
+          python vnext/run_task003k_folds.py
+          --cohort-dir ../validation/cohorts
+          --out ../validation/task003k-candidate-folds
+          --rebuild
+
+      - name: Run TASK-003L independent validation
+        id: validate
+        continue-on-error: true
+        working-directory: candidate
+        run: >-
+          python vnext/validate_task003l_independent.py
+          --out ../validation/task-003l-independent-validation
+          --cohort-dir ../validation/cohorts
+          --current-run-dir ../validation/current-vnext-folds
+          --current-predictions ../validation/current-vnext-folds/vnext_predictions.csv
+          --candidate-run-dir ../validation/task003k-candidate-folds
+          --candidate-predictions ../validation/task003k-candidate-folds/vnext_predictions.csv
+          --evidence-dir reports/task-003k-event-logistic
+          --bootstrap-repetitions 1000
+          --tolerance 1e-9
+          --require-complete
+
+      - name: Run vNext tests
+        id: pytest
+        continue-on-error: true
+        working-directory: candidate/vnext
+        run: pytest -q
+
+      - name: Upload TASK-003L validation outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003l-independent-validation
+          path: validation/task-003l-independent-validation/
+          if-no-files-found: error
+
+
+      - name: Report final TASK-003L verdict
+        if: always()
+        run: |
+          if [[ "${{ steps.validate.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
+            echo "independent validation passed"
+          else
+            echo "independent validation failed"
+            echo "validator outcome: ${{ steps.validate.outcome }}"
+            echo "pytest outcome: ${{ steps.pytest.outcome }}"
+            exit 1
+          fi
