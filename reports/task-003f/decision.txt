@@ -1,0 +1,1 @@
+Continue vNext development. Investigate general opportunity shrinkage and zero-inflated zero-history behaviour one hypothesis at a time. Do not change production yet.
