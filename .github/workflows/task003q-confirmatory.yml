@@ -1,0 +1,59 @@
+name: TASK-003Q confirmatory hybrid
+
+on:
+  pull_request:
+    branches:
+      - agent/task003k-event-logistic
+    paths:
+      - ".github/workflows/task003q-confirmatory.yml"
+      - "vnext/task003q_hybrid.py"
+      - "vnext/run_task003q_confirmatory.py"
+      - "vnext/tests/test_task003q_hybrid.py"
+      - "vnext/run_task003k_folds.py"
+      - "vnext/run_historical_folds.py"
+      - "reports/task-003q-confirmatory/**"
+  workflow_dispatch:
+
+jobs:
+  confirm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out candidate stack
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+      - name: Check out unchanged vNext
+        uses: actions/checkout@v4
+        with:
+          ref: vnext
+          path: current-vnext
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: candidate/requirements-vnext.txt
+      - name: Install dependencies
+        run: python -m pip install -r candidate/requirements-vnext.txt
+      - name: Build locked cohorts
+        working-directory: candidate
+        run: python vnext/build_historical_cohorts.py --out ../q/cohorts
+      - name: Generate current predictions
+        working-directory: current-vnext
+        run: python vnext/run_historical_folds.py --cohort-dir ../q/cohorts --out ../q/current --rebuild
+      - name: Generate TASK-003K predictions
+        working-directory: candidate
+        run: python vnext/run_task003k_folds.py --cohort-dir ../q/cohorts --out ../q/candidate --rebuild
+      - name: Run frozen TASK-003Q confirmation
+        working-directory: candidate
+        run: python vnext/run_task003q_confirmatory.py --root ../q --out ../q/results
+      - name: Run vNext tests
+        working-directory: candidate/vnext
+        run: pytest -q
+      - name: Upload TASK-003Q evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003q-confirmatory
+          path: q/results/
+          if-no-files-found: error

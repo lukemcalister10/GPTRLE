@@ -1,0 +1,17 @@
+{
+  "artifact_id": 8138196865,
+  "artifact_sha256": "a460f0e519a8b8f1c3754ebbad7538b61778c099353f5e3bee739bd20a5c890d",
+  "bootstrap_repetitions": 1000,
+  "bootstrap_seed": 3011,
+  "current_board_review": "pending",
+  "folds": 25,
+  "head_sha": "36107079b2768517fbe5cf9a080664b1b6b710a7",
+  "independent_validation": "pending",
+  "production_changed": false,
+  "rows_per_model": 20094,
+  "single_change_verified": true,
+  "state": "promising_experiment_pending_review",
+  "task": "TASK-003K-event-logistic",
+  "validation_protocol_changed": false,
+  "workflow_run_id": 28867189390
+}
