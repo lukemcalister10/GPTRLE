@@ -92,3 +92,52 @@ def build_locked_cohorts(out_dir: Path = DEFAULT_OUT) -> dict[str, Any]:
         .sort_values(["origin_year", "lead", "reason"])
         .reset_index(drop=True)
     )
+
+    frames = {
+        "fold_plan": cohorts["fold_plan"].sort_values(["origin_year", "lead"]).reset_index(drop=True),
+        "included_snapshots": included.sort_values(["origin_year", "player_key"]).reset_index(drop=True),
+        "cohort_membership": membership.sort_values(PREDICTION_KEY).reset_index(drop=True),
+        "targets": cohorts["targets"].sort_values(PREDICTION_KEY).reset_index(drop=True),
+        "excluded": excluded.sort_values(["origin_year", "lead", "player_key"]).reset_index(drop=True),
+        "target_failures": cohorts["target_failures"].sort_values(["origin_year", "lead", "player_key"]).reset_index(drop=True),
+        "cohort_counts": counts,
+        "exclusion_counts": exclusion_counts,
+        "identity_exclusions": resolver.identity_exclusions.sort_values(["season", "player_name"]).reset_index(drop=True),
+    }
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    artifacts = {}
+    for name, frame in frames.items():
+        artifacts[f"{name}.csv"] = write_csv(out_dir / f"{name}.csv", frame)
+
+    manifest = {
+        "task": "TASK-003A-HISTORICAL-ELIGIBILITY-COHORTS",
+        "folds": LOCKED_FOLDS,
+        "eligibility_source": "DraftGuru reviewed annual AFL club lists",
+        "eligibility_matrix_sha256": resolver.matrix_sha256,
+        "player_data_sha256": hashlib.sha256(PLAYER_DATA.read_bytes()).hexdigest(),
+        "database_unique_keys": int(len(player_keys)),
+        "included_snapshot_rows": int(len(included)),
+        "target_rows": int(len(cohorts["targets"])),
+        "excluded_rows": int(len(excluded)),
+        "target_failure_rows": int(len(cohorts["target_failures"])),
+        "identity_exclusion_rows": int(len(resolver.identity_exclusions)),
+        "reproduction_command": "python vnext/build_historical_cohorts.py --out build/task-003-cohorts",
+        "artifacts": artifacts,
+    }
+    manifest_path = out_dir / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return manifest
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    args = parser.parse_args()
+    manifest = build_locked_cohorts(args.out)
+    print(json.dumps(manifest, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
