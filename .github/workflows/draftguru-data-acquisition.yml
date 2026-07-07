@@ -7,6 +7,9 @@ on:
       - "scripts/scrape_draftguru_lists.py"
       - "scripts/match_draftguru_lists.py"
       - "scripts/finalize_draftguru_eligibility.py"
+      - "scripts/materialize_draftguru_historical.py"
+      - "vnext/test_draftguru_historical_data.py"
+      - "data/historical/README.md"
       - "data/historical/draftguru_manual_decisions_2018_2024.csv"
       - ".github/workflows/draftguru-data-acquisition.yml"
   workflow_dispatch:
