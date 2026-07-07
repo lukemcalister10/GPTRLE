@@ -25,6 +25,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-vnext.txt
 
       - name: Install vNext dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
@@ -130,7 +131,7 @@ jobs:
           assert (primary_bootstrap["ci_high"] < 0).all()
 
           regressions = slices[
-              (slices["model_id"] == "vnext_fold_specific")
+              slices["model_id"] == "vnext_fold_specific"
           ].merge(
               slices[slices["model_id"] == "baseline_recent_scoring"],
               on=["lead", "slice_type", "slice_value"],
