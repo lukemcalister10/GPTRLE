@@ -55,6 +55,8 @@ def test_locked_cohort_artifacts_are_complete_and_deterministic(tmp_path: Path):
     assert first["database_unique_keys"] == 2652
     assert first["target_failure_rows"] == 0
     assert first["identity_exclusion_rows"] == 76
+    assert first["entry_correction_rows"] == 1
+    assert first["included_snapshot_rows"] == 5622
 
     resolver = DraftGuruEligibilityResolver()
     evidence = resolver.evidence_frame()
@@ -68,6 +70,9 @@ def test_locked_cohort_artifacts_are_complete_and_deterministic(tmp_path: Path):
 
     manifest = json.loads((tmp_path / "first" / "manifest.json").read_text())
     assert manifest == json.loads(json.dumps(first))
+    corrections = (tmp_path / "first" / "entry_corrections.csv").read_text()
+    assert "hugo-hall-kahan" in corrections
+    assert "verified_list_presence_precedes_repository_entry" in corrections
     assert set(first["artifacts"]) == {
         "fold_plan.csv",
         "included_snapshots.csv",
@@ -78,4 +83,5 @@ def test_locked_cohort_artifacts_are_complete_and_deterministic(tmp_path: Path):
         "cohort_counts.csv",
         "exclusion_counts.csv",
         "identity_exclusions.csv",
+        "entry_corrections.csv",
     }
