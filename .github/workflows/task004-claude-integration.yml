@@ -51,7 +51,7 @@ jobs:
       - name: Train TASK-003Q artifacts
         run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task004/annual_rows.csv --out build/task004/task003q --module model_artifacts_task003q --target-cutoff 2025
       - name: Generate validated annual forecasts
-        run: PYTHONPATH=vnext python vnext/review_task003n_current_board.py --registry build/task004/registry/authoritative_universe.csv --current-artifacts build/task004/current --candidate-artifacts build/task004/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task004/forecast-review
+        run: PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task004/current --candidate-artifacts build/task004/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task004/forecast-review
       - name: Generate three-board comparison
         run: >-
           PYTHONPATH=vnext python vnext/task004_claude_adapter.py
