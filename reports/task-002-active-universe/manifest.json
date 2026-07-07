@@ -1,0 +1,19 @@
+{
+  "authoritative_rows": 804,
+  "legacy_only_rows": 1,
+  "matched_rows": 804,
+  "previous_vnext_wrongly_excluded_rows": 53,
+  "reports": {
+    "affl_ownership_comparison_unavailable.csv": "339377332056821708c78f6713f38e5fba25a116c4069e8c7f43ee927176b754",
+    "ambiguous_matches.csv": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "authoritative_universe.csv": "6f0fa73ed180154e795ec6332944073de8e80498b799544032081f1a2b53a2b8",
+    "duplicate_name_cases.csv": "b8bb034f9b63bd0254fbc7c157cae746c75853f4643d6cea844dc48ddb57f522",
+    "eligibility_disagreements.csv": "30590423cbd3cec7c3993b38f335df8f6c73a734fb922f9006716d4729773e98",
+    "invalid_or_missing_fields.csv": "80dee6884eb2a98e39f19a9b469cf5da5d1223c72d6a38a110234b28a4b834e3",
+    "legacy_only_players.csv": "40ebdf7539af4019e8b8396aa04bcc216e83e74fb8c107e0c720f07a27c3f1a7",
+    "matched_players.csv": "6f0fa73ed180154e795ec6332944073de8e80498b799544032081f1a2b53a2b8",
+    "missing_identity_evidence.csv": "5eb2cf7b192467df7485102e228f05b68240071d031f194e66960b23798b739b",
+    "players_wrongly_excluded_by_current_scoring_or_recent_play_logic.csv": "803cef4de73201092a6c571346e0cd9f5cea36ecbdf19d8032d0076611e3c531",
+    "unmatched_authoritative_players.csv": "dc760836b31d8dbdab05d875c2ea3b441d5adc866bd7d2157e25f5d475f5c126"
+  }
+}

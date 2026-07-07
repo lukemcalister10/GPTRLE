@@ -6,7 +6,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 - Production: frozen legacy engine under `engine/rl_after/`.
 - Challenger: vNext progress 05 under `vnext/`.
 - Active roadmap phase: Phase 0 repository transition.
-- Active task: [`TASK-001-BOOTSTRAP.md`](../tasks/TASK-001-BOOTSTRAP.md).
+- Active task: [`TASK-003-LEGACY-BENCHMARK.md`](../tasks/TASK-003-LEGACY-BENCHMARK.md).
 - Accepted decisions recorded: 9.
 
 ## Current vNext artifact
@@ -21,7 +21,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 3. `docs/current/ROADMAP_TO_PRODUCTION.md`
 4. `docs/current/VALIDATION_PROTOCOL.md`
 5. `docs/current/MODEL_SPEC_VNEXT.md`
-6. `docs/tasks/TASK-001-BOOTSTRAP.md`
+6. `docs/tasks/TASK-003-LEGACY-BENCHMARK.md`
 
 ## Immediate next milestone
 Complete TASK-001 without changing the legacy engine or model outputs. Then activate TASK-002 to reconcile the authoritative player universe, followed by TASK-003 for the fair legacy-vNext benchmark.
