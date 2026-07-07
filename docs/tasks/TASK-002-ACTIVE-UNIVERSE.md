@@ -16,14 +16,14 @@ Use Luke's 2026 current-season player source as the authoritative current univer
 - Authoritative current fields: current-universe inclusion, AFFL team, and positional eligibility only
 - Valid exported eligibility values: `K-DEF`, `G-DEF`, `K-FWD`, `G-FWD`, `RUCK`, `MID`
 
-The source contained known eligibility aliases (`RUC`, `SD`, `SF`) that are normalised in the vNext contract to approved codes (`RUCK`, `G-DEF`, `G-FWD`). The raw aliases are still reported in `reports/task-002-active-universe/invalid_or_missing_fields.csv` for auditability.
+The source contained known eligibility aliases (`RUC`, `SD`, `SF`) that are normalised in the vNext contract to approved codes (`RUCK`, `G-DEF`, `G-FWD`). Legacy eligibility aliases are also normalised (`GEN_DEF` -> `G-DEF`, `GEN_FWD` -> `G-FWD`, `KEY_DEF` -> `K-DEF`, `KEY_FWD` -> `K-FWD`, `RUC`/`RUCK` -> `RUCK`, `MID` -> `MID`). The raw current-source aliases are still reported in `reports/task-002-active-universe/invalid_or_missing_fields.csv` for auditability.
 
 ## Implementation
 - Reconciliation code: `vnext/active_universe.py`
 - Tests: `vnext/test_active_universe.py`
 - Report directory: `reports/task-002-active-universe/`
 
-The reconciliation joins authoritative player rows to stable legacy board IDs by using normalised names only as candidate matching evidence. Persisted matched IDs are the stable legacy keys (for example, `nick-daicos`) and are never display-name-only IDs.
+The reconciliation uses normalised names only to find candidate matches. Persisted identifiers are `stable_player_id` values, generated as `afl-player-v1-` plus the first 20 hex characters of a SHA-256 hash over canonical JSON identity evidence. The evidence fields are `legacy_key`, `draft_year`, `draft_type`, `draft_pick`, `birth_year`, and `birth_date`; the legacy slug remains available separately as `legacy_key` for legacy/historical joins. Display name is deliberately excluded from the hash. Missing identity evidence is reported in `missing_identity_evidence.csv`.
 
 ## Final reconciliation
 | Source / predicate | Count | Notes |
@@ -61,20 +61,26 @@ These reasons are diagnostics only. They must not exclude a player from the auth
 - `legacy_only_players.csv`
 - `ambiguous_matches.csv`
 - `duplicate_name_cases.csv`
-- `affl_team_disagreements.csv`
+- `affl_ownership_comparison_unavailable.csv`
 - `eligibility_disagreements.csv`
+- `missing_identity_evidence.csv`
 - `invalid_or_missing_fields.csv`
 - `players_wrongly_excluded_by_current_scoring_or_recent_play_logic.csv`
 - `manifest.json`
 
+## AFFL ownership versus AFL club
+`AFFL Team` is fantasy-league ownership. The legacy `club` field is a real AFL club and is retained only as `legacy_afl_club` informational data. Because no earlier AFFL ownership field exists in the checked-in sources, the AFFL ownership comparison report is intentionally empty/unavailable rather than comparing unlike fields.
+
 ## Determinism
-`vnext/active_universe.py` writes sorted, newline-stable CSV reports plus a SHA-256 manifest. Tests prove repeat exports produce identical hashes.
+`vnext/active_universe.py` writes sorted, newline-stable CSV reports plus a SHA-256 manifest. Tests prove repeat exports produce identical hashes and stable player IDs.
 
 ## Acceptance criteria
 - [x] Exactly 804 authoritative player rows.
 - [x] All authoritative rows accounted for.
 - [x] No duplicate stable IDs.
 - [x] No persisted name-only IDs.
+- [x] Display-name-only changes do not alter `stable_player_id`.
+- [x] Same-name players with different identity facts receive different IDs.
 - [x] Every player has at least one valid eligibility after contract normalisation.
 - [x] Eligibility values are limited to the six approved codes.
 - [x] Multi-position eligibility is preserved.

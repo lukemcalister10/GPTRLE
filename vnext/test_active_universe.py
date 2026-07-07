@@ -4,9 +4,11 @@ import hashlib
 from active_universe import (
     VALID_ELIGIBILITIES,
     build_reconciliation,
+    canonical_legacy_eligibility,
     load_authoritative,
     load_legacy_board,
     load_vnext_previous,
+    stable_player_id,
     write_reports,
 )
 from snapshot import build_snapshot
@@ -31,11 +33,52 @@ def test_authoritative_rows_and_accounting():
 
 def test_stable_ids_are_unique_and_not_name_only():
     m = reports()["matched_players"]
-    assert m.stable_id.notna().all()
-    assert not (m.stable_id == "").any()
-    assert m.stable_id.is_unique
-    assert not (m.stable_id == m.player_name).any()
-    assert m.stable_id.str.contains("-").all()
+    assert m.stable_player_id.notna().all()
+    assert not (m.stable_player_id == "").any()
+    assert m.stable_player_id.is_unique
+    assert not (m.stable_player_id == m.player_name).any()
+    assert not (m.stable_player_id == m.legacy_key).any()
+    assert m.stable_player_id.str.startswith("afl-player-v1-").all()
+
+
+def test_stable_id_ignores_display_name_changes():
+    legacy = {"key": "same-key", "name": "Original Name", "yr": 2024, "ty": "ND", "pk": 7}
+    historical = {"key": "same-key", "player": "Original Name", "_by": 2006, "_bd": "2006-01-02"}
+    renamed_legacy = dict(legacy, name="Changed Name")
+    renamed_historical = dict(historical, player="Changed Name")
+    assert stable_player_id(legacy, historical) == stable_player_id(renamed_legacy, renamed_historical)
+
+
+def test_same_display_name_with_different_identity_facts_gets_different_ids():
+    player_a = {"key": "sam-player-a", "name": "Sam Player", "yr": 2024, "ty": "ND", "pk": 7}
+    player_b = {"key": "sam-player-b", "name": "Sam Player", "yr": 2025, "ty": "RD", "pk": 8}
+    hist_a = {"key": "sam-player-a", "_by": 2006, "_bd": "2006-01-02"}
+    hist_b = {"key": "sam-player-b", "_by": 2007, "_bd": "2007-03-04"}
+    assert stable_player_id(player_a, hist_a) != stable_player_id(player_b, hist_b)
+
+
+def test_repeated_runs_produce_identical_stable_ids():
+    first = reports()["matched_players"][["legacy_key", "stable_player_id"]].sort_values("legacy_key").reset_index(drop=True)
+    second = reports()["matched_players"][["legacy_key", "stable_player_id"]].sort_values("legacy_key").reset_index(drop=True)
+    assert first.equals(second)
+
+
+def test_legacy_eligibility_code_normalisation():
+    assert canonical_legacy_eligibility([["GEN_DEF", 1]]) == ("G-DEF",)
+    assert canonical_legacy_eligibility([["GEN_FWD", 1]]) == ("G-FWD",)
+    assert canonical_legacy_eligibility([["KEY_DEF", 1]]) == ("K-DEF",)
+    assert canonical_legacy_eligibility([["KEY_FWD", 1]]) == ("K-FWD",)
+    assert canonical_legacy_eligibility([["RUC", 1]]) == ("RUCK",)
+    assert canonical_legacy_eligibility([["RUCK", 1]]) == ("RUCK",)
+    assert canonical_legacy_eligibility([["MID", 1]]) == ("MID",)
+
+
+def test_affl_ownership_comparison_is_not_against_afl_club():
+    r = reports()
+    assert "affl_ownership_comparison_unavailable" in r
+    assert len(r["affl_ownership_comparison_unavailable"]) == 0
+    assert "affl_team_disagreements" not in r
+    assert "legacy_afl_club" in r["matched_players"].columns
 
 
 def test_eligibilities_are_valid_and_multi_position_preserved():
@@ -81,4 +124,4 @@ def test_taylor_adams_is_sole_legacy_only_difference():
     legacy_only = reports()["legacy_only_players"]
     assert len(legacy_only) == 1
     assert legacy_only.iloc[0].player_name == "Taylor Adams"
-    assert legacy_only.iloc[0].stable_id == "taylor-adams"
+    assert legacy_only.iloc[0].legacy_key == "taylor-adams"

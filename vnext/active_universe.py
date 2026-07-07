@@ -72,9 +72,34 @@ def previous_vnext_inclusion(player: dict[str, Any]) -> tuple[bool, str]:
     return False, "+".join(reasons)
 
 
+def identity_evidence(legacy_player: dict[str, Any], historical_player: dict[str, Any] | None = None) -> dict[str, Any]:
+    historical_player = historical_player or {}
+    fields = {
+        "legacy_key": legacy_player.get("key") or "",
+        "draft_year": legacy_player.get("yr") or historical_player.get("year") or "",
+        "draft_type": legacy_player.get("ty") or historical_player.get("type") or historical_player.get("_draft") or "",
+        "draft_pick": legacy_player.get("pk") or historical_player.get("pick") or "",
+        "birth_year": historical_player.get("_by") or "",
+        "birth_date": historical_player.get("_bd") or "",
+    }
+    return {k: fields[k] for k in sorted(fields)}
+
+
+def stable_player_id(legacy_player: dict[str, Any], historical_player: dict[str, Any] | None = None) -> str:
+    evidence = identity_evidence(legacy_player, historical_player)
+    payload = json.dumps(evidence, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
+    return f"afl-player-v1-{digest}"
+
+
+def missing_identity_evidence(legacy_player: dict[str, Any], historical_player: dict[str, Any] | None = None) -> tuple[str, ...]:
+    evidence = identity_evidence(legacy_player, historical_player)
+    return tuple(k for k, v in evidence.items() if v in (None, ""))
+
+
 def canonical_legacy_eligibility(fut: Any) -> tuple[str, ...]:
     out = []
-    mapping = {"KEY_DEF": "K-DEF", "KEY_FWD": "K-FWD", "RUC": "RUCK", "RUCK": "RUCK", "MID": "MID", "DEF": "G-DEF", "FWD": "G-FWD"}
+    mapping = {"GEN_DEF": "G-DEF", "GEN_FWD": "G-FWD", "KEY_DEF": "K-DEF", "KEY_FWD": "K-FWD", "RUC": "RUCK", "RUCK": "RUCK", "MID": "MID", "DEF": "G-DEF", "FWD": "G-FWD"}
     for item in fut or []:
         raw = item[0] if isinstance(item, (list, tuple)) and item else item
         code = mapping.get(str(raw).upper(), str(raw).upper())
@@ -87,6 +112,7 @@ def build_reconciliation(auth: pd.DataFrame, legacy: list[dict[str, Any]], previ
     legacy_by_name = defaultdict(list)
     for p in legacy:
         legacy_by_name[normalise_name(p["name"])].append(p)
+    historical_by_key = {p.get("key"): p for p in previous if p.get("key")}
     prev_by_name = defaultdict(list)
     prev_included = set()
     prev_reason = {}
@@ -102,20 +128,25 @@ def build_reconciliation(auth: pd.DataFrame, legacy: list[dict[str, Any]], previ
     ambiguous = []
     for _, r in auth.iterrows():
         candidates = legacy_by_name.get(r.name_norm, [])
-        stable_id = candidates[0]["key"] if len(candidates) == 1 else ""
         status = "matched" if len(candidates) == 1 else "unmatched" if not candidates else "ambiguous"
+        candidate = candidates[0] if status == "matched" else None
+        historical_candidate = historical_by_key.get(candidate.get("key")) if candidate else None
+        stable_id = stable_player_id(candidate, historical_candidate) if candidate else ""
+        legacy_key = candidate.get("key", "") if candidate else ""
+        identity = identity_evidence(candidate, historical_candidate) if candidate else {}
         if status == "ambiguous":
             ambiguous.append({"player_name": r["Player Name"], "candidate_keys": ";".join(c["key"] for c in candidates)})
         rows.append({
-            "source_row": r.source_row, "stable_id": stable_id, "player_name": r["Player Name"], "affl_team": r["AFFL Team"],
+            "source_row": r.source_row, "stable_player_id": stable_id, "legacy_key": legacy_key, "player_name": r["Player Name"], "affl_team": r["AFFL Team"],
             "eligibilities": ",".join(r.eligibilities), "match_status": status,
-            "legacy_name": candidates[0]["name"] if candidates else "", "legacy_team": candidates[0].get("club", "") if candidates else "",
-            "legacy_eligibilities": ",".join(canonical_legacy_eligibility(candidates[0].get("fut"))) if candidates else "",
+            "legacy_name": candidate["name"] if candidate else "", "legacy_afl_club": candidate.get("club", "") if candidate else "",
+            "legacy_eligibilities": ",".join(canonical_legacy_eligibility(candidate.get("fut"))) if candidate else "",
+            "identity_evidence_json": json.dumps(identity, sort_keys=True, separators=(",", ":")), "missing_identity_evidence": ",".join(missing_identity_evidence(candidate, historical_candidate)) if candidate else "",
             "previous_vnext_included": r.name_norm in prev_included, "previous_vnext_exclusion_reason": "" if r.name_norm in prev_included else prev_reason.get(r.name_norm, "not_found_in_previous_vnext_source"),
         })
     matched = pd.DataFrame(rows).sort_values(["match_status", "player_name"])
-    matched_ids = set(matched.loc[matched.match_status == "matched", "stable_id"])
-    legacy_only = pd.DataFrame([{"stable_id": p["key"], "player_name": p["name"], "legacy_team": p.get("club", "")} for p in legacy if p["key"] not in matched_ids]).sort_values("player_name")
+    matched_legacy_keys = set(matched.loc[matched.match_status == "matched", "legacy_key"])
+    legacy_only = pd.DataFrame([{"stable_player_id": stable_player_id(p, historical_by_key.get(p.get("key"))), "legacy_key": p["key"], "player_name": p["name"], "legacy_afl_club": p.get("club", ""), "identity_evidence_json": json.dumps(identity_evidence(p, historical_by_key.get(p.get("key"))), sort_keys=True, separators=(",", ":")), "missing_identity_evidence": ",".join(missing_identity_evidence(p, historical_by_key.get(p.get("key"))))} for p in legacy if p["key"] not in matched_legacy_keys]).sort_values("player_name")
     dup_auth = pd.DataFrame([{"name_norm": n, "count": c} for n, c in Counter(auth.name_norm).items() if c > 1])
     dup_legacy = pd.DataFrame([{"name_norm": n, "count": len(v), "keys": ";".join(p["key"] for p in v)} for n, v in legacy_by_name.items() if len(v) > 1])
     invalid = []
@@ -124,10 +155,11 @@ def build_reconciliation(auth: pd.DataFrame, legacy: list[dict[str, Any]], previ
         aliases = [raw for raw, norm in zip(r.raw_eligibilities, r.eligibilities) if raw != norm]
         if not r["Player Name"] or not r["AFFL Team"] or not r.eligibilities or bad or aliases:
             invalid.append({"source_row": r.source_row, "player_name": r["Player Name"], "raw_eligibilities": ",".join(r.raw_eligibilities), "normalised_eligibilities": ",".join(r.eligibilities), "bad_eligibilities_after_normalisation": ",".join(bad), "normalised_aliases": ",".join(aliases), "missing_name": not bool(r["Player Name"]), "missing_affl_team": not bool(r["AFFL Team"]), "missing_eligibility": not bool(r.eligibilities)})
-    team_dis = matched[(matched.match_status == "matched") & (matched.affl_team != matched.legacy_team)].copy()
+    affl_unavailable = pd.DataFrame(columns=["status", "detail"])
     elig_dis = matched[(matched.match_status == "matched") & (matched.eligibilities != matched.legacy_eligibilities)].copy()
+    missing_identity = matched[(matched.match_status == "matched") & (matched.missing_identity_evidence != "")].copy()
     wrongly = matched[(matched.match_status == "matched") & (~matched.previous_vnext_included)].copy()
-    return {"authoritative_universe": matched, "matched_players": matched[matched.match_status == "matched"], "unmatched_authoritative_players": matched[matched.match_status == "unmatched"], "legacy_only_players": legacy_only, "ambiguous_matches": pd.DataFrame(ambiguous), "duplicate_name_cases": pd.concat([dup_auth.assign(source="authoritative"), dup_legacy.assign(source="legacy")], ignore_index=True), "affl_team_disagreements": team_dis, "eligibility_disagreements": elig_dis, "invalid_or_missing_fields": pd.DataFrame(invalid), "players_wrongly_excluded_by_current_scoring_or_recent_play_logic": wrongly}
+    return {"authoritative_universe": matched, "matched_players": matched[matched.match_status == "matched"], "unmatched_authoritative_players": matched[matched.match_status == "unmatched"], "legacy_only_players": legacy_only, "ambiguous_matches": pd.DataFrame(ambiguous), "duplicate_name_cases": pd.concat([dup_auth.assign(source="authoritative"), dup_legacy.assign(source="legacy")], ignore_index=True), "affl_ownership_comparison_unavailable": affl_unavailable, "eligibility_disagreements": elig_dis, "invalid_or_missing_fields": pd.DataFrame(invalid), "missing_identity_evidence": missing_identity, "players_wrongly_excluded_by_current_scoring_or_recent_play_logic": wrongly}
 
 
 def write_reports(reports: dict[str, pd.DataFrame], out: Path) -> dict[str, str]:
