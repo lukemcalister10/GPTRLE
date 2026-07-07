@@ -27,6 +27,12 @@ jobs:
           python -m pip install Unidecode
       - name: Verify frozen legacy files
         run: python scripts/verify_legacy_manifest.py
+      - name: Recreate legacy runtime paths
+        run: |
+          sudo mkdir -p /home/claude/rl_build /home/claude/rl_workspace
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/rl_after" /home/claude/rl_after
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/forward_valuation" /home/claude/rl_workspace/forward_valuation
+          echo '{"active":[]}' | sudo tee /home/claude/rl_build/rl_app_data.json >/dev/null
       - name: Generate unchanged Claude board
         working-directory: engine/rl_after
         shell: bash
