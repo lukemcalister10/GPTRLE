@@ -1,0 +1,59 @@
+name: DraftGuru data acquisition
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "scripts/scrape_draftguru_lists.py"
+      - ".github/workflows/draftguru-data-acquisition.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install scraper dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+
+      - name: Scrape DraftGuru annual lists
+        run: >-
+          python scripts/scrape_draftguru_lists.py
+          --years 2018-2024
+          --out build/draftguru
+          --delay 0.50
+
+      - name: Validate expected outputs
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+
+          root = Path("build/draftguru")
+          manifest = json.loads((root / "manifest.json").read_text())
+          assert manifest["years"] == list(range(2018, 2025)), manifest
+          assert manifest["club_pages"] == 126, manifest
+          assert manifest["player_season_rows"] > 4_000, manifest
+          with (root / "draftguru_eligibility_2018_2024.csv").open(newline="", encoding="utf-8") as fh:
+              rows = list(csv.DictReader(fh))
+          assert len(rows) == manifest["player_season_rows"]
+          assert all(row["source_url"].startswith("https://www.draftguru.com.au/lists/") for row in rows)
+          print(json.dumps(manifest, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload extracted data and source cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: draftguru-lists-2018-2024
+          path: build/draftguru
+          if-no-files-found: error
+          retention-days: 14
