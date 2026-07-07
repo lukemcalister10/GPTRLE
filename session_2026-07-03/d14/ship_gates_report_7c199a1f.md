@@ -1,0 +1,181 @@
+# ship_gates_check report — STATE: PROTOTYPE/UNREGISTERED @ 7c199a1f — NOT AN ENDORSED STATE — head 7c199a1f store 644d1254
+_Three-column rule (Luke, binding D10): every board output reports CONTROL / PREVIOUS / CURRENT with explicit deltas._
+```
+=== STATE: PROTOTYPE/UNREGISTERED @ 7c199a1f — NOT AN ENDORSED STATE ===
+=== SHIP GATES BOARD — head 7c199a1f store 644d1254 — suite 764a0d91 — 2026-07-03 ===
+=== THREE-COLUMN RULE (Luke, binding D10): CONTROL=8aed420a · PREVIOUS=c8051893 · CURRENT=7c199a1f ===
+A1        PASS    | PASS    | PASS     Duursma>Uwland: 4160 vs 1976
+A2        FAIL    | FAIL    | FAIL     Curtis>=0.90xWard: 1358 vs 1488 (Ward=1653, ratio=0.822) [AMENDED 02/07/2026; UNCHANGED at 0.90 by ruling D7 — Luke: "we can look at Curtis down the line"]; Weddle>Ward: 1572 vs 1653
+A3   [DC] FAIL    | FAIL    | FAIL     Connor Rozee: 2026=2917 2025=3992 ratio=0.73 (need >=0.75) [evaluated PRE-LTI-layer — Luke 02/07; AMENDED 0.80->0.75 Luke D7 data-caused (out for 2026), knife-edge by design]
+          triage: [DC] gate — attribute ENGINE- vs DATA-caused BEFORE this blocks (SHIP_GATES PROCESS)
+A4        PASS    | PASS    | PASS     Harley Reid board rank=29 ev=3565 (need TOP 40)
+A5        FAIL    | PASS    | PASS     Jack Ginnivan=1799 (floor 1600); Jake Bowey=2969 (floor 2100); Nick Blakey=3287 (floor 2600) [SCAR floors — RE-BASE if PVC re-levels]  <- MOVED
+A6        PASS    | PASS    | PASS     yr1-3 RUC median=446 (n=13, pooled — thin slice) vs pick-matched MID kernel median=572 (n=66, bw=0.6 log-pick, RATIFIED 02/07)
+A7        PASS    | PASS    | PASS     Ryan Maric: fut-dominant=MID(60%) gfut=MID (need MID/MID); Ed Langdon: fut-dominant=GDEF(70%) gfut=GEN_DEF (need GDEF/GEN_DEF)
+A8   [DC] PASS    | PASS    | PASS     Berry=2421 Tsatas=1140 ratio=2.12x (need >=2.00x) [display de-ambiguated D4 02/07]
+A9        FAIL    | PASS    | PASS     Ginnivan>Ward: 1799 vs 1653  <- MOVED
+A10  [DC] PASS    | PASS    | PASS     Charlie Curnow: 2026=888 2025=1745 ratio=0.51 (need >=0.50) [AMENDED 0.70->0.50 Luke 02/07 data-caused, PROVISIONAL — review at season-complete]
+A11  [DC] PASS    | PASS    | PASS     Farrow>Patterson: 1644 vs 781; Cumming>Annable: 1948 vs 1533
+A12  [DC] FAIL    | FAIL    | FAIL     Travaglia>Moraes: 712 vs 887; Smillie>Retschko: 1002 vs 730
+          triage: [DC] gate — attribute ENGINE- vs DATA-caused BEFORE this blocks (SHIP_GATES PROCESS)
+A13       PENDING | PENDING | PENDING  PVC stage not run; advisory vs stand-in PVC[1]=3000: George Wardlaw=3033 lineball=True; Levi Ashcroft=3270 lineball=True
+A14       PENDING | PENDING | PENDING  PVC stage not run; advisory vs stand-in PVC[8]=1704: Trent Rivers=1713 lineball=True; Zach Reid=1613 lineball=True; Jase Burgoyne=2092 lineball=False
+A15       STRUCK  | STRUCK  | STRUCK   Luke 02/07/2026 — convexity dimension seeded as V_NEXT #1
+B1        PASS    | PASS    | PASS     cross-cohort AVERAGE peak N=4 AVG(peak)=130 (need peak in yrs 4-6, >100; pre-peak dips of the AVERAGE <5% tolerated, path_ok=True; per-cohort UNGATED, table printed every run — Luke redefinition 02/07 D5); avg row: 1:100 2:120 3:124 4:130 5:126 6:120 7:105; cohorts n=17; matrix=s4_matrix_v24.json
+B2        PASS    | PASS    | NOT-RUN  run _gate1_wf.py first (writes /home/claude/gate1_out.txt)  <- MOVED
+B3        PENDING | PENDING | PENDING  book-gate set not yet enumerated as scripted checks — definition proposal in report; book headline shape covered by B1
+B4        FAIL    | FAIL    | FAIL     regenerated rl_app_data.json md5=ee93f2ff vs shipped b8f9e998 (byte-agree gate; export exit=0)
+B5        FAIL    | FEATURE | FEATURE  floor-as-pricing-feature (Luke-ruled 02/07; VARIANT A flat .05 tail): 54 saves, aggregate lift +1335; pure lower bound: lowered=0 (bar 0), non-ND moved=0 (bar 0); saves table printed below (the new alarm surface)  <- MOVED
+B6        FAIL    | PASS    | PASS     ramp(0..14g)=[1287, 1557, 1852, 2504, 3103, 3190, 3238, 3291, 3305, 3314, 3367, 3435, 3523, 3563, 3592]; dips(more games worth less)=none; 0->6 rise T=+1951; 0->6 steps>50%T=none; rise by 3g=+1217 (need >=488) [whole-ramp re-spec, DECLARED thresholds]  <- MOVED
+D14a      —       | —       | PASS     same pos×draft-age×recorded-pick ⇒ identical V0* across draft years: max cross-draft dispersion=0.0000 SCAR (Luke's amended law; board path)  <- MOVED
+D14b      —       | —       | PASS     within (pos×draft-age×draft-year) V0 inversions under V0* = 0 roster-wide (D13 guard-transform → assertion; obituary E5)  <- MOVED
+D14c      —       | —       | PASS     KPP retention floor O1 depth-monotone = True (max of isotonic-non-increasing KPP/nonKPP; comparator nonKPP-only)  <- MOVED
+C1        PENDING | PENDING | PENDING  naive-baseline book not yet built — definition proposal in report (needs its own directive)
+C2        PENDING | PENDING | PENDING  V1-pick-model book not yet built — definition proposal in report (needs its own directive)
+          columns: CONTROL | PREVIOUS | CURRENT (three-column rule; snapshots data/gates_snapshots/)
+VERDICT: FAIL=4  FEATURE=1  NOT-RUN=1  PASS=14  PENDING=5  STRUCK=1  (380s)
+```
+
+## Supporting detail
+
+B1 per-cohort curves (UNGATED — printed every gates-board run, Luke eyeball channel):
+| cohort | peakN | d1 | d2 | d3 | d4 | d5 | d6 | d7 |
+|---|---|---|---|---|---|---|---|---|
+| 2004 | 5 | 100 | 125 | 145 | 141 | 148 | 130 | 118 |
+| 2005 | 4 | 100 | 129 | 125 | 164 | 147 | 143 | 121 |
+| 2006 | 4 | 100 | 122 | 129 | 137 | 134 | 132 | 114 |
+| 2007 | 5 | 100 | 123 | 112 | 115 | 136 | 132 | 110 |
+| 2008 | 4 | 100 | 124 | 159 | 169 | 149 | 133 | 116 |
+| 2009 | 2 | 100 | 117 | 99 | 97 | 95 | 86 | 74 |
+| 2010 | 4 | 100 | 128 | 134 | 146 | 139 | 123 | 101 |
+| 2011 | 4 | 100 | 124 | 141 | 156 | 149 | 144 | 117 |
+| 2012 | 3 | 100 | 110 | 116 | 113 | 106 | 103 | 86 |
+| 2013 | 4 | 100 | 127 | 138 | 161 | 159 | 140 | 108 |
+| 2014 | 4 | 100 | 122 | 133 | 138 | 120 | 122 | 121 |
+| 2015 | 2 | 100 | 114 | 114 | 113 | 106 | 108 | 103 |
+| 2016 | 4 | 100 | 121 | 131 | 148 | 134 | 137 | 116 |
+| 2017 | 2 | 100 | 110 | 109 | 95 | 86 | 89 | 84 |
+| 2018 | 2 | 100 | 120 | 114 | 116 | 110 | 104 | 97 |
+| 2019 | 5 | 100 | 107 | 113 | 120 | 125 | 114 | 98 |
+| 2020 | 2 | 100 | 109 | 103 | 89 | 91 | 92 | — |
+| **AVG (the gated row)** | **4** | **100** | **120** | **124** | **130** | **126** | **120** | **105** |
+
+B5 FLOOR-SAVES table (n=54, aggregate lift=+1335 — printed every gates-board run, the new alarm surface):
+| player | club | yrs-in-system | raw ev | floor | saved-to | lift | register status |
+|---|---|---|---|---|---|---|---|
+| Paddy Dow | Carlton | 9 | 13 | 112.4 | 111 | +98 | clear |
+| Chayce Jones | Adelaide | 8 | 9 | 80.2 | 84 | +75 | clear |
+| Steele Sidebottom | Collingwood | 18 | 3 | 69.0 | 74 | +71 | clear |
+| Oliver Wiltshire | Geelong | 3 | 13 | 86.2 | 80 | +67 | clear |
+| Jaeger O'Meara | Gold Coast | 15 | 62 | 150.0 | 128 | +66 | clear |
+| Luke Pedlar | Adelaide | 6 | 66 | 124.2 | 121 | +55 | clear |
+| Billy Cootee | Sydney | 1 | 30 | 224.6 | 82 | +52 | clear |
+| Jacob Hopper | GWS | 11 | 42 | 89.7 | 94 | +52 | clear |
+| Conor Stone | GWS | 6 | 25 | 96.7 | 72 | +47 | clear |
+| Phoenix Gothard | GWS | 3 | 330 | 355.3 | 369 | +39 | clear |
+| Bailey Laurie | Melbourne | 6 | 21 | 55.6 | 60 | +39 | clear |
+| Jack Martin | Gold Coast | 14 | 44 | 112.4 | 82 | +38 | clear |
+| Jade Gresham | St Kilda | 11 | 13 | 43.0 | 47 | +34 | clear |
+| Liam Stocker | Carlton | 8 | 2 | 39.8 | 34 | +32 | clear |
+| Callum Ah Chee | Gold Coast | 11 | 38 | 85.2 | 70 | +32 | clear |
+| Brandon Starcevich | Brisbane | 9 | 6 | 43.0 | 36 | +30 | clear |
+| Jake Melksham | Essendon | 17 | 11 | 74.5 | 41 | +30 | clear |
+| Nicholas Coffield | St Kilda | 9 | 16 | 85.2 | 44 | +28 | clear |
+| Sam Butler | Hawthorn | 5 | 60 | 80.3 | 87 | +27 | clear |
+| Charlie Spargo | Melbourne | 9 | 1 | 30.2 | 28 | +27 | clear |
+| Finlay Macrae | Collingwood | 6 | 65 | 66.2 | 89 | +24 | clear |
+| Laitham Vandermeer | Western Bulldogs | 8 | 2 | 27.7 | 26 | +24 | clear |
+| Rhys Stanley | St Kilda | 18 | 12 | 21.2 | 35 | +23 | clear |
+| Xavier O'Halloran | GWS | 8 | 13 | 32.4 | 35 | +22 | clear |
+| Nicholas Holman | Carlton | 13 | 0 | 20.1 | 22 | +22 | clear |
+| Oliver Henry | Collingwood | 6 | 65 | 77.3 | 85 | +20 | clear |
+| Daniel Butler | Richmond | 12 | 0 | 15.4 | 19 | +19 | clear |
+| Jed Bews | Geelong | 15 | 1 | 15.4 | 19 | +18 | clear |
+| Harvey Gallagher | Western Bulldogs | 4 | 94 | 111.7 | 111 | +17 | clear |
+| Liam Henry | Fremantle | 7 | 53 | 80.2 | 70 | +17 | clear |
+| Ben Long | St Kilda | 10 | 9 | 30.7 | 26 | +17 | clear |
+| Jacob Wehr | GWS | 6 | 3 | 27.7 | 18 | +15 | clear |
+| Callum Coleman-Jones | Richmond | 9 | 18 | 36.8 | 33 | +15 | clear |
+| Matt Guelfi | Essendon | 9 | 5 | 15.4 | 19 | +14 | clear |
+| Alex Pearce | Fremantle | 13 | 14 | 27.7 | 28 | +14 | clear |
+| Ryan Gardner | Geelong | 11 | 9 | 15.4 | 22 | +13 | clear |
+| Mitch McGovern | Adelaide | 12 | 9 | 24.2 | 22 | +13 | clear |
+| Darcy Gardiner | Brisbane | 13 | 21 | 32.4 | 33 | +12 | clear |
+| Joel Hamling | Geelong | 15 | 14 | 23.4 | 26 | +12 | clear |
+| Corey Durdin | Carlton | 6 | 34 | 47.9 | 44 | +10 | clear |
+| Sam Sturt | Fremantle | 8 | 41 | 46.5 | 51 | +10 | clear |
+| Oskar Baker | Melbourne | 9 | 18 | 20.6 | 25 | +7 | clear |
+| Ben McKay | North Melbourne | 11 | 27 | 34.3 | 33 | +6 | clear |
+| Tom Cole | West Coast | 11 | 20 | 28.1 | 26 | +6 | clear |
+| Finn Maginness | Hawthorn | 7 | 23 | 30.2 | 28 | +5 | clear |
+| Harry Schoenberg | Adelaide | 7 | 42 | 30.8 | 46 | +4 | clear |
+| Noah Answerth | Brisbane | 8 | 20 | 16.8 | 24 | +4 | clear |
+| Jamie Cripps | St Kilda | 16 | 25 | 30.2 | 28 | +3 | clear |
+| Kaleb Smith | Richmond | 4 | 94 | 84.2 | 96 | +2 | clear |
+| Bailey Macdonald | Hawthorn | 4 | 93 | 79.8 | 95 | +2 | clear |
+| Bailey Scott | North Melbourne | 8 | 23 | 20.1 | 25 | +2 | clear |
+| Aidan Corr | GWS | 14 | 34 | 43.0 | 36 | +2 | clear |
+| Harry Morrison | Hawthorn | 10 | 19 | 15.4 | 20 | +1 | clear |
+| Nathan Broad | Richmond | 11 | 9 | 15.4 | 10 | +1 | clear |
+
+## Board top-50 (A4 context) — CONTROL 8aed420a · PREVIOUS c8051893 · CURRENT 7c199a1f
+| # | player | pos | CONTROL | PREVIOUS | CURRENT | D vs ctl | D vs prev |
+|---|---|---|---|---|---|---|---|
+| 1 | Harry Sheezel | MID | 7287 | 7207 | 7207 | -80 | +0 |
+| 2 | Nick Daicos | MID | 7059 | 7069 | 7069 | +10 | +0 |
+| 3 | Luke Jackson | RUC | 7731 | 6986 | 6986 | -745 | +0 |
+| 4 | Nasiah Wanganeen-Milera | MID | 5730 | 5961 | 5961 | +231 | +0 |
+| 5 | Tristan Xerri | RUC | 5469 | 5755 | 5755 | +286 | +0 |
+| 6 | Max Holmes | MID | 5154 | 5499 | 5499 | +345 | +0 |
+| 7 | Errol Gulden | MID | 4947 | 5299 | 5299 | +352 | +0 |
+| 8 | Zak Butters | MID | 5020 | 5225 | 5225 | +205 | +0 |
+| 9 | Josh Treacy | KEY_FWD | — | — | 5166 | — | — |
+| 10 | Finn Callaghan | MID | 4538 | 4952 | 4952 | +414 | +0 |
+| 11 | Will Ashcroft | MID | 4885 | 4823 | 4823 | -62 | +0 |
+| 12 | Bailey Smith | MID | 5122 | 4773 | 4773 | -349 | +0 |
+| 13 | Lachlan Ash | GEN_DEF | 3934 | 4663 | 4663 | +729 | +0 |
+| 14 | Archie Roberts | GEN_DEF | 4625 | 4597 | 4597 | -28 | +0 |
+| 15 | Tom Green | MID | 3950 | 4472 | 4472 | +522 | +0 |
+| 16 | Ryley Sanders | MID | 4268 | 4212 | 4212 | -56 | +0 |
+| 17 | Caleb Serong | MID | 4276 | 4202 | 4202 | -74 | +0 |
+| 18 | Jason Horne-Francis | MID | 4050 | 4199 | 4199 | +149 | +0 |
+| 19 | Willem Duursma | MID | 4179 | 4160 | 4160 | -19 | +0 |
+| 20 | Noah Anderson | MID | 4216 | 4131 | 4131 | -85 | +0 |
+| 21 | Sam Darcy | KEY_FWD | 3902 | 3978 | 3978 | +76 | +0 |
+| 22 | Jai Newcombe | MID | — | — | 3889 | — | — |
+| 23 | Murphy Reid | GEN_FWD | 3819 | 3843 | 3843 | +24 | +0 |
+| 24 | Colby McKercher | MID | 3862 | 3814 | 3814 | -48 | +0 |
+| 25 | Matt Rowell | MID | 3628 | 3779 | 3779 | +151 | +0 |
+| 26 | Darcy Wilmot | GEN_DEF | 3606 | 3774 | 3774 | +168 | +0 |
+| 27 | Sam Lalor | MID | 3552 | 3703 | 3703 | +151 | +0 |
+| 28 | Nick Watson | GEN_FWD | 3598 | 3579 | 3579 | -19 | +0 |
+| 29 | Harley Reid | MID | 3523 | 3565 | 3565 | +42 | +0 |
+| 30 | Riley Thilthorpe | KEY_FWD | 3649 | 3555 | 3555 | -94 | +0 |
+| 31 | Mac Andrew | KEY_DEF | 3569 | 3530 | 3530 | -39 | +0 |
+| 32 | Finn O'Sullivan | MID | 3467 | 3495 | 3495 | +28 | +0 |
+| 33 | Brodie Grundy | RUC | 3318 | 3344 | 3344 | +26 | +0 |
+| 34 | Isaac Heeney | MID | 3298 | 3327 | 3327 | +29 | +0 |
+| 35 | Bodhi Uwland | GEN_DEF | — | — | 3288 | — | — |
+| 36 | Nick Blakey | GEN_DEF | 3053 | 3287 | 3287 | +234 | +0 |
+| 37 | Levi Ashcroft | MID | 3271 | 3270 | 3270 | -1 | +0 |
+| 38 | Josh Worrell | GEN_DEF | 3341 | 3236 | 3236 | -105 | +0 |
+| 39 | Jagga Smith | MID | 3270 | 3188 | 3188 | -82 | +0 |
+| 40 | Chad Warner | MID | 3297 | 3148 | 3148 | -149 | +0 |
+| 41 | Nicholas Martin | MID | — | — | 3122 | — | — |
+| 42 | Marcus Bontempelli | MID | 3101 | 3109 | 3109 | +8 | +0 |
+| 43 | Christian Petracca | MID | 3057 | 3057 | 3057 | +0 | +0 |
+| 44 | George Wardlaw | MID | 3035 | 3033 | 3033 | -2 | +0 |
+| 45 | Kysaiah Pickett | GEN_FWD | 3860 | 3031 | 3031 | -829 | +0 |
+| 46 | Jordan Clark | GEN_DEF | 3123 | 3031 | 3031 | -92 | +0 |
+| 47 | Jake Bowey | GEN_DEF | 2585 | 2969 | 2969 | +384 | +0 |
+| 48 | Luke Davies-Uniacke | MID | 2967 | 2952 | 2952 | -15 | +0 |
+| 49 | Connor Rozee | MID | 2679 | 2917 | 2917 | +238 | +0 |
+| 50 | Timothy English | RUC | 2893 | 2907 | 2907 | +14 | +0 |
+
+## C1/C2 DEFINITION PROPOSAL (for supervisor ruling)
+Rebuild the walk-forward book (s4 matrix protocol, as-of values, only <=T data) twice more:
+(a) NAIVE BASELINE: last-2-season era-adjusted avg -> value via simple age curve + position multipliers;
+(b) ORIGINAL V1 PICK MODEL: value = PVC(effective pick) with the V1 age/tenure profile.
+Headline metrics, engine must beat both on: (1) within-player GATE-1 protocol (WF good/bust separation,
+leakage-matched); (2) rank correlation of as-of value vs realized fwd best-3 production (real_mat);
+(3) cohort growth-law shape error vs the realized production curve. Each becomes C1x/C2x scripted lines.

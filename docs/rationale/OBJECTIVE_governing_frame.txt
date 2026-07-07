@@ -1,0 +1,62 @@
+OBJECTIVE — AFL SuperCoach RL valuation engine — THE GOVERNING FRAME
+[Read after the bootstrap gate clears, BEFORE Stage 0. This governs every stage, U28-D included.]
+
+The position-split (Stages 0-7) and the U28-D fixes are INSTRUMENTAL — they are only worth doing in service of the objective below. Read every stage gate THROUGH this frame; do not treat it as a checkpoint to reach. Holding this frame from the start is the difference between fixing the engine and producing technically-correct stage gates that still serve the wrong target.
+
+==============================================================
+THE FRAME — AND THE ERROR IT REPLACES
+==============================================================
+A prospect's value IS AN OPTION: the expectation over the full distribution of careers that players of his pick / position / pedigree have HISTORICALLY gone on to have — convex right tail INCLUDED. Production does not ADD to that value. As a player accumulates games, realized production progressively REPLACES the option: the distribution collapses toward what he has actually shown.
+
+The model's persistent default is the INVERSE of this, and it is the error it reaches for again and again: it prices a prospect as DISCOUNTED CURRENT PRODUCTION WITH POTENTIAL BOLTED ON AS A BONUS. That frame anchors a no-games player near zero (no production → low base) and cannot recover from there — so it is STRUCTURALLY COMPELLED to crash every prospect. Every proposal that slashes collective prospect value is this frame reasserting itself. It CANNOT be patched with another multiplier. The option frame anchors instead at the option's value — high, because a convex payoff is dominated by its right tail — and merely converts to production over time. Installing this frame, and making its violation MEASURABLE, is the objective.
+
+==============================================================
+THE CONTRADICTION THAT PROVES THE FRAME (elite reachability)
+==============================================================
+The top echelon of the board — the p95-99 elite — IS the realized output of past prospect cohorts. It follows necessarily that the elite tier must be REACHABLE FROM THE PROSPECT STATE, because empirically that is where some prospects went. A pricing that truncates the prospect outcome distribution at p90 asserts that a current draftee cannot be modelled into roughly the top ~80 producers — cannot become what a large share of the board already IS — i.e. that today's draftees are categorically worse than every cohort before them. That is false. For a convex value function the p90 truncation is not a tail detail; it amputates exactly the mass that carries the value, which is why the model median-drags every young player. The full outcome support, elite tail included, is not optional — it is the value.
+
+==============================================================
+THE MASTER TEST — NO PREDICTABLE ROUND-TRIP (no-arbitrage)
+==============================================================
+A specific player who reveals bust signal MAY be marked down; that is information resolving. The EXPECTED / AGGREGATE trajectory MAY NOT trace a V — crash in year 1, recover by year 3-4 — because a predictable round-trip is a free lunch: if value reliably returns by year 3-4, the year-1 price that failed to reflect it was simply wrong. The invariant lives on the SHAPE of the expected trajectory: flat-to-gently-rising from draft through year 2, climbing to a peak at years 4-6, declining thereafter. NO V. The V is the falsification signature, and it is the one the bad proposals keep producing.
+
+==============================================================
+THE LINCHPIN — THIS IS A PROPERTY OF THE ESTIMATOR, NOT A RULE ON ANY COHORT
+==============================================================
+This is the distinction the model must hold, because it is exactly where it tries to wriggle:
+
+- INDIVIDUAL COHORTS ARE UNCONSTRAINED. Any single cohort's modelled curve may rise, sit flat, or crash — entirely per the evidence on ITS OWN PLAYERS. A weak class (2020) crashing is the model being RIGHT: bad players, correctly priced down through their own realized production. This is a diagnostic readout, NEVER a gate.
+- THE ESTIMATOR IS CONSTRAINED. ACROSS clean cohorts, the central year-1 expected value-change must be ≈ 0, with natural dispersion around it — some cohorts flat, some +5%, some −10-15%. A systematic central drop (e.g. mean year-1 delta ≈ −20%) is the model being WRONG: a structural discount masquerading as a read on potential. Same downward number; OPPOSITE diagnosis. What separates them is whether it is keyed to an individual's REVEALED PERFORMANCE or applied to the STATE OF BEING A YEAR-1 PLAYER.
+
+This rules out the wrong repair the model keeps reaching for: NEVER "fix" a crashing cohort by BOOSTING it — no young-player premium, recency bump, or per-cohort correction. A player must be priced IDENTICALLY whether he is in the 2020 or 2025 cohort. The pricing function is PER-INDIVIDUAL, grounded in that individual's history-implied distribution; the cohort trajectory is only ever a DIAGNOSTIC READOUT of whether that per-individual pricing is right — never a control surface to tune. If the aggregate shows a systematic dip, the bug is in the INDIVIDUAL pricing (truncated tail, mis-timed decay onset, production-anchored base), and THAT is what gets fixed.
+
+The test reduces to one estimable number: regress the year-1 expected value-change on draft-day value across all clean cohorts — THE INTERCEPT IS THE VERDICT. Near zero with cohort scatter → the function prices potential. Reliably negative → structural haircut, model wrong. It cannot be satisfied by boosting anyone — only by the pricing genuinely carrying the option value from day one.
+
+==============================================================
+THE SIX INVARIANTS (hard gates — acceptance criteria, not implementation)
+==============================================================
+1. TRAJECTORY MATCH. The modelled cohort value curve matches the realized historical curve (survivorship-clean). Master gate and the no-V falsification.
+2. ELITE REACHABILITY. The prospect outcome support extends to the realized elite (p97-99). A prospect CAN be modelled into the top echelon.
+3. CONVEXITY FOR PROSPECTS. The convex value function applies to the prospect's FULL outcome distribution — optionality priced, not just the median.
+4. NO PREDICTABLE ROUND-TRIP. Central year-1 expected change ≈ 0 ACROSS COHORTS (intercept ≈ 0); individual cohorts unconstrained. NOT "cohorts mustn't fall" — the ESTIMATOR'S CENTRE mustn't fall predictably.
+5. SURVIVORSHIP UP. Survivors' aggregate at years 4-5 ≥ the draft-day aggregate, busts retained as realized zeros throughout.
+6. POSITION ZERO-SUM. Over the sample, the mix-weighted position-conditional pick values ≈ the general pick value. Position REDISTRIBUTES value across positions; it does not destroy it.
+
+==============================================================
+THE FIRST ANALYTICAL ACT — MEASURE THE TARGET BEFORE TOUCHING ANY MECHANISM
+==============================================================
+BEFORE Stage 0, run the HISTORICAL-COHORT-TRAJECTORY MEASUREMENT. Take past draft cohorts; track aggregate SCAR value year-by-year; survivorship-clean (busts held at realized zero once delisted, recent cohorts censored). This realized curve IS the target invariants 1 and 4 are gated against — the falsification test in a single chart. Produce it, AND the year-1 intercept, as numbers FIRST, so every subsequent proposal (U28-D included) either traces the historical curve or is wrong. This measurement, more than any mechanism, ends the circling: it replaces a belief that has had to be re-argued repeatedly with a number the model has to match. Evidence-gated both ways — if history shows a real year-1 dip, the frame updates honestly; if it shows flat-to-rising, the crashing proposals were provably wrong.
+
+==============================================================
+WHAT THIS MEANS FOR THE LIVE U28-D WORK
+==============================================================
+- The staleness decay's ONSET, not just its magnitude: KAPPA ≈ 0 through years 1-2, biting only from year 3+. A decay that starts in year 1 IS the crash. The Ryans (3-4yr non-producers) get the haircut; a year-1 prospect must NOT.
+- The p97 tail-restore is the CENTRAL VALUE DRIVER under this frame, not a patch — it is the mechanism that lets the option be worth its option value.
+
+==============================================================
+TWO CALLS — ALREADY DECIDED, DO NOT REOPEN
+==============================================================
+- TRAJECTORY SHAPE (martingale vs gentle rise): the MEASURED historical curve decides it. Do not impose flat a priori; do not impose rising a priori. Read it off the data.
+- THE MARKDOWN LINE: an individual revealing bust signal MAY be marked down; a cohort is NEVER rule-adjusted as a group; the estimator's central year-1 drift must be ≈ 0.
+
+The position-split (Stages 0-7) is the clean base this frame needs. U28-D is where the frame first bites on value. Hold the frame from here on — read every gate through it.

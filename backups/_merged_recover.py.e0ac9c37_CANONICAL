@@ -1,0 +1,162 @@
+"""WIRE (1) delist->~0 (2) staleness floor all-stalled (3) isotonic pick guard INTO the engine. Prove on named players."""
+import io,contextlib,copy,numpy as np
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.isotonic import IsotonicRegression
+with contextlib.redirect_stdout(io.StringIO()):
+    import rl_model as MA, wire_redesign as W; cm=W.build()
+TR=W.TR; rd=TR.rd; cp=TR.cp; dp=TR.dp; PR=W.PR
+era={}
+for Y in range(2009,2026):
+    a=[s['avg'] for p in MA.data for s in p.get('scoring') or [] if s['year']==Y and s['games']>=6]
+    if a: era[Y]=float(np.mean(a))
+REF=float(np.mean(list(era.values())))
+pool=[p for p in MA.data if not p.get('_double_count') and MA.GRP.get(p['pos'])]
+X,yy=[],[]
+for p in pool:
+    if cp.debutyr(p)>2021 or not (p.get('pick') or p.get('_ft')): continue
+    d0=cp.debutyr(p)-1; last=max([x['year'] for x in p['scoring']]+[d0])
+    for Y in range(d0,min(last,2026)+1): X.append(cp._feat(p,Y)); yy.append(cp.fwd_best3_from(p,Y,2026))
+q97m=GradientBoostingRegressor(loss='quantile',alpha=0.97,n_estimators=200,max_depth=4,learning_rate=0.05,min_samples_leaf=25,random_state=0).fit(np.array(X),np.array(yy))
+WQ6=np.array([0.18]*5+[0.10]); WQ6/=WQ6.sum(); RECX=[0.30,0.52,0.67,0.82,0.97,1.30]; RECY=[0.54,0.64,0.84,1.00,1.00,1.00]
+midpos=next(r['pos'] for r in MA.data if MA.GRP.get(r.get('pos'))=='MID'); GRPPOS={}
+for r in MA.data:
+    g=MA.GRP.get(r.get('pos'))
+    if g and g not in GRPPOS: GRPPOS[g]=r['pos']
+# ===== STEP1 #1-FAMILY FIX (inference-only; band pickle + q97m above trained on ORIGINAL features -> Delta=0 for proven-flat) =====
+PROVEN_N=4; FLAT_TOL=3.0; LDECAY=0.40; POLE_RAMP=22.0          # PROVISIONAL dials -> calibrate at step 3 (see UNRESOLVED)
+cp._lvl_eff_orig=cp._lvl_eff
+def _nqual(p,Y): return sum(1 for x in p['scoring'] if x['games']>=10 and x['year']<=Y and (cp.debutyr(p)-1)<x['year'])
+def _lvlcurr(p,Y):                                            # steeper-recency CURRENT level (trend-aware; ==career avg for a flat player)
+    rows=[(x['year'],x['games'],x['avg']) for x in p['scoring'] if x['games']>0 and (cp.debutyr(p)-1)<x['year']<=Y]
+    tw=sum(gm*LDECAY**max(0,Y-yr) for yr,gm,_ in rows)
+    return float(sum(gm*LDECAY**max(0,Y-yr)*a for yr,gm,a in rows)/tw) if tw>0 else 0.0
+def _par_prior(p,Y): return PR.par_at(MA.gfut(p),min(MA.effpk(p),cp.KMAX),min(max(PR.tenure(p,Y),1),6))
+def eff_ten(p,Y,base):                                        # developmental tenure off a CONTEXT base; proven keeps base exactly
+    if _nqual(p,Y)>=PROVEN_N: return base                     # proven: original tenure (each call site passes its own base)
+    return max(base, cp._age_asof(p,Y)-18)                    # thin career: max(base, age-18); 18-19yo debut -> ==base (Delta=0)
+def _lvl_eff_infer(p,Y):
+    L_old=cp._lvl_eff_orig(p,Y); n=_nqual(p,Y)
+    if n==0: return L_old                                     # cameo/never-played: original (pole gate handles never-played)
+    Lc=_lvlcurr(p,Y)
+    if n>=PROVEN_N: return L_old if abs(Lc-L_old)<=FLAT_TOL else Lc   # proven-FLAT -> Delta0 ; grower/decliner -> current level
+    c=n/PROVEN_N; return c*Lc+(1-c)*_par_prior(p,Y)           # career-thin (1..3 seasons) -> shrink current toward pedigree par
+def _feat_infer(p,Y):
+    oh=[0.0]*len(cp.GROUPS); oh[cp.GIDX[MA.gfut(p)]]=1.0
+    ep=min(MA.effpk(p),cp.KMAX); age=cp._age_asof(p,Y)
+    ten=eff_ten(p,Y, max(0,Y-(cp.debutyr(p)-1)))             # base = original _feat tenure
+    return oh+[np.log(ep), cp._exposure(p,Y), ten, cp._lvl_eff(p,Y), age]
+# (inference rebind deferred to AFTER the isotonic guard builds on ORIGINAL features -> proven-flat stays Delta=0)
+def b6(p,Y=2026):
+    MA.BASE_REF=MA.AGE_REF=Y; MA._pe_clear()
+    with contextlib.redirect_stdout(io.StringIO()): b=np.asarray(cp.cond_prior_band(p,cm,Y))
+    return np.append(b,max(float(q97m.predict(np.array([cp._feat(p,Y)]))[0]),b[4]))
+def price6(p,bb,Y=2026):
+    sav=dict(MA.REPL)
+    try:
+        for g in MA.REPL: MA.REPL[g]=sav[g]-rd.REPL_DROP.get(g,0)
+        MA.BASE_REF=MA.AGE_REF=Y; MA._pe_clear()
+        with contextlib.redirect_stdout(io.StringIO()): return float(dp.SCALE_DIST*np.dot(WQ6,[dp.v_at_peak(p,float(L),'bal') for L in bb]))
+    finally: MA.REPL.update(sav)
+def recover(perf,par): return float(np.clip(np.interp(perf/max(1.0,par),RECX,RECY),0,1))
+def synth(pk,avg,pos,nyr=2): return {'player':'s','pos':GRPPOS.get(pos,midpos),'pick':float(pk),'year':2023,'dob':'2005-03-01','type':'ND','scoring':[{'year':2024+i,'games':18,'avg':float(avg)} for i in range(nyr)],'_pos_now':None,'_fut':[]}
+_POLE={}
+def par_pole(pos,pk,T):
+    k=(pos,int(min(pk,cp.KMAX)),int(min(max(T,1),6)))
+    if k not in _POLE: sp=synth(k[1],PR.par_at(*k),pos); _POLE[k]=price6(sp,b6(sp))
+    _SCALE={'MID':1.19,'GEN_FWD':0.93,'KEY_FWD':0.95,'GEN_DEF':1.08,'KEY_DEF':1.05,'RUC':1.13}  # STEP3-B: principled re-level (trajectory-integrated pole / 2yr synth); piece-2 SHAPE kept, LEVEL rescaled
+    return _POLE[k]*_SCALE.get(pos,1.0),PR.par_at(*k)
+def raw_ev(p,Y=2026):
+    pr=price6(p,b6(p,Y),Y); pos=MA.gfut(p); pk=MA.effpk(p); T=min(max(PR.tenure(p,Y),1),6)
+    et=min(max(eff_ten(p,Y, PR.tenure(p,Y)),1),6)                                     # STEP1: developmental tenure off original PR.tenure base
+    po,par=par_pole(pos,pk,T); a=MA.age(p)
+    wage=0.0 if pos=='RUC' else float(np.clip(1-((a or 21)-20)/6,0,1))
+    tfade=float(np.interp(et,[1,2,3,4,5,6],[1.00,0.76,0.40,0.16,0.05,0.05]))          # pole-fade by DEVELOPMENTAL tenure
+    expgate=1.0 if _nqual(p,Y)>=PROVEN_N else min(1.0, cp._exposure(p,Y)/POLE_RAMP)   # STEP1: gate lift on exposure for THIN careers only (Cook->0; proven untouched)
+    w=wage*tfade*expgate
+    perf=cp._lvl_wt(p,Y)                                  # WEIGHTED games x recency level (RL_RECENCY_DECAY), not flat best-3
+    return pr+w*recover(perf,par)*max(0.0,po-pr)
+# ===== (3) ISOTONIC PICK GUARD: per pos, monotone non-increasing in pick at par; correction factor =====
+PICKS=list(range(1,71)); ISO={}
+for pos in ['MID','GEN_FWD','KEY_FWD','GEN_DEF','KEY_DEF','RUC']:
+    raw=np.array([raw_ev(synth(pk,PR.par_at(pos,min(pk,cp.KMAX),4),pos)) for pk in PICKS])
+    iso=IsotonicRegression(increasing=False).fit_transform(PICKS,raw)        # monotone non-increasing in pick#
+    ISO[pos]=(np.array(PICKS),np.maximum(iso,raw*0)+ (iso-raw>=0)*(iso-raw))  # iso is the guarded floor; correction additive where iso>raw
+    ISO[pos]=(np.array(PICKS), iso/np.maximum(raw,1e-6))                       # multiplicative correction (>=1 where shallow under-priced)
+def iso_corr(pos,pk): xs,fs=ISO[pos]; return float(np.interp(min(pk,70),xs,fs))
+for _pp in ['MID','GEN_FWD','KEY_FWD','GEN_DEF','KEY_DEF','RUC']:   # STEP1: FREEZE pole table on ORIGINAL features
+    for _pk in range(1,int(cp.KMAX)+1):                            #   (pole = pick-side; untouched until step 2-4)
+        for _T in range(1,7): par_pole(_pp,_pk,_T)
+cp._lvl_eff=_lvl_eff_infer; cp._feat=_feat_infer   # STEP1 rebind INFERENCE feature path (q97m + ISO + POLE above used ORIGINAL features)
+# ===== helpers for delist + staleness =====
+def delisted(p): return bool(p.get('_retired')) or (p.get('_last_listed') is not None and p['_last_listed']<2026)
+def draftval(p): return float(MA.PVC[min(MA.effpk(p),cp.KMAX)])
+def bestlvl(p,Y=2026):
+    s=[a*REF/era.get(y,REF) for y,a in [(x['year'],x['avg']) for x in p['scoring'] if x['games']>=6 and x['year']<=Y]]
+    return max(s) if s else 0.0
+def nseas(p,Y=2026): return sum(1 for x in p['scoring'] if x['games']>=6 and x['year']<=Y)
+# ===== WIRED ev =====
+def ev(p,Y=2026):
+    # (1) delist -> near-zero (no future keeper value)
+    if delisted(p): return round(0.02*draftval(p))
+    e=raw_ev(p,Y)*iso_corr(MA.gfut(p),MA.effpk(p))           # (3) isotonic guard
+    # (2) staleness floor: stalled non-producer (<=1 season games) after elapsed tenure -> ~1/4 draft, tenure-declining; KEY/RUC gentler+later
+    pos=MA.gfut(p); el=PR.tenure(p,Y); ns=nseas(p,Y); dv=draftval(p); par=PR.par_at(pos,min(MA.effpk(p),cp.KMAX),min(max(el,1),6)); pr=bestlvl(p,Y)/max(1,par)
+    keyruc = pos in ('KEY_FWD','KEY_DEF','RUC'); onset = 2 if ns==0 else (4 if keyruc else 3)   # STEP1: never-produced decays from yr2
+    if el>=onset and ns<=1:                                   # stalled: essentially no production after the window
+        frac=0.25*max(0.4,1-0.10*(el-onset))*(1.6 if keyruc else 1.0)
+        e=min(e, dv*frac)
+    elif el>=onset+2 and pr<0.55:                             # mediocre-for-years (played but never near par) -> decays too
+        frac=0.45*max(0.3,1-0.08*(el-onset))*(1.5 if keyruc else 1.0)
+        e=min(e, dv*frac)
+    return round(e)
+def find(nm):
+    c=[p for p in MA.data if nm.lower() in p['player'].lower() and MA.GRP.get(p.get('pos'))]; return c[0] if c else None
+print("=== AFTER (wired: delist + staleness + isotonic) — named players ===")
+print(f"{'player':22s}{'pos':8s}{'pk':>3s}{'g':>3s}{'ten':>4s}{'dlst':>5s}{'draft':>6s}{'BEFORE':>7s}{'AFTER':>7s}  reasoning")
+before={'Ronin O':526,'Will Martyn':554,'Sam Philp':714,'Oscar Ryan':570,'Tew Jiath':509,'Jakob Ryan':594,'Harrison Jones':528,'Keidean Coleman':723,'Dylan Stephens':761}
+reason={'Ronin O':'delisted, 0g -> ~0','Will Martyn':'delisted, 0g -> ~0','Sam Philp':'delisted, 0g -> ~0','Oscar Ryan':'stalled 0g ten3 -> 1/4 draft','Tew Jiath':'stalled 0g ten3 -> 1/4 draft','Jakob Ryan':'stalled 0g ten4 -> notch below 1/4','Harrison Jones':'mediocre 7yr KEY_FWD -> decayed','Keidean Coleman':'career-maker, holds','Dylan Stephens':'declined MID, should fall below Coleman'}
+for nm in before:
+    p=find(nm)
+    if not p: continue
+    print(f"{p['player'][:22]:22s}{MA.gfut(p):8s}{MA.effpk(p):3d}{nseas(p):3d}{PR.tenure(p,2026):4d}{('Y' if delisted(p) else '-'):>5s}{draftval(p):6.0f}{before[nm]:7d}{ev(p):7d}  {reason[nm]}")
+print("\n=== MONOTONICITY + deep-pick AFTER ===")
+for pos in ['KEY_FWD','MID']:
+    for pk in [1,2,3,20,60]:
+        sp=synth(pk,PR.par_at(pos,min(pk,cp.KMAX),4),pos); print(f"  {pos:8s} pk{pk:2d} @par -> {ev(sp)}", end='')
+    print()
+c=find('Keidean Coleman'); s=find('Dylan Stephens')
+print(f"\n=== Coleman vs Stephens: Coleman {ev(c)} {'>=' if ev(c)>=ev(s) else '<'} Stephens {ev(s)} -> {'FIXED' if ev(c)>=ev(s) else 'STILL INVERTED'}")
+
+print("\n\n════════ DIAGNOSE Harrison/Stephens + GATE1 + deep collapse + falsifier (wired) ════════")
+def band_dump(p):
+    b=b6(p); pos=MA.gfut(p); par=PR.par_at(pos,min(MA.effpk(p),cp.KMAX),min(max(PR.tenure(p,2026),1),6))
+    recent=[ (x['year'],x['avg']) for x in p['scoring'] if x['games']>=6][-3:]
+    return b,par,recent
+for nm in ['Harrison Jones','Dylan Stephens','Keidean Coleman']:
+    p=find(nm); b,par,recent=band_dump(p)
+    print(f"  {nm:16s} par{par:.0f} band[q10..q97]={[round(x) for x in b]} recent={recent} best{bestlvl(p):.0f} pr{bestlvl(p)/par:.2f} ev{ev(p)}")
+print("  -> if band q50/q70 high vs recent, cond_prior is pricing career not decline; if q97 tail high, upside inflates")
+# refine: DECLINE/MEDIOCRE via RECENT production (last-2-season avg vs par), not just best
+def recent_ratio(p,Y=2026):
+    s=[a*REF/era.get(y,REF) for y,a in [(x['year'],x['avg']) for x in p['scoring'] if x['games']>=6 and x['year']<=Y]][-2:]
+    return (np.mean(s)/max(1,PR.par_at(MA.gfut(p),min(MA.effpk(p),cp.KMAX),min(max(PR.tenure(p,Y),1),6)))) if s else 0.0
+print("\n  RECENT ratio (last-2 avg / par):")
+for nm in ['Harrison Jones','Dylan Stephens','Keidean Coleman','Oscar Ryan']:
+    p=find(nm); print(f"    {nm:16s} recent_ratio={recent_ratio(p):.2f}")
+print("\n=== GATE1 (wired) MID/KEY_FWD by tenure ===")
+for pos in ['MID','KEY_FWD','GEN_DEF']:
+    refs=[p for p in MA.data if MA.gfut(p)==pos and p.get('type')=='ND' and p.get('pick') and 2012<=p['year']<=2019 and nseas(p)>=4 and not delisted(p)][:14]
+    ser={}
+    for k in range(0,6):
+        vs=[ev(p,cp.debutyr(p)-1+k) for p in refs if cp.debutyr(p)-1+k<=2026 and any(s['year']<=cp.debutyr(p)-1+k and s['games']>=6 for s in p['scoring'])]
+        if vs: ser[k]=np.mean(vs)
+    base=ser.get(2,1); print(f"  {pos:8s} "+" ".join(f"yr{k}:{round(100*v/base)}" for k,v in sorted(ser.items())))
+print("\n=== 2019 deep-pick (pk>40) REAL collapse (wired) ===")
+deep=[p for p in MA.data if p.get('type')=='ND' and p.get('pick') and p['year']==2019 and MA.effpk(p)>40 and MA.GRP.get(p.get('pos'))]
+tot_before=sum(raw_ev(p) for p in deep); tot_after=sum(ev(p) for p in deep); tot_draft=sum(draftval(p) for p in deep)
+print(f"  {len(deep)} deep picks: BEFORE sum {tot_before:.0f} | AFTER sum {tot_after:.0f} | draft sum {tot_draft:.0f} | realized PVC sum {tot_draft:.0f}")
+print(f"  AFTER/draft = {100*tot_after/tot_draft:.0f}% (was {100*tot_before/tot_draft:.0f}%) -> collapse toward realized")
+print("\n=== FALSIFIER still clean (wired)? ===")
+def mkf(pk,avg): return synth(pk,avg,'MID')
+e1=ev(mkf(1,70)); e2=ev(mkf(20,72)); bu=ev(mkf(1,40)); el=ev(mkf(20,95)); md=ev(mkf(1,62))
+print(f"  PRIMARY pk1@70 {e1} {'>' if e1>e2 else '<'} pk20@72 {e2} | ELITE pk20@95 {el} {'>' if el>md else '<'} pk1@62 {md} | grid {'PASS' if all(ev(mkf(1,86+d))>ev(mkf(20,67+d)) for d in [-30,-12,0,12,25]) else 'FAIL'}")

@@ -1,0 +1,18 @@
+=== A8 AUDIT — scripted expression as committed (ship_gates_check.py) ===
+  L153: b, t = E('Sam Berry'), E('Elijah Tsatas')
+  L154: gate('A8', True, 'PASS' if b > 2 * t else 'FAIL', f'Berry={b:.0f} vs 2x Tsatas={2*t:.0f} (Tsatas={t:.0f})')
+  L156: gate('A8', True, 'ERROR', str(ex))
+  L306: order = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15',
+
+=== ENGINE PATH (head) — raw values ===
+  ev(Sam Berry, 2026)      = 3473.0
+  ev(Elijah Tsatas, 2026)  = 1083.0
+  2 x Tsatas               = 2166.0
+  literal 2x test  (b >= 2t)        : 3473 >= 2166 -> PASS
+  scripted test    (b >  2t)        : 3473 >  2166 -> PASS
+  20%-tolerance variant (b > 1.6t)  : 3473 >  1733 -> PASS
+  Luke arithmetic (reads report pair "3473 vs 2166" as Berry vs RAW Tsatas): 2x2166=4332 > 3473 -> that reading fails
+  report display check: last board printed "Berry=3473 vs 2x Tsatas=2166 (Tsatas=1083)" — 2166 IS 2xTsatas in that string
+
+=== BOARD PATH (D3 dump, TR.production_value) ===
+  (no per-player map found in d3_ask1_board_out.json — keys: ['L_brodie_off', 'L_lenstilt', 'L_repldrop_off', 'L_rucktax_off', 'L_rucpool_off', 'L_softfloor_off', 'L_tailrestore_off', 'L_wire_off'])

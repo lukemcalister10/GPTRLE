@@ -1,0 +1,8 @@
+PICK-EQUIVALENTS: {'Mid-Season': 59, 'Post-draft Scholarship': 94, 'SSP / pre-season supp.': 94, 'Post-draft Academy': 94, 'Ireland': 94, 'Unregistered': 94, 'Post-draft Next-Gen': 94}
+Phase-2 CONVEXITY into present value: pool +2.4%  median premium +0.0%  max +25% (cap 25%)  | vP0==v by construction
+Phase-2 backward board: on-board -1=772, -2=777 (active 805 + retired-recalled 197)
+  _vM1 conservation factor x0.2279 (raw board was x4.388)
+  _vM2 conservation factor x0.2678 (raw board was x3.735)
+exported active=805 cohort=1978 | mechanisms=7 categories analysed
+CAT_BY_RANGE Academy: {'1-10': 1197, '11-20': 133, '21-30': 1753, '31-45': -159, '46-99': -152}
+CAT_BY_RANGE Open   : {'1-10': 78, '11-20': 8, '21-30': 72, '31-45': -25, '46-99': -5}

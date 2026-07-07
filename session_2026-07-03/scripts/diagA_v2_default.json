@@ -1,0 +1,1392 @@
+{
+ "label": "v2_default",
+ "engine_md5": "4a134d05",
+ "cp_md5": "5ac8b162",
+ "env_overrides": {},
+ "name_resolution": {
+  "Lord": [
+   {
+    "player": "Cooper Lord",
+    "pick": 9,
+    "cohort": 2024,
+    "pos": "MID",
+    "g26": 3
+   },
+   {
+    "player": "Ollie Lord",
+    "pick": 51,
+    "cohort": 2020,
+    "pos": "KEY_FWD",
+    "g26": 1
+   }
+  ],
+  "Berry": [
+   {
+    "player": "Joe Berry",
+    "pick": 15,
+    "cohort": 2024,
+    "pos": "GEN_FWD",
+    "g26": 13
+   },
+   {
+    "player": "Sam Berry",
+    "pick": 29,
+    "cohort": 2020,
+    "pos": "MID",
+    "g26": 13
+   },
+   {
+    "player": "Jarrod Berry",
+    "pick": 17,
+    "cohort": 2016,
+    "pos": "MID",
+    "g26": 9
+   },
+   {
+    "player": "Oscar Berry",
+    "pick": null,
+    "cohort": 2025,
+    "pos": "KEY_DEF",
+    "g26": 0
+   }
+  ],
+  "Ginnivan": [
+   {
+    "player": "Jack Ginnivan",
+    "pick": 9,
+    "cohort": 2020,
+    "pos": "GEN_FWD",
+    "g26": 13
+   }
+  ],
+  "Annable": [
+   {
+    "player": "Daniel Annable",
+    "pick": 6,
+    "cohort": 2025,
+    "pos": "MID",
+    "g26": 1
+   }
+  ],
+  "Cumming": [
+   {
+    "player": "Sam Cumming",
+    "pick": 7,
+    "cohort": 2025,
+    "pos": "MID",
+    "g26": 7
+   },
+   {
+    "player": "Isaac Cumming",
+    "pick": 20,
+    "cohort": 2016,
+    "pos": "GEN_DEF",
+    "g26": 9
+   }
+  ],
+  "Travaglia": [
+   {
+    "player": "Tobie Travaglia",
+    "pick": 8,
+    "cohort": 2024,
+    "pos": "GEN_DEF",
+    "g26": 0
+   }
+  ],
+  "Moraes": [
+   {
+    "player": "Christian Moraes",
+    "pick": 38,
+    "cohort": 2024,
+    "pos": "MID",
+    "g26": 7
+   }
+  ]
+ },
+ "decomp": [
+  {
+   "player": "Cooper Lord",
+   "pos": "MID",
+   "pick": 9,
+   "cohort": 2024,
+   "g26": 3,
+   "career_games": 27,
+   "el_tenure": 3,
+   "nseas_ge6": 1,
+   "draftval": 308.0,
+   "base_prod_path": 1040.3,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": true,
+   "mediocre_fires": false,
+   "prefloor": 394,
+   "final": 394,
+   "floor_frac": 0.35,
+   "floor_amount": 0
+  },
+  {
+   "player": "Ollie Lord",
+   "pos": "KEY_FWD",
+   "pick": 51,
+   "cohort": 2020,
+   "g26": 1,
+   "career_games": 35,
+   "el_tenure": 6,
+   "nseas_ge6": 3,
+   "draftval": 380.0,
+   "base_prod_path": 83.9,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 137,
+   "final": 137,
+   "floor_frac": 0.09,
+   "floor_amount": 0
+  },
+  {
+   "player": "Joe Berry",
+   "pos": "GEN_FWD",
+   "pick": 15,
+   "cohort": 2024,
+   "g26": 13,
+   "career_games": 25,
+   "el_tenure": 2,
+   "nseas_ge6": 2,
+   "draftval": 1074.0,
+   "base_prod_path": 1402.4,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 1402,
+   "final": 1402,
+   "floor_frac": 0.35,
+   "floor_amount": 0
+  },
+  {
+   "player": "Sam Berry",
+   "pos": "MID",
+   "pick": 29,
+   "cohort": 2020,
+   "g26": 13,
+   "career_games": 89,
+   "el_tenure": 6,
+   "nseas_ge6": 5,
+   "draftval": 605.0,
+   "base_prod_path": 2421.1,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 2421,
+   "final": 2421,
+   "floor_frac": 0.09,
+   "floor_amount": 0
+  },
+  {
+   "player": "Jarrod Berry",
+   "pos": "MID",
+   "pick": 17,
+   "cohort": 2016,
+   "g26": 9,
+   "career_games": 193,
+   "el_tenure": 10,
+   "nseas_ge6": 10,
+   "draftval": 929.0,
+   "base_prod_path": 517.6,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 538,
+   "final": 538,
+   "floor_frac": 0.05,
+   "floor_amount": 0
+  },
+  {
+   "player": "Oscar Berry",
+   "pos": "KEY_DEF",
+   "pick": null,
+   "cohort": 2025,
+   "g26": 0,
+   "career_games": 0,
+   "el_tenure": 1,
+   "nseas_ge6": 0,
+   "draftval": 308.0,
+   "base_prod_path": 90.3,
+   "sitout_fires": true,
+   "sitout_retain": 0.7,
+   "sitout_value": 216,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 216,
+   "final": 216,
+   "floor_frac": 0.45,
+   "floor_amount": 0
+  },
+  {
+   "player": "Jack Ginnivan",
+   "pos": "GEN_FWD",
+   "pick": 9,
+   "cohort": 2020,
+   "g26": 13,
+   "career_games": 103,
+   "el_tenure": 6,
+   "nseas_ge6": 5,
+   "draftval": 308.0,
+   "base_prod_path": 1799.5,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 1799,
+   "final": 1799,
+   "floor_frac": 0.09,
+   "floor_amount": 0
+  },
+  {
+   "player": "Daniel Annable",
+   "pos": "MID",
+   "pick": 6,
+   "cohort": 2025,
+   "g26": 1,
+   "career_games": 1,
+   "el_tenure": 1,
+   "nseas_ge6": 0,
+   "draftval": 1873.0,
+   "base_prod_path": 1571.5,
+   "sitout_fires": true,
+   "sitout_retain": 0.5,
+   "sitout_value": 936,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 936,
+   "final": 936,
+   "floor_frac": 0.45,
+   "floor_amount": 0
+  },
+  {
+   "player": "Sam Cumming",
+   "pos": "MID",
+   "pick": 7,
+   "cohort": 2025,
+   "g26": 7,
+   "career_games": 7,
+   "el_tenure": 1,
+   "nseas_ge6": 1,
+   "draftval": 1793.0,
+   "base_prod_path": 1993.6,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 1982,
+   "final": 1982,
+   "floor_frac": 0.45,
+   "floor_amount": 0
+  },
+  {
+   "player": "Isaac Cumming",
+   "pos": "GEN_DEF",
+   "pick": 20,
+   "cohort": 2016,
+   "g26": 9,
+   "career_games": 114,
+   "el_tenure": 10,
+   "nseas_ge6": 6,
+   "draftval": 736.0,
+   "base_prod_path": 44.2,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 48,
+   "final": 48,
+   "floor_frac": 0.05,
+   "floor_amount": 0
+  },
+  {
+   "player": "Tobie Travaglia",
+   "pos": "GEN_DEF",
+   "pick": 8,
+   "cohort": 2024,
+   "g26": 0,
+   "career_games": 12,
+   "el_tenure": 2,
+   "nseas_ge6": 1,
+   "draftval": 1704.0,
+   "base_prod_path": 644.2,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 712,
+   "final": 712,
+   "floor_frac": 0.35,
+   "floor_amount": 0
+  },
+  {
+   "player": "Christian Moraes",
+   "pos": "MID",
+   "pick": 38,
+   "cohort": 2024,
+   "g26": 7,
+   "career_games": 21,
+   "el_tenure": 2,
+   "nseas_ge6": 2,
+   "draftval": 543.0,
+   "base_prod_path": 913.0,
+   "sitout_fires": false,
+   "sitout_retain": null,
+   "sitout_value": null,
+   "stalled_fires": false,
+   "mediocre_fires": false,
+   "prefloor": 887,
+   "final": 887,
+   "floor_frac": 0.35,
+   "floor_amount": 0
+  }
+ ],
+ "b6_ramp": {
+  "0": 745,
+  "1": 745,
+  "2": 745,
+  "3": 745,
+  "4": 745,
+  "5": 745,
+  "6": 3296,
+  "7": 3379,
+  "8": 3376,
+  "9": 3551,
+  "10": 3325,
+  "11": 3459,
+  "12": 3526,
+  "13": 3583,
+  "14": 3578
+ },
+ "seam_under": [
+  {
+   "player": "Louis Emmett",
+   "pos": "RUC",
+   "pick": 27,
+   "cohort": 2025,
+   "g26": 5,
+   "el": 1,
+   "now": 518,
+   "at6g": 1406,
+   "smooth_est": 1258,
+   "distortion": 740
+  },
+  {
+   "player": "Jack Ison",
+   "pos": "GEN_FWD",
+   "pick": 47,
+   "cohort": 2025,
+   "g26": 4,
+   "el": 1,
+   "now": 212,
+   "at6g": 598,
+   "smooth_est": 469,
+   "distortion": 257
+  },
+  {
+   "player": "Jayden Nguyen",
+   "pos": "GEN_DEF",
+   "pick": null,
+   "cohort": 2024,
+   "g26": 5,
+   "el": 2,
+   "now": 154,
+   "at6g": 430,
+   "smooth_est": 384,
+   "distortion": 230
+  },
+  {
+   "player": "Jai Murray",
+   "pos": "MID",
+   "pick": 17,
+   "cohort": 2025,
+   "g26": 2,
+   "el": 1,
+   "now": 464,
+   "at6g": 1109,
+   "smooth_est": 679,
+   "distortion": 215
+  },
+  {
+   "player": "Charlie Banfield",
+   "pos": "MID",
+   "pick": 41,
+   "cohort": 2025,
+   "g26": 3,
+   "el": 1,
+   "now": 256,
+   "at6g": 680,
+   "smooth_est": 468,
+   "distortion": 212
+  },
+  {
+   "player": "Cameron Nairn",
+   "pos": "GEN_FWD",
+   "pick": 20,
+   "cohort": 2025,
+   "g26": 3,
+   "el": 1,
+   "now": 368,
+   "at6g": 784,
+   "smooth_est": 576,
+   "distortion": 208
+  },
+  {
+   "player": "Lachlan Smith",
+   "pos": "RUC",
+   "pick": 47,
+   "cohort": 2023,
+   "g26": 2,
+   "el": 3,
+   "now": 330,
+   "at6g": 922,
+   "smooth_est": 527,
+   "distortion": 197
+  },
+  {
+   "player": "Thomas Burton",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2025,
+   "g26": 5,
+   "el": 1,
+   "now": 154,
+   "at6g": 384,
+   "smooth_est": 346,
+   "distortion": 192
+  },
+  {
+   "player": "Zane Zakostelsky",
+   "pos": "KEY_DEF",
+   "pick": 51,
+   "cohort": 2023,
+   "g26": 3,
+   "el": 3,
+   "now": 240,
+   "at6g": 589,
+   "smooth_est": 414,
+   "distortion": 174
+  },
+  {
+   "player": "Max Kondogiannis",
+   "pos": "GEN_DEF",
+   "pick": 36,
+   "cohort": 2025,
+   "g26": 5,
+   "el": 1,
+   "now": 280,
+   "at6g": 481,
+   "smooth_est": 448,
+   "distortion": 168
+  },
+  {
+   "player": "Cody Curtin",
+   "pos": "KEY_FWD",
+   "pick": 43,
+   "cohort": 2025,
+   "g26": 4,
+   "el": 1,
+   "now": 339,
+   "at6g": 563,
+   "smooth_est": 488,
+   "distortion": 149
+  },
+  {
+   "player": "Josaia Delana",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2024,
+   "g26": 4,
+   "el": 2,
+   "now": 154,
+   "at6g": 373,
+   "smooth_est": 300,
+   "distortion": 146
+  },
+  {
+   "player": "Harry Kyle",
+   "pos": "GEN_DEF",
+   "pick": 14,
+   "cohort": 2025,
+   "g26": 3,
+   "el": 1,
+   "now": 568,
+   "at6g": 850,
+   "smooth_est": 709,
+   "distortion": 141
+  },
+  {
+   "player": "Jasper Alger",
+   "pos": "GEN_FWD",
+   "pick": 58,
+   "cohort": 2024,
+   "g26": 4,
+   "el": 2,
+   "now": 154,
+   "at6g": 366,
+   "smooth_est": 295,
+   "distortion": 141
+  },
+  {
+   "player": "Noah Roberts-Thomson",
+   "pos": "GEN_FWD",
+   "pick": 54,
+   "cohort": 2025,
+   "g26": 3,
+   "el": 1,
+   "now": 174,
+   "at6g": 442,
+   "smooth_est": 308,
+   "distortion": 134
+  },
+  {
+   "player": "Wil Dawson",
+   "pos": "KEY_DEF",
+   "pick": 22,
+   "cohort": 2023,
+   "g26": 4,
+   "el": 3,
+   "now": 405,
+   "at6g": 606,
+   "smooth_est": 539,
+   "distortion": 134
+  },
+  {
+   "player": "Billy Cootee",
+   "pos": "MID",
+   "pick": 42,
+   "cohort": 2025,
+   "g26": 4,
+   "el": 1,
+   "now": 250,
+   "at6g": 52,
+   "smooth_est": 118,
+   "distortion": -132
+  },
+  {
+   "player": "Taylor Goad",
+   "pos": "RUC",
+   "pick": 20,
+   "cohort": 2023,
+   "g26": 1,
+   "el": 3,
+   "now": 576,
+   "at6g": 1188,
+   "smooth_est": 678,
+   "distortion": 102
+  },
+  {
+   "player": "Hussien El Achkar",
+   "pos": "GEN_FWD",
+   "pick": 53,
+   "cohort": 2025,
+   "g26": 4,
+   "el": 1,
+   "now": 180,
+   "at6g": 324,
+   "smooth_est": 276,
+   "distortion": 96
+  },
+  {
+   "player": "Nick Madden",
+   "pos": "RUC",
+   "pick": null,
+   "cohort": 2022,
+   "g26": 3,
+   "el": 4,
+   "now": 202,
+   "at6g": 393,
+   "smooth_est": 298,
+   "distortion": 96
+  },
+  {
+   "player": "Charlie West",
+   "pos": "KEY_FWD",
+   "pick": 50,
+   "cohort": 2024,
+   "g26": 2,
+   "el": 2,
+   "now": 273,
+   "at6g": 537,
+   "smooth_est": 361,
+   "distortion": 88
+  },
+  {
+   "player": "Luker Kentfield",
+   "pos": "KEY_FWD",
+   "pick": 11,
+   "cohort": 2024,
+   "g26": 2,
+   "el": 3,
+   "now": 196,
+   "at6g": 460,
+   "smooth_est": 284,
+   "distortion": 88
+  },
+  {
+   "player": "James Leake",
+   "pos": "GEN_DEF",
+   "pick": 17,
+   "cohort": 2023,
+   "g26": 5,
+   "el": 3,
+   "now": 407,
+   "at6g": 309,
+   "smooth_est": 325,
+   "distortion": -82
+  },
+  {
+   "player": "Jacob Newton",
+   "pos": "GEN_FWD",
+   "pick": 9,
+   "cohort": 2025,
+   "g26": 3,
+   "el": 2,
+   "now": 154,
+   "at6g": 307,
+   "smooth_est": 230,
+   "distortion": 76
+  },
+  {
+   "player": "Daniel Annable",
+   "pos": "MID",
+   "pick": 6,
+   "cohort": 2025,
+   "g26": 1,
+   "el": 1,
+   "now": 936,
+   "at6g": 1381,
+   "smooth_est": 1010,
+   "distortion": 74
+  },
+  {
+   "player": "Tom Cochrane",
+   "pos": "GEN_FWD",
+   "pick": 6,
+   "cohort": 2024,
+   "g26": 2,
+   "el": 2,
+   "now": 154,
+   "at6g": 372,
+   "smooth_est": 227,
+   "distortion": 73
+  },
+  {
+   "player": "Kye Annand",
+   "pos": "KEY_DEF",
+   "pick": 2,
+   "cohort": 2026,
+   "g26": 1,
+   "el": 1,
+   "now": 216,
+   "at6g": 595,
+   "smooth_est": 279,
+   "distortion": 63
+  },
+  {
+   "player": "Wil Parker",
+   "pos": "GEN_DEF",
+   "pick": null,
+   "cohort": 2023,
+   "g26": 5,
+   "el": 3,
+   "now": 135,
+   "at6g": 59,
+   "smooth_est": 72,
+   "distortion": -63
+  },
+  {
+   "player": "Hugo Hall-Kahan",
+   "pos": "GEN_DEF",
+   "pick": 11,
+   "cohort": 2026,
+   "g26": 3,
+   "el": 1,
+   "now": 154,
+   "at6g": 278,
+   "smooth_est": 216,
+   "distortion": 62
+  },
+  {
+   "player": "Luke Kennedy",
+   "pos": "MID",
+   "pick": 62,
+   "cohort": 2024,
+   "g26": 1,
+   "el": 2,
+   "now": 154,
+   "at6g": 456,
+   "smooth_est": 204,
+   "distortion": 50
+  },
+  {
+   "player": "Harrison Oliver",
+   "pos": "GEN_DEF",
+   "pick": 19,
+   "cohort": 2024,
+   "g26": 2,
+   "el": 2,
+   "now": 398,
+   "at6g": 538,
+   "smooth_est": 445,
+   "distortion": 47
+  },
+  {
+   "player": "Harrison Ramm",
+   "pos": "KEY_DEF",
+   "pick": 3,
+   "cohort": 2025,
+   "g26": 1,
+   "el": 2,
+   "now": 216,
+   "at6g": 490,
+   "smooth_est": 262,
+   "distortion": 46
+  },
+  {
+   "player": "Ben Jepson",
+   "pos": "MID",
+   "pick": null,
+   "cohort": 2024,
+   "g26": 2,
+   "el": 2,
+   "now": 154,
+   "at6g": 47,
+   "smooth_est": 118,
+   "distortion": -36
+  },
+  {
+   "player": "Joel Fitzgerald",
+   "pos": "MID",
+   "pick": 16,
+   "cohort": 2026,
+   "g26": 1,
+   "el": 1,
+   "now": 154,
+   "at6g": 355,
+   "smooth_est": 188,
+   "distortion": 34
+  },
+  {
+   "player": "Oliver Hannaford",
+   "pos": "GEN_FWD",
+   "pick": 18,
+   "cohort": 2024,
+   "g26": 5,
+   "el": 2,
+   "now": 430,
+   "at6g": 462,
+   "smooth_est": 457,
+   "distortion": 27
+  },
+  {
+   "player": "Mitch Podhajski",
+   "pos": "KEY_FWD",
+   "pick": 17,
+   "cohort": 2026,
+   "g26": 1,
+   "el": 1,
+   "now": 216,
+   "at6g": 58,
+   "smooth_est": 190,
+   "distortion": -26
+  },
+  {
+   "player": "Marcus Herbert",
+   "pos": "GEN_DEF",
+   "pick": 13,
+   "cohort": 2026,
+   "g26": 1,
+   "el": 1,
+   "now": 154,
+   "at6g": 296,
+   "smooth_est": 178,
+   "distortion": 24
+  },
+  {
+   "player": "Xavier Bamert",
+   "pos": "GEN_FWD",
+   "pick": 5,
+   "cohort": 2026,
+   "g26": 1,
+   "el": 1,
+   "now": 154,
+   "at6g": 289,
+   "smooth_est": 176,
+   "distortion": 22
+  },
+  {
+   "player": "Billy Wilson",
+   "pos": "GEN_DEF",
+   "pick": 34,
+   "cohort": 2023,
+   "g26": 5,
+   "el": 3,
+   "now": 256,
+   "at6g": 233,
+   "smooth_est": 237,
+   "distortion": -19
+  },
+  {
+   "player": "Bodie Ryan",
+   "pos": "GEN_DEF",
+   "pick": 46,
+   "cohort": 2023,
+   "g26": 4,
+   "el": 3,
+   "now": 193,
+   "at6g": 167,
+   "smooth_est": 176,
+   "distortion": -17
+  },
+  {
+   "player": "Hudson O'Keeffe",
+   "pos": "KEY_FWD",
+   "pick": null,
+   "cohort": 2022,
+   "g26": 3,
+   "el": 4,
+   "now": 163,
+   "at6g": 196,
+   "smooth_est": 180,
+   "distortion": 16
+  },
+  {
+   "player": "William McCabe",
+   "pos": "KEY_FWD",
+   "pick": 19,
+   "cohort": 2023,
+   "g26": 1,
+   "el": 3,
+   "now": 507,
+   "at6g": 424,
+   "smooth_est": 493,
+   "distortion": -14
+  },
+  {
+   "player": "Henry Hustwaite",
+   "pos": "MID",
+   "pick": 37,
+   "cohort": 2022,
+   "g26": 1,
+   "el": 4,
+   "now": 209,
+   "at6g": 127,
+   "smooth_est": 195,
+   "distortion": -14
+  },
+  {
+   "player": "Wade Derksen",
+   "pos": "KEY_DEF",
+   "pick": 5,
+   "cohort": 2022,
+   "g26": 4,
+   "el": 5,
+   "now": 131,
+   "at6g": 113,
+   "smooth_est": 119,
+   "distortion": -12
+  },
+  {
+   "player": "Jack Dalton",
+   "pos": "GEN_FWD",
+   "pick": 34,
+   "cohort": 2025,
+   "g26": 2,
+   "el": 1,
+   "now": 292,
+   "at6g": 261,
+   "smooth_est": 282,
+   "distortion": -10
+  },
+  {
+   "player": "Liam Reidy",
+   "pos": "RUC",
+   "pick": 5,
+   "cohort": 2022,
+   "g26": 3,
+   "el": 4,
+   "now": 202,
+   "at6g": 220,
+   "smooth_est": 211,
+   "distortion": 9
+  },
+  {
+   "player": "Lukas Cooke",
+   "pos": "KEY_DEF",
+   "pick": 11,
+   "cohort": 2026,
+   "g26": 1,
+   "el": 1,
+   "now": 216,
+   "at6g": 170,
+   "smooth_est": 208,
+   "distortion": -8
+  },
+  {
+   "player": "Tom Anastasopoulos",
+   "pos": "GEN_FWD",
+   "pick": 48,
+   "cohort": 2023,
+   "g26": 2,
+   "el": 3,
+   "now": 184,
+   "at6g": 161,
+   "smooth_est": 176,
+   "distortion": -8
+  },
+  {
+   "player": "George Stevens",
+   "pos": "MID",
+   "pick": 58,
+   "cohort": 2023,
+   "g26": 1,
+   "el": 3,
+   "now": 139,
+   "at6g": 182,
+   "smooth_est": 146,
+   "distortion": 7
+  },
+  {
+   "player": "Max Ramsden",
+   "pos": "KEY_FWD",
+   "pick": 6,
+   "cohort": 2022,
+   "g26": 2,
+   "el": 5,
+   "now": 134,
+   "at6g": 113,
+   "smooth_est": 127,
+   "distortion": -7
+  },
+  {
+   "player": "Xavier Taylor",
+   "pos": "GEN_DEF",
+   "pick": 11,
+   "cohort": 2025,
+   "g26": 2,
+   "el": 1,
+   "now": 690,
+   "at6g": 698,
+   "smooth_est": 693,
+   "distortion": 3
+  },
+  {
+   "player": "Charlie Edwards",
+   "pos": "MID",
+   "pick": 21,
+   "cohort": 2023,
+   "g26": 2,
+   "el": 3,
+   "now": 307,
+   "at6g": 317,
+   "smooth_est": 310,
+   "distortion": 3
+  },
+  {
+   "player": "Mitch Zadow",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2025,
+   "g26": 1,
+   "el": 1,
+   "now": 154,
+   "at6g": 155,
+   "smooth_est": 154,
+   "distortion": 0
+  },
+  {
+   "player": "Campbell Lake",
+   "pos": "GEN_FWD",
+   "pick": 7,
+   "cohort": 2026,
+   "g26": 3,
+   "el": 1,
+   "now": 154,
+   "at6g": 154,
+   "smooth_est": 154,
+   "distortion": 0
+  }
+ ],
+ "seam_err": [],
+ "seam_over": [
+  {
+   "player": "Dyson Sharp",
+   "pos": "MID",
+   "pick": 13,
+   "cohort": 2025,
+   "g26": 6,
+   "el": 1,
+   "now": 1166
+  },
+  {
+   "player": "Lachy Dovaston",
+   "pos": "GEN_FWD",
+   "pick": 16,
+   "cohort": 2025,
+   "g26": 6,
+   "el": 1,
+   "now": 953
+  },
+  {
+   "player": "Isaac Kako",
+   "pos": "GEN_FWD",
+   "pick": 13,
+   "cohort": 2024,
+   "g26": 6,
+   "el": 2,
+   "now": 1214
+  },
+  {
+   "player": "Will Hayes",
+   "pos": "GEN_FWD",
+   "pick": 56,
+   "cohort": 2024,
+   "g26": 6,
+   "el": 2,
+   "now": 337
+  },
+  {
+   "player": "Liam Fawcett",
+   "pos": "KEY_FWD",
+   "pick": 43,
+   "cohort": 2023,
+   "g26": 6,
+   "el": 3,
+   "now": 384
+  },
+  {
+   "player": "Oliver Wiltshire",
+   "pos": "GEN_FWD",
+   "pick": 61,
+   "cohort": 2023,
+   "g26": 6,
+   "el": 3,
+   "now": 86
+  },
+  {
+   "player": "Max Heath",
+   "pos": "RUC",
+   "pick": 7,
+   "cohort": 2021,
+   "g26": 6,
+   "el": 6,
+   "now": 101
+  },
+  {
+   "player": "Sam Cumming",
+   "pos": "MID",
+   "pick": 7,
+   "cohort": 2025,
+   "g26": 7,
+   "el": 1,
+   "now": 1982
+  },
+  {
+   "player": "Chris Scerri",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2025,
+   "g26": 7,
+   "el": 1,
+   "now": 371
+  },
+  {
+   "player": "Tom Edwards",
+   "pos": "KEY_FWD",
+   "pick": null,
+   "cohort": 2024,
+   "g26": 7,
+   "el": 2,
+   "now": 47
+  },
+  {
+   "player": "Oliver Hayes-Brown",
+   "pos": "RUC",
+   "pick": null,
+   "cohort": 2023,
+   "g26": 7,
+   "el": 3,
+   "now": 347
+  },
+  {
+   "player": "James Tunstill",
+   "pos": "MID",
+   "pick": 41,
+   "cohort": 2021,
+   "g26": 7,
+   "el": 5,
+   "now": 75
+  },
+  {
+   "player": "Talor Byrne",
+   "pos": "GEN_FWD",
+   "pick": 45,
+   "cohort": 2025,
+   "g26": 8,
+   "el": 1,
+   "now": 430
+  },
+  {
+   "player": "Angus Anderson",
+   "pos": "MID",
+   "pick": 57,
+   "cohort": 2025,
+   "g26": 8,
+   "el": 1,
+   "now": 139
+  },
+  {
+   "player": "Paddy Cross",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2025,
+   "g26": 8,
+   "el": 1,
+   "now": 57
+  },
+  {
+   "player": "Lachie Jaques",
+   "pos": "GEN_DEF",
+   "pick": 29,
+   "cohort": 2024,
+   "g26": 8,
+   "el": 2,
+   "now": 670
+  },
+  {
+   "player": "Patrick Retschko",
+   "pos": "MID",
+   "pick": 9,
+   "cohort": 2024,
+   "g26": 8,
+   "el": 2,
+   "now": 744
+  },
+  {
+   "player": "Lachlan Gulbin",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2024,
+   "g26": 8,
+   "el": 2,
+   "now": 364
+  },
+  {
+   "player": "Malakai Champion",
+   "pos": "GEN_FWD",
+   "pick": null,
+   "cohort": 2024,
+   "g26": 8,
+   "el": 2,
+   "now": 372
+  },
+  {
+   "player": "Toby Murray",
+   "pos": "KEY_FWD",
+   "pick": 7,
+   "cohort": 2024,
+   "g26": 8,
+   "el": 3,
+   "now": 145
+  },
+  {
+   "player": "Will Edwards",
+   "pos": "KEY_DEF",
+   "pick": null,
+   "cohort": 2022,
+   "g26": 8,
+   "el": 4,
+   "now": 170
+  },
+  {
+   "player": "Oscar Steene",
+   "pos": "RUC",
+   "pick": null,
+   "cohort": 2022,
+   "g26": 8,
+   "el": 4,
+   "now": 208
+  }
+ ],
+ "whatif": [
+  {
+   "player": "Oscar Berry",
+   "g26": 0,
+   "current": 216,
+   "whatif_a_games_smoothed": null,
+   "whatif_b_R14_prorated": 216,
+   "retain_b": 0.7
+  },
+  {
+   "player": "Daniel Annable",
+   "g26": 1,
+   "current": 936,
+   "whatif_a_games_smoothed": 1010,
+   "whatif_b_R14_prorated": 936,
+   "retain_b": 0.5
+  }
+ ],
+ "comparables": {
+  "Sam Berry": {
+   "target": {
+    "pos": "MID",
+    "pick": 29,
+    "cohort": 2020,
+    "ten": 6,
+    "best": 102.4,
+    "g": 89
+   },
+   "comparables": [
+    {
+     "player": "Errol Gulden",
+     "pick": 34,
+     "cohort": 2020,
+     "games": 105,
+     "best_lvl": 114.5,
+     "final": 5299
+    },
+    {
+     "player": "Jason Horne-Francis",
+     "pick": 1,
+     "cohort": 2021,
+     "games": 93,
+     "best_lvl": 100.5,
+     "final": 4199
+    },
+    {
+     "player": "Nicholas Martin",
+     "pick": null,
+     "cohort": 2021,
+     "games": 83,
+     "best_lvl": 107.5,
+     "final": 3122
+    },
+    {
+     "player": "Hayden Young",
+     "pick": 7,
+     "cohort": 2019,
+     "games": 95,
+     "best_lvl": 103.7,
+     "final": 2869
+    },
+    {
+     "player": "Will Day",
+     "pick": 13,
+     "cohort": 2019,
+     "games": 78,
+     "best_lvl": 102.4,
+     "final": 2823
+    },
+    {
+     "player": "Jake Soligo",
+     "pick": 36,
+     "cohort": 2021,
+     "games": 96,
+     "best_lvl": 91.4,
+     "final": 2523
+    },
+    {
+     "player": "Sam Durham",
+     "pick": 9,
+     "cohort": 2021,
+     "games": 107,
+     "best_lvl": 93.4,
+     "final": 2012
+    }
+   ]
+  },
+  "Cooper Lord": {
+   "target": {
+    "pos": "MID",
+    "pick": 9,
+    "cohort": 2024,
+    "ten": 3,
+    "best": 61.9,
+    "g": 27
+   },
+   "comparables": [
+    {
+     "player": "Samuel Grlj",
+     "pick": 8,
+     "cohort": 2025,
+     "games": 12,
+     "best_lvl": 59.8,
+     "final": 2256
+    },
+    {
+     "player": "Sullivan Robey",
+     "pick": 9,
+     "cohort": 2025,
+     "games": 10,
+     "best_lvl": 58.8,
+     "final": 2207
+    },
+    {
+     "player": "Sam Cumming",
+     "pick": 7,
+     "cohort": 2025,
+     "games": 7,
+     "best_lvl": 61.3,
+     "final": 1982
+    },
+    {
+     "player": "Caleb Windsor",
+     "pick": 7,
+     "cohort": 2023,
+     "games": 48,
+     "best_lvl": 61.4,
+     "final": 1703
+    },
+    {
+     "player": "Matt Carroll",
+     "pick": 8,
+     "cohort": 2023,
+     "games": 27,
+     "best_lvl": 68.0,
+     "final": 990
+    },
+    {
+     "player": "Hamish Davis",
+     "pick": 65,
+     "cohort": 2024,
+     "games": 21,
+     "best_lvl": 58.5,
+     "final": 903
+    },
+    {
+     "player": "Hugh Boxshall",
+     "pick": 45,
+     "cohort": 2024,
+     "games": 16,
+     "best_lvl": 60.3,
+     "final": 816
+    },
+    {
+     "player": "Patrick Retschko",
+     "pick": 9,
+     "cohort": 2024,
+     "games": 8,
+     "best_lvl": 66.1,
+     "final": 744
+    }
+   ]
+  }
+ }
+}

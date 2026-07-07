@@ -1,0 +1,29 @@
+# D15 V2 — KPP FLOOR NEVER-LOWERS FULL SWEEP   (git fa6abd0 / engine md5 7c199a1f)
+# floored=_R_surf('KPP',pick,tau) O1 ON  vs  unfloored O1 OFF; violation = floored < unfloored
+
+## SWEEP DOMAIN: pick 1..90  x  depth 1..6  =  540 cells
+   cell count = 540  (== the audit's claimed 540)
+
+## VIOLATIONS (floored < unfloored): 0   (expect 0)
+   none — the floor is a pure lower bound on every cell (never lowers).
+
+## D14c depth-monotonicity of the floored KPP surface: OK
+
+## O1 OVERRIDE EFFECT — binds (nonKPP>KPP) on 222/540 cells; max lift = 0.3430 retention
+   binds per depth (cells where nonKPP>KPP, i.e. floor raises):
+     depth 1:  19 / 90 cells bind   (picks 14-32)
+     depth 2:  35 / 90 cells bind   (picks 9-43)
+     depth 3:  48 / 90 cells bind   (picks 1-48)
+     depth 4:  43 / 90 cells bind   (picks 1-43)
+     depth 5:  40 / 90 cells bind   (picks 1-40)
+     depth 6:  37 / 90 cells bind   (picks 1-37)
+
+   named-cell spot checks (verification-doc claims):
+     pick20 depth1 (mid-pick band): KPP=0.668 nonKPP=0.683 -> floored=0.683 BINDS(+0.015)
+     pick25 depth1 (mid-pick band): KPP=0.648 nonKPP=0.664 -> floored=0.664 BINDS(+0.016)
+     pick30 depth1 (mid-pick band): KPP=0.632 nonKPP=0.649 -> floored=0.649 BINDS(+0.017)
+     pick5  depth3: KPP=0.387 nonKPP=0.446 -> floored=0.446 BINDS(+0.059)
+     pick5  depth5: KPP=0.183 nonKPP=0.446 -> floored=0.446 BINDS(+0.263)
+     pick50 all depths: NO bind at any depth (KPP>=nonKPP everywhere)
+
+## VERDICT: PASS   — 540 cells swept, 0 floor violations, 0 monotonicity breaks

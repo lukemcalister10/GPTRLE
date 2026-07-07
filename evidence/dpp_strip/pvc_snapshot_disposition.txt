@@ -1,0 +1,30 @@
+PHASE 4 — pvc_snapshot.json DISPOSITION
+
+READERS FOUND (what reads it, live):
+  engine/rl_after/rl_model.py:_v4_init()  ->  _V4PVC = json.load(open('pvc_snapshot.json'))
+    consumed by _v4_feats() / _v4_draft_feat()  (the feature np.log(_V4PVC[str(ep)]) = logPVC)
+    -> feeds peak_est() -> the v4 forward-projection -> value() / ev(). LIVE reader (not a dead retrain path).
+
+WHAT IT IS:
+  The peak model peak_model_v4.pkl was TRAINED with np.log(MA.PVC[ep]) as its logPVC feature
+  (build_peak_model_v4.py:feats/draft_feat). At INFERENCE the engine must feed the SAME PVC as a FROZEN
+  feature, because the live PVC depends on SCALE which depends on peak_est which depends on the model -- a
+  bootstrap cycle. pvc_snapshot.json is that frozen train-time PVC. It is a DERIVED artifact of the
+  peak-model build, NOT the live PVC. (PR #34 flagged it as DRIFTED vs live -- correctly so: it SHOULD NOT
+  track the live/post-bake PVC; feeding the live PVC would be train/serve skew and would silently re-price
+  the whole board through peak_est.)
+
+DISPOSITION (live reader exists -> regenerate as a derived, stamped, read-only file; NOT deleted):
+  1. GENERATOR wired: build_peak_model_v4.py now CO-EMITS pvc_snapshot.json (the exact PVC it trained on)
+     alongside the pickle, read-only + tier-2 stamped -- the model and its train-time PVC are co-generated
+     so they can never drift apart (the "next hidden-copy risk" is closed).
+  2. READ-ONLY + STAMPED: single_source.lock_tier2() (run first thing in rl_export.py) stamps it
+     pvc_snapshot.json.srcmd5 (tier=2, frozen, own_md5=735d2dec) and chmods it 0o444 -- it can no longer be
+     hand-edited into a divergence. Protected additionally by the lookalike tripwire + engine-opens guard.
+  3. COMMENT CORRECTED: rl_model.py:_v4_init no longer claims "deterministic so == live PVC at standard env"
+     (the false claim PR #34 disproved). It now states it is the peak-model's frozen TRAIN-TIME PVC.
+  4. VALUE-NEUTRAL: content unchanged (md5 735d2dec) -> zero board impact this build (as required; changing
+     it would be a re-model, out of scope for this consolidation).
+
+  NOT deleted (a live reader exists). NOT regenerated-from-live (that is train/serve skew + a board re-price,
+  out of scope). Pinned as the peak-model's train-time artifact, exactly as the flag recommended.

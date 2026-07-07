@@ -1,0 +1,4 @@
+{"tag": "reconciled", "md5": "1898ead7", "SCALE": 4.48537, "intakePickSum": 58403, "intakeFull": 63947, "PVC1": 3000, "PVC8": 1704, "active": 805, "cohort": 1978}
+{"tag": "pre_stage0", "md5": "1898ead7", "SCALE": 4.48537, "intakePickSum": 58403, "intakeFull": 63947, "PVC1": 3000, "PVC8": 1704, "active": 805, "cohort": 1978}
+{"tag": "stage0", "md5": "c16e1024", "SCALE": 4.48588, "intakePickSum": 58410, "intakeFull": 63954, "PVC1": 3000, "PVC8": 1705, "active": 805, "cohort": 1978}
+{"tag": "SHIPPED", "md5": "b8f9e998", "SCALE": 6.53492, "intakePickSum": 97973, "intakeFull": 109331, "PVC1": 3883, "PVC8": 2596, "active": 785, "cohort": 1303}

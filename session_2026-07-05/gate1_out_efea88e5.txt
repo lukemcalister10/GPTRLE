@@ -1,0 +1,29 @@
+in-sample @150 built
+  cohort 2014: n=64 held out, wf-rows=12654 (19s)
+  cohort 2015: n=60 held out, wf-rows=12666 (19s)
+  cohort 2016: n=67 held out, wf-rows=12633 (20s)
+  cohort 2017: n=69 held out, wf-rows=12668 (20s)
+  cohort 2018: n=60 held out, wf-rows=12788 (20s)
+
+=== WITHIN-PLAYER value-by-tenure, % of PAR-value (leakage-guarded WF vs in-sample IS) ===
+  future-GOOD should sit near/above 100 early & flat; BUST below & staying low; watch for violent yr0/1 moves
+  MID      GOOD n=53  WF[T0:  28 T1:  32 T2:  50 T3:  57 T4:  54 T5:  46]
+                       IS[   28   32   49   56   54   50 ]  (gap IS-WF = leakage)
+  MID      BUST n=15  WF[T0:   0 T1:   0 T2:   0 T3:   0 T4:   0 T5:   0]
+                       IS[    0    0    0    0    0    0 ]  (gap IS-WF = leakage)
+  GEN_FWD  GOOD n=41  WF[T0:  34 T1:  33 T2:  37 T3:  58 T4:  50 T5:  36]
+                       IS[   34   34   37   58   47   33 ]  (gap IS-WF = leakage)
+  GEN_FWD  BUST n=11  WF[T0:   1 T1:   1 T2:   1 T3:   1 T4:   1 T5:   1]
+                       IS[    1    1    1    1    1    1 ]  (gap IS-WF = leakage)
+  KEY_FWD  GOOD n=22  WF[T0:  39 T1:  29 T2:  53 T3:  68 T4:  70 T5:  59]
+                       IS[   39   30   53   69   69   59 ]  (gap IS-WF = leakage)
+  KEY_FWD  BUST n= 5  WF[T0:   0 T1:   0 T2:   0 T3:   0 T4:   0 T5:   0]
+                       IS[    0    0    0    0    0    0 ]  (gap IS-WF = leakage)
+  GEN_DEF  GOOD n=50  WF[T0:  38 T1:  30 T2:  39 T3:  37 T4:  45 T5:  45]
+                       IS[   38   31   42   37   47   43 ]  (gap IS-WF = leakage)
+  GEN_DEF  BUST n= 8  WF[T0:   1 T1:   1 T2:   1 T3:   1 T4:   1 T5:   1]
+                       IS[    1    1    1    1    1    1 ]  (gap IS-WF = leakage)
+  KEY_DEF  GOOD n=30  WF[T0:  33 T1:  27 T2:  56 T3:  55 T4:  48 T5:  46]
+                       IS[   33   27   55   54   49   46 ]  (gap IS-WF = leakage)
+  KEY_DEF  BUST n= 4  WF[T0:   1 T1:   1 T2:   1 T3:   1 T4:   1 T5:   1]
+                       IS[    1    1    1    1    1    1 ]  (gap IS-WF = leakage)

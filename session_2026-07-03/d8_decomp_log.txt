@@ -1,0 +1,46 @@
+2025 ND+RD cohort: n=64 (expect 64)
+PVC live check (2020 cohort): matrix draftval vs live MA.PVC mismatches = 0
+BASE v2 sum = 37875 (book 37875) · board-vs-book per-player |diff|: max=0, n_matched=64
+
+GAMES CENSUS (2026 season, 14 rounds possible):
+  0g    : n= 35 · draftval sum  19387 · v2 value sum  10278
+  1-5g  : n= 14 · draftval sum  10437 · v2 value sum   5527
+  6-10g : n=  8 · draftval sum   9169 · v2 value sum   8708
+  11+g  : n=  7 · draftval sum  12590 · v2 value sum  13362
+  contrast 2023 cohort END-of-Yr1 (2024, 24 rounds): 50/73 had no >=6g season (sit-out-classed)
+  contrast 2024 cohort END-of-Yr1 (2025, 24 rounds): 50/80 had no >=6g season (sit-out-classed)
+  2025 cohort at R14: 49/64 sit-out-classed (nseas==0, bar = >=6 games UNPRORATED)
+
+COHORT COUNTERFACTUALS (runtime patches, this process only — engine files untouched):
+  BASE v2 (as shipped)               sum= 37875
+  CF1 sit-out bar prorated (6->3.5)  sum= 39671  delta vs base= +1796
+  CF2 POLE_RAMP prorated (22->12.8)  sum= 38226  delta vs base=  +351
+  CF3 LEVEL_RAMP prorated (14->8.2)  sum= 37875  delta vs base=    +0
+  CF4 nqual bar prorated (10->5.8)   sum= 38025  delta vs base=  +150
+  CF5 = CF1+CF2+CF3+CF4 combined     sum= 40188  delta vs base= +2313
+  CF6 full-season-equiv games, M3 off sum= 41746  delta vs base= +3871
+
+SAMPLE DECOMPOSITION (v2, per player):
+player|pos|pick|g26|avg26|draftval|band_pr|pole_po|expgate|raw_ev|iso|e=raw*iso|sitout_branch|M3_s|prefloor|floor45|final|book|CF6_fullseas
+Willem Duursma|MID|1|13|86.4|3000|4183|2975|0.59|4183|1.000|4183|no|0.00|4183|1350|4183|4183|3968
+Samuel Grlj|MID|8|12|59.8|1704|2289|1943|0.55|2289|0.985|2256|no|0.00|2256|767|2256|2256|2337
+Josh Lindsay|GEN_DEF|19|12|74.3|795|1464|841|0.55|1464|0.993|1454|no|0.00|1454|358|1454|1454|1519
+Zeke Uwland|GEN_DEF|2|10|44.7|2501|1644|2145|0.45|1831|1.000|1831|no|0.09|1829|1125|1829|1829|2062
+Lachy Dovaston|GEN_FWD|16|6|38.5|1001|909|1183|0.27|969|1.000|969|no|0.45|953|450|953|953|1062
+Daniel Annable|MID|6|1|40.0|1873|1533|1821|0.05|1543|1.018|1571|YES ret=0.50 -> 936|0.91|936|843|936|936|936
+Max Kondogiannis|GEN_DEF|36|5|41.6|561|389|614|0.23|435|1.050|457|YES ret=0.50 -> 280|0.55|280|252|280|280|505
+Noah Roberts-Thomson|GEN_FWD|54|3|38.7|349|574|569|0.14|574|0.946|543|YES ret=0.50 -> 174|0.73|174|157|174|174|174
+Dylan Patterson|GEN_DEF|5|0|0.0|1965|1201|1291|0.00|1201|1.000|1201|YES ret=0.50 -> 982|1.00|982|884|982|982|982
+Koby Evans|GEN_FWD|38|0|0.0|543|585|517|0.00|585|1.011|591|YES ret=0.50 -> 272|1.00|272|244|272|272|272
+
+COMPARABLES (2024 cohort end-of-Yr1 anchor at nearest pick):
+  Willem Duursma       pk  1 v2= 4183 CF6= 3968 || 2024 comp Sam Lalor            pk  1 end-Yr1 anchor= 3280
+  Samuel Grlj          pk  8 v2= 2256 CF6= 2337 || 2024 comp Tobie Travaglia      pk  8 end-Yr1 anchor=  873
+  Josh Lindsay         pk 19 v2= 1454 CF6= 1519 || 2024 comp Harrison Oliver      pk 19 end-Yr1 anchor=  398
+  Zeke Uwland          pk  2 v2= 1829 CF6= 2062 || 2024 comp Finn O'Sullivan      pk  2 end-Yr1 anchor= 3167
+  Lachy Dovaston       pk 16 v2=  953 CF6= 1062 || 2024 comp Bo Allan             pk 16 end-Yr1 anchor=  624
+  Daniel Annable       pk  6 v2=  936 CF6=  936 || 2024 comp Harvey Langford      pk  6 end-Yr1 anchor= 2785
+  Max Kondogiannis     pk 36 v2=  280 CF6=  505 || 2024 comp Jack Ough            pk 36 end-Yr1 anchor=  280
+  Noah Roberts-Thomson pk 54 v2=  174 CF6=  174 || 2024 comp Lucas Camporeale     pk 54 end-Yr1 anchor=  174
+  Dylan Patterson      pk  5 v2=  982 CF6=  982 || 2024 comp Levi Ashcroft        pk  5 end-Yr1 anchor= 3514
+  Koby Evans           pk 38 v2=  272 CF6=  272 || 2024 comp Christian Moraes     pk 38 end-Yr1 anchor=  764

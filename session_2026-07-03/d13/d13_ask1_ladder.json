@@ -1,0 +1,2521 @@
+{
+"engine": "6226bfd3",
+"rungs": [
+1.1,
+1.3,
+1.5,
+1.73,
+2.0
+],
+"ladder": {
+"1.1": {
+"rows": [
+{
+"key": "Louis Emmett|2025|27",
+"player": "Louis Emmett",
+"pick": 27,
+"ns": 1,
+"V0": 670,
+"ratio": 1.1,
+"board": 670
+},
+{
+"key": "Flynn Riley|2026|4",
+"player": "Flynn Riley",
+"pick": 4,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 290
+},
+{
+"key": "Harrison Coe|2026|8",
+"player": "Harrison Coe",
+"pick": 8,
+"ns": 0,
+"V0": 117,
+"ratio": 0.379,
+"board": 100
+},
+{
+"key": "Caleb May|2026|9",
+"player": "Caleb May",
+"pick": 9,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 290
+},
+{
+"key": "Alex Van Wyk|2026|14",
+"player": "Alex Van Wyk",
+"pick": 14,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 290
+},
+{
+"key": "Max Mapley|2026|18",
+"player": "Max Mapley",
+"pick": 18,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 290
+},
+{
+"key": "Jacob Molier|2024|52",
+"player": "Jacob Molier",
+"pick": 52,
+"ns": 0,
+"V0": 407,
+"ratio": 1.1,
+"board": 251
+},
+{
+"key": "Alex Dodson|2024|53",
+"player": "Alex Dodson",
+"pick": 53,
+"ns": 0,
+"V0": 396,
+"ratio": 1.1,
+"board": 245
+},
+{
+"key": "Logan Smith|2024|71",
+"player": "Logan Smith",
+"pick": 71,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 209
+},
+{
+"key": "Aiden Riddle|2024|3",
+"player": "Aiden Riddle",
+"pick": 3,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 209
+},
+{
+"key": "Joe Pike|2024|11",
+"player": "Joe Pike",
+"pick": 11,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 209
+},
+{
+"key": "Jaime Uhr-Henry|2024|None",
+"player": "Jaime Uhr-Henry",
+"pick": 94,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 209
+},
+{
+"key": "Will Green|2023|16",
+"player": "Will Green",
+"pick": 16,
+"ns": 0,
+"V0": 1045,
+"ratio": 1.044,
+"board": 552
+},
+{
+"key": "Taylor Goad|2023|20",
+"player": "Taylor Goad",
+"pick": 20,
+"ns": 0,
+"V0": 810,
+"ratio": 1.1,
+"board": 648
+},
+{
+"key": "Mitchell Edwards|2023|32",
+"player": "Mitchell Edwards",
+"pick": 32,
+"ns": 1,
+"V0": 658,
+"ratio": 1.1,
+"board": 1328
+},
+{
+"key": "Lachlan Smith|2023|47",
+"player": "Lachlan Smith",
+"pick": 47,
+"ns": 0,
+"V0": 468,
+"ratio": 1.1,
+"board": 565
+},
+{
+"key": "Vigo Visentini|2023|6",
+"player": "Vigo Visentini",
+"pick": 6,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 179
+},
+{
+"key": "Oliver Hayes-Brown|2023|None",
+"player": "Oliver Hayes-Brown",
+"pick": 94,
+"ns": 1,
+"V0": 339,
+"ratio": 1.1,
+"board": 303
+},
+{
+"key": "Iliro Smit|2024|10",
+"player": "Iliro Smit",
+"pick": 10,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 179
+},
+{
+"key": "Harry Barnett|2022|23",
+"player": "Harry Barnett",
+"pick": 23,
+"ns": 0,
+"V0": 680,
+"ratio": 1.1,
+"board": 333
+},
+{
+"key": "Max Knobel|2022|42",
+"player": "Max Knobel",
+"pick": 42,
+"ns": 0,
+"V0": 549,
+"ratio": 1.1,
+"board": 269
+},
+{
+"key": "Liam Reidy|2022|5",
+"player": "Liam Reidy",
+"pick": 5,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 249
+},
+{
+"key": "Nick Madden|2022|None",
+"player": "Nick Madden",
+"pick": 94,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 1418
+},
+{
+"key": "Oscar Steene|2022|None",
+"player": "Oscar Steene",
+"pick": 94,
+"ns": 1,
+"V0": 339,
+"ratio": 1.1,
+"board": 216
+},
+{
+"key": "Toby Conway|2021|24",
+"player": "Toby Conway",
+"pick": 24,
+"ns": 0,
+"V0": 678,
+"ratio": 1.1,
+"board": 309
+},
+{
+"key": "Dante Visentini|2021|56",
+"player": "Dante Visentini",
+"pick": 56,
+"ns": 2,
+"V0": 355,
+"ratio": 1.1,
+"board": 901
+},
+{
+"key": "Samson Ryan|2020|42",
+"player": "Samson Ryan",
+"pick": 42,
+"ns": 2,
+"V0": 549,
+"ratio": 1.1,
+"board": 522
+},
+{
+"key": "Ned Moyle|2021|5",
+"player": "Ned Moyle",
+"pick": 5,
+"ns": 2,
+"V0": 339,
+"ratio": 1.1,
+"board": 1589
+},
+{
+"key": "Max Heath|2021|7",
+"player": "Max Heath",
+"pick": 7,
+"ns": 1,
+"V0": 339,
+"ratio": 1.1,
+"board": 111
+},
+{
+"key": "Lachlan McAndrew|2024|12",
+"player": "Lachlan McAndrew",
+"pick": 12,
+"ns": 1,
+"V0": 339,
+"ratio": 1.1,
+"board": 992
+},
+{
+"key": "Luke Jackson|2019|3",
+"player": "Luke Jackson",
+"pick": 3,
+"ns": 7,
+"V0": 2063,
+"ratio": 0.918,
+"board": 6986
+},
+{
+"key": "Nick Bryan|2019|38",
+"player": "Nick Bryan",
+"pick": 38,
+"ns": 2,
+"V0": 597,
+"ratio": 1.1,
+"board": 677
+},
+{
+"key": "Kieren Briggs|2018|34",
+"player": "Kieren Briggs",
+"pick": 34,
+"ns": 4,
+"V0": 641,
+"ratio": 1.1,
+"board": 2152
+},
+{
+"key": "Bailey J. Williams|2018|35",
+"player": "Bailey J. Williams",
+"pick": 35,
+"ns": 6,
+"V0": 628,
+"ratio": 1.1,
+"board": 2335
+},
+{
+"key": "Darcy Fort|2018|65",
+"player": "Darcy Fort",
+"pick": 65,
+"ns": 4,
+"V0": 336,
+"ratio": 1.091,
+"board": 83
+},
+{
+"key": "Jordon Sweet|2018|16",
+"player": "Jordon Sweet",
+"pick": 16,
+"ns": 4,
+"V0": 339,
+"ratio": 1.1,
+"board": 2011
+},
+{
+"key": "Ned Reeves|2018|None",
+"player": "Ned Reeves",
+"pick": 94,
+"ns": 3,
+"V0": 339,
+"ratio": 1.1,
+"board": 339
+},
+{
+"key": "Tom De Koning|2017|30",
+"player": "Tom De Koning",
+"pick": 30,
+"ns": 7,
+"V0": 663,
+"ratio": 1.1,
+"board": 1683
+},
+{
+"key": "Lloyd Meek|2017|68",
+"player": "Lloyd Meek",
+"pick": 68,
+"ns": 6,
+"V0": 339,
+"ratio": 1.1,
+"board": 883
+},
+{
+"key": "Tristan Xerri|2017|71",
+"player": "Tristan Xerri",
+"pick": 71,
+"ns": 6,
+"V0": 339,
+"ratio": 1.1,
+"board": 5755
+},
+{
+"key": "Timothy English|2016|19",
+"player": "Timothy English",
+"pick": 19,
+"ns": 9,
+"V0": 875,
+"ratio": 1.1,
+"board": 2907
+},
+{
+"key": "Sean Darcy|2016|38",
+"player": "Sean Darcy",
+"pick": 38,
+"ns": 10,
+"V0": 597,
+"ratio": 1.1,
+"board": 699
+},
+{
+"key": "Darcy Cameron|2016|48",
+"player": "Darcy Cameron",
+"pick": 48,
+"ns": 7,
+"V0": 453,
+"ratio": 1.1,
+"board": 1385
+},
+{
+"key": "Sam Draper|2016|1",
+"player": "Sam Draper",
+"pick": 1,
+"ns": 6,
+"V0": 339,
+"ratio": 1.1,
+"board": 1166
+},
+{
+"key": "Peter Ladhams|2016|8",
+"player": "Peter Ladhams",
+"pick": 8,
+"ns": 5,
+"V0": 339,
+"ratio": 1.1,
+"board": 442
+},
+{
+"key": "Rowan Marshall|2016|9",
+"player": "Rowan Marshall",
+"pick": 9,
+"ns": 9,
+"V0": 339,
+"ratio": 1.1,
+"board": 1336
+},
+{
+"key": "Matthew Flynn|2015|41",
+"player": "Matthew Flynn",
+"pick": 41,
+"ns": 5,
+"V0": 563,
+"ratio": 1.1,
+"board": 664
+},
+{
+"key": "Marc Pittonet|2014|50",
+"player": "Marc Pittonet",
+"pick": 50,
+"ns": 7,
+"V0": 429,
+"ratio": 1.1,
+"board": 429
+},
+{
+"key": "Reilly O'Brien|2014|8",
+"player": "Reilly O'Brien",
+"pick": 8,
+"ns": 7,
+"V0": 339,
+"ratio": 1.1,
+"board": 559
+},
+{
+"key": "Toby Nankervis|2013|35",
+"player": "Toby Nankervis",
+"pick": 35,
+"ns": 10,
+"V0": 628,
+"ratio": 1.1,
+"board": 1821
+},
+{
+"key": "Brodie Grundy|2012|22",
+"player": "Brodie Grundy",
+"pick": 22,
+"ns": 14,
+"V0": 712,
+"ratio": 1.1,
+"board": 3344
+},
+{
+"key": "Jarrod Witts|2011|81",
+"player": "Jarrod Witts",
+"pick": 81,
+"ns": 12,
+"V0": 339,
+"ratio": 1.1,
+"board": 339
+},
+{
+"key": "Max Gawn|2009|33",
+"player": "Max Gawn",
+"pick": 33,
+"ns": 14,
+"V0": 656,
+"ratio": 1.1,
+"board": 2137
+},
+{
+"key": "Rhys Stanley|2008|47",
+"player": "Rhys Stanley",
+"pick": 47,
+"ns": 15,
+"V0": 468,
+"ratio": 1.1,
+"board": 23
+},
+{
+"key": "Patrick Carr|2025|None",
+"player": "Patrick Carr",
+"pick": 94,
+"ns": 0,
+"V0": 339,
+"ratio": 1.1,
+"board": 290
+}
+],
+"emmett": 670,
+"floor_saves": 1
+},
+"1.3": {
+"rows": [
+{
+"key": "Louis Emmett|2025|27",
+"player": "Louis Emmett",
+"pick": 27,
+"ns": 1,
+"V0": 792,
+"ratio": 1.3,
+"board": 792
+},
+{
+"key": "Flynn Riley|2026|4",
+"player": "Flynn Riley",
+"pick": 4,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 343
+},
+{
+"key": "Harrison Coe|2026|8",
+"player": "Harrison Coe",
+"pick": 8,
+"ns": 0,
+"V0": 117,
+"ratio": 0.379,
+"board": 100
+},
+{
+"key": "Caleb May|2026|9",
+"player": "Caleb May",
+"pick": 9,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 343
+},
+{
+"key": "Alex Van Wyk|2026|14",
+"player": "Alex Van Wyk",
+"pick": 14,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 343
+},
+{
+"key": "Max Mapley|2026|18",
+"player": "Max Mapley",
+"pick": 18,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 343
+},
+{
+"key": "Jacob Molier|2024|52",
+"player": "Jacob Molier",
+"pick": 52,
+"ns": 0,
+"V0": 481,
+"ratio": 1.3,
+"board": 297
+},
+{
+"key": "Alex Dodson|2024|53",
+"player": "Alex Dodson",
+"pick": 53,
+"ns": 0,
+"V0": 468,
+"ratio": 1.3,
+"board": 289
+},
+{
+"key": "Logan Smith|2024|71",
+"player": "Logan Smith",
+"pick": 71,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 247
+},
+{
+"key": "Aiden Riddle|2024|3",
+"player": "Aiden Riddle",
+"pick": 3,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 247
+},
+{
+"key": "Joe Pike|2024|11",
+"player": "Joe Pike",
+"pick": 11,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 247
+},
+{
+"key": "Jaime Uhr-Henry|2024|None",
+"player": "Jaime Uhr-Henry",
+"pick": 94,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 247
+},
+{
+"key": "Will Green|2023|16",
+"player": "Will Green",
+"pick": 16,
+"ns": 0,
+"V0": 1045,
+"ratio": 1.044,
+"board": 552
+},
+{
+"key": "Taylor Goad|2023|20",
+"player": "Taylor Goad",
+"pick": 20,
+"ns": 0,
+"V0": 957,
+"ratio": 1.3,
+"board": 731
+},
+{
+"key": "Mitchell Edwards|2023|32",
+"player": "Mitchell Edwards",
+"pick": 32,
+"ns": 1,
+"V0": 777,
+"ratio": 1.3,
+"board": 1328
+},
+{
+"key": "Lachlan Smith|2023|47",
+"player": "Lachlan Smith",
+"pick": 47,
+"ns": 0,
+"V0": 552,
+"ratio": 1.3,
+"board": 585
+},
+{
+"key": "Vigo Visentini|2023|6",
+"player": "Vigo Visentini",
+"pick": 6,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 211
+},
+{
+"key": "Oliver Hayes-Brown|2023|None",
+"player": "Oliver Hayes-Brown",
+"pick": 94,
+"ns": 1,
+"V0": 400,
+"ratio": 1.3,
+"board": 313
+},
+{
+"key": "Iliro Smit|2024|10",
+"player": "Iliro Smit",
+"pick": 10,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 211
+},
+{
+"key": "Harry Barnett|2022|23",
+"player": "Harry Barnett",
+"pick": 23,
+"ns": 0,
+"V0": 803,
+"ratio": 1.3,
+"board": 393
+},
+{
+"key": "Max Knobel|2022|42",
+"player": "Max Knobel",
+"pick": 42,
+"ns": 0,
+"V0": 649,
+"ratio": 1.3,
+"board": 317
+},
+{
+"key": "Liam Reidy|2022|5",
+"player": "Liam Reidy",
+"pick": 5,
+"ns": 0,
+"V0": 395,
+"ratio": 1.282,
+"board": 254
+},
+{
+"key": "Nick Madden|2022|None",
+"player": "Nick Madden",
+"pick": 94,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 1422
+},
+{
+"key": "Oscar Steene|2022|None",
+"player": "Oscar Steene",
+"pick": 94,
+"ns": 1,
+"V0": 400,
+"ratio": 1.3,
+"board": 237
+},
+{
+"key": "Toby Conway|2021|24",
+"player": "Toby Conway",
+"pick": 24,
+"ns": 0,
+"V0": 801,
+"ratio": 1.3,
+"board": 365
+},
+{
+"key": "Dante Visentini|2021|56",
+"player": "Dante Visentini",
+"pick": 56,
+"ns": 2,
+"V0": 420,
+"ratio": 1.3,
+"board": 901
+},
+{
+"key": "Samson Ryan|2020|42",
+"player": "Samson Ryan",
+"pick": 42,
+"ns": 2,
+"V0": 649,
+"ratio": 1.3,
+"board": 552
+},
+{
+"key": "Ned Moyle|2021|5",
+"player": "Ned Moyle",
+"pick": 5,
+"ns": 2,
+"V0": 400,
+"ratio": 1.3,
+"board": 1589
+},
+{
+"key": "Max Heath|2021|7",
+"player": "Max Heath",
+"pick": 7,
+"ns": 1,
+"V0": 400,
+"ratio": 1.3,
+"board": 131
+},
+{
+"key": "Lachlan McAndrew|2024|12",
+"player": "Lachlan McAndrew",
+"pick": 12,
+"ns": 1,
+"V0": 390,
+"ratio": 1.268,
+"board": 992
+},
+{
+"key": "Luke Jackson|2019|3",
+"player": "Luke Jackson",
+"pick": 3,
+"ns": 7,
+"V0": 2063,
+"ratio": 0.918,
+"board": 6986
+},
+{
+"key": "Nick Bryan|2019|38",
+"player": "Nick Bryan",
+"pick": 38,
+"ns": 2,
+"V0": 706,
+"ratio": 1.3,
+"board": 765
+},
+{
+"key": "Kieren Briggs|2018|34",
+"player": "Kieren Briggs",
+"pick": 34,
+"ns": 4,
+"V0": 758,
+"ratio": 1.3,
+"board": 2152
+},
+{
+"key": "Bailey J. Williams|2018|35",
+"player": "Bailey J. Williams",
+"pick": 35,
+"ns": 6,
+"V0": 742,
+"ratio": 1.3,
+"board": 2335
+},
+{
+"key": "Darcy Fort|2018|65",
+"player": "Darcy Fort",
+"pick": 65,
+"ns": 4,
+"V0": 336,
+"ratio": 1.091,
+"board": 83
+},
+{
+"key": "Jordon Sweet|2018|16",
+"player": "Jordon Sweet",
+"pick": 16,
+"ns": 4,
+"V0": 400,
+"ratio": 1.3,
+"board": 2011
+},
+{
+"key": "Ned Reeves|2018|None",
+"player": "Ned Reeves",
+"pick": 94,
+"ns": 3,
+"V0": 400,
+"ratio": 1.3,
+"board": 367
+},
+{
+"key": "Tom De Koning|2017|30",
+"player": "Tom De Koning",
+"pick": 30,
+"ns": 7,
+"V0": 784,
+"ratio": 1.3,
+"board": 1683
+},
+{
+"key": "Lloyd Meek|2017|68",
+"player": "Lloyd Meek",
+"pick": 68,
+"ns": 6,
+"V0": 400,
+"ratio": 1.3,
+"board": 883
+},
+{
+"key": "Tristan Xerri|2017|71",
+"player": "Tristan Xerri",
+"pick": 71,
+"ns": 6,
+"V0": 400,
+"ratio": 1.3,
+"board": 5755
+},
+{
+"key": "Timothy English|2016|19",
+"player": "Timothy English",
+"pick": 19,
+"ns": 9,
+"V0": 1034,
+"ratio": 1.3,
+"board": 2907
+},
+{
+"key": "Sean Darcy|2016|38",
+"player": "Sean Darcy",
+"pick": 38,
+"ns": 10,
+"V0": 706,
+"ratio": 1.3,
+"board": 783
+},
+{
+"key": "Darcy Cameron|2016|48",
+"player": "Darcy Cameron",
+"pick": 48,
+"ns": 7,
+"V0": 536,
+"ratio": 1.3,
+"board": 1385
+},
+{
+"key": "Sam Draper|2016|1",
+"player": "Sam Draper",
+"pick": 1,
+"ns": 6,
+"V0": 400,
+"ratio": 1.3,
+"board": 1166
+},
+{
+"key": "Peter Ladhams|2016|8",
+"player": "Peter Ladhams",
+"pick": 8,
+"ns": 5,
+"V0": 400,
+"ratio": 1.3,
+"board": 460
+},
+{
+"key": "Rowan Marshall|2016|9",
+"player": "Rowan Marshall",
+"pick": 9,
+"ns": 9,
+"V0": 400,
+"ratio": 1.3,
+"board": 1336
+},
+{
+"key": "Matthew Flynn|2015|41",
+"player": "Matthew Flynn",
+"pick": 41,
+"ns": 5,
+"V0": 666,
+"ratio": 1.3,
+"board": 705
+},
+{
+"key": "Marc Pittonet|2014|50",
+"player": "Marc Pittonet",
+"pick": 50,
+"ns": 7,
+"V0": 507,
+"ratio": 1.3,
+"board": 507
+},
+{
+"key": "Reilly O'Brien|2014|8",
+"player": "Reilly O'Brien",
+"pick": 8,
+"ns": 7,
+"V0": 400,
+"ratio": 1.3,
+"board": 597
+},
+{
+"key": "Toby Nankervis|2013|35",
+"player": "Toby Nankervis",
+"pick": 35,
+"ns": 10,
+"V0": 742,
+"ratio": 1.3,
+"board": 1821
+},
+{
+"key": "Brodie Grundy|2012|22",
+"player": "Brodie Grundy",
+"pick": 22,
+"ns": 14,
+"V0": 841,
+"ratio": 1.3,
+"board": 3344
+},
+{
+"key": "Jarrod Witts|2011|81",
+"player": "Jarrod Witts",
+"pick": 81,
+"ns": 12,
+"V0": 400,
+"ratio": 1.3,
+"board": 371
+},
+{
+"key": "Max Gawn|2009|33",
+"player": "Max Gawn",
+"pick": 33,
+"ns": 14,
+"V0": 775,
+"ratio": 1.3,
+"board": 2137
+},
+{
+"key": "Rhys Stanley|2008|47",
+"player": "Rhys Stanley",
+"pick": 47,
+"ns": 15,
+"V0": 552,
+"ratio": 1.3,
+"board": 28
+},
+{
+"key": "Patrick Carr|2025|None",
+"player": "Patrick Carr",
+"pick": 94,
+"ns": 0,
+"V0": 400,
+"ratio": 1.3,
+"board": 343
+}
+],
+"emmett": 792,
+"floor_saves": 1
+},
+"1.5": {
+"rows": [
+{
+"key": "Louis Emmett|2025|27",
+"player": "Louis Emmett",
+"pick": 27,
+"ns": 1,
+"V0": 914,
+"ratio": 1.5,
+"board": 914
+},
+{
+"key": "Flynn Riley|2026|4",
+"player": "Flynn Riley",
+"pick": 4,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 395
+},
+{
+"key": "Harrison Coe|2026|8",
+"player": "Harrison Coe",
+"pick": 8,
+"ns": 0,
+"V0": 117,
+"ratio": 0.379,
+"board": 100
+},
+{
+"key": "Caleb May|2026|9",
+"player": "Caleb May",
+"pick": 9,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 395
+},
+{
+"key": "Alex Van Wyk|2026|14",
+"player": "Alex Van Wyk",
+"pick": 14,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 395
+},
+{
+"key": "Max Mapley|2026|18",
+"player": "Max Mapley",
+"pick": 18,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 395
+},
+{
+"key": "Jacob Molier|2024|52",
+"player": "Jacob Molier",
+"pick": 52,
+"ns": 0,
+"V0": 555,
+"ratio": 1.5,
+"board": 343
+},
+{
+"key": "Alex Dodson|2024|53",
+"player": "Alex Dodson",
+"pick": 53,
+"ns": 0,
+"V0": 540,
+"ratio": 1.5,
+"board": 334
+},
+{
+"key": "Logan Smith|2024|71",
+"player": "Logan Smith",
+"pick": 71,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 285
+},
+{
+"key": "Aiden Riddle|2024|3",
+"player": "Aiden Riddle",
+"pick": 3,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 285
+},
+{
+"key": "Joe Pike|2024|11",
+"player": "Joe Pike",
+"pick": 11,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 285
+},
+{
+"key": "Jaime Uhr-Henry|2024|None",
+"player": "Jaime Uhr-Henry",
+"pick": 94,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 285
+},
+{
+"key": "Will Green|2023|16",
+"player": "Will Green",
+"pick": 16,
+"ns": 0,
+"V0": 1045,
+"ratio": 1.044,
+"board": 552
+},
+{
+"key": "Taylor Goad|2023|20",
+"player": "Taylor Goad",
+"pick": 20,
+"ns": 0,
+"V0": 1104,
+"ratio": 1.5,
+"board": 814
+},
+{
+"key": "Mitchell Edwards|2023|32",
+"player": "Mitchell Edwards",
+"pick": 32,
+"ns": 1,
+"V0": 897,
+"ratio": 1.5,
+"board": 1328
+},
+{
+"key": "Lachlan Smith|2023|47",
+"player": "Lachlan Smith",
+"pick": 47,
+"ns": 0,
+"V0": 638,
+"ratio": 1.5,
+"board": 606
+},
+{
+"key": "Vigo Visentini|2023|6",
+"player": "Vigo Visentini",
+"pick": 6,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 244
+},
+{
+"key": "Oliver Hayes-Brown|2023|None",
+"player": "Oliver Hayes-Brown",
+"pick": 94,
+"ns": 1,
+"V0": 462,
+"ratio": 1.5,
+"board": 322
+},
+{
+"key": "Iliro Smit|2024|10",
+"player": "Iliro Smit",
+"pick": 10,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 244
+},
+{
+"key": "Harry Barnett|2022|23",
+"player": "Harry Barnett",
+"pick": 23,
+"ns": 0,
+"V0": 927,
+"ratio": 1.5,
+"board": 454
+},
+{
+"key": "Max Knobel|2022|42",
+"player": "Max Knobel",
+"pick": 42,
+"ns": 0,
+"V0": 748,
+"ratio": 1.5,
+"board": 366
+},
+{
+"key": "Liam Reidy|2022|5",
+"player": "Liam Reidy",
+"pick": 5,
+"ns": 0,
+"V0": 395,
+"ratio": 1.282,
+"board": 254
+},
+{
+"key": "Nick Madden|2022|None",
+"player": "Nick Madden",
+"pick": 94,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 1427
+},
+{
+"key": "Oscar Steene|2022|None",
+"player": "Oscar Steene",
+"pick": 94,
+"ns": 1,
+"V0": 462,
+"ratio": 1.5,
+"board": 260
+},
+{
+"key": "Toby Conway|2021|24",
+"player": "Toby Conway",
+"pick": 24,
+"ns": 0,
+"V0": 924,
+"ratio": 1.5,
+"board": 421
+},
+{
+"key": "Dante Visentini|2021|56",
+"player": "Dante Visentini",
+"pick": 56,
+"ns": 2,
+"V0": 484,
+"ratio": 1.5,
+"board": 901
+},
+{
+"key": "Samson Ryan|2020|42",
+"player": "Samson Ryan",
+"pick": 42,
+"ns": 2,
+"V0": 748,
+"ratio": 1.5,
+"board": 583
+},
+{
+"key": "Ned Moyle|2021|5",
+"player": "Ned Moyle",
+"pick": 5,
+"ns": 2,
+"V0": 462,
+"ratio": 1.5,
+"board": 1589
+},
+{
+"key": "Max Heath|2021|7",
+"player": "Max Heath",
+"pick": 7,
+"ns": 1,
+"V0": 462,
+"ratio": 1.5,
+"board": 151
+},
+{
+"key": "Lachlan McAndrew|2024|12",
+"player": "Lachlan McAndrew",
+"pick": 12,
+"ns": 1,
+"V0": 390,
+"ratio": 1.268,
+"board": 992
+},
+{
+"key": "Luke Jackson|2019|3",
+"player": "Luke Jackson",
+"pick": 3,
+"ns": 7,
+"V0": 2063,
+"ratio": 0.918,
+"board": 6986
+},
+{
+"key": "Nick Bryan|2019|38",
+"player": "Nick Bryan",
+"pick": 38,
+"ns": 2,
+"V0": 814,
+"ratio": 1.5,
+"board": 765
+},
+{
+"key": "Kieren Briggs|2018|34",
+"player": "Kieren Briggs",
+"pick": 34,
+"ns": 4,
+"V0": 874,
+"ratio": 1.5,
+"board": 2152
+},
+{
+"key": "Bailey J. Williams|2018|35",
+"player": "Bailey J. Williams",
+"pick": 35,
+"ns": 6,
+"V0": 856,
+"ratio": 1.5,
+"board": 2335
+},
+{
+"key": "Darcy Fort|2018|65",
+"player": "Darcy Fort",
+"pick": 65,
+"ns": 4,
+"V0": 336,
+"ratio": 1.091,
+"board": 83
+},
+{
+"key": "Jordon Sweet|2018|16",
+"player": "Jordon Sweet",
+"pick": 16,
+"ns": 4,
+"V0": 462,
+"ratio": 1.5,
+"board": 2011
+},
+{
+"key": "Ned Reeves|2018|None",
+"player": "Ned Reeves",
+"pick": 94,
+"ns": 3,
+"V0": 462,
+"ratio": 1.5,
+"board": 367
+},
+{
+"key": "Tom De Koning|2017|30",
+"player": "Tom De Koning",
+"pick": 30,
+"ns": 7,
+"V0": 904,
+"ratio": 1.5,
+"board": 1683
+},
+{
+"key": "Lloyd Meek|2017|68",
+"player": "Lloyd Meek",
+"pick": 68,
+"ns": 6,
+"V0": 462,
+"ratio": 1.5,
+"board": 883
+},
+{
+"key": "Tristan Xerri|2017|71",
+"player": "Tristan Xerri",
+"pick": 71,
+"ns": 6,
+"V0": 462,
+"ratio": 1.5,
+"board": 5755
+},
+{
+"key": "Timothy English|2016|19",
+"player": "Timothy English",
+"pick": 19,
+"ns": 9,
+"V0": 1192,
+"ratio": 1.5,
+"board": 2907
+},
+{
+"key": "Sean Darcy|2016|38",
+"player": "Sean Darcy",
+"pick": 38,
+"ns": 10,
+"V0": 814,
+"ratio": 1.5,
+"board": 866
+},
+{
+"key": "Darcy Cameron|2016|48",
+"player": "Darcy Cameron",
+"pick": 48,
+"ns": 7,
+"V0": 618,
+"ratio": 1.5,
+"board": 1385
+},
+{
+"key": "Sam Draper|2016|1",
+"player": "Sam Draper",
+"pick": 1,
+"ns": 6,
+"V0": 462,
+"ratio": 1.5,
+"board": 1166
+},
+{
+"key": "Peter Ladhams|2016|8",
+"player": "Peter Ladhams",
+"pick": 8,
+"ns": 5,
+"V0": 462,
+"ratio": 1.5,
+"board": 460
+},
+{
+"key": "Rowan Marshall|2016|9",
+"player": "Rowan Marshall",
+"pick": 9,
+"ns": 9,
+"V0": 462,
+"ratio": 1.5,
+"board": 1336
+},
+{
+"key": "Matthew Flynn|2015|41",
+"player": "Matthew Flynn",
+"pick": 41,
+"ns": 5,
+"V0": 768,
+"ratio": 1.5,
+"board": 705
+},
+{
+"key": "Marc Pittonet|2014|50",
+"player": "Marc Pittonet",
+"pick": 50,
+"ns": 7,
+"V0": 581,
+"ratio": 1.49,
+"board": 507
+},
+{
+"key": "Reilly O'Brien|2014|8",
+"player": "Reilly O'Brien",
+"pick": 8,
+"ns": 7,
+"V0": 462,
+"ratio": 1.5,
+"board": 635
+},
+{
+"key": "Toby Nankervis|2013|35",
+"player": "Toby Nankervis",
+"pick": 35,
+"ns": 10,
+"V0": 856,
+"ratio": 1.5,
+"board": 1821
+},
+{
+"key": "Brodie Grundy|2012|22",
+"player": "Brodie Grundy",
+"pick": 22,
+"ns": 14,
+"V0": 970,
+"ratio": 1.5,
+"board": 3344
+},
+{
+"key": "Jarrod Witts|2011|81",
+"player": "Jarrod Witts",
+"pick": 81,
+"ns": 12,
+"V0": 462,
+"ratio": 1.5,
+"board": 374
+},
+{
+"key": "Max Gawn|2009|33",
+"player": "Max Gawn",
+"pick": 33,
+"ns": 14,
+"V0": 894,
+"ratio": 1.5,
+"board": 2137
+},
+{
+"key": "Rhys Stanley|2008|47",
+"player": "Rhys Stanley",
+"pick": 47,
+"ns": 15,
+"V0": 638,
+"ratio": 1.5,
+"board": 32
+},
+{
+"key": "Patrick Carr|2025|None",
+"player": "Patrick Carr",
+"pick": 94,
+"ns": 0,
+"V0": 462,
+"ratio": 1.5,
+"board": 395
+}
+],
+"emmett": 914,
+"floor_saves": 1
+},
+"1.73": {
+"rows": [
+{
+"key": "Louis Emmett|2025|27",
+"player": "Louis Emmett",
+"pick": 27,
+"ns": 1,
+"V0": 1054,
+"ratio": 1.73,
+"board": 1054
+},
+{
+"key": "Flynn Riley|2026|4",
+"player": "Flynn Riley",
+"pick": 4,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 456
+},
+{
+"key": "Harrison Coe|2026|8",
+"player": "Harrison Coe",
+"pick": 8,
+"ns": 0,
+"V0": 117,
+"ratio": 0.379,
+"board": 100
+},
+{
+"key": "Caleb May|2026|9",
+"player": "Caleb May",
+"pick": 9,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 456
+},
+{
+"key": "Alex Van Wyk|2026|14",
+"player": "Alex Van Wyk",
+"pick": 14,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 456
+},
+{
+"key": "Max Mapley|2026|18",
+"player": "Max Mapley",
+"pick": 18,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 456
+},
+{
+"key": "Jacob Molier|2024|52",
+"player": "Jacob Molier",
+"pick": 52,
+"ns": 0,
+"V0": 573,
+"ratio": 1.548,
+"board": 354
+},
+{
+"key": "Alex Dodson|2024|53",
+"player": "Alex Dodson",
+"pick": 53,
+"ns": 0,
+"V0": 590,
+"ratio": 1.639,
+"board": 364
+},
+{
+"key": "Logan Smith|2024|71",
+"player": "Logan Smith",
+"pick": 71,
+"ns": 0,
+"V0": 483,
+"ratio": 1.567,
+"board": 298
+},
+{
+"key": "Aiden Riddle|2024|3",
+"player": "Aiden Riddle",
+"pick": 3,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 329
+},
+{
+"key": "Joe Pike|2024|11",
+"player": "Joe Pike",
+"pick": 11,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 329
+},
+{
+"key": "Jaime Uhr-Henry|2024|None",
+"player": "Jaime Uhr-Henry",
+"pick": 94,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 329
+},
+{
+"key": "Will Green|2023|16",
+"player": "Will Green",
+"pick": 16,
+"ns": 0,
+"V0": 1045,
+"ratio": 1.044,
+"board": 552
+},
+{
+"key": "Taylor Goad|2023|20",
+"player": "Taylor Goad",
+"pick": 20,
+"ns": 0,
+"V0": 1218,
+"ratio": 1.655,
+"board": 850
+},
+{
+"key": "Mitchell Edwards|2023|32",
+"player": "Mitchell Edwards",
+"pick": 32,
+"ns": 1,
+"V0": 1035,
+"ratio": 1.73,
+"board": 1328
+},
+{
+"key": "Lachlan Smith|2023|47",
+"player": "Lachlan Smith",
+"pick": 47,
+"ns": 0,
+"V0": 654,
+"ratio": 1.538,
+"board": 610
+},
+{
+"key": "Vigo Visentini|2023|6",
+"player": "Vigo Visentini",
+"pick": 6,
+"ns": 0,
+"V0": 483,
+"ratio": 1.567,
+"board": 255
+},
+{
+"key": "Oliver Hayes-Brown|2023|None",
+"player": "Oliver Hayes-Brown",
+"pick": 94,
+"ns": 1,
+"V0": 533,
+"ratio": 1.73,
+"board": 333
+},
+{
+"key": "Iliro Smit|2024|10",
+"player": "Iliro Smit",
+"pick": 10,
+"ns": 0,
+"V0": 494,
+"ratio": 1.605,
+"board": 261
+},
+{
+"key": "Harry Barnett|2022|23",
+"player": "Harry Barnett",
+"pick": 23,
+"ns": 0,
+"V0": 1069,
+"ratio": 1.73,
+"board": 523
+},
+{
+"key": "Max Knobel|2022|42",
+"player": "Max Knobel",
+"pick": 42,
+"ns": 0,
+"V0": 765,
+"ratio": 1.534,
+"board": 374
+},
+{
+"key": "Liam Reidy|2022|5",
+"player": "Liam Reidy",
+"pick": 5,
+"ns": 0,
+"V0": 395,
+"ratio": 1.282,
+"board": 254
+},
+{
+"key": "Nick Madden|2022|None",
+"player": "Nick Madden",
+"pick": 94,
+"ns": 0,
+"V0": 483,
+"ratio": 1.567,
+"board": 1429
+},
+{
+"key": "Oscar Steene|2022|None",
+"player": "Oscar Steene",
+"pick": 94,
+"ns": 1,
+"V0": 533,
+"ratio": 1.73,
+"board": 284
+},
+{
+"key": "Toby Conway|2021|24",
+"player": "Toby Conway",
+"pick": 24,
+"ns": 0,
+"V0": 1066,
+"ratio": 1.73,
+"board": 486
+},
+{
+"key": "Dante Visentini|2021|56",
+"player": "Dante Visentini",
+"pick": 56,
+"ns": 2,
+"V0": 559,
+"ratio": 1.73,
+"board": 901
+},
+{
+"key": "Samson Ryan|2020|42",
+"player": "Samson Ryan",
+"pick": 42,
+"ns": 2,
+"V0": 862,
+"ratio": 1.727,
+"board": 586
+},
+{
+"key": "Ned Moyle|2021|5",
+"player": "Ned Moyle",
+"pick": 5,
+"ns": 2,
+"V0": 494,
+"ratio": 1.605,
+"board": 1589
+},
+{
+"key": "Max Heath|2021|7",
+"player": "Max Heath",
+"pick": 7,
+"ns": 1,
+"V0": 494,
+"ratio": 1.605,
+"board": 162
+},
+{
+"key": "Lachlan McAndrew|2024|12",
+"player": "Lachlan McAndrew",
+"pick": 12,
+"ns": 1,
+"V0": 390,
+"ratio": 1.268,
+"board": 992
+},
+{
+"key": "Luke Jackson|2019|3",
+"player": "Luke Jackson",
+"pick": 3,
+"ns": 7,
+"V0": 2063,
+"ratio": 0.918,
+"board": 6986
+},
+{
+"key": "Nick Bryan|2019|38",
+"player": "Nick Bryan",
+"pick": 38,
+"ns": 2,
+"V0": 935,
+"ratio": 1.721,
+"board": 765
+},
+{
+"key": "Kieren Briggs|2018|34",
+"player": "Kieren Briggs",
+"pick": 34,
+"ns": 4,
+"V0": 1009,
+"ratio": 1.73,
+"board": 2152
+},
+{
+"key": "Bailey J. Williams|2018|35",
+"player": "Bailey J. Williams",
+"pick": 35,
+"ns": 6,
+"V0": 988,
+"ratio": 1.73,
+"board": 2335
+},
+{
+"key": "Darcy Fort|2018|65",
+"player": "Darcy Fort",
+"pick": 65,
+"ns": 4,
+"V0": 336,
+"ratio": 1.091,
+"board": 83
+},
+{
+"key": "Jordon Sweet|2018|16",
+"player": "Jordon Sweet",
+"pick": 16,
+"ns": 4,
+"V0": 533,
+"ratio": 1.73,
+"board": 2011
+},
+{
+"key": "Ned Reeves|2018|None",
+"player": "Ned Reeves",
+"pick": 94,
+"ns": 3,
+"V0": 533,
+"ratio": 1.73,
+"board": 367
+},
+{
+"key": "Tom De Koning|2017|30",
+"player": "Tom De Koning",
+"pick": 30,
+"ns": 7,
+"V0": 1043,
+"ratio": 1.73,
+"board": 1683
+},
+{
+"key": "Lloyd Meek|2017|68",
+"player": "Lloyd Meek",
+"pick": 68,
+"ns": 6,
+"V0": 533,
+"ratio": 1.73,
+"board": 883
+},
+{
+"key": "Tristan Xerri|2017|71",
+"player": "Tristan Xerri",
+"pick": 71,
+"ns": 6,
+"V0": 483,
+"ratio": 1.567,
+"board": 5755
+},
+{
+"key": "Timothy English|2016|19",
+"player": "Timothy English",
+"pick": 19,
+"ns": 9,
+"V0": 1375,
+"ratio": 1.73,
+"board": 2907
+},
+{
+"key": "Sean Darcy|2016|38",
+"player": "Sean Darcy",
+"pick": 38,
+"ns": 10,
+"V0": 935,
+"ratio": 1.721,
+"board": 956
+},
+{
+"key": "Darcy Cameron|2016|48",
+"player": "Darcy Cameron",
+"pick": 48,
+"ns": 7,
+"V0": 713,
+"ratio": 1.73,
+"board": 1385
+},
+{
+"key": "Sam Draper|2016|1",
+"player": "Sam Draper",
+"pick": 1,
+"ns": 6,
+"V0": 533,
+"ratio": 1.73,
+"board": 1166
+},
+{
+"key": "Peter Ladhams|2016|8",
+"player": "Peter Ladhams",
+"pick": 8,
+"ns": 5,
+"V0": 483,
+"ratio": 1.567,
+"board": 460
+},
+{
+"key": "Rowan Marshall|2016|9",
+"player": "Rowan Marshall",
+"pick": 9,
+"ns": 9,
+"V0": 533,
+"ratio": 1.73,
+"board": 1336
+},
+{
+"key": "Matthew Flynn|2015|41",
+"player": "Matthew Flynn",
+"pick": 41,
+"ns": 5,
+"V0": 800,
+"ratio": 1.562,
+"board": 705
+},
+{
+"key": "Marc Pittonet|2014|50",
+"player": "Marc Pittonet",
+"pick": 50,
+"ns": 7,
+"V0": 581,
+"ratio": 1.49,
+"board": 507
+},
+{
+"key": "Reilly O'Brien|2014|8",
+"player": "Reilly O'Brien",
+"pick": 8,
+"ns": 7,
+"V0": 533,
+"ratio": 1.73,
+"board": 679
+},
+{
+"key": "Toby Nankervis|2013|35",
+"player": "Toby Nankervis",
+"pick": 35,
+"ns": 10,
+"V0": 988,
+"ratio": 1.73,
+"board": 1821
+},
+{
+"key": "Brodie Grundy|2012|22",
+"player": "Brodie Grundy",
+"pick": 22,
+"ns": 14,
+"V0": 1119,
+"ratio": 1.73,
+"board": 3344
+},
+{
+"key": "Jarrod Witts|2011|81",
+"player": "Jarrod Witts",
+"pick": 81,
+"ns": 12,
+"V0": 533,
+"ratio": 1.73,
+"board": 376
+},
+{
+"key": "Max Gawn|2009|33",
+"player": "Max Gawn",
+"pick": 33,
+"ns": 14,
+"V0": 1031,
+"ratio": 1.73,
+"board": 2137
+},
+{
+"key": "Rhys Stanley|2008|47",
+"player": "Rhys Stanley",
+"pick": 47,
+"ns": 15,
+"V0": 654,
+"ratio": 1.538,
+"board": 33
+},
+{
+"key": "Patrick Carr|2025|None",
+"player": "Patrick Carr",
+"pick": 94,
+"ns": 0,
+"V0": 533,
+"ratio": 1.73,
+"board": 456
+}
+],
+"emmett": 1054,
+"floor_saves": 1
+},
+"2.0": {
+"rows": [
+{
+"key": "Louis Emmett|2025|27",
+"player": "Louis Emmett",
+"pick": 27,
+"ns": 1,
+"V0": 1218,
+"ratio": 2.0,
+"board": 1201
+},
+{
+"key": "Flynn Riley|2026|4",
+"player": "Flynn Riley",
+"pick": 4,
+"ns": 0,
+"V0": 542,
+"ratio": 1.76,
+"board": 464
+},
+{
+"key": "Harrison Coe|2026|8",
+"player": "Harrison Coe",
+"pick": 8,
+"ns": 0,
+"V0": 117,
+"ratio": 0.379,
+"board": 100
+},
+{
+"key": "Caleb May|2026|9",
+"player": "Caleb May",
+"pick": 9,
+"ns": 0,
+"V0": 616,
+"ratio": 2.0,
+"board": 527
+},
+{
+"key": "Alex Van Wyk|2026|14",
+"player": "Alex Van Wyk",
+"pick": 14,
+"ns": 0,
+"V0": 542,
+"ratio": 1.76,
+"board": 464
+},
+{
+"key": "Max Mapley|2026|18",
+"player": "Max Mapley",
+"pick": 18,
+"ns": 0,
+"V0": 616,
+"ratio": 2.0,
+"board": 527
+},
+{
+"key": "Jacob Molier|2024|52",
+"player": "Jacob Molier",
+"pick": 52,
+"ns": 0,
+"V0": 573,
+"ratio": 1.548,
+"board": 354
+},
+{
+"key": "Alex Dodson|2024|53",
+"player": "Alex Dodson",
+"pick": 53,
+"ns": 0,
+"V0": 590,
+"ratio": 1.639,
+"board": 364
+},
+{
+"key": "Logan Smith|2024|71",
+"player": "Logan Smith",
+"pick": 71,
+"ns": 0,
+"V0": 483,
+"ratio": 1.567,
+"board": 298
+},
+{
+"key": "Aiden Riddle|2024|3",
+"player": "Aiden Riddle",
+"pick": 3,
+"ns": 0,
+"V0": 616,
+"ratio": 2.0,
+"board": 381
+},
+{
+"key": "Joe Pike|2024|11",
+"player": "Joe Pike",
+"pick": 11,
+"ns": 0,
+"V0": 616,
+"ratio": 2.0,
+"board": 381
+},
+{
+"key": "Jaime Uhr-Henry|2024|None",
+"player": "Jaime Uhr-Henry",
+"pick": 94,
+"ns": 0,
+"V0": 616,
+"ratio": 2.0,
+"board": 381
+},
+{
+"key": "Will Green|2023|16",
+"player": "Will Green",
+"pick": 16,
+"ns": 0,
+"V0": 1045,
+"ratio": 1.044,
+"board": 552
+},
+{
+"key": "Taylor Goad|2023|20",
+"player": "Taylor Goad",
+"pick": 20,
+"ns": 0,
+"V0": 1218,
+"ratio": 1.655,
+"board": 850
+},
+{
+"key": "Mitchell Edwards|2023|32",
+"player": "Mitchell Edwards",
+"pick": 32,
+"ns": 1,
+"V0": 1196,
+"ratio": 2.0,
+"board": 1328
+},
+{
+"key": "Lachlan Smith|2023|47",
+"player": "Lachlan Smith",
+"pick": 47,
+"ns": 0,
+"V0": 654,
+"ratio": 1.538,
+"board": 610
+},
+{
+"key": "Vigo Visentini|2023|6",
+"player": "Vigo Visentini",
+"pick": 6,
+"ns": 0,
+"V0": 483,
+"ratio": 1.567,
+"board": 255
+},
+{
+"key": "Oliver Hayes-Brown|2023|None",
+"player": "Oliver Hayes-Brown",
+"pick": 94,
+"ns": 1,
+"V0": 553,
+"ratio": 1.796,
+"board": 335
+},
+{
+"key": "Iliro Smit|2024|10",
+"player": "Iliro Smit",
+"pick": 10,
+"ns": 0,
+"V0": 494,
+"ratio": 1.605,
+"board": 261
+},
+{
+"key": "Harry Barnett|2022|23",
+"player": "Harry Barnett",
+"pick": 23,
+"ns": 0,
+"V0": 1236,
+"ratio": 2.0,
+"board": 605
+},
+{
+"key": "Max Knobel|2022|42",
+"player": "Max Knobel",
+"pick": 42,
+"ns": 0,
+"V0": 765,
+"ratio": 1.534,
+"board": 374
+},
+{
+"key": "Liam Reidy|2022|5",
+"player": "Liam Reidy",
+"pick": 5,
+"ns": 0,
+"V0": 395,
+"ratio": 1.282,
+"board": 254
+},
+{
+"key": "Nick Madden|2022|None",
+"player": "Nick Madden",
+"pick": 94,
+"ns": 0,
+"V0": 483,
+"ratio": 1.567,
+"board": 1429
+},
+{
+"key": "Oscar Steene|2022|None",
+"player": "Oscar Steene",
+"pick": 94,
+"ns": 1,
+"V0": 616,
+"ratio": 2.0,
+"board": 314
+},
+{
+"key": "Toby Conway|2021|24",
+"player": "Toby Conway",
+"pick": 24,
+"ns": 0,
+"V0": 1232,
+"ratio": 2.0,
+"board": 561
+},
+{
+"key": "Dante Visentini|2021|56",
+"player": "Dante Visentini",
+"pick": 56,
+"ns": 2,
+"V0": 646,
+"ratio": 2.0,
+"board": 901
+},
+{
+"key": "Samson Ryan|2020|42",
+"player": "Samson Ryan",
+"pick": 42,
+"ns": 2,
+"V0": 862,
+"ratio": 1.727,
+"board": 586
+},
+{
+"key": "Ned Moyle|2021|5",
+"player": "Ned Moyle",
+"pick": 5,
+"ns": 2,
+"V0": 494,
+"ratio": 1.605,
+"board": 1589
+},
+{
+"key": "Max Heath|2021|7",
+"player": "Max Heath",
+"pick": 7,
+"ns": 1,
+"V0": 494,
+"ratio": 1.605,
+"board": 162
+},
+{
+"key": "Lachlan McAndrew|2024|12",
+"player": "Lachlan McAndrew",
+"pick": 12,
+"ns": 1,
+"V0": 390,
+"ratio": 1.268,
+"board": 992
+},
+{
+"key": "Luke Jackson|2019|3",
+"player": "Luke Jackson",
+"pick": 3,
+"ns": 7,
+"V0": 2063,
+"ratio": 0.918,
+"board": 6986
+},
+{
+"key": "Nick Bryan|2019|38",
+"player": "Nick Bryan",
+"pick": 38,
+"ns": 2,
+"V0": 935,
+"ratio": 1.721,
+"board": 765
+},
+{
+"key": "Kieren Briggs|2018|34",
+"player": "Kieren Briggs",
+"pick": 34,
+"ns": 4,
+"V0": 1166,
+"ratio": 2.0,
+"board": 2152
+},
+{
+"key": "Bailey J. Williams|2018|35",
+"player": "Bailey J. Williams",
+"pick": 35,
+"ns": 6,
+"V0": 1075,
+"ratio": 1.883,
+"board": 2335
+},
+{
+"key": "Darcy Fort|2018|65",
+"player": "Darcy Fort",
+"pick": 65,
+"ns": 4,
+"V0": 336,
+"ratio": 1.091,
+"board": 83
+},
+{
+"key": "Jordon Sweet|2018|16",
+"player": "Jordon Sweet",
+"pick": 16,
+"ns": 4,
+"V0": 616,
+"ratio": 2.0,
+"board": 2011
+},
+{
+"key": "Ned Reeves|2018|None",
+"player": "Ned Reeves",
+"pick": 94,
+"ns": 3,
+"V0": 616,
+"ratio": 2.0,
+"board": 367
+},
+{
+"key": "Tom De Koning|2017|30",
+"player": "Tom De Koning",
+"pick": 30,
+"ns": 7,
+"V0": 1206,
+"ratio": 2.0,
+"board": 1683
+},
+{
+"key": "Lloyd Meek|2017|68",
+"player": "Lloyd Meek",
+"pick": 68,
+"ns": 6,
+"V0": 616,
+"ratio": 2.0,
+"board": 883
+},
+{
+"key": "Tristan Xerri|2017|71",
+"player": "Tristan Xerri",
+"pick": 71,
+"ns": 6,
+"V0": 483,
+"ratio": 1.567,
+"board": 5755
+},
+{
+"key": "Timothy English|2016|19",
+"player": "Timothy English",
+"pick": 19,
+"ns": 9,
+"V0": 1379,
+"ratio": 1.734,
+"board": 2907
+},
+{
+"key": "Sean Darcy|2016|38",
+"player": "Sean Darcy",
+"pick": 38,
+"ns": 10,
+"V0": 935,
+"ratio": 1.721,
+"board": 956
+},
+{
+"key": "Darcy Cameron|2016|48",
+"player": "Darcy Cameron",
+"pick": 48,
+"ns": 7,
+"V0": 717,
+"ratio": 1.74,
+"board": 1385
+},
+{
+"key": "Sam Draper|2016|1",
+"player": "Sam Draper",
+"pick": 1,
+"ns": 6,
+"V0": 561,
+"ratio": 1.823,
+"board": 1166
+},
+{
+"key": "Peter Ladhams|2016|8",
+"player": "Peter Ladhams",
+"pick": 8,
+"ns": 5,
+"V0": 483,
+"ratio": 1.567,
+"board": 460
+},
+{
+"key": "Rowan Marshall|2016|9",
+"player": "Rowan Marshall",
+"pick": 9,
+"ns": 9,
+"V0": 616,
+"ratio": 2.0,
+"board": 1336
+},
+{
+"key": "Matthew Flynn|2015|41",
+"player": "Matthew Flynn",
+"pick": 41,
+"ns": 5,
+"V0": 800,
+"ratio": 1.562,
+"board": 705
+},
+{
+"key": "Marc Pittonet|2014|50",
+"player": "Marc Pittonet",
+"pick": 50,
+"ns": 7,
+"V0": 581,
+"ratio": 1.49,
+"board": 507
+},
+{
+"key": "Reilly O'Brien|2014|8",
+"player": "Reilly O'Brien",
+"pick": 8,
+"ns": 7,
+"V0": 616,
+"ratio": 2.0,
+"board": 731
+},
+{
+"key": "Toby Nankervis|2013|35",
+"player": "Toby Nankervis",
+"pick": 35,
+"ns": 10,
+"V0": 1142,
+"ratio": 2.0,
+"board": 1821
+},
+{
+"key": "Brodie Grundy|2012|22",
+"player": "Brodie Grundy",
+"pick": 22,
+"ns": 14,
+"V0": 1257,
+"ratio": 1.943,
+"board": 3344
+},
+{
+"key": "Jarrod Witts|2011|81",
+"player": "Jarrod Witts",
+"pick": 81,
+"ns": 12,
+"V0": 616,
+"ratio": 2.0,
+"board": 379
+},
+{
+"key": "Max Gawn|2009|33",
+"player": "Max Gawn",
+"pick": 33,
+"ns": 14,
+"V0": 1192,
+"ratio": 2.0,
+"board": 2137
+},
+{
+"key": "Rhys Stanley|2008|47",
+"player": "Rhys Stanley",
+"pick": 47,
+"ns": 15,
+"V0": 654,
+"ratio": 1.538,
+"board": 33
+},
+{
+"key": "Patrick Carr|2025|None",
+"player": "Patrick Carr",
+"pick": 94,
+"ns": 0,
+"V0": 616,
+"ratio": 2.0,
+"board": 527
+}
+],
+"emmett": 1201,
+"floor_saves": 1
+}
+},
+"proven_moved": 2,
+"scatter_rho": -0.09685230221372419,
+"scatter_p": 0.6042406348425052,
+"ruc_nd_median": 1.7274
+}

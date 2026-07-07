@@ -1,0 +1,85 @@
+PHASE 2 PHANTOM-SCRUB DECOMPOSITION (gated engine, CONTROL -> after scrub)
+======================================================================
+PICKEQ: MSD 59->60, IRE 94->94 (unchanged, discretized).  REF +0.039%.  PVC picks 30-40 +0.5-0.7%.
+Total moved: 646 players.
+
+Moved by type: {'ND': 477, 'RD': 52, 'PDA': 11, 'MSD': 54, 'SSP': 17, 'IRE': 13, 'PDN': 14, 'UNR': 8}
+
+  IRE  n= 13 median|%|=2.96  max|%|=8.3
+  MSD  n= 54 median|%|=3.71  max|%|=73.5
+  ND   n=477 median|%|=0.83  max|%|=14.3
+  PDA  n= 11 median|%|=1.39  max|%|=3.7
+  PDN  n= 14 median|%|=1.90  max|%|=6.2
+  RD   n= 52 median|%|=1.38  max|%|=160.0
+  SSP  n= 17 median|%|=2.21  max|%|=18.8
+  UNR  n=  8 median|%|=2.46  max|%|=11.1
+
+--- PRIMARY TARGET: MSD/IRE movers (sorted by |%|) ---
+key                      name                   type    CTRL   AFTER       d       %
+jai-culley               Jai Culley             MSD      437     116    -321   -73.5
+james-blanck             James Blanck           MSD       25       9     -16   -64.0
+flynn-young              Flynn Young            MSD       30      11     -19   -63.3
+zac-banch                Zac Banch              MSD       50      67      17    34.0
+mani-liddy               Mani Liddy             MSD       61      43     -18   -29.5
+roan-steele              Roan Steele            MSD       20      15      -5   -25.0
+jack-hutchinson          Jack Hutchinson        MSD       77      58     -19   -24.7
+hugo-hall-kahan          Hugo Hall-Kahan        MSD      143     112     -31   -21.7
+luke-beecken             Luke Beecken           MSD       25      30       5    20.0
+massimo-d-ambrosio       Massimo D'Ambrosio     MSD     1560    1844     284    18.2
+jacob-newton             Jacob Newton           MSD      228     189     -39   -17.1
+mitch-podhajski          Mitch Podhajski        MSD        6       5      -1   -16.7
+lachlan-blakiston        Lachlan Blakiston      MSD       22      19      -3   -13.6
+campbell-lake            Campbell Lake          MSD      134     149      15    11.2
+max-beattie              Max Beattie            MSD       56      62       6    10.7
+liam-puncher             Liam Puncher           MSD      124     137      13    10.5
+archie-may               Archie May             MSD      418     379     -39    -9.3
+marcus-herbert           Marcus Herbert         MSD       33      36       3     9.1
+harrison-coe             Harrison Coe           MSD      105      96      -9    -8.6
+robert-hansen            Robert Hansen          MSD      180     195      15     8.3
+oisin-mullin             Oisin Mullin           IRE       12      13       1     8.3
+joel-fitzgerald          Joel Fitzgerald        MSD       86      93       7     8.1
+mark-o-connor            Mark O'Connor          IRE       14      15       1     7.1
+harrison-ramm            Harrison Ramm          MSD      316     297     -19    -6.0
+callum-brown-ire         Callum M. Brown        IRE       18      19       1     5.6
+jack-buller              Jack Buller            MSD       38      36      -2    -5.3
+matt-duffy               Matt Duffy             IRE      197     206       9     4.6
+ryan-maric               Ryan Maric             MSD     1396    1339     -57    -4.1
+michael-sellwood         Michael Sellwood       MSD       98      94      -4    -4.1
+cillian-burke            Cillian Burke          IRE      125     130       5     4.0
+ewan-mackinlay           Ewan Mackinlay         MSD       51      49      -2    -3.9
+jai-newcombe             Jai Newcombe           MSD     3858    4001     143     3.7
+tom-hanily               Tom Hanily             MSD      169     163      -6    -3.6
+sam-durham               Sam Durham             MSD     1996    2059      63     3.2
+liam-o-connell           Liam O'Connell         IRE       98     101       3     3.1
+eamonn-armstrong         Eamonn Armstrong       IRE      169     174       5     3.0
+kye-annand               Kye Annand             MSD      140     144       4     2.9
+noah-howes               Noah Howes             MSD      213     207      -6    -2.8
+oliver-francou           Oliver Francou         MSD      420     409     -11    -2.6
+wade-derksen             Wade Derksen           MSD       81      79      -2    -2.5
+ben-murphy               Ben Murphy             IRE      284     291       7     2.5
+kobe-mcdonald            Kobe McDonald          IRE      284     291       7     2.5
+max-ramsden              Max Ramsden            MSD      182     186       4     2.2
+cooper-lord              Cooper Lord            MSD      410     419       9     2.2
+cooper-trembath          Cooper Trembath        MSD     1507    1476     -31    -2.1
+cillian-bourke           Cillian Bourke         IRE      394     402       8     2.0
+will-mclachlan           Will McLachlan         MSD      155     158       3     1.9
+lachlan-mcandrew         Lachlan McAndrew       MSD      984    1002      18     1.8
+john-noble               John Noble             MSD     2275    2316      41     1.8
+xavier-bamert            Xavier Bamert          MSD      231     227      -4    -1.7
+rob-monahan              Rob Monahan            IRE      182     185       3     1.6
+daniel-turner            Daniel Turner          MSD     1582    1608      26     1.6
+oliver-griffin           Oliver Griffin         MSD      267     263      -4    -1.5
+ned-moyle                Ned Moyle              MSD     1576    1599      23     1.5
+mark-keane               Mark Keane             IRE     1539    1560      21     1.4
+luker-kentfield          Luker Kentfield        MSD      317     313      -4    -1.3
+logan-evans              Logan Evans            MSD     1285    1299      14     1.1
+zac-walker               Zac Walker             MSD      196     194      -2    -1.0
+tom-mccarthy             Tom McCarthy           MSD     1536    1551      15     1.0
+cooper-sharman           Cooper Sharman         MSD      622     616      -6    -1.0
+campbell-gray            Campbell Gray          MSD      240     238      -2    -0.8
+lukas-cooke              Lukas Cooke            MSD      127     128       1     0.8
+caleb-lewis              Caleb Lewis            MSD      135     134      -1    -0.7
+jaxon-artemis            Jaxon Artemis          MSD      417     414      -3    -0.7
+conor-nash               Conor Nash             IRE      283     285       2     0.7
+james-peatling           James Peatling         MSD     1219    1211      -8    -0.7
+max-hall                 Max Hall               MSD     1951    1954       3     0.2

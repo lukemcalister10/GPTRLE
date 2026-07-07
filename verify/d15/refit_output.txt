@@ -1,0 +1,35 @@
+# D15 V1 — INDEPENDENT V0 CURVE RE-FIT   (git fa6abd0 / engine md5 7c199a1f)
+# Source = per-player _v0_raw (capped start value); re-fit implemented in this script; 
+# comparison target = engine star(pos,age,pick). TOL_ABS = 1e-06
+
+Source counts:  age18 MID=427 KEY_FWD=178 KEY_DEF=152 GEN_FWD=284 GEN_DEF=295 RUC=72  | mature nonRUC=149 RUC=14
+
+## PROBE GRID — independent re-fit vs engine star  (fitted / engine / |dev|)
+### RUC age<=18  (expect 1220/1220/1220 plateau, 1139 @pk5, 1087 @pk7-8)
+  pk 1   refit= 1219.513   engine= 1219.513   |dev|=0.00e+00
+  pk 2   refit= 1219.513   engine= 1219.513   |dev|=0.00e+00
+  pk 3   refit= 1219.513   engine= 1219.513   |dev|=0.00e+00
+  pk 5   refit= 1138.745   engine= 1138.745   |dev|=0.00e+00
+  pk 7   refit= 1087.101   engine= 1087.101   |dev|=0.00e+00
+  pk 8   refit= 1087.101   engine= 1087.101   |dev|=0.00e+00
+### KEY_FWD (KPP) age<=18, picks 1-8
+  pk 1   refit=  970.072   engine=  970.072   |dev|=0.00e+00
+  pk 2   refit=  970.072   engine=  970.072   |dev|=0.00e+00
+  pk 3   refit=  970.072   engine=  970.072   |dev|=0.00e+00
+  pk 4   refit=  963.638   engine=  963.638   |dev|=0.00e+00
+  pk 5   refit=  932.684   engine=  932.684   |dev|=0.00e+00
+  pk 6   refit=  895.333   engine=  895.333   |dev|=0.00e+00
+  pk 7   refit=  873.650   engine=  873.650   |dev|=0.00e+00
+  pk 8   refit=  856.120   engine=  856.120   |dev|=0.00e+00
+
+## FULL GRID SWEEP — 30 cells x 90 picks = 2700 probe points (age<=18: 6 pos; mature: nonRUC+RUC over ages 19-30)
+   max abs deviation = 0.000e+00   at [age18 MID pk1: refit=2554.0299 engine=2554.0299]
+
+## VERDICT: PASS   (max|dev| 0.000e+00 <= TOL 1e-06)
+
+## engine fit meta (n / min_effn / grid@Hmax) — reported, NOT used as re-fit input
+   ('age18', 'MID')         n=427   min_effn=35.3 grid@Hmax=0
+   ('age18', 'KEY_FWD')     n=178   min_effn=35.0 grid@Hmax=0
+   ('age18', 'RUC')         n=72    min_effn=35.0 grid@Hmax=0
+   mature_nonRUC            n=149   min_effn=35.0 grid@Hmax=0
+   mature_RUC               n=14    min_effn=11.9 grid@Hmax=1080

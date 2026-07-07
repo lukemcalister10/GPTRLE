@@ -1,0 +1,14 @@
+[Kako patch] scoring now [(2025, 23, 55.1), (2026, 6, 55.0)]
+eligible players: 2649
+matrix saved (CALENDAR-indexed): 2649 players
+
+MAPPING-ONLY PROOF — Seth Campbell: yrs=[2023, 2024, 2025, 2026] Vpath=[154, 454, 1022, 1254]
+  new anchor (calendar Yr1 2023, no games)=154; the 465 first-played value now sits at its correct slot 2 (Yr2)
+
+CURVE-ANCHOR BIAS (2004-2024 ND+RD, n=2090):
+  sat out draft Yr1: 607 players (29% of curve pool)
+  over-valuation when anchored at first-played vs real Yr1: total=88021 SCAR, mean=+145, median=+0
+  whole-pool anchor sum: buggy=1148416 -> fixed=1074908  (6.4% lower overall)
+  picks 1-20: 78 sat-out, mean over-val +334 (42% of real Yr1)
+  picks 21-40: 131 sat-out, mean over-val +128 (37% of real Yr1)
+  picks 41-80: 271 sat-out, mean over-val +95 (47% of real Yr1)

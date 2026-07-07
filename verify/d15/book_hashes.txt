@@ -1,0 +1,33 @@
+# D15 V3 — WALK-FORWARD BOOK BYTE-IDENTITY   (git fa6abd0 / engine md5 7c199a1f)
+# generator: engine/rl_after/s4_matrix_M1v7.py  (_BOARD_PATH=False, backtest exemption)
+
+regenerated (fa6abd0) : 2649 players   committed session_2026-07-03/d14/s4_matrix_v24.json: 2649 players
+
+## RAW FILE sha256 (top-level keys = str(id(p)) memory addresses -> NON-deterministic by construction):
+   regen    = 72a2523101483ba3842b0576c3a2fb7304a908a50fffb367ddf056f236f3fc73
+   committed = 172c318243464aa572a7649260ca79908dd59f382e0bca36087ded6f305ac095
+   raw identical: NO (expected — id-keyed; see below for value identity)
+
+## STABLE-KEYED sha256 (re-keyed by (player,type,year,pick), records canonicalised sort_keys):
+   regen    = e2c1326b79e88b3773140da44633882f4aa92acc8b08fdb00161553e91534b4a
+   committed = e2c1326b79e88b3773140da44633882f4aa92acc8b08fdb00161553e91534b4a
+   stable-key set equal: YES   (shared keys: 2649)
+   stable-key collisions: regen=0 committed=0
+   records differing (any field): 0
+   max numeric delta over anchor/cur/old_anchor/Vpath: 0
+
+## STABLE-KEY IDENTICAL: YES
+
+## VERDICT: PASS   (walk-forward book byte-identical (stable-keyed) to the committed v2.4 book; maxΔ=0)
+
+## generator stdout (tail):
+   80, 436, 863, 1011]
+     new anchor (calendar Yr1 2023, no games)=180; the 465 first-played value now sits at its correct slot 2 (Yr2)
+   
+   CURVE-ANCHOR BIAS (2004-2024 ND+RD, n=2090):
+     sat out draft Yr1: 607 players (29% of curve pool)
+     over-valuation when anchored at first-played vs real Yr1: total=81205 SCAR, mean=+134, median=+27
+     whole-pool anchor sum: buggy=1229461 -> fixed=1165294  (5.2% lower overall)
+     picks 1-20: 78 sat-out, mean over-val +297 (36% of real Yr1)
+     picks 21-40: 131 sat-out, mean over-val +95 (23% of real Yr1)
+     picks 41-80: 271 sat-out, mean over-val +95 (40% of real Yr1)

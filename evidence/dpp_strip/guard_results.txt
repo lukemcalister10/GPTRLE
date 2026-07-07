@@ -1,0 +1,28 @@
+PHASE 5/6 — GUARD RESULTS (positive self-test PASS + negative: each guard FAILS the build, never warns)
+
+POSITIVE — one_source_selftest.py from a FRESH bootstrap (rm -rf workspace -> bootstrap.sh -> rl_export -> s4_matrix -> self-test): ALL PASS
+  GUARD 3  exactly one rl_model_data*.json, no lookalikes, engine opens only classified inputs .... PASS
+  GUARD 1  board + book: read-only (mode 444) + .srcmd5 stamp + content md5 == stamped own_md5 ...... PASS
+  GUARD 2  board + book: stamp == current source md5 (e1b4d8bf) ......................................... PASS
+  (1) engine active == 805, keys unique ................................................................ PASS
+  (2) F1 export<->engine parity: 0 mismatch ............................................................ PASS
+  (3) F2 book<->board parity: 0 mismatch (2 pvc-excluded noted) ........................................ PASS
+  (4) Kako 2025 23@55.2 / 2026 6@55.0 ; Bontempelli 13 seasons 2014->2026 regen == source .............. PASS
+  (5) drafted/present/future single-valued columns; raw_multipos GONE; future==present ................. PASS
+
+GUARD 4  correction-sticks canary (guard_correction_canary.py): PASSED
+  baseline josh-ward board=1650 book=1650 ; edit store 2026 avg 76.9->116.9 ; full rebuild ;
+  edit SURVIVES to BOARD 1650->4850 and BOOK 1650->4850 ; board==book (4850) ; source+derived restored.
+  -> a source correction sticks all the way to board + book. The Kako class (data outside the store) is dead.
+
+NEGATIVE — each guard must FAIL the build (non-zero exit), never warn:
+  GUARD 3  plant rl_model_data.json.pre_stage0 -> self-test/startup HALTS (non-zero) ................... OK (failed as required)
+  GUARD 3  plant a 2nd rl_model_data*.json    -> startup HALTS ......................................... OK (failed as required)
+  GUARD 2  tamper the board .srcmd5 stamp     -> book consume HALTS ("stale/hand-edited") .............. OK (failed as required)
+  GUARD 2  edit the store after the board was stamped -> consumer HALTS (board stamp != source md5) .... OK (failed as required)
+  GUARD 1  hand-edit the BOARD content AS ROOT (bypasses the read-only bit) -> content-integrity HALTS
+           ("content md5 != stamped own_md5") .......................................................... OK (failed as required)
+
+NOTE (root environment): this build runs as root, where the OS read-only bit does not block writes. GUARD 1 is
+therefore backed by a CONTENT-INTEGRITY stamp (own_md5): any post-generation hand-edit of a derived artifact
+changes its content md5 and is caught at build time even under root. Read-only remains as defence-in-depth.

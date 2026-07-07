@@ -1,0 +1,10 @@
+{
+  "_doc": "PINNED BOOT IDENTITY — the single source of the expected md5s every gate/panel/bake/self-test asserts on entry (Guard 5, boot-store assertion). A build that boots on any other store HALTS on line one. Update ONLY at a bake, in the same commit that moves the store; verify_restore.sh, bootstrap.sh, run_panel.sh, ship_gates_check.py and one_source_selftest.py all read THIS file rather than carrying their own hardcoded hex. Origin: stale-boot hardening 2026-07-05 (workspace held baked-v2.4 644d1254 while the repo carried e1b4d8bf; the four data guards validate whichever dir they are imported from, so they never caught the wrong DIRECTORY).",
+  "tag": "baked-v2.5-2026-07-05",
+  "store": "e1b4d8bfb3e1bea30f01118bfa7e87ec",
+  "engine_head": "efea88e5200f779bb9342e94abdb4257",
+  "rl_model": "121a45d0f4f2f6d1c15fe01489ea4da3",
+  "band": "34faa8659cc8f19794f5cb9584fa19b2",
+  "panel": "PASS 10/10",
+  "board": "7d1eeef8"
+}

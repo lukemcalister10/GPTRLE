@@ -1,0 +1,64 @@
+{
+ "b5": {
+  "base": 9,
+  "fix": 8
+ },
+ "g6pop": {
+  "mid(5-7)": {
+   "drop_base": -30.1,
+   "drop_fix": -29.0,
+   "n": 12
+  },
+  "old(8+)": {
+   "drop_base": -21.3,
+   "drop_fix": -20.6,
+   "n": 36
+  },
+  "young(2-4)": {
+   "drop_base": -43.5,
+   "drop_fix": -41.1,
+   "n": 14
+  }
+ },
+ "gates": {
+  "A10_fix": 0.511,
+  "A3_fix": 0.706
+ },
+ "named": {
+  "Charlie Curnow": {
+   "base26": 944.0,
+   "d_pct": 0.0,
+   "fix26": 944.0
+  },
+  "Connor Rozee": {
+   "base26": 2679.0,
+   "d_pct": 2.1,
+   "fix26": 2734.0
+  },
+  "Jack Ginnivan": {
+   "base26": 1578.0,
+   "d_pct": 0.0,
+   "fix26": 1578.0
+  },
+  "Josh Ward": {
+   "base26": 1782.0,
+   "d_pct": 0.0,
+   "fix26": 1782.0
+  },
+  "Joshua Weddle": {
+   "base26": 1628.0,
+   "d_pct": 0.0,
+   "fix26": 1628.0
+  },
+  "Paul Curtis": {
+   "base26": 1162.0,
+   "d_pct": 0.0,
+   "fix26": 1162.0
+  }
+ },
+ "onpace": {
+  "max_abs_pct": 0.0,
+  "movers_gt2pct": 0,
+  "n": 288
+ }
+}

@@ -1,0 +1,9 @@
+SUM-TO-TOTAL (805 common active; membership key-for-key identical across all states)
+
+PREVIOUS(held)      673310
+CONTROL(strip-only) 664612   (blend strip = -8698)
+S34(strip+34)       660728   (the 34      = -3884)
+  check: blend(-8698) + the34(-3884) = -12582  == PREVIOUS->S34 (-12582)  -> OK
+
+FINAL(+Kako+games)  660325   (Phase 2+3   = -403)
+  PREVIOUS -> FINAL total = -12985

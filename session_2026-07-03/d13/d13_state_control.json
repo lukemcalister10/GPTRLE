@@ -1,0 +1,1472 @@
+{
+"label": "control",
+"engine": "8aed420a",
+"panel": {
+"Nick Daicos": 7059,
+"Marcus Bontempelli": 3101,
+"Harry Sheezel": 7287,
+"Max Gawn": 2126,
+"Harley Reid": 3523,
+"Josh Ward": 1782,
+"Darcy Moore": 177,
+"Taylor Goad": 545,
+"Josh Smillie": 896,
+"Will Green": 741
+},
+"anchors": {
+"Daniel Annable|2025|6": {
+"player": "Daniel Annable",
+"year": 2025,
+"pick": 6,
+"effpk": 6,
+"cls": "nonKPP",
+"pos": "MID",
+"ns": 0,
+"g26": 1,
+"V0": -1.0,
+"board": 936
+},
+"Dylan Patterson|2025|5": {
+"player": "Dylan Patterson",
+"year": 2025,
+"pick": 5,
+"effpk": 5,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 982
+},
+"Jack Ison|2025|47": {
+"player": "Jack Ison",
+"year": 2025,
+"pick": 47,
+"effpk": 47,
+"cls": "nonKPP",
+"pos": "GEN_FWD",
+"ns": 0,
+"g26": 4,
+"V0": -1.0,
+"board": 212
+},
+"Harrison Coe|2026|8": {
+"player": "Harrison Coe",
+"year": 2026,
+"pick": 8,
+"effpk": 59,
+"cls": "RUC",
+"pos": "RUC",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 262
+},
+"Harrison Oliver|2024|19": {
+"player": "Harrison Oliver",
+"year": 2024,
+"pick": 19,
+"effpk": 19,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 0,
+"g26": 2,
+"V0": -1.0,
+"board": 398
+},
+"Harrison Ramm|2025|3": {
+"player": "Harrison Ramm",
+"year": 2025,
+"pick": 3,
+"effpk": 59,
+"cls": "KPP",
+"pos": "KEY_DEF",
+"ns": 0,
+"g26": 1,
+"V0": -1.0,
+"board": 216
+},
+"Harvey Harrison|2021|52": {
+"player": "Harvey Harrison",
+"year": 2021,
+"pick": 52,
+"effpk": 52,
+"cls": "nonKPP",
+"pos": "GEN_FWD",
+"ns": 1,
+"g26": 2,
+"V0": -1.0,
+"board": 74
+},
+"Matt Allison|2020|27": {
+"player": "Matt Allison",
+"year": 2020,
+"pick": 27,
+"effpk": 27,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 12
+},
+"Harrison Jones|2019|30": {
+"player": "Harrison Jones",
+"year": 2019,
+"pick": 30,
+"effpk": 30,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 4,
+"g26": 2,
+"V0": -1.0,
+"board": 127
+},
+"Harrison Pepper|2019|None": {
+"player": "Harrison Pepper",
+"year": 2019,
+"pick": null,
+"effpk": 94,
+"cls": "nonKPP",
+"pos": "GEN_FWD",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 6
+},
+"Harrison Petty|2017|37": {
+"player": "Harrison Petty",
+"year": 2017,
+"pick": 37,
+"effpk": 37,
+"cls": "KPP",
+"pos": "KEY_DEF",
+"ns": 7,
+"g26": 13,
+"V0": -1.0,
+"board": 205
+},
+"Harrison Jones|2017|6": {
+"player": "Harrison Jones",
+"year": 2017,
+"pick": 6,
+"effpk": 81,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 0,
+"g26": 1,
+"V0": -1.0,
+"board": 6
+},
+"Harrison Macreadie|2016|47": {
+"player": "Harrison Macreadie",
+"year": 2016,
+"pick": 47,
+"effpk": 47,
+"cls": "KPP",
+"pos": "KEY_DEF",
+"ns": 1,
+"g26": 0,
+"V0": -1.0,
+"board": 8
+},
+"Jacob Allison|2016|55": {
+"player": "Jacob Allison",
+"year": 2016,
+"pick": 55,
+"effpk": 55,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 7
+},
+"Harry Morrison|2016|73": {
+"player": "Harry Morrison",
+"year": 2016,
+"pick": 73,
+"effpk": 73,
+"cls": "nonKPP",
+"pos": "MID",
+"ns": 8,
+"g26": 3,
+"V0": -1.0,
+"board": 30
+},
+"Harrison Himmelberg|2015|16": {
+"player": "Harrison Himmelberg",
+"year": 2015,
+"pick": 16,
+"effpk": 16,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 10,
+"g26": 13,
+"V0": -1.0,
+"board": 487
+},
+"Harrison Wigg|2014|35": {
+"player": "Harrison Wigg",
+"year": 2014,
+"pick": 35,
+"effpk": 35,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 11
+},
+"Harrison Marsh|2012|47": {
+"player": "Harrison Marsh",
+"year": 2012,
+"pick": 47,
+"effpk": 47,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 3,
+"g26": 0,
+"V0": -1.0,
+"board": 8
+},
+"Michael Jamison|2006|16": {
+"player": "Michael Jamison",
+"year": 2006,
+"pick": 16,
+"effpk": 93,
+"cls": "KPP",
+"pos": "KEY_DEF",
+"ns": 8,
+"g26": 0,
+"V0": -1.0,
+"board": 6
+},
+"Billy Morrison|2003|17": {
+"player": "Billy Morrison",
+"year": 2003,
+"pick": 17,
+"effpk": 17,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 19
+},
+"Adam Pattison|2004|18": {
+"player": "Adam Pattison",
+"year": 2004,
+"pick": 18,
+"effpk": 18,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 4,
+"g26": 0,
+"V0": -1.0,
+"board": 17
+},
+"Dylan Addison|2005|27": {
+"player": "Dylan Addison",
+"year": 2005,
+"pick": 27,
+"effpk": 27,
+"cls": "nonKPP",
+"pos": "GEN_FWD",
+"ns": 6,
+"g26": 0,
+"V0": -1.0,
+"board": 12
+},
+"Tim Hutchison|2005|60": {
+"player": "Tim Hutchison",
+"year": 2005,
+"pick": 60,
+"effpk": 60,
+"cls": "KPP",
+"pos": "KEY_FWD",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 6
+},
+"Josh Smillie|2024|7": {
+"player": "Josh Smillie",
+"year": 2024,
+"pick": 7,
+"effpk": 7,
+"cls": "nonKPP",
+"pos": "MID",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 896
+},
+"Elijah Tsatas|2022|5": {
+"player": "Elijah Tsatas",
+"year": 2022,
+"pick": 5,
+"effpk": 5,
+"cls": "nonKPP",
+"pos": "MID",
+"ns": 2,
+"g26": 6,
+"V0": -1.0,
+"board": 1083
+},
+"Joe Berry|2024|15": {
+"player": "Joe Berry",
+"year": 2024,
+"pick": 15,
+"effpk": 15,
+"cls": "nonKPP",
+"pos": "GEN_FWD",
+"ns": 2,
+"g26": 13,
+"V0": -1.0,
+"board": 1437
+},
+"Sam Berry|2020|29": {
+"player": "Sam Berry",
+"year": 2020,
+"pick": 29,
+"effpk": 29,
+"cls": "nonKPP",
+"pos": "MID",
+"ns": 5,
+"g26": 13,
+"V0": -1.0,
+"board": 3473
+},
+"Thomas Berry|2018|36": {
+"player": "Thomas Berry",
+"year": 2018,
+"pick": 36,
+"effpk": 36,
+"cls": "nonKPP",
+"pos": "GEN_FWD",
+"ns": 4,
+"g26": 0,
+"V0": -1.0,
+"board": 11
+},
+"Jarrod Berry|2016|17": {
+"player": "Jarrod Berry",
+"year": 2016,
+"pick": 17,
+"effpk": 17,
+"cls": "nonKPP",
+"pos": "MID",
+"ns": 10,
+"g26": 9,
+"V0": -1.0,
+"board": 658
+},
+"Oscar Berry|2025|None": {
+"player": "Oscar Berry",
+"year": 2025,
+"pick": null,
+"effpk": 94,
+"cls": "KPP",
+"pos": "KEY_DEF",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 216
+},
+"Louis Emmett|2025|27": {
+"player": "Louis Emmett",
+"year": 2025,
+"pick": 27,
+"effpk": 27,
+"cls": "RUC",
+"pos": "RUC",
+"ns": 0,
+"g26": 5,
+"V0": -1.0,
+"board": 518
+},
+"Xavier Taylor|2025|11": {
+"player": "Xavier Taylor",
+"year": 2025,
+"pick": 11,
+"effpk": 11,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 0,
+"g26": 2,
+"V0": -1.0,
+"board": 690
+},
+"Oskar Taylor|2025|15": {
+"player": "Oskar Taylor",
+"year": 2025,
+"pick": 15,
+"effpk": 15,
+"cls": "nonKPP",
+"pos": "GEN_DEF",
+"ns": 0,
+"g26": 0,
+"V0": -1.0,
+"board": 537
+}
+},
+"n_sitout": 150,
+"sitout_agg": 41139,
+"sitout_rows": [
+{
+"key": "Dylan Patterson|2025|5",
+"player": "Dylan Patterson",
+"cls": "nonKPP",
+"effpk": 5,
+"board": 982
+},
+{
+"key": "Daniel Annable|2025|6",
+"player": "Daniel Annable",
+"cls": "nonKPP",
+"effpk": 6,
+"board": 936
+},
+{
+"key": "Xavier Taylor|2025|11",
+"player": "Xavier Taylor",
+"cls": "nonKPP",
+"effpk": 11,
+"board": 690
+},
+{
+"key": "Harry Kyle|2025|14",
+"player": "Harry Kyle",
+"cls": "nonKPP",
+"effpk": 14,
+"board": 568
+},
+{
+"key": "Oskar Taylor|2025|15",
+"player": "Oskar Taylor",
+"cls": "nonKPP",
+"effpk": 15,
+"board": 537
+},
+{
+"key": "Jai Murray|2025|17",
+"player": "Jai Murray",
+"cls": "nonKPP",
+"effpk": 17,
+"board": 464
+},
+{
+"key": "Beau Addinsall|2025|18",
+"player": "Beau Addinsall",
+"cls": "nonKPP",
+"effpk": 18,
+"board": 430
+},
+{
+"key": "Cameron Nairn|2025|20",
+"player": "Cameron Nairn",
+"cls": "nonKPP",
+"effpk": 20,
+"board": 368
+},
+{
+"key": "Lachlan Carmichael|2025|21",
+"player": "Lachlan Carmichael",
+"cls": "nonKPP",
+"effpk": 21,
+"board": 343
+},
+{
+"key": "Mitchell Marsh|2025|22",
+"player": "Mitchell Marsh",
+"cls": "KPP",
+"effpk": 22,
+"board": 453
+},
+{
+"key": "Aidan Schubert|2025|23",
+"player": "Aidan Schubert",
+"cls": "KPP",
+"effpk": 23,
+"board": 433
+},
+{
+"key": "Harley Barker|2025|24",
+"player": "Harley Barker",
+"cls": "nonKPP",
+"effpk": 24,
+"board": 308
+},
+{
+"key": "Adam Sweid|2025|25",
+"player": "Adam Sweid",
+"cls": "nonKPP",
+"effpk": 25,
+"board": 307
+},
+{
+"key": "Blake Thredgold|2025|26",
+"player": "Blake Thredgold",
+"cls": "KPP",
+"effpk": 26,
+"board": 428
+},
+{
+"key": "Louis Emmett|2025|27",
+"player": "Louis Emmett",
+"cls": "RUC",
+"effpk": 27,
+"board": 518
+},
+{
+"key": "Avery Thomas|2025|28",
+"player": "Avery Thomas",
+"cls": "nonKPP",
+"effpk": 28,
+"board": 304
+},
+{
+"key": "Sam Allen|2025|29",
+"player": "Sam Allen",
+"cls": "nonKPP",
+"effpk": 29,
+"board": 302
+},
+{
+"key": "Thomas Matthews|2025|30",
+"player": "Thomas Matthews",
+"cls": "nonKPP",
+"effpk": 30,
+"board": 302
+},
+{
+"key": "Zane Peucker|2025|31",
+"player": "Zane Peucker",
+"cls": "nonKPP",
+"effpk": 31,
+"board": 300
+},
+{
+"key": "Tyan Prindable|2025|32",
+"player": "Tyan Prindable",
+"cls": "nonKPP",
+"effpk": 32,
+"board": 299
+},
+{
+"key": "Hunter Holmes|2025|33",
+"player": "Hunter Holmes",
+"cls": "nonKPP",
+"effpk": 33,
+"board": 298
+},
+{
+"key": "Jack Dalton|2025|34",
+"player": "Jack Dalton",
+"cls": "nonKPP",
+"effpk": 34,
+"board": 292
+},
+{
+"key": "Jevan Phillipou|2025|35",
+"player": "Jevan Phillipou",
+"cls": "nonKPP",
+"effpk": 35,
+"board": 286
+},
+{
+"key": "Max Kondogiannis|2025|36",
+"player": "Max Kondogiannis",
+"cls": "nonKPP",
+"effpk": 36,
+"board": 280
+},
+{
+"key": "Samuel Swadling|2025|37",
+"player": "Samuel Swadling",
+"cls": "nonKPP",
+"effpk": 37,
+"board": 277
+},
+{
+"key": "Koby Evans|2025|38",
+"player": "Koby Evans",
+"cls": "nonKPP",
+"effpk": 38,
+"board": 272
+},
+{
+"key": "Tylah Williams|2025|39",
+"player": "Tylah Williams",
+"cls": "nonKPP",
+"effpk": 39,
+"board": 266
+},
+{
+"key": "Tobyn Murray|2025|40",
+"player": "Tobyn Murray",
+"cls": "nonKPP",
+"effpk": 40,
+"board": 261
+},
+{
+"key": "Charlie Banfield|2025|41",
+"player": "Charlie Banfield",
+"cls": "nonKPP",
+"effpk": 41,
+"board": 256
+},
+{
+"key": "Billy Cootee|2025|42",
+"player": "Billy Cootee",
+"cls": "nonKPP",
+"effpk": 42,
+"board": 250
+},
+{
+"key": "Cody Curtin|2025|43",
+"player": "Cody Curtin",
+"cls": "KPP",
+"effpk": 43,
+"board": 339
+},
+{
+"key": "Tai Hayes|2025|44",
+"player": "Tai Hayes",
+"cls": "nonKPP",
+"effpk": 44,
+"board": 234
+},
+{
+"key": "Koby Coulson|2025|46",
+"player": "Koby Coulson",
+"cls": "nonKPP",
+"effpk": 46,
+"board": 219
+},
+{
+"key": "Jack Ison|2025|47",
+"player": "Jack Ison",
+"cls": "nonKPP",
+"effpk": 47,
+"board": 212
+},
+{
+"key": "Hugo Mikunda|2025|48",
+"player": "Hugo Mikunda",
+"cls": "nonKPP",
+"effpk": 48,
+"board": 206
+},
+{
+"key": "Maxwell King|2025|49",
+"player": "Maxwell King",
+"cls": "nonKPP",
+"effpk": 49,
+"board": 200
+},
+{
+"key": "Archie Ludowyke|2025|50",
+"player": "Archie Ludowyke",
+"cls": "KPP",
+"effpk": 50,
+"board": 273
+},
+{
+"key": "Finnegan Davis|2025|51",
+"player": "Finnegan Davis",
+"cls": "nonKPP",
+"effpk": 51,
+"board": 190
+},
+{
+"key": "Kye Fincher|2025|52",
+"player": "Kye Fincher",
+"cls": "nonKPP",
+"effpk": 52,
+"board": 185
+},
+{
+"key": "Hussien El Achkar|2025|53",
+"player": "Hussien El Achkar",
+"cls": "nonKPP",
+"effpk": 53,
+"board": 180
+},
+{
+"key": "Noah Roberts-Thomson|2025|54",
+"player": "Noah Roberts-Thomson",
+"cls": "nonKPP",
+"effpk": 54,
+"board": 174
+},
+{
+"key": "Zac McCarthy|2025|55",
+"player": "Zac McCarthy",
+"cls": "KPP",
+"effpk": 55,
+"board": 235
+},
+{
+"key": "Matthew LeRay|2025|56",
+"player": "Matthew LeRay",
+"cls": "nonKPP",
+"effpk": 56,
+"board": 162
+},
+{
+"key": "Will Darcy|2025|58",
+"player": "Will Darcy",
+"cls": "KPP",
+"effpk": 58,
+"board": 216
+},
+{
+"key": "Fred Rodriguez|2025|1",
+"player": "Fred Rodriguez",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Riley Onley|2025|2",
+"player": "Riley Onley",
+"cls": "nonKPP",
+"effpk": 60,
+"board": 154
+},
+{
+"key": "Leon Kickett|2025|4",
+"player": "Leon Kickett",
+"cls": "nonKPP",
+"effpk": 62,
+"board": 154
+},
+{
+"key": "Ollie Greeves|2025|5",
+"player": "Ollie Greeves",
+"cls": "nonKPP",
+"effpk": 63,
+"board": 154
+},
+{
+"key": "Nick Driscoll|2025|6",
+"player": "Nick Driscoll",
+"cls": "nonKPP",
+"effpk": 64,
+"board": 154
+},
+{
+"key": "Jaxon Artemis|2026|1",
+"player": "Jaxon Artemis",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Kye Annand|2026|2",
+"player": "Kye Annand",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Oliver Francou|2026|3",
+"player": "Oliver Francou",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Flynn Riley|2026|4",
+"player": "Flynn Riley",
+"cls": "RUC",
+"effpk": 59,
+"board": 262
+},
+{
+"key": "Xavier Bamert|2026|5",
+"player": "Xavier Bamert",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Oliver Griffin|2026|6",
+"player": "Oliver Griffin",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Campbell Lake|2026|7",
+"player": "Campbell Lake",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Harrison Coe|2026|8",
+"player": "Harrison Coe",
+"cls": "RUC",
+"effpk": 59,
+"board": 262
+},
+{
+"key": "Caleb May|2026|9",
+"player": "Caleb May",
+"cls": "RUC",
+"effpk": 59,
+"board": 262
+},
+{
+"key": "Lukas Cooke|2026|11",
+"player": "Lukas Cooke",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Max Beattie|2026|12",
+"player": "Max Beattie",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Marcus Herbert|2026|13",
+"player": "Marcus Herbert",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Alex Van Wyk|2026|14",
+"player": "Alex Van Wyk",
+"cls": "RUC",
+"effpk": 59,
+"board": 262
+},
+{
+"key": "Liam Puncher|2026|15",
+"player": "Liam Puncher",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Joel Fitzgerald|2026|16",
+"player": "Joel Fitzgerald",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Mitch Podhajski|2026|17",
+"player": "Mitch Podhajski",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Max Mapley|2026|18",
+"player": "Max Mapley",
+"cls": "RUC",
+"effpk": 59,
+"board": 262
+},
+{
+"key": "Josh Smillie|2024|7",
+"player": "Josh Smillie",
+"cls": "nonKPP",
+"effpk": 7,
+"board": 896
+},
+{
+"key": "Oliver Hannaford|2024|18",
+"player": "Oliver Hannaford",
+"cls": "nonKPP",
+"effpk": 18,
+"board": 430
+},
+{
+"key": "Harrison Oliver|2024|19",
+"player": "Harrison Oliver",
+"cls": "nonKPP",
+"effpk": 19,
+"board": 398
+},
+{
+"key": "Jesse Dattoli|2024|22",
+"player": "Jesse Dattoli",
+"cls": "nonKPP",
+"effpk": 22,
+"board": 324
+},
+{
+"key": "Cody Angove|2024|24",
+"player": "Cody Angove",
+"cls": "nonKPP",
+"effpk": 24,
+"board": 308
+},
+{
+"key": "Ned Bowman|2024|26",
+"player": "Ned Bowman",
+"cls": "nonKPP",
+"effpk": 26,
+"board": 306
+},
+{
+"key": "Matt Whitlock|2024|27",
+"player": "Matt Whitlock",
+"cls": "KPP",
+"effpk": 27,
+"board": 426
+},
+{
+"key": "James Barrat|2024|32",
+"player": "James Barrat",
+"cls": "KPP",
+"effpk": 32,
+"board": 419
+},
+{
+"key": "Charlie Nicholls|2024|34",
+"player": "Charlie Nicholls",
+"cls": "KPP",
+"effpk": 34,
+"board": 408
+},
+{
+"key": "Noah Mraz|2024|35",
+"player": "Noah Mraz",
+"cls": "KPP",
+"effpk": 35,
+"board": 400
+},
+{
+"key": "Jack Ough|2024|36",
+"player": "Jack Ough",
+"cls": "nonKPP",
+"effpk": 36,
+"board": 280
+},
+{
+"key": "Kayle Gerreyn|2024|37",
+"player": "Kayle Gerreyn",
+"cls": "KPP",
+"effpk": 37,
+"board": 388
+},
+{
+"key": "Ben Camporeale|2024|43",
+"player": "Ben Camporeale",
+"cls": "nonKPP",
+"effpk": 43,
+"board": 242
+},
+{
+"key": "Jay Polkinghorne|2024|44",
+"player": "Jay Polkinghorne",
+"cls": "nonKPP",
+"effpk": 44,
+"board": 234
+},
+{
+"key": "Joel Cochran|2024|47",
+"player": "Joel Cochran",
+"cls": "KPP",
+"effpk": 47,
+"board": 298
+},
+{
+"key": "Lucca Grego|2024|48",
+"player": "Lucca Grego",
+"cls": "nonKPP",
+"effpk": 48,
+"board": 206
+},
+{
+"key": "Cooper Bell|2024|49",
+"player": "Cooper Bell",
+"cls": "KPP",
+"effpk": 49,
+"board": 281
+},
+{
+"key": "Charlie West|2024|50",
+"player": "Charlie West",
+"cls": "KPP",
+"effpk": 50,
+"board": 273
+},
+{
+"key": "Jacob Molier|2024|52",
+"player": "Jacob Molier",
+"cls": "RUC",
+"effpk": 52,
+"board": 314
+},
+{
+"key": "Alex Dodson|2024|53",
+"player": "Alex Dodson",
+"cls": "RUC",
+"effpk": 53,
+"board": 306
+},
+{
+"key": "Lucas Camporeale|2024|54",
+"player": "Lucas Camporeale",
+"cls": "nonKPP",
+"effpk": 54,
+"board": 174
+},
+{
+"key": "Riak Andrew|2024|55",
+"player": "Riak Andrew",
+"cls": "KPP",
+"effpk": 55,
+"board": 235
+},
+{
+"key": "Luke Urquhart|2024|57",
+"player": "Luke Urquhart",
+"cls": "nonKPP",
+"effpk": 57,
+"board": 154
+},
+{
+"key": "Jasper Alger|2024|58",
+"player": "Jasper Alger",
+"cls": "nonKPP",
+"effpk": 58,
+"board": 154
+},
+{
+"key": "Tyler Welsh|2024|59",
+"player": "Tyler Welsh",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Patrick Said|2024|60",
+"player": "Patrick Said",
+"cls": "nonKPP",
+"effpk": 60,
+"board": 154
+},
+{
+"key": "Rhys Unwin|2024|61",
+"player": "Rhys Unwin",
+"cls": "nonKPP",
+"effpk": 61,
+"board": 154
+},
+{
+"key": "Luke Kennedy|2024|62",
+"player": "Luke Kennedy",
+"cls": "nonKPP",
+"effpk": 62,
+"board": 154
+},
+{
+"key": "Jaren Carr|2024|63",
+"player": "Jaren Carr",
+"cls": "nonKPP",
+"effpk": 63,
+"board": 154
+},
+{
+"key": "Cody Anderson|2024|64",
+"player": "Cody Anderson",
+"cls": "nonKPP",
+"effpk": 64,
+"board": 154
+},
+{
+"key": "Lennox Hoffman|2024|66",
+"player": "Lennox Hoffman",
+"cls": "nonKPP",
+"effpk": 66,
+"board": 154
+},
+{
+"key": "River Stevens|2024|67",
+"player": "River Stevens",
+"cls": "nonKPP",
+"effpk": 67,
+"board": 154
+},
+{
+"key": "Aidan Johnson|2024|68",
+"player": "Aidan Johnson",
+"cls": "KPP",
+"effpk": 68,
+"board": 216
+},
+{
+"key": "Keighton Matofai-Forbes|2024|69",
+"player": "Keighton Matofai-Forbes",
+"cls": "nonKPP",
+"effpk": 69,
+"board": 154
+},
+{
+"key": "Logan Smith|2024|71",
+"player": "Logan Smith",
+"cls": "RUC",
+"effpk": 71,
+"board": 262
+},
+{
+"key": "Aiden Riddle|2024|3",
+"player": "Aiden Riddle",
+"cls": "RUC",
+"effpk": 74,
+"board": 262
+},
+{
+"key": "Harry Charleson|2024|4",
+"player": "Harry Charleson",
+"cls": "nonKPP",
+"effpk": 75,
+"board": 154
+},
+{
+"key": "Tom Cochrane|2024|6",
+"player": "Tom Cochrane",
+"cls": "nonKPP",
+"effpk": 77,
+"board": 154
+},
+{
+"key": "Asher Eastham|2024|8",
+"player": "Asher Eastham",
+"cls": "nonKPP",
+"effpk": 79,
+"board": 154
+},
+{
+"key": "Joe Pike|2024|11",
+"player": "Joe Pike",
+"cls": "RUC",
+"effpk": 82,
+"board": 262
+},
+{
+"key": "Harrison Ramm|2025|3",
+"player": "Harrison Ramm",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Jacob Newton|2025|9",
+"player": "Jacob Newton",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Zac Walker|2025|12",
+"player": "Zac Walker",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Caleb Lewis|2025|14",
+"player": "Caleb Lewis",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Noah Howes|2025|15",
+"player": "Noah Howes",
+"cls": "KPP",
+"effpk": 59,
+"board": 216
+},
+{
+"key": "Will Green|2023|16",
+"player": "Will Green",
+"cls": "RUC",
+"effpk": 16,
+"board": 741
+},
+{
+"key": "James Leake|2023|17",
+"player": "James Leake",
+"cls": "nonKPP",
+"effpk": 17,
+"board": 390
+},
+{
+"key": "William McCabe|2023|19",
+"player": "William McCabe",
+"cls": "KPP",
+"effpk": 19,
+"board": 477
+},
+{
+"key": "Taylor Goad|2023|20",
+"player": "Taylor Goad",
+"cls": "RUC",
+"effpk": 20,
+"board": 545
+},
+{
+"key": "Charlie Edwards|2023|21",
+"player": "Charlie Edwards",
+"cls": "nonKPP",
+"effpk": 21,
+"board": 288
+},
+{
+"key": "Wil Dawson|2023|22",
+"player": "Wil Dawson",
+"cls": "KPP",
+"effpk": 22,
+"board": 388
+},
+{
+"key": "Harry DeMattia|2023|25",
+"player": "Harry DeMattia",
+"cls": "nonKPP",
+"effpk": 25,
+"board": 258
+},
+{
+"key": "Oscar Ryan|2023|27",
+"player": "Oscar Ryan",
+"cls": "nonKPP",
+"effpk": 27,
+"board": 256
+},
+{
+"key": "Billy Wilson|2023|34",
+"player": "Billy Wilson",
+"cls": "nonKPP",
+"effpk": 34,
+"board": 245
+},
+{
+"key": "Cooper Simpson|2023|35",
+"player": "Cooper Simpson",
+"cls": "nonKPP",
+"effpk": 35,
+"board": 240
+},
+{
+"key": "Tew Jiath|2023|37",
+"player": "Tew Jiath",
+"cls": "nonKPP",
+"effpk": 37,
+"board": 233
+},
+{
+"key": "Ollie Murphy|2023|41",
+"player": "Ollie Murphy",
+"cls": "KPP",
+"effpk": 41,
+"board": 307
+},
+{
+"key": "Luke Lloyd|2023|42",
+"player": "Luke Lloyd",
+"cls": "KPP",
+"effpk": 42,
+"board": 299
+},
+{
+"key": "Bodie Ryan|2023|46",
+"player": "Bodie Ryan",
+"cls": "nonKPP",
+"effpk": 46,
+"board": 184
+},
+{
+"key": "Lachlan Smith|2023|47",
+"player": "Lachlan Smith",
+"cls": "RUC",
+"effpk": 47,
+"board": 314
+},
+{
+"key": "Tom Anastasopoulos|2023|48",
+"player": "Tom Anastasopoulos",
+"cls": "nonKPP",
+"effpk": 48,
+"board": 173
+},
+{
+"key": "Zane Zakostelsky|2023|51",
+"player": "Zane Zakostelsky",
+"cls": "KPP",
+"effpk": 51,
+"board": 228
+},
+{
+"key": "Patrick Snell|2023|53",
+"player": "Patrick Snell",
+"cls": "KPP",
+"effpk": 53,
+"board": 216
+},
+{
+"key": "George Stevens|2023|58",
+"player": "George Stevens",
+"cls": "nonKPP",
+"effpk": 58,
+"board": 129
+},
+{
+"key": "Reece Torrent|2023|64",
+"player": "Reece Torrent",
+"cls": "nonKPP",
+"effpk": 64,
+"board": 129
+},
+{
+"key": "Vigo Visentini|2023|6",
+"player": "Vigo Visentini",
+"cls": "RUC",
+"effpk": 70,
+"board": 228
+},
+{
+"key": "Xavier Walsh|2023|7",
+"player": "Xavier Walsh",
+"cls": "KPP",
+"effpk": 71,
+"board": 185
+},
+{
+"key": "Iliro Smit|2024|10",
+"player": "Iliro Smit",
+"cls": "RUC",
+"effpk": 59,
+"board": 228
+},
+{
+"key": "Luker Kentfield|2024|11",
+"player": "Luker Kentfield",
+"cls": "KPP",
+"effpk": 59,
+"board": 185
+},
+{
+"key": "Luke Beecken|2024|17",
+"player": "Luke Beecken",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 129
+},
+{
+"key": "Harry Barnett|2022|23",
+"player": "Harry Barnett",
+"cls": "RUC",
+"effpk": 23,
+"board": 383
+},
+{
+"key": "Lewis Hayes|2022|25",
+"player": "Lewis Hayes",
+"cls": "KPP",
+"effpk": 25,
+"board": 307
+},
+{
+"key": "Brayden George|2022|26",
+"player": "Brayden George",
+"cls": "nonKPP",
+"effpk": 26,
+"board": 214
+},
+{
+"key": "Jakob Ryan|2022|28",
+"player": "Jakob Ryan",
+"cls": "nonKPP",
+"effpk": 28,
+"board": 212
+},
+{
+"key": "Hugh Davies|2022|33",
+"player": "Hugh Davies",
+"cls": "KPP",
+"effpk": 33,
+"board": 298
+},
+{
+"key": "Henry Hustwaite|2022|37",
+"player": "Henry Hustwaite",
+"cls": "nonKPP",
+"effpk": 37,
+"board": 194
+},
+{
+"key": "Jed Adams|2022|38",
+"player": "Jed Adams",
+"cls": "KPP",
+"effpk": 38,
+"board": 272
+},
+{
+"key": "Max Knobel|2022|42",
+"player": "Max Knobel",
+"cls": "RUC",
+"effpk": 42,
+"board": 309
+},
+{
+"key": "Liam Reidy|2022|5",
+"player": "Liam Reidy",
+"cls": "RUC",
+"effpk": 63,
+"board": 191
+},
+{
+"key": "Toby Conway|2021|24",
+"player": "Toby Conway",
+"cls": "RUC",
+"effpk": 24,
+"board": 314
+},
+{
+"key": "Wade Derksen|2022|5",
+"player": "Wade Derksen",
+"cls": "KPP",
+"effpk": 59,
+"board": 123
+},
+{
+"key": "Max Ramsden|2022|6",
+"player": "Max Ramsden",
+"cls": "KPP",
+"effpk": 59,
+"board": 123
+},
+{
+"key": "Hugo Hall-Kahan|2026|11",
+"player": "Hugo Hall-Kahan",
+"cls": "nonKPP",
+"effpk": 59,
+"board": 154
+},
+{
+"key": "Henry Smith|2020|50",
+"player": "Henry Smith",
+"cls": "KPP",
+"effpk": 50,
+"board": 117
+}
+],
+"n_coh2025": 102,
+"coh2025_agg": 47416,
+"floor_saves": -1,
+"floor_saves_ruc": -1
+}

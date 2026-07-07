@@ -1,0 +1,756 @@
+{
+ "baseline_decomp": {
+  "Connor Rozee": {
+   "a_pct_of_25": -21.3,
+   "age": 26,
+   "b_pct_of_25": -9.5,
+   "ch_a_decay_age": -827,
+   "ch_b_level26": -368,
+   "effpk": 5,
+   "ev25": 3874.0,
+   "ev26": 2679.0,
+   "ev26_no26row": 3047.0,
+   "exp25": 70.5,
+   "exp26": 52.8,
+   "g25": 21,
+   "g26": 2,
+   "lvlwt25": 96.6,
+   "lvlwt26": 96.0,
+   "nq25": 7,
+   "nq26": 7
+  },
+  "Jack Ginnivan": {
+   "a_pct_of_25": -22.3,
+   "age": 24,
+   "b_pct_of_25": 32.5,
+   "ch_a_decay_age": -319,
+   "ch_b_level26": 465,
+   "effpk": 70,
+   "ev25": 1432.0,
+   "ev26": 1578.0,
+   "ev26_no26row": 1113.0,
+   "exp25": 58.7,
+   "exp26": 55.3,
+   "g25": 25,
+   "g26": 13,
+   "lvlwt25": 68.1,
+   "lvlwt26": 71.4,
+   "nq25": 4,
+   "nq26": 5
+  },
+  "Josh Ward": {
+   "a_pct_of_25": -28.0,
+   "age": 23,
+   "b_pct_of_25": 5.8,
+   "ch_a_decay_age": -641,
+   "ch_b_level26": 133,
+   "effpk": 7,
+   "ev25": 2290.0,
+   "ev26": 1782.0,
+   "ev26_no26row": 1649.0,
+   "exp25": 47.2,
+   "exp26": 47.0,
+   "g25": 25,
+   "g26": 13,
+   "lvlwt25": 74.2,
+   "lvlwt26": 75.0,
+   "nq25": 4,
+   "nq26": 5
+  },
+  "Joshua Weddle": {
+   "a_pct_of_25": -15.7,
+   "age": 22,
+   "b_pct_of_25": 2.0,
+   "ch_a_decay_age": -297,
+   "ch_b_level26": 38,
+   "effpk": 18,
+   "ev25": 1887.0,
+   "ev26": 1628.0,
+   "ev26_no26row": 1590.0,
+   "exp25": 44.8,
+   "exp26": 44.3,
+   "g25": 18,
+   "g26": 12,
+   "lvlwt25": 73.6,
+   "lvlwt26": 73.3,
+   "nq25": 3,
+   "nq26": 4
+  },
+  "Paul Curtis": {
+   "a_pct_of_25": -23.0,
+   "age": 23,
+   "b_pct_of_25": 11.4,
+   "ch_a_decay_age": -303,
+   "ch_b_level26": 150,
+   "effpk": 35,
+   "ev25": 1315.0,
+   "ev26": 1162.0,
+   "ev26_no26row": 1012.0,
+   "exp25": 52.0,
+   "exp26": 50.5,
+   "g25": 19,
+   "g26": 13,
+   "lvlwt25": 62.7,
+   "lvlwt26": 65.7,
+   "nq25": 4,
+   "nq26": 5
+  }
+ },
+ "eng_dump_n": 2654,
+ "g3_all": {
+  "1": {
+   "n": 80,
+   "p10": 0.48,
+   "p5": 0.16,
+   "p50": 0.5
+  },
+  "2": {
+   "n": 91,
+   "p10": 0.5,
+   "p5": 0.27,
+   "p50": 0.7
+  },
+  "3": {
+   "n": 68,
+   "p10": 0.25,
+   "p5": 0.25,
+   "p50": 0.73
+  },
+  "4": {
+   "n": 50,
+   "p10": 0.23,
+   "p5": 0.23,
+   "p50": 0.62
+  },
+  "5": {
+   "n": 63,
+   "p10": 0.2,
+   "p5": 0.19,
+   "p50": 1.12
+  },
+  "6": {
+   "n": 43,
+   "p10": 0.07,
+   "p5": 0.07,
+   "p50": 0.53
+  },
+  "7": {
+   "n": 41,
+   "p10": 0.1,
+   "p5": 0.08,
+   "p50": 0.99
+  },
+  "8": {
+   "n": 41,
+   "p10": 0.05,
+   "p5": 0.01,
+   "p50": 0.73
+  },
+  "9": {
+   "n": 44,
+   "p10": 0.03,
+   "p5": 0.01,
+   "p50": 0.69
+  },
+  "10": {
+   "n": 48,
+   "p10": 0.11,
+   "p5": 0.09,
+   "p50": 0.77
+  },
+  "11": {
+   "n": 33,
+   "p10": 0.04,
+   "p5": 0.02,
+   "p50": 0.75
+  },
+  "12": {
+   "n": 101,
+   "p10": 0.04,
+   "p5": 0.01,
+   "p50": 0.59
+  }
+ },
+ "g3_msd_ssp": {
+  "1": {
+   "n": 16,
+   "p10": 0.15,
+   "p5": 0.14,
+   "p50": 0.5
+  },
+  "2": {
+   "n": 13,
+   "p10": 0.2,
+   "p5": 0.17,
+   "p50": 0.6
+  },
+  "3": {
+   "n": 4,
+   "p10": 0.29,
+   "p5": 0.29,
+   "p50": 0.55
+  },
+  "4": {
+   "n": 5,
+   "p10": 0.26,
+   "p5": 0.22,
+   "p50": 0.4
+  },
+  "5": {
+   "n": 8,
+   "p10": 0.24,
+   "p5": 0.14,
+   "p50": 4.33
+  },
+  "7": {
+   "n": 1,
+   "p10": 7.34,
+   "p5": 7.34,
+   "p50": 7.34
+  }
+ },
+ "g3_nd": {
+  "1": {
+   "n": 58,
+   "p10": 0.5,
+   "p5": 0.5,
+   "p50": 0.5
+  },
+  "2": {
+   "n": 71,
+   "p10": 0.5,
+   "p5": 0.5,
+   "p50": 0.7
+  },
+  "3": {
+   "n": 59,
+   "p10": 0.25,
+   "p5": 0.25,
+   "p50": 0.71
+  },
+  "4": {
+   "n": 42,
+   "p10": 0.23,
+   "p5": 0.23,
+   "p50": 0.62
+  },
+  "5": {
+   "n": 49,
+   "p10": 0.2,
+   "p5": 0.19,
+   "p50": 0.94
+  },
+  "6": {
+   "n": 40,
+   "p10": 0.08,
+   "p5": 0.07,
+   "p50": 0.51
+  },
+  "7": {
+   "n": 37,
+   "p10": 0.11,
+   "p5": 0.07,
+   "p50": 0.99
+  },
+  "8": {
+   "n": 35,
+   "p10": 0.04,
+   "p5": 0.01,
+   "p50": 0.7
+  },
+  "9": {
+   "n": 40,
+   "p10": 0.03,
+   "p5": 0.01,
+   "p50": 0.69
+  },
+  "10": {
+   "n": 39,
+   "p10": 0.1,
+   "p5": 0.09,
+   "p50": 0.73
+  },
+  "11": {
+   "n": 30,
+   "p10": 0.03,
+   "p5": 0.02,
+   "p50": 0.72
+  },
+  "12": {
+   "n": 90,
+   "p10": 0.03,
+   "p5": 0.01,
+   "p50": 0.57
+  }
+ },
+ "g3_no_msd_ssp": {
+  "1": {
+   "n": 64,
+   "p10": 0.5,
+   "p5": 0.5,
+   "p50": 0.5
+  },
+  "2": {
+   "n": 78,
+   "p10": 0.5,
+   "p5": 0.5,
+   "p50": 0.72
+  },
+  "3": {
+   "n": 64,
+   "p10": 0.25,
+   "p5": 0.25,
+   "p50": 0.73
+  },
+  "4": {
+   "n": 45,
+   "p10": 0.25,
+   "p5": 0.23,
+   "p50": 0.62
+  },
+  "5": {
+   "n": 55,
+   "p10": 0.2,
+   "p5": 0.2,
+   "p50": 1.04
+  },
+  "6": {
+   "n": 43,
+   "p10": 0.07,
+   "p5": 0.07,
+   "p50": 0.53
+  },
+  "7": {
+   "n": 40,
+   "p10": 0.1,
+   "p5": 0.08,
+   "p50": 0.93
+  },
+  "8": {
+   "n": 41,
+   "p10": 0.05,
+   "p5": 0.01,
+   "p50": 0.73
+  },
+  "9": {
+   "n": 44,
+   "p10": 0.03,
+   "p5": 0.01,
+   "p50": 0.69
+  },
+  "10": {
+   "n": 48,
+   "p10": 0.11,
+   "p5": 0.09,
+   "p50": 0.77
+  },
+  "11": {
+   "n": 33,
+   "p10": 0.04,
+   "p5": 0.02,
+   "p50": 0.75
+  },
+  "12": {
+   "n": 101,
+   "p10": 0.04,
+   "p5": 0.01,
+   "p50": 0.59
+  }
+ },
+ "matched": {
+  "Josh Ward": {
+   "matched_median": 1711.0,
+   "table": [
+    {
+     "age": 23,
+     "effpk": 8,
+     "ev26_overlay": 912.0,
+     "g25": 24,
+     "g26": 13,
+     "nq26": 4,
+     "player": "Jye Amiss",
+     "pos": "KEY_FWD"
+    },
+    {
+     "age": 23,
+     "effpk": 6,
+     "ev26_overlay": 1711.0,
+     "g25": 14,
+     "g26": 13,
+     "nq26": 5,
+     "player": "Josh Rachele",
+     "pos": "GEN_FWD"
+    },
+    {
+     "age": 23,
+     "effpk": 5,
+     "ev26_overlay": 3367.0,
+     "g25": 24,
+     "g26": 13,
+     "nq26": 4,
+     "player": "Mac Andrew",
+     "pos": "KEY_DEF"
+    },
+    {
+     "age": 22,
+     "effpk": 6,
+     "ev26_overlay": 1305.0,
+     "g25": 23,
+     "g26": 10,
+     "nq26": 4,
+     "player": "Bailey Humphrey",
+     "pos": "GEN_FWD"
+    },
+    {
+     "age": 23,
+     "effpk": 11,
+     "ev26_overlay": 5770.0,
+     "g25": 23,
+     "g26": 10,
+     "nq26": 5,
+     "player": "Nasiah Wanganeen-Milera",
+     "pos": "MID"
+    }
+   ],
+   "target_overlay": 1324.0,
+   "vs_matched_pct": 77.4
+  },
+  "Paul Curtis": {
+   "matched_median": 1741.0,
+   "table": [
+    {
+     "age": 23,
+     "effpk": 36,
+     "ev26_overlay": 2243.0,
+     "g25": 25,
+     "g26": 11,
+     "nq26": 5,
+     "player": "Jake Soligo",
+     "pos": "MID"
+    },
+    {
+     "age": 23,
+     "effpk": 34,
+     "ev26_overlay": 1521.0,
+     "g25": 18,
+     "g26": 11,
+     "nq26": 3,
+     "player": "Matthew Roberts",
+     "pos": "GEN_DEF"
+    },
+    {
+     "age": 23,
+     "effpk": 33,
+     "ev26_overlay": 1741.0,
+     "g25": 19,
+     "g26": 11,
+     "nq26": 4,
+     "player": "Mitchito Owens",
+     "pos": "KEY_FWD"
+    },
+    {
+     "age": 23,
+     "effpk": 31,
+     "ev26_overlay": 241.0,
+     "g25": 22,
+     "g26": 14,
+     "nq26": 5,
+     "player": "Brady Hough",
+     "pos": "GEN_DEF"
+    },
+    {
+     "age": 24,
+     "effpk": 35,
+     "ev26_overlay": 2103.0,
+     "g25": 25,
+     "g26": 14,
+     "nq26": 3,
+     "player": "Shannon Neale",
+     "pos": "KEY_FWD"
+    }
+   ],
+   "target_overlay": 1156.0,
+   "vs_matched_pct": 66.4
+  }
+ },
+ "overlay": {
+  "Connor Rozee": {
+   "a_pct": -18.4,
+   "b_pct": -17.4,
+   "ch_a": -706,
+   "ch_b": -665,
+   "ev25": 3831.0,
+   "ev26": 2460.0,
+   "ev26_m1only": 2679.0,
+   "ev26_no26row": 3125.0,
+   "ev26_v7only": 2460.0
+  },
+  "Jack Ginnivan": {
+   "a_pct": -3.8,
+   "b_pct": 30.9,
+   "ch_a": -50,
+   "ch_b": 407,
+   "d2_target": 1677,
+   "ev25": 1318.0,
+   "ev26": 1675.0,
+   "ev26_m1only": 1887.0,
+   "ev26_no26row": 1268.0,
+   "ev26_overlay": 1675.0,
+   "ev26_v7only": 1392.0
+  },
+  "Josh Ward": {
+   "a_pct": -17.5,
+   "b_pct": -27.9,
+   "ch_a": -423,
+   "ch_b": -675,
+   "d2_target": 1253,
+   "ev25": 2422.0,
+   "ev26": 1324.0,
+   "ev26_m1only": 1782.0,
+   "ev26_no26row": 1999.0,
+   "ev26_overlay": 1324.0,
+   "ev26_v7only": 1324.0
+  },
+  "Joshua Weddle": {
+   "a_pct": -9.2,
+   "b_pct": -10.8,
+   "ch_a": -161,
+   "ch_b": -189,
+   "d2_target": 1414,
+   "ev25": 1751.0,
+   "ev26": 1401.0,
+   "ev26_m1only": 1628.0,
+   "ev26_no26row": 1590.0,
+   "ev26_overlay": 1401.0,
+   "ev26_v7only": 1401.0
+  },
+  "Paul Curtis": {
+   "a_pct": -12.9,
+   "b_pct": -4.4,
+   "ch_a": -180,
+   "ch_b": -62,
+   "d2_target": 1087,
+   "ev25": 1398.0,
+   "ev26": 1156.0,
+   "ev26_m1only": 1441.0,
+   "ev26_no26row": 1218.0,
+   "ev26_overlay": 1156.0,
+   "ev26_v7only": 977.0
+  }
+ },
+ "q1": {
+  "Jack Ginnivan": {
+   "2025": {
+    "Lc": 74.0,
+    "Lo": 68.1,
+    "M1_fires": true,
+    "age_asof": 23.0,
+    "asc": 0.67,
+    "cB": 0.442,
+    "effs": 3.82,
+    "nq": 4
+   },
+   "2026": {
+    "Lc": 78.0,
+    "Lo": 71.4,
+    "M1_fires": true,
+    "age_asof": 24.0,
+    "asc": 0.58,
+    "cB": 0.47,
+    "effs": 4.59,
+    "nq": 5
+   }
+  },
+  "Josh Ward": {
+   "2025": {
+    "Lc": 80.1,
+    "Lo": 74.2,
+    "M1_fires": true,
+    "age_asof": 22.0,
+    "asc": 0.76,
+    "cB": 0.387,
+    "effs": 3.47,
+    "nq": 4
+   },
+   "2026": {
+    "Lc": 78.0,
+    "Lo": 75.0,
+    "M1_fires": false,
+    "age_asof": 23.0,
+    "asc": 0.67,
+    "cB": 0.47,
+    "effs": 4.24,
+    "nq": 5
+   }
+  }
+ },
+ "q4": [
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 61,
+   "pickless": false,
+   "player": "Jack Watkins",
+   "raw_pick": 3,
+   "type": "RD",
+   "year": 2025
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 94,
+   "pickless": false,
+   "player": "Flynn Perez",
+   "raw_pick": 35,
+   "type": "SSP",
+   "year": 2025
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Zac Banch",
+   "raw_pick": 2,
+   "type": "MSD",
+   "year": 2025
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Flynn Young",
+   "raw_pick": 4,
+   "type": "MSD",
+   "year": 2025
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Saad El-Hawli",
+   "raw_pick": 13,
+   "type": "MSD",
+   "year": 2024
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Lachlan Blakiston",
+   "raw_pick": 13,
+   "type": "MSD",
+   "year": 2025
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Jack Hutchinson",
+   "raw_pick": 3,
+   "type": "MSD",
+   "year": 2024
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Mani Liddy",
+   "raw_pick": 16,
+   "type": "MSD",
+   "year": 2025
+  },
+  {
+   "cat": null,
+   "dv": 308.0,
+   "effpk": 59,
+   "pickless": false,
+   "player": "Roan Steele",
+   "raw_pick": 8,
+   "type": "MSD",
+   "year": 2025
+  }
+ ],
+ "q5": {
+  "listed": 805,
+  "listed_picked_with_dv": 721,
+  "non_retired": 805,
+  "pickless_listed": 84,
+  "store_valid_pos_rows": 2654
+ },
+ "split22": {
+  "Connor Rozee": {
+   "age_alone": -694,
+   "age_pct": -17.9,
+   "exp_alone": -142,
+   "exp_pct": -3.7,
+   "interaction": 9,
+   "v25": 3874.0,
+   "v26_no26row": 3047.0
+  },
+  "Jack Ginnivan": {
+   "age_alone": -313,
+   "age_pct": -21.9,
+   "exp_alone": -23,
+   "exp_pct": -1.6,
+   "interaction": 17,
+   "v25": 1432.0,
+   "v26_no26row": 1113.0
+  },
+  "Josh Ward": {
+   "age_alone": -508,
+   "age_pct": -22.2,
+   "exp_alone": -143,
+   "exp_pct": -6.2,
+   "interaction": 10,
+   "v25": 2290.0,
+   "v26_no26row": 1649.0
+  },
+  "Joshua Weddle": {
+   "age_alone": -228,
+   "age_pct": -12.1,
+   "exp_alone": -72,
+   "exp_pct": -3.8,
+   "interaction": 3,
+   "v25": 1887.0,
+   "v26_no26row": 1590.0
+  },
+  "Paul Curtis": {
+   "age_alone": -310,
+   "age_pct": -23.6,
+   "exp_alone": 7,
+   "exp_pct": 0.5,
+   "interaction": 0,
+   "v25": 1315.0,
+   "v26_no26row": 1012.0
+  }
+ },
+ "split22_cohorts": {
+  "mid(5-7)": {
+   "age_pct": -28.1,
+   "exp_pct": -1.6,
+   "interact_pct": -1.7,
+   "n": 12,
+   "total_pct": -31.4
+  },
+  "old(8+)": {
+   "age_pct": -26.1,
+   "exp_pct": -0.6,
+   "interact_pct": 0.3,
+   "n": 36,
+   "total_pct": -26.4
+  },
+  "young(2-4)": {
+   "age_pct": -40.1,
+   "exp_pct": -12.9,
+   "interact_pct": 4.9,
+   "n": 14,
+   "total_pct": -48.0
+  }
+ }
+}

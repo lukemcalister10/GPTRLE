@@ -1,0 +1,36 @@
+THE 34 PRESENT-POSITION REASSIGNMENTS (stage0 _pos_now vs pre_stage0 _pos_now) — Luke's calls
+name                       key                      drafted  old_pres new_pres
+Adam Treloar               adam-treloar             MID      GFWD     MID     
+Alex Dodson                alex-dodson              RUC      KFWD     RUC     
+Anthony Caminiti           anthony-caminiti         KFWD     KDEF     KFWD    
+Bailey J. Williams         bailey-williams-wc       RUC      KFWD     RUC     
+Chad Warner                chad-warner              MID      GFWD     MID     
+Charlie Banfield           charlie-banfield         MID      GFWD     MID     
+Christian Petracca         christian-petracca       MID      GFWD     MID     
+Cody Angove                cody-angove              MID      GFWD     MID     
+Colby McKercher            colby-mckercher          MID      GDEF     MID     
+Connor Budarick            connor-budarick          GDEF     GFWD     GDEF    
+Cooper Hynes               cooper-hynes             MID      GFWD     MID     
+Darcy Byrne-Jones          darcy-byrne-jones        GDEF     GFWD     GDEF    
+Finn O'Sullivan            finn-o-sullivan          MID      GDEF     MID     
+Jack Ison                  jack-ison                GFWD     MID      GFWD    
+Jack Ross                  jack-ross                MID      GFWD     MID     
+Jagga Smith                jagga-smith              MID      GFWD     MID     
+Jake Soligo                jake-soligo              MID      GFWD     MID     
+Jason Horne-Francis        jason-horne-francis      MID      GFWD     MID     
+Joel Freijah               joel-freijah             MID      GFWD     MID     
+Justin McInerney           justin-mcinerney         MID      GFWD     MID     
+Levi Ashcroft              levi-ashcroft            MID      GFWD     MID     
+Marcus Windhager           marcus-windhager         MID      GDEF     MID     
+Ned Long                   ned-long                 MID      GFWD     MID     
+Rowan Marshall             rowan-marshall           RUC      KFWD     RUC     
+Ryley Sanders              ryley-sanders            MID      GFWD     MID     
+Sam Draper                 sam-draper               RUC      KFWD     RUC     
+Sam Durham                 sam-durham               MID      GFWD     MID     
+Sam Lalor                  sam-lalor                MID      GFWD     MID     
+Samuel Grlj                samuel-grlj              MID      GDEF     MID     
+Stephen Coniglio           stephen-coniglio         MID      GFWD     MID     
+Sullivan Robey             sullivan-robey           MID      GFWD     MID     
+Taj Hotton                 taj-hotton               MID      GFWD     MID     
+Tim Kelly                  tim-kelly                MID      GFWD     MID     
+Touk Miller                touk-miller              MID      GFWD     MID     

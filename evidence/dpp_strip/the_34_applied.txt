@@ -1,0 +1,38 @@
+(b) THE 34 present-position reassignments — APPLIED. PREVIOUS(held) -> CONTROL(strip,no34) -> S34(strip+34).
+34Δ = CONTROL->S34 (isolated 34 effect). totalΔ = PREVIOUS->S34. Present is now authoritative; future set to match.
+
+player                 draft old->new    PREV    CTRL    S34     34d      totalD  
+Rowan Marshall         RUC   KFWD->RUC   1417    433     431     -2       -986    
+Tim Kelly              MID   GFWD->MID   1598    1605    921     -684     -677    
+Bailey J. Williams     RUC   KFWD->RUC   2376    1689    1704    15       -672    
+Christian Petracca     MID   GFWD->MID   3033    2414    2414    0        -619    
+Sam Draper             RUC   KFWD->RUC   1230    636     635     -1       -595    
+Adam Treloar           MID   GFWD->MID   1194    1193    607     -586     -587    
+Touk Miller            MID   GFWD->MID   1908    1266    1331    65       -577    
+Jack Ross              MID   GFWD->MID   2165    1632    1624    -8       -541    
+Sam Durham             MID   GFWD->MID   2059    1541    1521    -20      -538    
+Justin McInerney       MID   GFWD->MID   1941    2251    1454    -797     -487    
+Jason Horne-Francis    MID   GFWD->MID   4172    3702    3702    0        -470    
+Ned Long               MID   GFWD->MID   1417    963     963     0        -454    
+Darcy Byrne-Jones      GDEF  GFWD->GDEF  677     697     255     -442     -422    
+Jake Soligo            MID   GFWD->MID   2500    2045    2079    34       -421    
+Chad Warner            MID   GFWD->MID   3127    2740    2733    -7       -394    
+Joel Freijah           MID   GFWD->MID   2677    2300    2302    2        -375    
+Sam Lalor              MID   GFWD->MID   3694    3277    3337    60       -357    
+Sullivan Robey         MID   GFWD->MID   2234    1882    1919    37       -315    
+Jagga Smith            MID   GFWD->MID   3191    3512    2914    -598     -277    
+Ryley Sanders          MID   GFWD->MID   4187    4897    3926    -971     -261    
+Levi Ashcroft          MID   GFWD->MID   3281    3208    3028    -180     -253    
+Connor Budarick        GDEF  GFWD->GDEF  405     392     163     -229     -242    
+Colby McKercher        MID   GDEF->MID   3767    3621    3627    6        -140    
+Cooper Hynes           MID   GFWD->MID   1261    1125    1150    25       -111    
+Stephen Coniglio       MID   GFWD->MID   194     194     112     -82      -82     
+Marcus Windhager       MID   GDEF->MID   1619    1546    1557    11       -62     
+Finn O'Sullivan        MID   GDEF->MID   3468    2933    3427    494      -41     
+Samuel Grlj            MID   GDEF->MID   2261    2209    2228    19       -33     
+Jack Ison              GFWD  MID->GFWD   540     582     518     -64      -22     
+Alex Dodson            RUC   KFWD->RUC   388     388     388     0        0       
+Charlie Banfield       MID   GFWD->MID   595     549     613     64       18      
+Anthony Caminiti       KFWD  KDEF->KFWD  648     690     690     0        42      
+Cody Angove            MID   GFWD->MID   364     396     506     110      142     
+Taj Hotton             MID   GFWD->MID   1097    1305    1337    32       240     

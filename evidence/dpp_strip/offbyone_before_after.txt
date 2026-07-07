@@ -1,0 +1,32 @@
+PHASE 3 — OFF-BY-ONE GAMES (current-season games exceeded career total). Fix: season -> career (Sellwood rule).
+board value shown S34(pre-fix) -> FINAL(post-fix).
+
+player                 2026 games     career(field)    board S34->FINAL
+Angus Anderson         7 (was 8)      7                92 -> 106
+Bodie Ryan             3 (was 4)      3                185 -> 292
+Cameron Nairn          2 (was 3)      2                686 -> 663
+Campbell Lake          1 (was 2)      1                130 -> 127
+Cooper Duff-Tytler     10 (was 11)    10               1548 -> 1508
+Harry Dean             10 (was 11)    10               1809 -> 1736
+Harry Kyle             2 (was 3)      2                798 -> 757
+Jack Ison              3 (was 4)      3                518 -> 490
+Jacob Farrow           11 (was 12)    11               1583 -> 1526
+Jagga Smith            12 (was 13)    12               2914 -> 2822
+Jai Murray             1 (was 2)      1                942 -> 940
+Josh Lai               8 (was 9)      8                349 -> 357
+Latrelle Pickett       11 (was 12)    11               645 -> 598
+Max Kondogiannis       4 (was 5)      4                500 -> 472
+Michael Sellwood       13 (was 14)    13               93 -> 86
+Milan Murdock          10 (was 11)    10               828 -> 831
+Paddy Cross            7 (was 8)      7                58 -> 65
+Sullivan Robey         9 (was 10)     9                1919 -> 1847
+Talor Byrne            7 (was 8)      7                523 -> 499
+Toby Murray            7 (was 8)      7                186 -> 202
+Wade Derksen           3 (was 4)      3                77 -> 81
+Will Edwards           7 (was 8)      7                240 -> 260
+Will Lewis             9 (was 10)     9                14 -> 14
+Willem Duursma         12 (was 13)    12               4155 -> 4110
+
+liam-mackie (distinct sub-case): career field 0 -> 2 (raised to sole real 2019 season; not a current-season over-count; inactive, no board impact)
+
+AFTER: players still violating career>=season: 0 []

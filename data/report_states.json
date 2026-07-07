@@ -1,0 +1,26 @@
+{
+ "control": {
+  "md5": "efea88e5",
+  "label": "BAKED v2.5 canonical (DPP strip; store e1b4d8bf)",
+  "matrix": "data/s4_matrix_baked_efea88e5.json",
+  "gates": "data/gates_snapshots/gates_efea88e5.json"
+ },
+ "previous": {
+  "md5": "c8051893",
+  "label": "CANDIDATE v2.1 games-ramp (PREVIOUS)",
+  "matrix": "data/s4_matrix_v21_c8051893.json",
+  "gates": "data/gates_snapshots/gates_c8051893.json"
+ },
+ "states": {
+  "8aed420a": "CONTROL (canonical)",
+  "4a134d05": "CANDIDATE v2 (PREVIOUS)",
+  "efc15c6c": "PROTOTYPE head+gradedfix (D8, wired nowhere)",
+  "fb39d88a": "CANDIDATE v1 (D4, superseded)",
+  "a9e1c14b": "PROTOTYPE head+FormA (D7)",
+  "c8051893": "CANDIDATE v2.1 games-ramp (CURRENT, this directive)",
+  "e15bafa9": "CANDIDATE v2.1 transient intra-session heads (superseded; values byte-identical to c8051893)",
+  "db599058": "CANDIDATE v2.1 transient intra-session heads (superseded; values byte-identical to c8051893)",
+  "af1fc6aa": "CANDIDATE v2.2 concave-ramp + V0-floor (CURRENT, D12)",
+  "efea88e5": "BAKED v2.5 canonical (DPP strip final consolidation, store e1b4d8bf; A7 frozen-gate amendment; owner-authorised 2026-07-05)"
+ }
+}

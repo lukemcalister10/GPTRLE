@@ -1,0 +1,49 @@
+# D15 V4 — COOPER DUFF-TYTLER MATERIALITY DECOMPOSITION
+# Cooper Duff-Tytler  ·  drafted pick 4 (2025 ND)  ·  gfut(current designation)=KEY_FWD  ·  draft-age 18  ·  2026: 11g
+# columns:  [CONTROL 8aed420a/f4a4d34]  [v2.3 f3e537ba/def39f5]  [v2.4 7c199a1f/fa6abd0]
+
+## (a) HIS ACTUAL LINE — three columns (all numbers state-labelled)
+                           [CONTROL]        [v2.3]        [v2.4]
+board price (ev)                1353          1366          1366
+V0 start value                   994          1022           964
+  (V0 source)          pre-curve raw     D14-curve     D14-curve
+prod leg e                      1353          1366          1366
+prefloor ev                        —          1366          1366
+floor frac·V0                      —           460           434
+nseas_pro / sit?         None/played      1/played      1/played
+
+### dominant pricing leg (per column):
+   [CONTROL] PRODUCTION  —  production leg 1353 ≈ price; no floor; anchor V0=994 not traded
+   [v2.3] PRODUCTION  —  production leg 1366 ≈ price; floor 0.45×V0=460 slack (<price); anchor V0=1022 not traded
+   [v2.4] PRODUCTION  —  production leg 1366 ≈ price; floor 0.45×V0=434 slack (<price); anchor V0=964 not traded
+
+### PRICE MOVEMENT (the number the owner trades): CONTROL 1353 → v2.3 1366 → v2.4 1366  (net Δ CONTROL→v2.4 = +13)
+### V0 ANCHOR MOVEMENT: CONTROL 994 → v2.3 1022 → v2.4 964  (the D14 curve reshaped the START anchor)
+
+## (b) WHICH POSITION FIELD THE V0 CURVE KEYS ON  (read from the code, not docs)
+   The board V0 curve is looked up by MA.gfut(p) — the SETTLED/CURRENT designation, NOT the
+   frozen drafted position p['pos'].
+     • engine/rl_after/_merged_recover.py:428  _V0CURVE[_v0key(p)] = star(MA.gfut(p), _ageR(p), p.get('pick'))
+     • engine/rl_after/_merged_recover.py:324  _v0key(p) = (... , MA.gfut(p), MA.effpk(p))   # key includes gfut
+     • engine/rl_after/_merged_recover.py:433  v0_start: return _V0CURVE.get(_v0key(p))       # board path
+     • engine/rl_after/rl_model.py:36-40        gfut(p): settled FUTURE position = max-weight of p['_fut'],
+                                                 else bnow(p) (= _pos_now or drafted pos). TOGGLEABLE.
+   => A KEY_FWD→RUC toggle (flip _fut so gfut returns RUC) moves him off the KEY_FWD age-18 curve
+      onto the RUC age-18 curve — i.e. onto the 1220 top-pick plateau. (sized in (c)).
+
+## (c) TOGGLE SCENARIO [HYPOTHETICAL-v2.4] — if designated RUC on fa6abd0 (probe-only, no board write)
+   [v2.4]           V0 (KEY_FWD, as designated) = 964
+   [HYPOTHETICAL-v2.4] V0 (RUC, pk4 age18) = 1141   (RUC age-18 curve at pick 4 — just below the 1220 pick-1..3 plateau; ΔV0 = +177)
+   [v2.4]           board price as KEY_FWD = 1366
+   [HYPOTHETICAL-v2.4] board price as RUC  = 1778   (v0_start now 1141; prod leg under RUC machinery = 1778)
+   => sized toggle exposure on the traded price: +412 SCAR (V0 anchor lift +177).
+
+## (d) NEXT-DRAFT PURE-RUCK ENTRANT [HYPOTHETICAL-v2.4] — new age-18 entrant start value (V0*), by pick
+  pick       [RUC]   [KEY_FWD]
+     1        1220         970
+     3        1220         970
+     5        1139         933
+   (pick-3 is the sizing target: a day-one pure ruck starts at the RUC-curve V0* above under the
+    stopgap curve; the KEY_FWD column is the same entrant if mis-designated a key forward.)
+
+## engine md5 assertions:  CONTROL=8aed420a  v2.3=f3e537ba  v2.4=7c199a1f

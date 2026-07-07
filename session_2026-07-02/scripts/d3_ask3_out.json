@@ -1,0 +1,154 @@
+{
+ "a3_f_sensitivity": {
+  "0.4": 0.717,
+  "0.5": 0.701,
+  "0.545": 0.706,
+  "0.6": 0.706,
+  "0.7": 0.704,
+  "0.8": 0.702,
+  "0.9": 0.686
+ },
+ "b1_spliced": {
+  "R_peak": 160,
+  "n_2026_cells_moved": 76,
+  "pass": true,
+  "pooled_peak_N": 4,
+  "rises": "17/17"
+ },
+ "b5": {
+  "base": 9,
+  "fix": 8
+ },
+ "b6": {
+  "identical": true
+ },
+ "fhat": {
+  "CHOSEN": 0.545,
+  "f_max_over22": 0.682,
+  "f_median_durable_over22": 0.545,
+  "f_p90_over22": 0.636,
+  "f_ratio_med26_med25": 0.522,
+  "med_g26_durable": 12.0,
+  "n_durable": 300
+ },
+ "g6pop": {
+  "mid(5-7)": {
+   "drop_base_pct": -30.1,
+   "drop_fix_pct": -29.1,
+   "lift_pct": 1.8,
+   "n": 12
+  },
+  "old(8+)": {
+   "drop_base_pct": -21.3,
+   "drop_fix_pct": -20.4,
+   "lift_pct": 0.8,
+   "n": 36
+  },
+  "young(2-4)": {
+   "drop_base_pct": -43.5,
+   "drop_fix_pct": -40.5,
+   "lift_pct": 4.1,
+   "n": 14
+  }
+ },
+ "gates": {
+  "A10_base": 0.511,
+  "A10_fix": 0.526,
+  "A10_need": 0.7,
+  "A3_base": 0.692,
+  "A3_fix": 0.706,
+  "A3_need": 0.8
+ },
+ "inertness": {
+  "f1_2026_byte_exact": true,
+  "historical_2025_byte_exact": true
+ },
+ "m1v7_interaction": {
+  "overlay26_base": 2460.0,
+  "overlay26_fix": 2531.0,
+  "rozee_overlay_A3_base": 0.642,
+  "rozee_overlay_A3_fix": 0.661
+ },
+ "named": {
+  "Charlie Curnow": {
+   "base25": 1849.0,
+   "base26": 944.0,
+   "d_pct": 3.1,
+   "fix25": 1849.0,
+   "fix26": 973.0
+  },
+  "Connor Rozee": {
+   "base25": 3874.0,
+   "base26": 2679.0,
+   "d_pct": 2.1,
+   "fix25": 3874.0,
+   "fix26": 2736.0
+  },
+  "Jack Ginnivan": {
+   "base25": 1432.0,
+   "base26": 1578.0,
+   "d_pct": 2.8,
+   "fix25": 1432.0,
+   "fix26": 1622.0
+  },
+  "Josh Ward": {
+   "base25": 2290.0,
+   "base26": 1782.0,
+   "d_pct": 4.8,
+   "fix25": 2290.0,
+   "fix26": 1868.0
+  },
+  "Joshua Weddle": {
+   "base25": 1887.0,
+   "base26": 1628.0,
+   "d_pct": 3.8,
+   "fix25": 1887.0,
+   "fix26": 1690.0
+  },
+  "Paul Curtis": {
+   "base25": 1315.0,
+   "base26": 1162.0,
+   "d_pct": 0.9,
+   "fix25": 1315.0,
+   "fix26": 1173.0
+  }
+ },
+ "onpace": {
+  "max_abs_pct": 21.54,
+  "mean_pct": 0.53,
+  "movers_gt2pct": 86,
+  "n": 288,
+  "worst": [
+   {
+    "base": 65,
+    "fix": 51,
+    "pct": -21.54,
+    "player": "James Jordon"
+   },
+   {
+    "base": 31,
+    "fix": 36,
+    "pct": 16.13,
+    "player": "Sam Wicks"
+   },
+   {
+    "base": 530,
+    "fix": 463,
+    "pct": -12.64,
+    "player": "Blake Hardwick"
+   },
+   {
+    "base": 1223,
+    "fix": 1372,
+    "pct": 12.18,
+    "player": "Andrew McGrath"
+   },
+   {
+    "base": 2682,
+    "fix": 3006,
+    "pct": 12.08,
+    "player": "Andrew Brayshaw"
+   }
+  ]
+ }
+}

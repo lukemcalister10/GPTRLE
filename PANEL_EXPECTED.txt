@@ -1,0 +1,16 @@
+FIXED PANEL — BAKED v2.5 (DPP strip final consolidation, 2026-07-05; engine efea88e5, store e1b4d8bf).
+Supersedes the pre-consolidation F1/F2-rewire panel (PR#34 head 73d23a8e) and the v2.4 baked panel. A cold
+reload of THIS baked state MUST reproduce every EV exactly (values verified against the recorded FINAL board,
+evidence/dpp_strip/board_three_column.csv). F1 makes the board == engine; ev() is the single price.
+
+player                pos       pk  ns     EV   note
+Nick Daicos           MID        4   5   7002   proven star
+Marcus Bontempelli    MID        4  13   3084   proven
+Harry Sheezel         MID        3   4   7151   proven young (drafted GEN_FWD -> plays MID; switcher)
+Max Gawn              RUC       33  14   2112   proven ruck
+Harley Reid           MID        1   3   3549   first-year value, pk1 (NOT cratered)
+Josh Ward             MID        7   5   1650   moderate pedigree (the "Ward" case; book == board now)
+Darcy Moore           KEY_DEF    8  11    198   decliner the shed fired on
+Taylor Goad           RUC       20   0    723   sat-out ruck -> no-games anchor
+Josh Smillie          MID        7   0    974   sat-out mid -> no-games anchor
+Will Green            RUC       16   0    536   sat-out ruck -> no-games anchor

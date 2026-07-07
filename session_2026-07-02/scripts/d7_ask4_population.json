@@ -1,0 +1,1590 @@
+{
+ "engine": "8aed420a",
+ "n_fire": 38,
+ "rows": [
+  {
+   "player": "Phoenix Gothard",
+   "club": "GWS",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 12,
+   "effpk": 12,
+   "el": 3,
+   "onset": 3,
+   "draftval": 1269.0,
+   "seasons": [
+    [
+     2026,
+     13,
+     70.2
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 13,
+   "qual_avg": 70.2,
+   "gap": 0,
+   "g26": 13,
+   "avg26": 70.2,
+   "repl": 70.9,
+   "qual_repl_frac": 0.99,
+   "capped_ev": 317.0,
+   "uncapped": 1790.3,
+   "cap_value": 317.2,
+   "binds": true
+  },
+  {
+   "player": "Lachlan McAndrew (MSD credit)",
+   "club": "Sydney",
+   "type": "MSD",
+   "pos": "RUC",
+   "keyruc": true,
+   "yis": 5,
+   "year": 2021,
+   "pick": 12,
+   "effpk": 59,
+   "el": 6,
+   "onset": 4,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2026,
+     13,
+     87.1
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 13,
+   "qual_avg": 87.1,
+   "gap": 0,
+   "g26": 13,
+   "avg26": 87.1,
+   "repl": 78.5,
+   "qual_repl_frac": 1.11,
+   "capped_ev": 99.0,
+   "uncapped": 1408.2,
+   "cap_value": 98.6,
+   "binds": true
+  },
+  {
+   "player": "Cooper Lord",
+   "club": "Carlton",
+   "type": "MSD",
+   "pos": "MID",
+   "keyruc": false,
+   "yis": 2,
+   "year": 2024,
+   "pick": 9,
+   "effpk": 59,
+   "el": 3,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2024,
+     3,
+     78.5
+    ],
+    [
+     2025,
+     21,
+     59.9
+    ],
+    [
+     2026,
+     3,
+     76.7
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 21,
+   "qual_avg": 59.9,
+   "gap": 1,
+   "g26": 3,
+   "avg26": 76.7,
+   "repl": 80.1,
+   "qual_repl_frac": 0.748,
+   "capped_ev": 77.0,
+   "uncapped": 1049.9,
+   "cap_value": 77.0,
+   "binds": true
+  },
+  {
+   "player": "Jai Serong",
+   "club": "Hawthorn",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 53,
+   "effpk": 53,
+   "el": 5,
+   "onset": 3,
+   "draftval": 360.0,
+   "seasons": [
+    [
+     2022,
+     3,
+     21.0
+    ],
+    [
+     2023,
+     2,
+     44.5
+    ],
+    [
+     2024,
+     5,
+     45.0
+    ],
+    [
+     2026,
+     13,
+     76.7
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 13,
+   "qual_avg": 76.7,
+   "gap": 0,
+   "g26": 13,
+   "avg26": 76.7,
+   "repl": 78.3,
+   "qual_repl_frac": 0.98,
+   "capped_ev": 72.0,
+   "uncapped": 1029.0,
+   "cap_value": 72.0,
+   "binds": true
+  },
+  {
+   "player": "Clay Hall",
+   "club": "West Coast",
+   "type": "ND",
+   "pos": "MID",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 38,
+   "effpk": 38,
+   "el": 3,
+   "onset": 3,
+   "draftval": 543.0,
+   "seasons": [
+    [
+     2024,
+     3,
+     34.3
+    ],
+    [
+     2025,
+     13,
+     66.8
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 13,
+   "qual_avg": 66.8,
+   "gap": 1,
+   "g26": 0,
+   "avg26": null,
+   "repl": 80.1,
+   "qual_repl_frac": 0.834,
+   "capped_ev": 136.0,
+   "uncapped": 882.5,
+   "cap_value": 135.8,
+   "binds": true
+  },
+  {
+   "player": "Oscar Steene",
+   "club": "Collingwood",
+   "type": "SSP",
+   "pos": "RUC",
+   "keyruc": true,
+   "yis": 4,
+   "year": 2022,
+   "pick": null,
+   "effpk": 94,
+   "el": 4,
+   "onset": 4,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2026,
+     8,
+     51.6
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 8,
+   "qual_avg": 51.6,
+   "gap": 0,
+   "g26": 8,
+   "avg26": 51.6,
+   "repl": 78.5,
+   "qual_repl_frac": 0.657,
+   "capped_ev": 123.0,
+   "uncapped": 818.2,
+   "cap_value": 123.2,
+   "binds": true
+  },
+  {
+   "player": "Caiden Cleary",
+   "club": "Sydney",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 24,
+   "effpk": 24,
+   "el": 3,
+   "onset": 3,
+   "draftval": 616.0,
+   "seasons": [
+    [
+     2024,
+     5,
+     28.8
+    ],
+    [
+     2025,
+     12,
+     45.0
+    ],
+    [
+     2026,
+     5,
+     60.8
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 12,
+   "qual_avg": 45.0,
+   "gap": 1,
+   "g26": 5,
+   "avg26": 60.8,
+   "repl": 70.9,
+   "qual_repl_frac": 0.635,
+   "capped_ev": 154.0,
+   "uncapped": 774.7,
+   "cap_value": 154.0,
+   "binds": true
+  },
+  {
+   "player": "Max Heath",
+   "club": "St Kilda",
+   "type": "MSD",
+   "pos": "RUC",
+   "keyruc": true,
+   "yis": 5,
+   "year": 2021,
+   "pick": 7,
+   "effpk": 59,
+   "el": 6,
+   "onset": 4,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2025,
+     4,
+     45.5
+    ],
+    [
+     2026,
+     6,
+     52.8
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 6,
+   "qual_avg": 52.8,
+   "gap": 0,
+   "g26": 6,
+   "avg26": 52.8,
+   "repl": 78.5,
+   "qual_repl_frac": 0.673,
+   "capped_ev": 99.0,
+   "uncapped": 665.5,
+   "cap_value": 98.6,
+   "binds": true
+  },
+  {
+   "player": "Jedd Busslinger",
+   "club": "Western Bulldogs",
+   "type": "ND",
+   "pos": "KEY_DEF",
+   "keyruc": true,
+   "yis": 4,
+   "year": 2022,
+   "pick": 13,
+   "effpk": 13,
+   "el": 4,
+   "onset": 4,
+   "draftval": 1202.0,
+   "seasons": [
+    [
+     2025,
+     7,
+     44.1
+    ],
+    [
+     2026,
+     4,
+     74.5
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 7,
+   "qual_avg": 44.1,
+   "gap": 1,
+   "g26": 4,
+   "avg26": 74.5,
+   "repl": 68.4,
+   "qual_repl_frac": 0.645,
+   "capped_ev": 481.0,
+   "uncapped": 636.2,
+   "cap_value": 480.8,
+   "binds": true
+  },
+  {
+   "player": "Will Lorenz",
+   "club": "Port Adelaide",
+   "type": "ND",
+   "pos": "MID",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 57,
+   "effpk": 57,
+   "el": 3,
+   "onset": 3,
+   "draftval": 309.0,
+   "seasons": [
+    [
+     2024,
+     2,
+     22.0
+    ],
+    [
+     2025,
+     6,
+     58.3
+    ],
+    [
+     2026,
+     1,
+     52.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 6,
+   "qual_avg": 58.3,
+   "gap": 1,
+   "g26": 1,
+   "avg26": 52.0,
+   "repl": 80.1,
+   "qual_repl_frac": 0.728,
+   "capped_ev": 77.0,
+   "uncapped": 626.1,
+   "cap_value": 77.2,
+   "binds": true
+  },
+  {
+   "player": "Billy Dowling",
+   "club": "Adelaide",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 4,
+   "year": 2022,
+   "pick": 43,
+   "effpk": 43,
+   "el": 4,
+   "onset": 3,
+   "draftval": 484.0,
+   "seasons": [
+    [
+     2024,
+     9,
+     66.8
+    ],
+    [
+     2025,
+     1,
+     55.0
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 9,
+   "qual_avg": 66.8,
+   "gap": 2,
+   "g26": 0,
+   "avg26": null,
+   "repl": 70.9,
+   "qual_repl_frac": 0.942,
+   "capped_ev": 109.0,
+   "uncapped": 578.3,
+   "cap_value": 108.9,
+   "binds": true
+  },
+  {
+   "player": "Riley Hardeman",
+   "club": "North Melbourne",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 23,
+   "effpk": 23,
+   "el": 3,
+   "onset": 3,
+   "draftval": 618.0,
+   "seasons": [
+    [
+     2024,
+     3,
+     44.3
+    ],
+    [
+     2025,
+     17,
+     54.8
+    ],
+    [
+     2026,
+     2,
+     25.5
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 17,
+   "qual_avg": 54.8,
+   "gap": 1,
+   "g26": 2,
+   "avg26": 25.5,
+   "repl": 78.3,
+   "qual_repl_frac": 0.7,
+   "capped_ev": 154.0,
+   "uncapped": 551.7,
+   "cap_value": 154.5,
+   "binds": true
+  },
+  {
+   "player": "Cooper Harvey",
+   "club": "North Melbourne",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 4,
+   "year": 2022,
+   "pick": 56,
+   "effpk": 56,
+   "el": 4,
+   "onset": 3,
+   "draftval": 323.0,
+   "seasons": [
+    [
+     2023,
+     3,
+     35.0
+    ],
+    [
+     2025,
+     7,
+     45.9
+    ],
+    [
+     2026,
+     1,
+     73.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 7,
+   "qual_avg": 45.9,
+   "gap": 1,
+   "g26": 1,
+   "avg26": 73.0,
+   "repl": 70.9,
+   "qual_repl_frac": 0.647,
+   "capped_ev": 73.0,
+   "uncapped": 409.5,
+   "cap_value": 72.7,
+   "binds": true
+  },
+  {
+   "player": "Isaac Keeler",
+   "club": "St Kilda",
+   "type": "ND",
+   "pos": "KEY_FWD",
+   "keyruc": true,
+   "yis": 4,
+   "year": 2022,
+   "pick": 44,
+   "effpk": 44,
+   "el": 4,
+   "onset": 4,
+   "draftval": 468.0,
+   "seasons": [
+    [
+     2025,
+     11,
+     40.3
+    ],
+    [
+     2026,
+     2,
+     39.5
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 11,
+   "qual_avg": 40.3,
+   "gap": 1,
+   "g26": 2,
+   "avg26": 39.5,
+   "repl": 67.8,
+   "qual_repl_frac": 0.594,
+   "capped_ev": 187.0,
+   "uncapped": 386.3,
+   "cap_value": 187.2,
+   "binds": true
+  },
+  {
+   "player": "Ashton Moir",
+   "club": "Carlton",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 29,
+   "effpk": 29,
+   "el": 3,
+   "onset": 3,
+   "draftval": 605.0,
+   "seasons": [
+    [
+     2024,
+     2,
+     28.5
+    ],
+    [
+     2025,
+     9,
+     45.4
+    ],
+    [
+     2026,
+     2,
+     46.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 9,
+   "qual_avg": 45.4,
+   "gap": 1,
+   "g26": 2,
+   "avg26": 46.0,
+   "repl": 70.9,
+   "qual_repl_frac": 0.64,
+   "capped_ev": 151.0,
+   "uncapped": 380.8,
+   "cap_value": 151.2,
+   "binds": true
+  },
+  {
+   "player": "Angus Hastie",
+   "club": "St Kilda",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 33,
+   "effpk": 33,
+   "el": 3,
+   "onset": 3,
+   "draftval": 596.0,
+   "seasons": [
+    [
+     2024,
+     5,
+     20.4
+    ],
+    [
+     2025,
+     9,
+     35.9
+    ],
+    [
+     2026,
+     2,
+     51.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 9,
+   "qual_avg": 35.9,
+   "gap": 1,
+   "g26": 2,
+   "avg26": 51.0,
+   "repl": 78.3,
+   "qual_repl_frac": 0.458,
+   "capped_ev": 149.0,
+   "uncapped": 375.9,
+   "cap_value": 149.0,
+   "binds": true
+  },
+  {
+   "player": "Josh Gibcus",
+   "club": "Richmond",
+   "type": "ND",
+   "pos": "KEY_DEF",
+   "keyruc": true,
+   "yis": 5,
+   "year": 2021,
+   "pick": 9,
+   "effpk": 9,
+   "el": 5,
+   "onset": 4,
+   "draftval": 1603.0,
+   "seasons": [
+    [
+     2022,
+     18,
+     53.7
+    ],
+    [
+     2024,
+     2,
+     47.5
+    ],
+    [
+     2025,
+     1,
+     43.0
+    ],
+    [
+     2026,
+     1,
+     56.0
+    ]
+   ],
+   "qual_year": 2022,
+   "qual_g": 18,
+   "qual_avg": 53.7,
+   "gap": 4,
+   "g26": 1,
+   "avg26": 56.0,
+   "repl": 68.4,
+   "qual_repl_frac": 0.785,
+   "capped_ev": 323.0,
+   "uncapped": 322.7,
+   "cap_value": 577.1,
+   "binds": false
+  },
+  {
+   "player": "Sandy Brock",
+   "club": "Gold Coast",
+   "type": "PDA",
+   "pos": "KEY_DEF",
+   "keyruc": true,
+   "yis": 5,
+   "year": 2021,
+   "pick": null,
+   "effpk": 94,
+   "el": 5,
+   "onset": 4,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2025,
+     14,
+     62.5
+    ],
+    [
+     2026,
+     4,
+     44.5
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 14,
+   "qual_avg": 62.5,
+   "gap": 1,
+   "g26": 4,
+   "avg26": 44.5,
+   "repl": 68.4,
+   "qual_repl_frac": 0.914,
+   "capped_ev": 111.0,
+   "uncapped": 314.4,
+   "cap_value": 110.9,
+   "binds": true
+  },
+  {
+   "player": "Tom Hanily",
+   "club": "Sydney",
+   "type": "MSD",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 2,
+   "year": 2024,
+   "pick": 14,
+   "effpk": 59,
+   "el": 3,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2025,
+     8,
+     34.4
+    ],
+    [
+     2026,
+     2,
+     42.5
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 8,
+   "qual_avg": 34.4,
+   "gap": 1,
+   "g26": 2,
+   "avg26": 42.5,
+   "repl": 70.9,
+   "qual_repl_frac": 0.485,
+   "capped_ev": 77.0,
+   "uncapped": 307.1,
+   "cap_value": 77.0,
+   "binds": true
+  },
+  {
+   "player": "Will Edwards",
+   "club": "Sydney",
+   "type": "PDA",
+   "pos": "KEY_DEF",
+   "keyruc": true,
+   "yis": 4,
+   "year": 2022,
+   "pick": null,
+   "effpk": 94,
+   "el": 4,
+   "onset": 4,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2026,
+     8,
+     51.7
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 8,
+   "qual_avg": 51.7,
+   "gap": 0,
+   "g26": 8,
+   "avg26": 51.7,
+   "repl": 68.4,
+   "qual_repl_frac": 0.756,
+   "capped_ev": 123.0,
+   "uncapped": 296.4,
+   "cap_value": 123.2,
+   "binds": true
+  },
+  {
+   "player": "Lance Collard",
+   "club": "St Kilda",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 28,
+   "effpk": 28,
+   "el": 3,
+   "onset": 3,
+   "draftval": 607.0,
+   "seasons": [
+    [
+     2024,
+     3,
+     6.3
+    ],
+    [
+     2025,
+     12,
+     30.9
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 12,
+   "qual_avg": 30.9,
+   "gap": 1,
+   "g26": 0,
+   "avg26": null,
+   "repl": 70.9,
+   "qual_repl_frac": 0.436,
+   "capped_ev": 152.0,
+   "uncapped": 279.1,
+   "cap_value": 151.8,
+   "binds": true
+  },
+  {
+   "player": "Shadeau Brain",
+   "club": "Brisbane",
+   "type": "PDA",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 4,
+   "year": 2022,
+   "pick": null,
+   "effpk": 94,
+   "el": 4,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2024,
+     9,
+     46.4
+    ],
+    [
+     2026,
+     2,
+     54.5
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 9,
+   "qual_avg": 46.4,
+   "gap": 2,
+   "g26": 2,
+   "avg26": 54.5,
+   "repl": 78.3,
+   "qual_repl_frac": 0.593,
+   "capped_ev": 69.0,
+   "uncapped": 264.5,
+   "cap_value": 69.3,
+   "binds": true
+  },
+  {
+   "player": "Will McLachlan",
+   "club": "Brisbane",
+   "type": "MSD",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 2,
+   "year": 2024,
+   "pick": 6,
+   "effpk": 59,
+   "el": 3,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2025,
+     6,
+     23.3
+    ],
+    [
+     2026,
+     1,
+     28.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 6,
+   "qual_avg": 23.3,
+   "gap": 1,
+   "g26": 1,
+   "avg26": 28.0,
+   "repl": 70.9,
+   "qual_repl_frac": 0.329,
+   "capped_ev": 77.0,
+   "uncapped": 263.1,
+   "cap_value": 77.0,
+   "binds": true
+  },
+  {
+   "player": "Liam McMahon",
+   "club": "Collingwood",
+   "type": "ND",
+   "pos": "KEY_FWD",
+   "keyruc": true,
+   "yis": 6,
+   "year": 2020,
+   "pick": 33,
+   "effpk": 33,
+   "el": 6,
+   "onset": 4,
+   "draftval": 596.0,
+   "seasons": [
+    [
+     2025,
+     7,
+     42.1
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 7,
+   "qual_avg": 42.1,
+   "gap": 1,
+   "g26": 0,
+   "avg26": null,
+   "repl": 67.8,
+   "qual_repl_frac": 0.621,
+   "capped_ev": 191.0,
+   "uncapped": 232.2,
+   "cap_value": 190.7,
+   "binds": true
+  },
+  {
+   "player": "James Tunstill",
+   "club": "Brisbane",
+   "type": "ND",
+   "pos": "MID",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 41,
+   "effpk": 41,
+   "el": 5,
+   "onset": 3,
+   "draftval": 512.0,
+   "seasons": [
+    [
+     2022,
+     3,
+     42.7
+    ],
+    [
+     2023,
+     2,
+     22.0
+    ],
+    [
+     2024,
+     4,
+     23.8
+    ],
+    [
+     2025,
+     3,
+     37.3
+    ],
+    [
+     2026,
+     7,
+     47.0
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 7,
+   "qual_avg": 47.0,
+   "gap": 0,
+   "g26": 7,
+   "avg26": 47.0,
+   "repl": 80.1,
+   "qual_repl_frac": 0.587,
+   "capped_ev": 102.0,
+   "uncapped": 220.0,
+   "cap_value": 102.4,
+   "binds": true
+  },
+  {
+   "player": "Kaleb Smith",
+   "club": "Richmond",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 4,
+   "year": 2022,
+   "pick": 49,
+   "effpk": 49,
+   "el": 4,
+   "onset": 3,
+   "draftval": 401.0,
+   "seasons": [
+    [
+     2024,
+     4,
+     25.0
+    ],
+    [
+     2025,
+     8,
+     40.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 8,
+   "qual_avg": 40.0,
+   "gap": 1,
+   "g26": 0,
+   "avg26": null,
+   "repl": 78.3,
+   "qual_repl_frac": 0.511,
+   "capped_ev": 90.0,
+   "uncapped": 175.9,
+   "cap_value": 90.2,
+   "binds": true
+  },
+  {
+   "player": "Harvey Harrison",
+   "club": "Collingwood",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 52,
+   "effpk": 52,
+   "el": 5,
+   "onset": 3,
+   "draftval": 370.0,
+   "seasons": [
+    [
+     2023,
+     4,
+     40.2
+    ],
+    [
+     2024,
+     12,
+     46.6
+    ],
+    [
+     2026,
+     2,
+     44.5
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 12,
+   "qual_avg": 46.6,
+   "gap": 2,
+   "g26": 2,
+   "avg26": 44.5,
+   "repl": 70.9,
+   "qual_repl_frac": 0.657,
+   "capped_ev": 74.0,
+   "uncapped": 175.8,
+   "cap_value": 74.0,
+   "binds": true
+  },
+  {
+   "player": "Bailey Macdonald",
+   "club": "Hawthorn",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 4,
+   "year": 2022,
+   "pick": 51,
+   "effpk": 51,
+   "el": 4,
+   "onset": 3,
+   "draftval": 380.0,
+   "seasons": [
+    [
+     2023,
+     2,
+     44.5
+    ],
+    [
+     2025,
+     6,
+     25.2
+    ],
+    [
+     2026,
+     3,
+     53.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 6,
+   "qual_avg": 25.2,
+   "gap": 1,
+   "g26": 3,
+   "avg26": 53.0,
+   "repl": 78.3,
+   "qual_repl_frac": 0.322,
+   "capped_ev": 86.0,
+   "uncapped": 172.6,
+   "cap_value": 85.5,
+   "binds": true
+  },
+  {
+   "player": "Josh Goater",
+   "club": "North Melbourne",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 22,
+   "effpk": 22,
+   "el": 5,
+   "onset": 3,
+   "draftval": 647.0,
+   "seasons": [
+    [
+     2022,
+     1,
+     70.0
+    ],
+    [
+     2023,
+     10,
+     56.2
+    ],
+    [
+     2024,
+     1,
+     42.0
+    ]
+   ],
+   "qual_year": 2023,
+   "qual_g": 10,
+   "qual_avg": 56.2,
+   "gap": 3,
+   "g26": 0,
+   "avg26": null,
+   "repl": 78.3,
+   "qual_repl_frac": 0.718,
+   "capped_ev": 129.0,
+   "uncapped": 150.5,
+   "cap_value": 129.4,
+   "binds": true
+  },
+  {
+   "player": "Andy Moniz-Wakefield",
+   "club": "Melbourne",
+   "type": "PDN",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": null,
+   "effpk": 94,
+   "el": 5,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2024,
+     6,
+     53.7
+    ],
+    [
+     2026,
+     2,
+     29.5
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 6,
+   "qual_avg": 53.7,
+   "gap": 2,
+   "g26": 2,
+   "avg26": 29.5,
+   "repl": 78.3,
+   "qual_repl_frac": 0.686,
+   "capped_ev": 62.0,
+   "uncapped": 150.3,
+   "cap_value": 61.6,
+   "binds": true
+  },
+  {
+   "player": "Harvey Gallagher",
+   "club": "Western Bulldogs",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 4,
+   "year": 2022,
+   "pick": 39,
+   "effpk": 39,
+   "el": 4,
+   "onset": 3,
+   "draftval": 532.0,
+   "seasons": [
+    [
+     2024,
+     20,
+     45.4
+    ],
+    [
+     2025,
+     5,
+     35.8
+    ],
+    [
+     2026,
+     3,
+     38.0
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 20,
+   "qual_avg": 45.4,
+   "gap": 2,
+   "g26": 3,
+   "avg26": 38.0,
+   "repl": 78.3,
+   "qual_repl_frac": 0.58,
+   "capped_ev": 120.0,
+   "uncapped": 144.8,
+   "cap_value": 119.7,
+   "binds": true
+  },
+  {
+   "player": "Jackson Archer",
+   "club": "North Melbourne",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 59,
+   "effpk": 59,
+   "el": 5,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2022,
+     3,
+     48.7
+    ],
+    [
+     2023,
+     5,
+     32.0
+    ],
+    [
+     2024,
+     15,
+     46.0
+    ],
+    [
+     2025,
+     3,
+     34.7
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 15,
+   "qual_avg": 46.0,
+   "gap": 2,
+   "g26": 0,
+   "avg26": null,
+   "repl": 78.3,
+   "qual_repl_frac": 0.587,
+   "capped_ev": 62.0,
+   "uncapped": 125.1,
+   "cap_value": 61.6,
+   "binds": true
+  },
+  {
+   "player": "Liam O'Connell",
+   "club": "St Kilda",
+   "type": "IRE",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": null,
+   "effpk": 94,
+   "el": 3,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2025,
+     7,
+     35.7
+    ],
+    [
+     2026,
+     5,
+     48.2
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 7,
+   "qual_avg": 35.7,
+   "gap": 1,
+   "g26": 5,
+   "avg26": 48.2,
+   "repl": 78.3,
+   "qual_repl_frac": 0.456,
+   "capped_ev": 77.0,
+   "uncapped": 112.0,
+   "cap_value": 77.0,
+   "binds": true
+  },
+  {
+   "player": "Judson Clarke",
+   "club": "Richmond",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 30,
+   "effpk": 30,
+   "el": 5,
+   "onset": 3,
+   "draftval": 603.0,
+   "seasons": [
+    [
+     2022,
+     3,
+     44.7
+    ],
+    [
+     2023,
+     13,
+     43.3
+    ],
+    [
+     2024,
+     1,
+     8.0
+    ]
+   ],
+   "qual_year": 2023,
+   "qual_g": 13,
+   "qual_avg": 43.3,
+   "gap": 3,
+   "g26": 0,
+   "avg26": null,
+   "repl": 70.9,
+   "qual_repl_frac": 0.611,
+   "capped_ev": 98.0,
+   "uncapped": 97.6,
+   "cap_value": 120.6,
+   "binds": false
+  },
+  {
+   "player": "Luke Cleary",
+   "club": "Western Bulldogs",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 5,
+   "year": 2021,
+   "pick": 61,
+   "effpk": 61,
+   "el": 5,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2022,
+     4,
+     34.0
+    ],
+    [
+     2023,
+     1,
+     49.0
+    ],
+    [
+     2024,
+     2,
+     45.5
+    ],
+    [
+     2025,
+     16,
+     57.7
+    ],
+    [
+     2026,
+     1,
+     10.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 16,
+   "qual_avg": 57.7,
+   "gap": 1,
+   "g26": 1,
+   "avg26": 10.0,
+   "repl": 78.3,
+   "qual_repl_frac": 0.737,
+   "capped_ev": 62.0,
+   "uncapped": 81.3,
+   "cap_value": 61.6,
+   "binds": true
+  },
+  {
+   "player": "Conor Stone",
+   "club": "GWS",
+   "type": "ND",
+   "pos": "GEN_DEF",
+   "keyruc": false,
+   "yis": 6,
+   "year": 2020,
+   "pick": 15,
+   "effpk": 15,
+   "el": 6,
+   "onset": 3,
+   "draftval": 1074.0,
+   "seasons": [
+    [
+     2021,
+     5,
+     35.2
+    ],
+    [
+     2022,
+     1,
+     27.0
+    ],
+    [
+     2023,
+     3,
+     16.0
+    ],
+    [
+     2024,
+     4,
+     19.8
+    ],
+    [
+     2025,
+     7,
+     48.3
+    ],
+    [
+     2026,
+     3,
+     53.0
+    ]
+   ],
+   "qual_year": 2025,
+   "qual_g": 7,
+   "qual_avg": 48.3,
+   "gap": 1,
+   "g26": 3,
+   "avg26": 53.0,
+   "repl": 78.3,
+   "qual_repl_frac": 0.617,
+   "capped_ev": 71.0,
+   "uncapped": 71.2,
+   "cap_value": 187.9,
+   "binds": false
+  },
+  {
+   "player": "Oliver Wiltshire",
+   "club": "Geelong",
+   "type": "ND",
+   "pos": "GEN_FWD",
+   "keyruc": false,
+   "yis": 3,
+   "year": 2023,
+   "pick": 61,
+   "effpk": 61,
+   "el": 3,
+   "onset": 3,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2025,
+     2,
+     34.5
+    ],
+    [
+     2026,
+     6,
+     41.8
+    ]
+   ],
+   "qual_year": 2026,
+   "qual_g": 6,
+   "qual_avg": 41.8,
+   "gap": 0,
+   "g26": 6,
+   "avg26": 41.8,
+   "repl": 70.9,
+   "qual_repl_frac": 0.59,
+   "capped_ev": 44.0,
+   "uncapped": 44.3,
+   "cap_value": 77.0,
+   "binds": false
+  },
+  {
+   "player": "Darragh Joyce",
+   "club": "St Kilda",
+   "type": "IRE",
+   "pos": "KEY_DEF",
+   "keyruc": true,
+   "yis": 10,
+   "year": 2016,
+   "pick": null,
+   "effpk": 94,
+   "el": 10,
+   "onset": 4,
+   "draftval": 308.0,
+   "seasons": [
+    [
+     2018,
+     2,
+     15.0
+    ],
+    [
+     2019,
+     3,
+     55.0
+    ],
+    [
+     2021,
+     5,
+     42.2
+    ],
+    [
+     2022,
+     3,
+     31.0
+    ],
+    [
+     2023,
+     5,
+     45.2
+    ],
+    [
+     2024,
+     6,
+     51.0
+    ],
+    [
+     2026,
+     3,
+     54.0
+    ]
+   ],
+   "qual_year": 2024,
+   "qual_g": 6,
+   "qual_avg": 51.0,
+   "gap": 2,
+   "g26": 3,
+   "avg26": 54.0,
+   "repl": 68.4,
+   "qual_repl_frac": 0.746,
+   "capped_ev": 22.0,
+   "uncapped": 22.3,
+   "cap_value": 49.3,
+   "binds": false
+  }
+ ]
+}

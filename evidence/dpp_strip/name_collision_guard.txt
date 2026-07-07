@@ -1,0 +1,23 @@
+NAME-COLLISION GUARD — keyed by ID, all distinct. Board + both parity gates match on stable key, never on name or object id().
+
+two Emmetts:
+   Louis Emmett           key=louis-emmett           draft=RUC  present=RUC  future=RUC  pick=27 year=2025 type=ND
+   Tom Emmett             key=tom-emmett             draft=GFWD present=GFWD future=GFWD pick=41 year=2022 type=ND
+
+two Bailey Williamses:
+   Bailey Williams        key=bailey-williams-wb     draft=MID  present=GDEF future=GDEF pick=48 year=2015 type=ND
+   Bailey J. Williams     key=bailey-williams-wc     draft=RUC  present=RUC  future=RUC  pick=35 year=2018 type=ND
+
+two Max Kings:
+   Max King               key=max-king-stk           draft=KFWD present=KFWD future=KFWD pick=4 year=2018 type=ND
+   Maxwell King           key=max-king-syd           draft=GFWD present=GFWD future=GFWD pick=49 year=2025 type=ND
+
+Berry (Sam vs Jarrod):
+   Sam Berry              key=sam-berry              draft=MID  present=MID  future=MID  pick=29 year=2020 type=ND
+   Jarrod Berry           key=jarrod-berry           draft=MID  present=MID  future=MID  pick=17 year=2016 type=ND
+
+Pickett (Kysaiah ND vs Marlion MSD):
+   Kysaiah Pickett        key=kysaiah-pickett        draft=GFWD present=GFWD future=GFWD pick=12 year=2019 type=ND
+   Marlion Pickett        key=marlion-pickett        draft=GFWD present=GFWD future=GFWD pick=11 year=2019 type=MSD
+
+store keys: 2652 records, 2652 unique, all non-null: True

@@ -1,0 +1,37 @@
+THE 34 PRESENT-POSITION REASSIGNMENTS — HELD (value-neutral collapse); IF-APPLIED impact for Luke's sign-off
+All 34 move DOWN or neutral (present GFWD->MID / KFWD->RUC / GDEF->MID lowers the present-leg via v_at_peak's g0=bnow).
+name                     draft   oldP   newP      HELD  ifAPPL   delta
+Rowan Marshall           RUC     KFWD   RUC       1417     431    -986
+Tim Kelly                MID     GFWD   MID       1598     943    -655
+Christian Petracca       MID     GFWD   MID       3033    2414    -619
+Touk Miller              MID     GFWD   MID       1908    1325    -583
+Adam Treloar             MID     GFWD   MID       1194     616    -578
+Bailey J. Williams       RUC     KFWD   RUC       2376    1799    -577
+Jack Ross                MID     GFWD   MID       2165    1653    -512
+Justin McInerney         MID     GFWD   MID       1941    1459    -482
+Sam Draper               RUC     KFWD   RUC       1230     773    -457
+Darcy Byrne-Jones        GDEF    GFWD   GDEF       677     255    -422
+Sam Durham               MID     GFWD   MID       2059    1655    -404
+Ned Long                 MID     GFWD   MID       1417    1115    -302
+Chad Warner              MID     GFWD   MID       3127    2835    -292
+Jagga Smith              MID     GFWD   MID       3191    2913    -278
+Joel Freijah             MID     GFWD   MID       2677    2418    -259
+Jake Soligo              MID     GFWD   MID       2500    2241    -259
+Ryley Sanders            MID     GFWD   MID       4187    3942    -245
+Connor Budarick          GDEF    GFWD   GDEF       405     165    -240
+Levi Ashcroft            MID     GFWD   MID       3281    3046    -235
+Jason Horne-Francis      MID     GFWD   MID       4172    3949    -223
+Sam Lalor                MID     GFWD   MID       3694    3535    -159
+Stephen Coniglio         MID     GFWD   MID        194      82    -112
+Sullivan Robey           MID     GFWD   MID       2234    2173     -61
+Colby McKercher          MID     GDEF   MID       3767    3721     -46
+Marcus Windhager         MID     GDEF   MID       1619    1573     -46
+Finn O'Sullivan          MID     GDEF   MID       3468    3427     -41
+Cooper Hynes             MID     GFWD   MID       1261    1237     -24
+Taj Hotton               MID     GFWD   MID       1097    1084     -13
+Samuel Grlj              MID     GDEF   MID       2261    2252      -9
+Charlie Banfield         MID     GFWD   MID        595     586      -9
+Cody Angove              MID     GFWD   MID        364     364       0
+Alex Dodson              RUC     KFWD   RUC        388     388       0
+Jack Ison                GFWD    MID    GFWD       540     541       1
+Anthony Caminiti         KFWD    KDEF   KFWD       648     653       5

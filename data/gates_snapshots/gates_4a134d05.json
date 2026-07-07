@@ -1,0 +1,121 @@
+{
+ "head": "4a134d05",
+ "store": "644d1254",
+ "gates": {
+  "A1": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "Duursma>Uwland: 4183 vs 1829"
+  },
+  "A2": {
+   "dc": false,
+   "status": "FAIL",
+   "detail": "Curtis>=0.90xWard: 1358 vs 1488 (Ward=1653, ratio=0.822) [AMENDED 02/07/2026; UNCHANGED at 0.90 by ruling D7 \u2014 Luke: \"we can look at Curtis down the line\"]; Weddle>Ward: 1572 vs 1653"
+  },
+  "A3": {
+   "dc": true,
+   "status": "FAIL",
+   "detail": "Connor Rozee: 2026=2917 2025=3992 ratio=0.73 (need >=0.75) [evaluated PRE-LTI-layer \u2014 Luke 02/07; AMENDED 0.80->0.75 Luke D7 data-caused (out for 2026), knife-edge by design]"
+  },
+  "A4": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "Harley Reid board rank=29 ev=3565 (need TOP 40)"
+  },
+  "A5": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "Jack Ginnivan=1799 (floor 1600); Jake Bowey=2969 (floor 2100); Nick Blakey=3287 (floor 2600) [SCAR floors \u2014 RE-BASE if PVC re-levels]"
+  },
+  "A6": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "yr1-3 RUC median=314 (n=13, pooled \u2014 thin slice) vs pick-matched MID kernel median=519 (n=66, bw=0.6 log-pick, RATIFIED 02/07)"
+  },
+  "A7": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "Ryan Maric: fut-dominant=MID(60%) gfut=MID (need MID/MID); Ed Langdon: fut-dominant=GDEF(70%) gfut=GEN_DEF (need GDEF/GEN_DEF)"
+  },
+  "A8": {
+   "dc": true,
+   "status": "PASS",
+   "detail": "Berry=2421 Tsatas=1140 ratio=2.12x (need >=2.00x) [display de-ambiguated D4 02/07]"
+  },
+  "A9": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "Ginnivan>Ward: 1799 vs 1653"
+  },
+  "A10": {
+   "dc": true,
+   "status": "PASS",
+   "detail": "Charlie Curnow: 2026=888 2025=1745 ratio=0.51 (need >=0.50) [AMENDED 0.70->0.50 Luke 02/07 data-caused, PROVISIONAL \u2014 review at season-complete]"
+  },
+  "A11": {
+   "dc": true,
+   "status": "PASS",
+   "detail": "Farrow>Patterson: 1642 vs 982; Cumming>Annable: 1982 vs 936"
+  },
+  "A12": {
+   "dc": true,
+   "status": "FAIL",
+   "detail": "Travaglia>Moraes: 712 vs 887; Smillie>Retschko: 896 vs 744"
+  },
+  "A13": {
+   "dc": false,
+   "status": "PENDING",
+   "detail": "PVC stage not run; advisory vs stand-in PVC[1]=3000: George Wardlaw=3033 lineball=True; Levi Ashcroft=3270 lineball=True"
+  },
+  "A14": {
+   "dc": false,
+   "status": "PENDING",
+   "detail": "PVC stage not run; advisory vs stand-in PVC[8]=1704: Trent Rivers=1713 lineball=True; Zach Reid=1613 lineball=True; Jase Burgoyne=2092 lineball=False"
+  },
+  "A15": {
+   "dc": false,
+   "status": "STRUCK",
+   "detail": "Luke 02/07/2026 \u2014 convexity dimension seeded as V_NEXT #1"
+  },
+  "B1": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "cross-cohort AVERAGE peak N=4 AVG(peak)=156 (need peak in yrs 4-6, >100; pre-peak dips of the AVERAGE <5% tolerated, path_ok=True; per-cohort UNGATED, table printed every run \u2014 Luke redefinition 02/07"
+  },
+  "B2": {
+   "dc": false,
+   "status": "PASS",
+   "detail": "median |IS-WF| leakage=0.0 %-pts (tol 0.5, SET 02/07/2026 \u2014 N=5 spread 0.00); GOOD>BUST separation: GEN_DEF 49/1, GEN_FWD 40/1, KEY_DEF 55/1, KEY_FWD 62/0, MID 50/0"
+  },
+  "B3": {
+   "dc": false,
+   "status": "PENDING",
+   "detail": "book-gate set not yet enumerated as scripted checks \u2014 definition proposal in report; book headline shape covered by B1"
+  },
+  "B4": {
+   "dc": false,
+   "status": "FAIL",
+   "detail": "regenerated rl_app_data.json md5=08d91566 vs shipped b8f9e998 (byte-agree gate; export exit=0)"
+  },
+  "B5": {
+   "dc": false,
+   "status": "FEATURE",
+   "detail": "floor-as-pricing-feature (Luke-ruled 02/07; VARIANT A flat .05 tail): 54 saves, aggregate lift +1684; pure lower bound: lowered=0 (bar 0), non-ND moved=0 (bar 0); saves table printed below (the new al"
+  },
+  "B6": {
+   "dc": false,
+   "status": "FAIL",
+   "detail": "ramp(0..14g)=[745, 745, 745, 745, 745, 745, 3296, 3379, 3376, 3551, 3325, 3459, 3526, 3583, 3578]; dips(more games worth less)=[(7, -3.0), (9, -226.0), (13, -5.0)]; 0->6 rise T=+2551; 0->6 steps>50%T="
+  },
+  "C1": {
+   "dc": false,
+   "status": "PENDING",
+   "detail": "naive-baseline book not yet built \u2014 definition proposal in report (needs its own directive)"
+  },
+  "C2": {
+   "dc": false,
+   "status": "PENDING",
+   "detail": "V1-pick-model book not yet built \u2014 definition proposal in report (needs its own directive)"
+  }
+ }
+}

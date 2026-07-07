@@ -1,0 +1,13 @@
+B5 offender decomposition by years-in-system (n=51):
+  yr2:1  yr3:9  yr6:6  yr7:2  yr8:5  yr9:7  yr10:1  yr11:4  yr12:2  yr13:4  yr14:2  yr15:4  yr16:1  yr17:1  yr18:2
+  development-window (yrs1-8) offenders: 23: Sam Davidson(yr2)=112<133; Phoenix Gothard(yr3)=317<355; Riley Hardeman(yr3)=154<173; Caiden Cleary(yr3)=154<172; Lance Collard(yr3)=152<170; Ashton Moir(yr3)=151<169; Angus Hastie(yr3)=149<167; Clay Hall(yr3)=136<152; Will Lorenz(yr3)=77<87; Oliver Wiltshire(yr3)=44<86; Jamarra Ugle-Hagan(yr6)=213<270; Luke Pedlar(yr6)=122<124; Conor Stone(yr6)=71<97; Bailey Laurie(yr6)=41<56; Corey Durdin(yr6)=44<48; Jacob Wehr(yr6)=7<28; Liam Henry(yr7)=71<80; Finn Maginness(yr7)=23<30; Chayce Jones(yr8)=19<80; Sam Sturt(yr8)=44<46; Liam Stocker(yr8)=6<40; Xavier O'Halloran(yr8)=25<32; Laitham Vandermeer(yr8)=6<28
+  deep-veteran (yr9+) offenders: 28
+
+ASK 3e — as-of-year spot tests ev(p, Y) [engine answers the view question]:
+  Nick Daicos        2024=7917  2025=7874  2026=7059  2027=6118  2028=4830
+  Connor Rozee       2024=3847  2025=3874  2026=2679  2027=2296  2028=2112
+  Harry Sheezel      2024=7606  2025=7115  2026=7287  2027=6211  2028=5109
+  Josh Smillie       2024=896  2025=896  2026=896  2027=753  2028=628
+  Sam Berry          2024=1107  2025=948  2026=3473  2027=2639  2028=2020
+  [retired] Xavier Ivisic      2024=6  2025=6  2026=6   (delisted() hardcodes 2026 -> flat near-zero all views)
+  [retired] Blake Leidler      2024=6  2025=6  2026=6   (delisted() hardcodes 2026 -> flat near-zero all views)

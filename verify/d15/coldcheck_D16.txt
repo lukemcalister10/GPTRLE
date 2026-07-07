@@ -1,0 +1,71 @@
+# D16 COLD-SEAT RE-EXECUTION of D15 verify scripts (prevention protocol item 5)
+# Cold seat (no shared context with D15). Independent EXECUTION + method audit.
+# Date 2026-07-04 · SEAT OPUS · read-only + this one log file.
+
+STEP 0 — FETCH + ASSERT (all PASS)
+  PR #22 head reached ........ 1c61407 (branch claude/d15-v2-verification-b7buo7, base fa6abd0)
+  engine _merged_recover.py .. md5 7c199a1f  (== expected 7c199a1f; content of fa6abd0)
+  verify/d15 files present .... 10/10 (README, _d15_common, 4 scripts, 4 committed outputs)
+  env pinned ................. py 3.12.3 / numpy 2.4.4 / scipy 1.17.1 / sklearn 1.8.0
+                               PYTHONHASHSEED=0 RL_GAMMA=0.85 RL_PICK1=3000 RL_RECENCY_DECAY=0.72
+                               RL_PRIOR_TREES=400 PAR_RAMPS=22 · sequential · tree SHAs f4a4d34/def39f5/fa6abd0 present
+
+PART A — INDEPENDENT RE-EXECUTION (my own computed numbers; match vs committed *_output.txt)
+A1 refit_v0_curve.py  — MATCH: YES
+   my max abs deviation = 0.000e+00  (full grid, 30 cells x 90 = 2700 probe points)
+   RUC age-18 plateau (my refit): pk1=1219.513 pk2=1219.513 pk3=1219.513 pk5=1138.745 pk7=1087.101
+     (rounds to 1220/1220/1220/1139/1087 as expected)  VERDICT PASS
+A2 floor_sweep.py     — MATCH: YES
+   my cell count = 540 (by iteration 90x6) · never-lowers violations = 0 · depth-monotonicity breaks = 0
+   O1 bind count = 222/540 · max lift 0.3430  VERDICT PASS
+A3 book_hashcheck.py  — MATCH: YES (on all load-bearing values)
+   my regen STABLE-KEY sha256 = e2c1326b79e88b3773140da44633882f4aa92acc8b08fdb00161553e91534b4a
+     == committed stable-key sha256 (identical)
+   player count 2649 · records differing = 0 · max numeric delta = 0
+   NOTE: my raw-file regen sha (071d104b...) != D15's recorded raw regen sha (72a2523...). EXPECTED —
+     the raw file is keyed by str(id(p)) memory addresses (non-deterministic per interpreter run). This
+     DIVERGENCE CONFIRMS the regeneration is genuinely fresh (not the committed file compared to itself);
+     the stable-keyed content is byte-identical.  VERDICT PASS
+A4 dufftytler_decomp.py — MATCH: YES (byte-identical output)
+   board price (ev)   CONTROL=1353  v2.3=1366  v2.4=1366   (D14 move v2.3->v2.4 = +0, confirmed)
+   V0 start value     CONTROL=994   v2.3=1022  v2.4=964
+   engine md5 asserts CONTROL=8aed420a v2.3=f3e537ba v2.4=7c199a1f  VERDICT (materiality read) reproduced
+
+  Byte-diff vs committed: refit / floor / dufftytler = BYTE-IDENTICAL; book_hashes differs on the single
+  raw-regen-sha line only (by construction, see A3).
+
+PART B — METHOD AUDIT (is each script genuinely independent / non-circular / non-hardcoded?)
+B1 refit independence — INDEPENDENT (non-circular). The re-fit reads only RAW source points _v0_raw(p)
+   (refit_v0_curve.py:101-106 probe dumps [log(pick), _v0_raw(p)]), and re-implements NW+isotonic itself
+   (refit_v0_curve.py:133-135 refit_pick/refit_mature). It does NOT read the engine's stored fitted grid
+   _V0CURVE; engine star is used only as the comparison target (:108-110); meta is display-only, "NOT used
+   as re-fit input" (:112-113,:183).
+B2 book fresh-vs-committed — LEGITIMATE. Regenerates by running the engine generator s4_matrix_M1v7.py to a
+   SEPARATE output path (book_hashcheck.py:104 env S4_MATRIX=regen; :106 run) and diffs regen vs committed
+   (:118). Not self-comparison. Stable-keying is a real normalization of a non-deterministic memory-address
+   key, not a mask: it independently counts differing records (:73 ra!=rb), max numeric delta (:67-86), key-set
+   equality (:119) and collisions (:51-54, reported 0). My differing raw sha proves it re-ran.
+B3 floor exhaustiveness — REAL. Domain enumerated by iteration, not hardcoded: PICKS=range(1,91) x TAUS=[1..6]
+   (floor_sweep.py:28,:34-36); ncells=len(cells) computed (:71); "540" appears only as a cross-check compare
+   (:77). never-lowers is a true per-cell test floored<unfloored-eps (:47) over the whole domain; depth-
+   monotonicity is a real non-increasing check per pick (:51-56).
+B4 tree isolation + +0 from output — CLEAN. Each of the 3 columns is materialized into its own tempdir via
+   git archive of its SHA and run in an ISOLATED subprocess with per-tree PYTHONPATH (dufftytler_decomp.py:125-127
+   -> _d15_common.run_tree; _d15_common.py:49-58 materialize, :84-104 subprocess, :92 md5 assert). No shared
+   interpreter/module cache; no tree-mixing. The +0 (v2.3->v2.4) is read from engine output board_price=int(ev(p,Y))
+   (probe :59; printed :158-160), not asserted.
+
+STOP-FLAGS: NONE. No A-check mismatched on a load-bearing value; no B-answer showed circularity, self-comparison,
+or hardcoding.
+
+IN PLAIN TERMS: I re-ran all four D15 scripts from the pinned checkout with no shared context, and every
+load-bearing number came out the same — the V0 curve re-fit matches the engine to 0.000, the KPP floor never
+lowers across all 540 cells, the walk-forward book is byte-identical (2649 players, max delta 0), and Duff-Tytler's
+board price does not move from v2.3 to v2.4 (+0). Three of the four output files were byte-for-byte identical to
+what D15 committed; the fourth differed only on one line that the script itself flags as non-deterministic (a
+memory-address hash), which actually proves my run was a real fresh regeneration and not a copy. Reading the code,
+the scripts are honest: the curve is genuinely re-fit from raw source (not the stored curve), the book is freshly
+regenerated and compared to the committed file (not to itself), the floor sweep really visits every cell, and the
+three trees are run in isolated subprocesses with no state mixing. This gate reproduces.
+
+burn: D16 cold re-exec — 4/4 A-checks reproduce, 4/4 B-audits clean, 0 STOP-flags. Engine untouched (7c199a1f).

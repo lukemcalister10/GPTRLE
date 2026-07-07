@@ -1,0 +1,10 @@
+{
+  "_comment": "Walk-forward book freeze-stamp (v2.5 bake 2026-07-05, DPP-strip final consolidation). The book (s4 matrix) is id(p)-keyed, so raw-file sha256 is non-deterministic across regenerations BY DESIGN; identity is sealed on the STABLE keys (player,type,year,pick), canonicalised. ship_gates_check.py B3 compares the current S4_MATRIX stable-key sha to this baseline.",
+  "generator": "engine/rl_after/s4_matrix_M1v7.py",
+  "head_md5": "efea88e5",
+  "store_md5": "e1b4d8bf",
+  "n_players": 2649,
+  "stable_sha256": "5799a9ceae5ca3efc9787d6a780b3077292450ecda26f6abcc88589f070292c1",
+  "sealed_by": "v2.5 bake (DPP strip final consolidation: two position fields, the 34, Kako fix, off-by-one, four single-source guards)",
+  "sealed_date": "2026-07-05"
+}

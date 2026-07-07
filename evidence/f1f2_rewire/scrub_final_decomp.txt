@@ -1,0 +1,33 @@
+PHANTOM-SCRUB re-pricing (pre-scrub gated engine -> CURRENT board), by type:
+  IRE  n= 13  median|%|=2.96  max|%|=8.3
+  MSD  n= 54  median|%|=3.71  max|%|=73.5
+  ND   n=477  median|%|=0.83  max|%|=43.9
+  PDA  n= 11  median|%|=1.39  max|%|=3.7
+  PDN  n= 14  median|%|=1.90  max|%|=6.2
+  RD   n= 52  median|%|=1.38  max|%|=90.0
+  SSP  n= 17  median|%|=2.21  max|%|=18.8
+  UNR  n=  8  median|%|=2.46  max|%|=11.1
+
+Top MSD/IRE movers (intended scrub target):
+  key                      name                   type   CTRL    CUR      d       %
+  jai-culley               Jai Culley             MSD     437    116   -321   -73.5
+  james-blanck             James Blanck           MSD      25      9    -16   -64.0
+  flynn-young              Flynn Young            MSD      30     11    -19   -63.3
+  zac-banch                Zac Banch              MSD      50     67     17    34.0
+  mani-liddy               Mani Liddy             MSD      61     43    -18   -29.5
+  roan-steele              Roan Steele            MSD      20     15     -5   -25.0
+  jack-hutchinson          Jack Hutchinson        MSD      77     58    -19   -24.7
+  hugo-hall-kahan          Hugo Hall-Kahan        MSD     143    112    -31   -21.7
+  luke-beecken             Luke Beecken           MSD      25     30      5    20.0
+  massimo-d-ambrosio       Massimo D'Ambrosio     MSD    1560   1844    284    18.2
+  jacob-newton             Jacob Newton           MSD     228    189    -39   -17.1
+  mitch-podhajski          Mitch Podhajski        MSD       6      5     -1   -16.7
+  lachlan-blakiston        Lachlan Blakiston      MSD      22     19     -3   -13.6
+  campbell-lake            Campbell Lake          MSD     134    149     15    11.2
+  max-beattie              Max Beattie            MSD      56     62      6    10.7
+  liam-puncher             Liam Puncher           MSD     124    137     13    10.5
+  archie-may               Archie May             MSD     418    379    -39    -9.3
+  marcus-herbert           Marcus Herbert         MSD      33     36      3     9.1
+
+ND ripple (era-normalization REF +0.039%% + PVC pick~30-40 +0.5-0.7%% from removing the pick-35 bust phantom):
+  477 ND move, median 0.83%, max 43.9% -- correction of the phantoms' shared-surface leakage, not a re-model.

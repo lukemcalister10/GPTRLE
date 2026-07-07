@@ -1,0 +1,28 @@
+SHARED-SURFACE RIPPLE — movers PREVIOUS->S34 that are NOT former-dual and NOT in the 34.
+Mechanism: the V0 board curve (D14 law) is fit per-position on real ND players' zero-evidence start values;
+the 94 duals' start values shifted when the blend was stripped, so the pooled curve re-fits, repricing
+players who share it. SCALE and PVC are ~unchanged (not a global rescale). This is the anticipated ND ripple.
+
+position-changed outside {dual}∪{34}: 2  -> ['Harvey Thomas', 'Luke Lloyd']  (single-leg records whose present_position disagreed
+   with their sole future leg; not in Luke's 34; FLAGGED for owner review, held at stored present_position)
+
+pure ripple (position UNCHANGED): 582 movers
+  abs delta: median=5 mean=11.1 max=155
+  % move: median=-0.29% mean=-1.14%  ; |%|>2%: 253 ; |%|>5%: 92
+
+largest pure-ripple movers:
+  Joe Berry                1424 -> 1269 (-155, -10.9%) GEN_FWD
+  Dyson Sharp              1188 -> 1338 (+150, +12.6%) MID
+  Isaac Kako               1708 -> 1560 (-148, -8.7%) GEN_FWD
+  Oliver Hannaford         515 -> 401 (-114, -22.1%) GEN_FWD
+  Lachy Dovaston           981 -> 869 (-112, -11.4%) GEN_FWD
+  Murphy Reid              3838 -> 3742 (-96, -2.5%) GEN_FWD
+  Izak Rankine             2338 -> 2428 (+90, +3.8%) GEN_FWD
+  Jake Rogers              673 -> 587 (-86, -12.8%) GEN_FWD
+  Zachary Merrett          2482 -> 2559 (+77, +3.1%) MID
+  Sam Berry                2424 -> 2495 (+71, +2.9%) MID
+  Sid Draper               1250 -> 1314 (+64, +5.1%) MID
+  Darcy Wilson             2401 -> 2343 (-58, -2.4%) GEN_FWD
+  Kysaiah Pickett          3018 -> 3076 (+58, +1.9%) GEN_FWD
+  Nick Watson              3593 -> 3538 (-55, -1.5%) GEN_FWD
+  Cameron Nairn            738 -> 686 (-52, -7.0%) GEN_FWD

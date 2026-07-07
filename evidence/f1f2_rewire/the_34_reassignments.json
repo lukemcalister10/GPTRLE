@@ -1,0 +1,278 @@
+{
+ "reassignments": {
+  "samuel-grlj": "MID",
+  "sullivan-robey": "MID",
+  "charlie-banfield": "MID",
+  "jack-ison": "GFWD",
+  "sam-lalor": "MID",
+  "finn-o-sullivan": "MID",
+  "jagga-smith": "MID",
+  "levi-ashcroft": "MID",
+  "taj-hotton": "MID",
+  "cooper-hynes": "MID",
+  "cody-angove": "MID",
+  "alex-dodson": "RUC",
+  "colby-mckercher": "MID",
+  "ryley-sanders": "MID",
+  "joel-freijah": "MID",
+  "anthony-caminiti": "KFWD",
+  "jason-horne-francis": "MID",
+  "jake-soligo": "MID",
+  "marcus-windhager": "MID",
+  "ned-long": "MID",
+  "sam-durham": "MID",
+  "chad-warner": "MID",
+  "connor-budarick": "GDEF",
+  "bailey-williams-wc": "RUC",
+  "jack-ross": "MID",
+  "justin-mcinerney": "MID",
+  "tim-kelly": "MID",
+  "sam-draper": "RUC",
+  "rowan-marshall": "RUC",
+  "christian-petracca": "MID",
+  "touk-miller": "MID",
+  "darcy-byrne-jones": "GDEF",
+  "stephen-coniglio": "MID",
+  "adam-treloar": "MID"
+ },
+ "detail": [
+  {
+   "key": "samuel-grlj",
+   "name": "Samuel Grlj",
+   "old_present": "GDEF",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "sullivan-robey",
+   "name": "Sullivan Robey",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "charlie-banfield",
+   "name": "Charlie Banfield",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "jack-ison",
+   "name": "Jack Ison",
+   "old_present": "MID",
+   "new_present": "GFWD",
+   "drafted": "GFWD"
+  },
+  {
+   "key": "sam-lalor",
+   "name": "Sam Lalor",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "finn-o-sullivan",
+   "name": "Finn O'Sullivan",
+   "old_present": "GDEF",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "jagga-smith",
+   "name": "Jagga Smith",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "levi-ashcroft",
+   "name": "Levi Ashcroft",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "taj-hotton",
+   "name": "Taj Hotton",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "cooper-hynes",
+   "name": "Cooper Hynes",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "cody-angove",
+   "name": "Cody Angove",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "alex-dodson",
+   "name": "Alex Dodson",
+   "old_present": "KFWD",
+   "new_present": "RUC",
+   "drafted": "RUC"
+  },
+  {
+   "key": "colby-mckercher",
+   "name": "Colby McKercher",
+   "old_present": "GDEF",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "ryley-sanders",
+   "name": "Ryley Sanders",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "joel-freijah",
+   "name": "Joel Freijah",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "anthony-caminiti",
+   "name": "Anthony Caminiti",
+   "old_present": "KDEF",
+   "new_present": "KFWD",
+   "drafted": "KFWD"
+  },
+  {
+   "key": "jason-horne-francis",
+   "name": "Jason Horne-Francis",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "jake-soligo",
+   "name": "Jake Soligo",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "marcus-windhager",
+   "name": "Marcus Windhager",
+   "old_present": "GDEF",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "ned-long",
+   "name": "Ned Long",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "sam-durham",
+   "name": "Sam Durham",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "chad-warner",
+   "name": "Chad Warner",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "connor-budarick",
+   "name": "Connor Budarick",
+   "old_present": "GFWD",
+   "new_present": "GDEF",
+   "drafted": "GDEF"
+  },
+  {
+   "key": "bailey-williams-wc",
+   "name": "Bailey J. Williams",
+   "old_present": "KFWD",
+   "new_present": "RUC",
+   "drafted": "RUC"
+  },
+  {
+   "key": "jack-ross",
+   "name": "Jack Ross",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "justin-mcinerney",
+   "name": "Justin McInerney",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "tim-kelly",
+   "name": "Tim Kelly",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "sam-draper",
+   "name": "Sam Draper",
+   "old_present": "KFWD",
+   "new_present": "RUC",
+   "drafted": "RUC"
+  },
+  {
+   "key": "rowan-marshall",
+   "name": "Rowan Marshall",
+   "old_present": "KFWD",
+   "new_present": "RUC",
+   "drafted": "RUC"
+  },
+  {
+   "key": "christian-petracca",
+   "name": "Christian Petracca",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "touk-miller",
+   "name": "Touk Miller",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "darcy-byrne-jones",
+   "name": "Darcy Byrne-Jones",
+   "old_present": "GFWD",
+   "new_present": "GDEF",
+   "drafted": "GDEF"
+  },
+  {
+   "key": "stephen-coniglio",
+   "name": "Stephen Coniglio",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  },
+  {
+   "key": "adam-treloar",
+   "name": "Adam Treloar",
+   "old_present": "GFWD",
+   "new_present": "MID",
+   "drafted": "MID"
+  }
+ ]
+}
