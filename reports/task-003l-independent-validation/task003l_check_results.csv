@@ -1,4 +1,5 @@
 name,status,details
+required PR #19 base branch available,incomplete,missing local branch agent/task003k-event-logistic
 exact locked target row count,pass,rows=20094
 current predictions present,incomplete,missing build/task-003b-vnext-folds/vnext_predictions.csv
 candidate predictions present,incomplete,missing build/task-003k-candidate-folds/vnext_predictions.csv

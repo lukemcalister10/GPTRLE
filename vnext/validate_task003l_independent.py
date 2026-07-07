@@ -5,7 +5,7 @@ locked cohorts, and PR evidence. It never fits or changes a model.
 """
 from __future__ import annotations
 
-import argparse, json, pickle, sys
+import argparse, json, pickle, subprocess, sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -214,6 +214,12 @@ def write(frame: pd.DataFrame, path: Path) -> None:
 def run(args: argparse.Namespace) -> int:
     out = args.out; out.mkdir(parents=True, exist_ok=True)
     checks: list[Check] = []
+    base_available = subprocess.run(["git", "show-ref", "--verify", "--quiet", f"refs/heads/{args.required_base_branch}"], cwd=ROOT).returncode == 0
+    if args.required_base_branch:
+        if base_available:
+            add(checks, "required PR #19 base branch available", True, args.required_base_branch)
+        else:
+            incomplete(checks, "required PR #19 base branch available", f"missing local branch {args.required_base_branch}")
     if not (args.cohort_dir / "targets.csv").exists():
         build_locked_cohorts(args.cohort_dir)
     targets = pd.read_csv(args.cohort_dir / "targets.csv")
@@ -278,7 +284,7 @@ def run(args: argparse.Namespace) -> int:
     write(discrepancies, out / "discrepancies.csv")
 
     status = "independent validation failed" if any(c.status == "fail" for c in checks) else ("validation incomplete" if any(c.status == "incomplete" for c in checks) else "independent validation passed")
-    report = {"task": "TASK-003L", "status": status, "checks": [c.__dict__ for c in checks], "tolerance": args.tolerance, "bootstrap_repetitions": args.bootstrap_repetitions}
+    report = {"task": "TASK-003L", "status": status, "checks": [c.__dict__ for c in checks], "tolerance": args.tolerance, "bootstrap_repetitions": args.bootstrap_repetitions, "required_base_branch": args.required_base_branch, "required_base_branch_available": base_available}
     (out / "task003l_final_report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     write(pd.DataFrame([c.__dict__ for c in checks]), out / "task003l_check_results.csv")
     print(json.dumps(report, indent=2, sort_keys=True))
@@ -296,6 +302,7 @@ def main() -> int:
     p.add_argument("--evidence-dir", type=Path, default=ROOT / "reports" / "task-003k-event-logistic")
     p.add_argument("--bootstrap-repetitions", type=int, default=1000)
     p.add_argument("--tolerance", type=float, default=TOL)
+    p.add_argument("--required-base-branch", default="agent/task003k-event-logistic")
     return run(p.parse_args())
 
 if __name__ == "__main__":

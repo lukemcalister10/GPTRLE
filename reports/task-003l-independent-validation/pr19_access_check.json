@@ -1,0 +1,9 @@
+{
+  "base_branch_requested": "agent/task003k-event-logistic",
+  "base_branch_available_locally": false,
+  "fetch_command": "git fetch origin agent/task003k-event-logistic:agent/task003k-event-logistic pull/19/head:pr-19 pull/20/head:pr-20",
+  "fetch_status": "failed",
+  "fetch_error": "fatal: could not read Username for 'https://github.com': No such device or address",
+  "validation_status": "validation incomplete",
+  "reason": "PR #19 code, artifacts, and evidence are not accessible in this workspace, so end-to-end independent validation cannot be completed without inventing results."
+}

@@ -2,6 +2,11 @@
   "bootstrap_repetitions": 1000,
   "checks": [
     {
+      "details": "missing local branch agent/task003k-event-logistic",
+      "name": "required PR #19 base branch available",
+      "status": "incomplete"
+    },
+    {
       "details": "rows=20094",
       "name": "exact locked target row count",
       "status": "pass"
@@ -42,6 +47,8 @@
       "status": "incomplete"
     }
   ],
+  "required_base_branch": "agent/task003k-event-logistic",
+  "required_base_branch_available": false,
   "status": "validation incomplete",
   "task": "TASK-003L",
   "tolerance": 1e-09
