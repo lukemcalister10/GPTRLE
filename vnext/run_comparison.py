@@ -23,6 +23,7 @@ from comparison_harness import (
     weighted_metric_summary,
     write_csv,
 )
+from comparison_outputs import build_diagnostic_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "build" / "task-003-comparison"
@@ -33,6 +34,7 @@ def run_comparison(
     *,
     vnext_predictions: Path | None = None,
     legacy_predictions: Path | None = None,
+    bootstrap_repetitions: int = 1000,
 ) -> dict[str, Any]:
     out_dir.mkdir(parents=True, exist_ok=True)
     cohort_dir = out_dir / "cohorts"
@@ -49,7 +51,8 @@ def run_comparison(
 
     if vnext_predictions is not None:
         predictions["vnext_fold_specific"] = load_external_predictions(
-            vnext_predictions, "vnext_fold_specific"
+            vnext_predictions,
+            "vnext_fold_specific",
         )
         input_files["vnext_predictions"] = {
             "path": str(vnext_predictions),
@@ -57,7 +60,8 @@ def run_comparison(
         }
     if legacy_predictions is not None:
         predictions["legacy_frozen"] = load_external_predictions(
-            legacy_predictions, "legacy_frozen"
+            legacy_predictions,
+            "legacy_frozen",
         )
         input_files["legacy_predictions"] = {
             "path": str(legacy_predictions),
@@ -78,9 +82,19 @@ def run_comparison(
         "metrics_by_lead.csv": write_csv(out_dir / "metrics_by_lead.csv", metrics),
         "metrics_summary.csv": write_csv(out_dir / "metrics_summary.csv", summary),
         "baseline_predictions.csv": write_csv(
-            out_dir / "baseline_predictions.csv", baseline
+            out_dir / "baseline_predictions.csv",
+            baseline,
         ),
     }
+    diagnostic_artifacts, diagnostic_metadata = build_diagnostic_outputs(
+        out_dir,
+        all_predictions,
+        targets,
+        snapshots,
+        bootstrap_repetitions=bootstrap_repetitions,
+    )
+    artifacts.update(diagnostic_artifacts)
+
     key_report = {
         "expected_rows_per_model": int(len(targets)),
         "models": {
@@ -94,7 +108,8 @@ def run_comparison(
     }
     key_path = out_dir / "key_validation.json"
     key_path.write_text(
-        json.dumps(key_report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        json.dumps(key_report, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
     )
     artifacts["key_validation.json"] = {
         "rows": len(predictions),
@@ -110,13 +125,17 @@ def run_comparison(
         "cohort_manifest_sha256": sha256_file(cohort_dir / "manifest.json"),
         "cohort_target_rows": int(cohort_manifest["target_rows"]),
         "calibration_solver": "L-BFGS-B with analytic gradient",
+        **diagnostic_metadata,
         "input_files": input_files,
         "artifacts": artifacts,
-        "reproduction_command": "python vnext/run_comparison.py --out build/task-003-comparison",
+        "reproduction_command": (
+            "python vnext/run_comparison.py --out build/task-003-comparison"
+        ),
     }
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
     )
     return manifest
 
@@ -126,11 +145,13 @@ def main() -> int:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--vnext-predictions", type=Path)
     parser.add_argument("--legacy-predictions", type=Path)
+    parser.add_argument("--bootstrap-repetitions", type=int, default=1000)
     args = parser.parse_args()
     manifest = run_comparison(
         args.out,
         vnext_predictions=args.vnext_predictions,
         legacy_predictions=args.legacy_predictions,
+        bootstrap_repetitions=args.bootstrap_repetitions,
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
     return 0
