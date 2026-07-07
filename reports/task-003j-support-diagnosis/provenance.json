@@ -1,0 +1,19 @@
+{
+  "task": "TASK-003J-CONDITIONAL-SUPPORT-DIAGNOSIS",
+  "source_workflow_run_id": 28862889443,
+  "source_head_sha": "49ffa8876bfea033de8b495aa570e67e1c49722b",
+  "cohort_artifact_id": 8136406359,
+  "cohort_artifact_sha256": "f86eb007a0e53f586ef976a3082055445eb4801b148d4f5c6cf541c9e1e192a2",
+  "current_vnext_artifact_id": 8136425600,
+  "current_vnext_artifact_sha256": "422596a97bb931286974385a7351e992ddbbad5d5408313176a341de78f7f028",
+  "source_prediction_sha256": "0453d4ad942aaa75a4c1e5f96ce9ceb7c8656ca847cc2c85390e2178c12f0c7c",
+  "folds_checked": 25,
+  "prediction_rows": 20094,
+  "reference_populations": [
+    "meaningful_fit_rows",
+    "temporal_calibration_rows"
+  ],
+  "model_changed": false,
+  "validation_protocol_changed": false,
+  "production_changed": false
+}
