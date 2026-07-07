@@ -16,6 +16,19 @@ from comparison_diagnostics import (
 )
 from comparison_harness import sha256_file, write_csv
 
+BOOTSTRAP_COLUMNS = [
+    "model_id",
+    "baseline_model_id",
+    "metric",
+    "difference",
+    "ci_low",
+    "ci_high",
+    "probability_challenger_better",
+    "bootstrap_repetitions",
+    "player_blocks",
+    "seed",
+]
+
 
 def build_diagnostic_outputs(
     out_dir: Path,
@@ -33,6 +46,8 @@ def build_diagnostic_outputs(
         repetitions=bootstrap_repetitions,
         seed=3003,
     )
+    if bootstrap.empty:
+        bootstrap = pd.DataFrame(columns=BOOTSTRAP_COLUMNS)
     reliability = reliability_tables(predictions, targets)
     slices = slice_metrics(predictions, targets, snapshots, minimum_n=200)
 
