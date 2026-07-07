@@ -1,0 +1,22 @@
+source_file,field,records,non_missing,missing,missing_rate,distinct_values,min_year_or_value,max_year_or_value,top_values
+engine/rl_after/rl_model_data.json,draft_year,2652,2652,0,0.0,24,2003,2026,2011=144; 2010=137; 2008=135; 2009=127; 2018=126; 2016=126; 2014=122; 2007=122
+engine/rl_after/rl_model_data.json,entry_pick,2652,2371,281,0.106,91,1.0,93.0,<missing>=281; 3.0=51; 1.0=50; 2.0=50; 6.0=50; 8.0=50; 4.0=49; 5.0=49
+engine/rl_after/rl_model_data.json,entry_type_code,2652,2652,0,0.0,9,,,ND=1571; RD=693; MSD=107; UNR=59; IRE=58; PDA=51; SSP=49; PDN=43
+engine/rl_after/rl_model_data.json,entry_type_label,2652,2327,325,0.1225,10,,,National=1385; Rookie=557; <missing>=325; Mid-Season=107; Post-Draft - Unregistered=59; Post-Draft - Ireland=55; Post-Draft - Academy=50; SSP=49
+engine/rl_after/rl_model_data.json,drafted_position,2652,2652,0,0.0,7,,,MID=730; GFWD=562; GDEF=416; KFWD=307; KDEF=280; RUC=220; DEF=137
+engine/rl_after/rl_model_data.json,present_position,2652,2652,0,0.0,7,,,MID=702; GFWD=563; GDEF=444; KFWD=306; KDEF=283; RUC=217; DEF=137
+engine/rl_after/rl_model_data.json,future_position,2652,2652,0,0.0,7,,,MID=702; GFWD=563; GDEF=444; KFWD=306; KDEF=283; RUC=217; DEF=137
+engine/rl_after/rl_model_data.json,birth_year,2652,2350,302,0.1139,30,1976.0,2027.0,<missing>=302; 1989.0=148; 1988.0=147; 1991.0=136; 1992.0=135; 1998.0=127; 1996.0=126; 1993.0=122
+engine/rl_after/rl_model_data.json,birth_date,2652,846,1806,0.681,773,,,<missing>=1806; 2000-01-01=5; 2003-07-18=4; 2007-01-09=3; 2006-08-15=3; 2006-05-16=3; 2006-10-11=3; 2002-12-12=3
+engine/rl_after/rl_model_data.json,category,2652,173,2479,0.9348,6,,,<missing>=2479; Academy=68; Father-Son=61; Next Gen=24; Academy - Unmatched=18; Priority (West Coast)=1; Compensation (Campbell Brown)=1
+engine/rl_after/rl_model_data.json,club_current_or_source,2652,2317,335,0.1263,18,,,<missing>=335; Essendon=141; Brisbane=138; Sydney=138; Geelong=136; Fremantle=135; West Coast=133; Collingwood=132
+engine/rl_after/rl_model_data.json,has_2026_flag,2652,2652,0,0.0,2,False,True,False=2026; True=626
+engine/rl_after/rl_model_data.json,retired_flag,2652,2652,0,0.0,2,False,True,True=1847; False=805
+engine/rl_after/rl_model_data.json,pickless_flag,2652,2652,0,0.0,2,False,True,False=2371; True=281
+engine/rl_after/rl_model_data.json,last_listed,2652,13,2639,0.9951,2,2024.0,2025.0,<missing>=2639; 2025.0=10; 2024.0=3
+engine/rl_after/rl_model_data.json,force_active,2652,63,2589,0.9762,1,,,<missing>=2589; True=63
+engine/rl_after/rl_model_data.json,pvc_exclude,2652,3,2649,0.9989,1,,,<missing>=2649; True=3
+engine/rl_after/rl_model_data.json,scoring_seasons,2652,2652,0,0.0,21,0,21,0=743; 1=282; 2=251; 3=210; 4=173; 6=129; 5=125; 7=123
+engine/rl_after/rl_model_data.json,first_afl_game_year,2652,1909,743,0.2802,22,2005.0,2026.0,<missing>=743; 2007.0=120; 2011.0=113; 2012.0=105; 2025.0=100; 2013.0=96; 2018.0=94; 2017.0=94
+engine/rl_after/rl_model_data.json,zero_prior_games_at_entry,2652,2652,0,0.0,2,False,True,True=2605; False=47
+engine/rl_after/rl_model_data.json,list_tenure_without_afl_games,2652,1909,743,0.2802,9,0.0,8.0,1.0=1112; <missing>=743; 2.0=479; 3.0=196; 4.0=50; 0.0=47; 5.0=10; 6.0=8

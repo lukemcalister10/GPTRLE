@@ -1,0 +1,20 @@
+{
+  "current_2026_position_non_missing": 804,
+  "current_2026_rows": 804,
+  "draftguru_map_rows": 1465,
+  "draftguru_matched_rows": 1440,
+  "draftguru_year_max": 2023,
+  "draftguru_year_min": 2000,
+  "historical_eligibility_origin_max": 2024,
+  "historical_eligibility_origin_min": 2018,
+  "historical_eligibility_rows": 18564,
+  "historical_eligible_positive_rows": 5622,
+  "repository_draft_year_max": 2026,
+  "repository_draft_year_min": 2003,
+  "repository_players": 2652,
+  "repository_players_with_birth_date": 846,
+  "repository_players_with_birth_year": 2350,
+  "repository_players_with_drafted_position": 2652,
+  "repository_players_with_entry_pick": 2371,
+  "repository_players_with_entry_type": 2652
+}
