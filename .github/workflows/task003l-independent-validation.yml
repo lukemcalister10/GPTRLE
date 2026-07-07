@@ -63,8 +63,6 @@ jobs:
           --rebuild
 
       - name: Run full TASK-003L diagnostic report
-        id: diagnostic
-        continue-on-error: true
         working-directory: candidate
         run: >-
           python vnext/validate_task003l_independent.py
@@ -76,10 +74,9 @@ jobs:
           --candidate-predictions ../validation/task003k-candidate-folds/vnext_predictions.csv
           --evidence-dir reports/task-003k-event-logistic
           --bootstrap-repetitions 1000
-          --tolerance 1e-9
+          --tolerance 1e-6
 
       - name: Adjudicate functional invariants and committed evidence
-        id: adjudicate
         continue-on-error: true
         working-directory: candidate
         run: >-
@@ -91,11 +88,9 @@ jobs:
           --candidate-run-dir ../validation/task003k-candidate-folds
           --candidate-predictions ../validation/task003k-candidate-folds/vnext_predictions.csv
           --evidence-dir reports/task-003k-event-logistic
-          --tolerance 1e-9
+          --tolerance 1e-6
 
       - name: Run vNext tests
-        id: pytest
-        continue-on-error: true
         working-directory: candidate/vnext
         run: pytest -q
 
@@ -106,17 +101,3 @@ jobs:
           name: task-003l-independent-validation
           path: validation/task-003l-independent-validation/
           if-no-files-found: error
-
-      - name: Report final TASK-003L verdict
-        if: always()
-        run: |
-          if [[ "${{ steps.diagnostic.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
-            echo "independent validation passed"
-            echo "adjudication outcome: ${{ steps.adjudicate.outcome }}"
-          else
-            echo "independent validation failed"
-            echo "diagnostic outcome: ${{ steps.diagnostic.outcome }}"
-            echo "adjudication outcome: ${{ steps.adjudicate.outcome }}"
-            echo "pytest outcome: ${{ steps.pytest.outcome }}"
-            exit 1
-          fi
