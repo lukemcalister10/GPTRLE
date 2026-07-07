@@ -1,1 +1,0 @@
-This branch intentionally contains only the diagnostic script, tests, report, compact evidence, provenance and validation record.
