@@ -1,0 +1,14 @@
+"""Durable identifiers for the accepted TASK-003E evidence run."""
+
+DECISION = "continue_vnext_development_do_not_replace_production_yet"
+ROWS_PER_MODEL = 20_094
+FORMAL_LEGACY_INCLUDED = False
+MATERIAL_SLICE_REGRESSIONS = 15
+WORKFLOW_RUN_ID = 28858912803
+WORKFLOW_ARTIFACT_ID = 8134823849
+ARTIFACT_ARCHIVE_SHA256 = (
+    "fd66faf3a20a73991e49129b4beceb285e31ad8b0a00d09e8c9e90992a945fe3"
+)
+VNEXT_PREDICTIONS_SHA256 = (
+    "0453d4ad942aaa75a4c1e5f96ce9ceb7c8656ca847cc2c85390e2178c12f0c7c"
+)
