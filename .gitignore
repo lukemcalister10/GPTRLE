@@ -1,2 +1,21 @@
 __pycache__/
 *.pyc
+
+# vNext generated outputs
+vnext/.pytest_cache/
+vnext/output/**
+!vnext/output/artifacts/
+!vnext/output/artifacts/**
+!vnext/output/current/
+!vnext/output/current/**
+!vnext/output/eval_v3_fast/
+!vnext/output/eval_v3_fast/predictions.csv
+
+# Local experiment work
+artifacts/tmp/
+reports/tmp/
+!vnext/output/annual_rows.csv
+!vnext/output_stage4/
+!vnext/output_stage4/copula/
+!vnext/output_stage4/copula/copula_vs_independence.csv
+!vnext/output_stage4/copula/observed_persistence.csv

@@ -1,0 +1,57 @@
+{
+  "persistence": [
+    {
+      "threshold": 90,
+      "mean_pairwise_event_corr": 0.537152453193956,
+      "adjacent_event_corr": 0.6278429886962483
+    },
+    {
+      "threshold": 100,
+      "mean_pairwise_event_corr": 0.49806670308554724,
+      "adjacent_event_corr": 0.6057277303780655
+    },
+    {
+      "threshold": 110,
+      "mean_pairwise_event_corr": 0.32168829613012806,
+      "adjacent_event_corr": 0.38287172803807135
+    }
+  ],
+  "comparison": [
+    {
+      "threshold": 90,
+      "selected_rho": 0.5,
+      "test_n": 2209,
+      "test_actual": 0.07876867360796741,
+      "independence_pred": 0.11024469412636978,
+      "independence_brier": 0.045894159465045284,
+      "copula_pred": 0.08854647653538555,
+      "copula_brier": 0.041970528079573466,
+      "independence_mae_probability": 0.0907066100973005,
+      "copula_mae_probability": 0.08535800513052663
+    },
+    {
+      "threshold": 100,
+      "selected_rho": 0.4,
+      "test_n": 2209,
+      "test_actual": 0.04119511090991399,
+      "independence_pred": 0.051716446138967156,
+      "independence_brier": 0.026887549728159765,
+      "copula_pred": 0.047562245359891356,
+      "copula_brier": 0.025974502665861876,
+      "independence_mae_probability": 0.05615948300262746,
+      "copula_mae_probability": 0.05652859514108948
+    },
+    {
+      "threshold": 110,
+      "selected_rho": 0.0,
+      "test_n": 2209,
+      "test_actual": 0.021729289271163424,
+      "independence_pred": 0.019430565814058384,
+      "independence_brier": 0.014639408714563075,
+      "copula_pred": 0.022502263467632413,
+      "copula_brier": 0.01467255451184548,
+      "independence_mae_probability": 0.029106138528118657,
+      "copula_mae_probability": 0.032103893164327754
+    }
+  ]
+}

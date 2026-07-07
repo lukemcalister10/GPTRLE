@@ -1,0 +1,24 @@
+name: vNext CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, vnext]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements-vnext.txt
+      - name: Verify frozen legacy files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Run vNext tests
+        run: cd vnext && pytest -q
+      - name: Generate handover
+        run: python scripts/generate_handover.py --check
