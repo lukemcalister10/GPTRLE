@@ -126,11 +126,6 @@ jobs:
           --cohort-dir build/task-003h-cohorts
           --out build/task-003h-comparison
           --bootstrap-repetitions 1000
-      - name: Run focused tests
-        run: >-
-          cd vnext && pytest -q
-          tests/test_task003h_conditional_calibration.py
-          tests/test_task003h_comparison.py
       - uses: actions/upload-artifact@v4
         with:
           name: task-003h-conditional-calibration
@@ -141,3 +136,8 @@ jobs:
             build/task-003h-candidate/fold_artifact_manifest.csv
           if-no-files-found: error
           retention-days: 30
+      - name: Run focused tests
+        run: >-
+          cd vnext && python -m pytest -q
+          tests/test_task003h_conditional_calibration.py
+          tests/test_task003h_comparison.py
