@@ -91,9 +91,15 @@ jobs:
         run: |
           if [[ "${{ steps.validate.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
             echo "independent validation passed"
+            echo "## TASK-003L verdict" >> "$GITHUB_STEP_SUMMARY"
+            echo "independent validation passed" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "independent validation failed"
             echo "validator outcome: ${{ steps.validate.outcome }}"
             echo "pytest outcome: ${{ steps.pytest.outcome }}"
+            echo "## TASK-003L verdict" >> "$GITHUB_STEP_SUMMARY"
+            echo "independent validation failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "validator outcome: ${{ steps.validate.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "pytest outcome: ${{ steps.pytest.outcome }}" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
