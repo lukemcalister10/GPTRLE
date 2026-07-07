@@ -103,3 +103,11 @@ maverick_weller/1,Maverick Weller,exclude,,not_in_repository_database_or_intenti
 rohan_bewick/1,Rohan Bewick,exclude,,not_in_repository_database_or_intentionally_excluded,
 shane_mcadam/1,Shane McAdam,exclude,,not_in_repository_database_or_intentionally_excluded,
 shaun_burgoyne/1,Shaun Burgoyne,exclude,,not_in_repository_database_or_intentionally_excluded,
+bailey_williams/1,Bailey Williams,match,bailey-williams-wb,duplicate_name_identity_correction,"Western Bulldogs player, born 1997, National Draft 2015 pick 48."
+bailey_williams/2,Bailey Williams,match,bailey-williams-wc,duplicate_name_identity_correction,"West Coast player, born 2000, National Draft 2018 pick 35."
+callum_brown/1,Callum Brown,match,callum-brown,duplicate_name_identity_correction,"Collingwood player, born 1998, National Draft 2016 pick 35."
+callum_brown/2,Callum Brown,match,callum-brown-ire,duplicate_name_identity_correction,"Greater Western Sydney Irish player, born 2000, International 2018."
+josh_kennedy/1,Josh Kennedy,match,joshua-kennedy,duplicate_name_identity_correction,"West Coast key forward, born 1987, National Draft 2005 pick 4."
+josh_kennedy/2,Josh Kennedy,match,josh-p-kennedy,duplicate_name_identity_correction,"Sydney midfielder, born 1988, National Draft 2006 pick 40."
+sam_reid/2,Sam Reid,match,samuel-reid,duplicate_name_identity_correction,"Greater Western Sydney player, born 1989, National Draft 2007 pick 35."
+sam_reid/3,Sam Reid,match,sam-reid-syd,duplicate_name_identity_correction,"Sydney player, born 1991, National Draft 2009 pick 38."
