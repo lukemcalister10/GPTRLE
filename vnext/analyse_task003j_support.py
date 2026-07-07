@@ -25,6 +25,7 @@ from model_artifacts import split_temporal
 
 KEYS = ["player_key", "origin_year", "lead"]
 COHORTS: dict[str, Callable[[pd.DataFrame], pd.Series]] = {
+    "all": lambda d: pd.Series(True, index=d.index, dtype=bool),
     "zero_prior_games": lambda d: d["total_games"].eq(0),
     "ruck": lambda d: d["position"].astype(str).eq("RUC"),
     "age_21_23": lambda d: d["age"].between(21, 23, inclusive="both"),
