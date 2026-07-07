@@ -1,0 +1,57 @@
+name: TASK-003A historical cohorts
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - "vnext/historical_eligibility.py"
+      - "vnext/build_historical_cohorts.py"
+      - "vnext/test_historical_eligibility.py"
+      - "data/historical/**"
+      - ".github/workflows/task-003a-cohorts.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cohorts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install vNext dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-vnext.txt
+
+      - name: Build cohort artifacts twice
+        run: |
+          python vnext/build_historical_cohorts.py --out build/task-003a-first
+          python vnext/build_historical_cohorts.py --out build/task-003a-second
+
+      - name: Verify deterministic manifests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          first = json.loads(Path("build/task-003a-first/manifest.json").read_text())
+          second = json.loads(Path("build/task-003a-second/manifest.json").read_text())
+          assert first == second
+          assert first["database_unique_keys"] == 2652
+          assert first["target_failure_rows"] == 0
+          assert first["identity_exclusion_rows"] == 76
+          print(json.dumps(first, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload locked cohort artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-003a-historical-cohorts
+          path: build/task-003a-first
+          if-no-files-found: error
+          retention-days: 14
