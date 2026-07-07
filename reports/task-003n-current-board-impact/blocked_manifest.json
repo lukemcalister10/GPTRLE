@@ -8,5 +8,5 @@
   "no_model_fitting_performed": true,
   "current_board_used_for_tuning": false,
   "required_command_when_candidate_artifacts_are_available": "PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts <TASK-003K_ARTIFACT_DIR> --candidate-module <TASK-003K_MODULE> --out reports/task-003n-current-board-impact",
-  "smoke_test_command": "PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts artifacts/vnext/progress_05 --candidate-module model_artifacts --out /tmp/task003n-smoke"
+  "smoke_test_command": "PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts artifacts/vnext/progress_05 --candidate-module model_artifacts --out /tmp/task003n-smoke --allow-same-artifacts"
 }

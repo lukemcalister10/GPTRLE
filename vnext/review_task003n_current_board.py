@@ -162,7 +162,12 @@ def main() -> None:
     ap.add_argument("--legacy", default=str(ROOT / "data/rl_build/rl_app_data.json"))
     ap.add_argument("--previous-vnext", default=str(ROOT / "engine/rl_after/rl_model_data.json"))
     ap.add_argument("--out", default=str(ROOT / "reports/task-003n-current-board-impact"))
+    ap.add_argument("--allow-same-artifacts", action="store_true", help="Permit current and candidate artifact/module inputs to be identical for smoke tests only.")
     args = ap.parse_args()
+    same_artifacts = Path(args.current_artifacts).resolve() == Path(args.candidate_artifacts).resolve()
+    same_modules = args.current_module == args.candidate_module
+    if same_artifacts and same_modules and not args.allow_same_artifacts:
+        raise ValueError("current and candidate artifact/module inputs are identical; pass --allow-same-artifacts only for smoke tests")
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
     matched, snapshots = universe(Path(args.authoritative), Path(args.legacy), Path(args.previous_vnext))
     cur = predict_board("current", Path(args.current_artifacts), args.current_module, snapshots)
@@ -202,7 +207,7 @@ def main() -> None:
         "candidate_module": args.candidate_module,
         "input_hashes": {p: sha256_file(Path(p)) for p in [args.authoritative, args.legacy, args.previous_vnext] if Path(p).is_file()},
         "artifact_hashes": hashes,
-        "commands": ["python vnext/review_task003n_current_board.py --candidate-artifacts <TASK-003K_ARTIFACT_DIR> --candidate-module <TASK-003K_MODULE> --out reports/task-003n-current-board-impact"],
+        "commands": ["PYTHONPATH=vnext python vnext/review_task003n_current_board.py --candidate-artifacts <TASK-003K_ARTIFACT_DIR> --candidate-module <TASK-003K_MODULE> --out reports/task-003n-current-board-impact"],
         "guardrail_confirmation": "Current-board outputs are generated after persisted candidate artifacts are supplied; this script performs no fitting and must not be used to tune the historical candidate.",
     }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")

@@ -12,7 +12,7 @@ TASK-003N compares current merged vNext against the TASK-003K event-logistic can
 - `data/current/Players_2026.csv` contains exactly 804 authoritative current-board rows.
 - The local active-universe reconciliation tests encode the same 804-player contract.
 - A reusable diagnostic script was added at `vnext/review_task003n_current_board.py`.
-- A smoke run compared the current artifact set with itself and produced exactly 804 players and 4,020 annual rows per model.
+- A smoke run compared the current artifact set with itself using the explicit `--allow-same-artifacts` smoke-test flag and produced exactly 804 players and 4,020 annual rows per model.
 
 ## GitHub-state blocker
 
@@ -43,7 +43,7 @@ The script writes machine-readable CSV/JSON artifacts for:
 
 ## Guardrail confirmation
 
-The diagnostic script consumes persisted current and candidate artifacts. It performs no model fitting and has no mechanism to feed current-board outcomes back into TASK-003K training. Current-board smoke-test results were not used to tune the historical candidate.
+The diagnostic script consumes persisted current and candidate artifacts. It rejects identical current/candidate inputs by default so a smoke test cannot be mistaken for the TASK-003K review. It performs no model fitting and has no mechanism to feed current-board outcomes back into TASK-003K training. Current-board smoke-test results were not used to tune the historical candidate.
 
 ## Decision memo
 
