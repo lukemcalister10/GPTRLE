@@ -1,4 +1,8 @@
-# TASK-003H — Meaningful-season probability calibration audit
+# TASK-003I — Meaningful-season event calibration audit
+
+## Historical evidence path
+
+This directory retains its original generated path, `reports/task-003h/`, so the committed evidence hashes and reproduction record remain unchanged. Its authoritative task designation is now **TASK-003I**. TASK-003H is reserved for the separate conditional-magnitude calibration experiment.
 
 ## Scope
 
@@ -6,31 +10,26 @@ Diagnostic only. This audit separates fold-specific raw meaningful-season classi
 
 ## Finding
 
-For the locked TASK-003F material slice/lead regressions, established-player underprediction is mostly already present in the raw classifier output. Isotonic calibration usually moves probabilities only a few points and sometimes improves the raw classifier underprediction, but it does not explain the established-player shortfall.
+For the locked TASK-003F material slice/lead regressions, established-player underprediction is mostly already present in the raw classifier output. Isotonic calibration moves probabilities only a few points in either direction and does not explain the broad shortfall.
 
 Across the 15 locked material slice/lead rows:
 
-- 14 rows were classified as `raw_classifier_underpredicts` at a 1 percentage point tolerance.
-- 1 row, zero prior games at lead 1, was not a material probability-underprediction case; raw and calibrated probabilities were both above the realised event rate.
-- Isotonic calibration moved the pooled locked-slice probability down for 9 rows and up for 6 rows.
-- The largest established-player gaps were age 24-26 lead 3, age 24-26 lead 4, tenure 4-5 lead 4 and tenure 4-5 lead 3; all were raw-classifier underprediction cases before calibration.
+- 14 rows have raw classifier mean probability more than one percentage point below the realised rate;
+- zero prior games at lead 1 is the exception, with both raw and calibrated probability above the realised rate;
+- isotonic calibration moves pooled probability down for nine rows and up for six;
+- the largest raw gaps include age 24–26 leads 3–4, tenure 4–5 leads 3–4 and late/undrafted lead 1.
 
 ## Evidence tables
 
-- `locked_slice_summary.csv`: one row per locked TASK-003F material slice/lead, comparing actual event rate, raw classifier mean, calibrated mean, Brier, log loss and AUC.
-- `locked_slice_fold_summary.csv`: same comparison split by origin fold.
-- `fold_lead_summary.csv`: full fold/lead audit for all vNext locked predictions, not limited to material slices.
+- `locked_slice_summary.csv`: one row per locked material slice/lead, comparing actual rate, raw classifier mean, calibrated mean, Brier, log loss and AUC;
+- `locked_slice_fold_summary.csv`: the same comparison split by legal origin fold;
+- `fold_lead_summary.csv`: full fold/lead audit for all vNext predictions;
 - `provenance.json`: reproduction commands and output hashes.
 
 ## Interpretation
 
-The probability layer still contributes to established early/mid-career opportunity underprediction, but this audit points to the classifier score itself rather than temporal isotonic calibration as the primary origin. A later model-changing PR should therefore treat classifier signal/specification and conditional magnitude calibration as separate hypotheses, and should not patch this with slice-specific overrides.
+The event-probability layer contributes to established-player underprediction, but the audit points to classifier signal/specification rather than isotonic calibration as the primary origin. A future model-changing PR should test classifier changes separately from conditional magnitude or feature-support changes and must not use slice-specific offsets.
 
 ## Reproduction
 
-```bash
-python vnext/build_historical_cohorts.py --out build/task-003h/cohorts
-python vnext/run_historical_folds.py --cohort-dir build/task-003h/cohorts --out build/task-003h/vnext
-python vnext/run_comparison.py --out build/task-003h/comparison --vnext-predictions build/task-003h/vnext/vnext_predictions.csv --bootstrap-repetitions 100
-python vnext/analyse_task003h_calibration.py --comparison-dir build/task-003h/comparison --folds-dir build/task-003h/vnext --out build/task-003h/calibration
-```
+The evidence was originally generated under `build/task-003h/`; those commands remain recorded in `provenance.json`. Equivalent TASK-003I paths are documented in `docs/current/TASK-003I-EVENT-CALIBRATION-AUDIT.md`.
