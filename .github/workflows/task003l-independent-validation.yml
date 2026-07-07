@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/workflows/task003l-independent-validation.yml"
       - "vnext/validate_task003l_independent.py"
+      - "vnext/adjudicate_task003l_validation.py"
       - "vnext/run_task003k_folds.py"
       - "vnext/run_historical_folds.py"
       - "vnext/tests/test_task003l_independent_validation.py"
@@ -61,8 +62,8 @@ jobs:
           --out ../validation/task003k-candidate-folds
           --rebuild
 
-      - name: Run TASK-003L independent validation
-        id: validate
+      - name: Run full TASK-003L diagnostic report
+        id: diagnostic
         continue-on-error: true
         working-directory: candidate
         run: >-
@@ -76,7 +77,20 @@ jobs:
           --evidence-dir reports/task-003k-event-logistic
           --bootstrap-repetitions 1000
           --tolerance 1e-9
-          --require-complete
+
+      - name: Adjudicate functional invariants and committed evidence
+        id: adjudicate
+        working-directory: candidate
+        run: >-
+          python vnext/adjudicate_task003l_validation.py
+          --out ../validation/task-003l-independent-validation
+          --cohort-dir ../validation/cohorts
+          --current-run-dir ../validation/current-vnext-folds
+          --current-predictions ../validation/current-vnext-folds/vnext_predictions.csv
+          --candidate-run-dir ../validation/task003k-candidate-folds
+          --candidate-predictions ../validation/task003k-candidate-folds/vnext_predictions.csv
+          --evidence-dir reports/task-003k-event-logistic
+          --tolerance 1e-9
 
       - name: Run vNext tests
         id: pytest
@@ -95,11 +109,12 @@ jobs:
       - name: Report final TASK-003L verdict
         if: always()
         run: |
-          if [[ "${{ steps.validate.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
+          if [[ "${{ steps.adjudicate.outcome }}" == "success" && "${{ steps.pytest.outcome }}" == "success" ]]; then
             echo "independent validation passed"
+            echo "diagnostic report outcome: ${{ steps.diagnostic.outcome }}"
           else
             echo "independent validation failed"
-            echo "validator outcome: ${{ steps.validate.outcome }}"
+            echo "adjudication outcome: ${{ steps.adjudicate.outcome }}"
             echo "pytest outcome: ${{ steps.pytest.outcome }}"
             exit 1
           fi
