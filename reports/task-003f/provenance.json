@@ -1,0 +1,11 @@
+{
+  "task": "TASK-003F-REGRESSION-DIAGNOSIS",
+  "source_workflow_run_id": 28858912803,
+  "source_artifact_id": 8134823849,
+  "source_artifact_sha256": "fd66faf3a20a73991e49129b4beceb285e31ad8b0a00d09e8c9e90992a945fe3",
+  "material_threshold_pct": 3.0,
+  "material_regression_count": 15,
+  "model_changed": false,
+  "production_changed": false,
+  "validation_protocol_changed": false
+}
