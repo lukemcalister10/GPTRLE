@@ -94,15 +94,15 @@ def add_residual_quantiles(
         )
         games = np.clip(
             rng.normal(float(row.cond_games), games_sd, sample_count),
-            0.0,
+            6.0,
             23.0,
         )
         average = np.clip(
             rng.normal(float(row.cond_avg), avg_sd, sample_count),
-            0.0,
+            1e-6,
             145.0,
         )
-        conditional_points = np.maximum(0.0, games * average)
+        conditional_points = games * average
         probability = float(row.p_meaningful)
         zero_mass = 1.0 - probability
         values = []
@@ -110,8 +110,14 @@ def add_residual_quantiles(
             if level <= zero_mass or probability <= 0.0:
                 values.append(0.0)
             else:
-                conditional_level = np.clip((level - zero_mass) / probability, 0.0, 1.0)
-                values.append(float(np.quantile(conditional_points, conditional_level)))
+                conditional_level = np.clip(
+                    (level - zero_mass) / probability,
+                    0.0,
+                    1.0,
+                )
+                values.append(
+                    float(np.quantile(conditional_points, conditional_level))
+                )
         values = np.maximum.accumulate(values)
 
         if (
@@ -132,7 +138,10 @@ def add_residual_quantiles(
 
 def predict_with_quantiles(artifact: Any, rows: pd.DataFrame) -> pd.DataFrame:
     base = predict_lead(artifact, rows).rename(
-        columns={f"p{threshold}": f"p_avg_ge_{threshold}" for threshold in THRESHOLDS}
+        columns={
+            f"p{threshold}": f"p_avg_ge_{threshold}"
+            for threshold in THRESHOLDS
+        }
     )
     return add_residual_quantiles(base, artifact, rows)
 
@@ -176,7 +185,11 @@ def train_artifacts(
             ].copy()
             if train.empty:
                 failures.append(
-                    {"lead": lead, "origin_year": origin, "reason": "no_legal_training_rows"}
+                    {
+                        "lead": lead,
+                        "origin_year": origin,
+                        "reason": "no_legal_training_rows",
+                    }
                 )
                 continue
             if int((train.origin_year + lead).max()) >= origin:
@@ -224,7 +237,9 @@ def train_artifacts(
     }
     missing = sorted(expected - set(artifacts))
     if missing:
-        raise ValueError(f"missing fold artifact(s): {missing[:5]}; failures={failures[:5]}")
+        raise ValueError(
+            f"missing fold artifact(s): {missing[:5]}; failures={failures[:5]}"
+        )
     return artifacts, pd.DataFrame(manifest_rows), pd.DataFrame(count_rows)
 
 
@@ -317,12 +332,14 @@ def run(
         "seed": "sha256(TASK-003B|player_key|origin_year|lead)",
         "components": [
             "p_meaningful exact zero-mass quantile inversion",
-            "conditional games normal residual scale",
-            "conditional average normal residual scale",
+            "conditional meaningful games normal residual scale clipped to 6-23",
+            "conditional meaningful average normal residual scale clipped positive",
         ],
         "non_negative": True,
         "non_crossing_enforced": True,
-        "all_zero_quantiles_allowed_only_when": "p_meaningful <= 0.03 or exp_points == 0",
+        "all_zero_quantiles_allowed_only_when": (
+            "p_meaningful <= 0.03 or exp_points == 0"
+        ),
     }
     quantile_path = out_dir / "quantile_method.json"
     quantile_path.write_text(
