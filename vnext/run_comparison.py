@@ -46,3 +46,29 @@ def run_comparison(
         "baseline_recent_scoring": baseline,
     }
     input_files: dict[str, dict[str, str]] = {}
+
+    if vnext_predictions is not None:
+        predictions["vnext_artifact"] = load_external_predictions(
+            vnext_predictions, "vnext_artifact"
+        )
+        input_files["vnext_predictions"] = {
+            "path": str(vnext_predictions),
+            "sha256": sha256_file(vnext_predictions),
+        }
+    if legacy_predictions is not None:
+        predictions["legacy_frozen"] = load_external_predictions(
+            legacy_predictions, "legacy_frozen"
+        )
+        input_files["legacy_predictions"] = {
+            "path": str(legacy_predictions),
+            "sha256": sha256_file(legacy_predictions),
+        }
+
+    assert_common_keys_and_targets(predictions, targets)
+    all_predictions = (
+        pd.concat(predictions.values(), ignore_index=True)
+        .sort_values(["model_id", *PREDICTION_KEY])
+        .reset_index(drop=True)
+    )
+    metrics = score_predictions(all_predictions, targets)
+    summary = weighted_metric_summary(metrics)
