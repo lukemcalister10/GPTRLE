@@ -30,11 +30,11 @@ jobs:
       - name: Generate unchanged Claude board
         working-directory: engine/rl_after
         shell: bash
-        env:
-          RL_FV: ${{ github.workspace }}/engine/forward_valuation
         run: |
           set -o pipefail
           mkdir -p ../../build/task004
+          export RL_FV="$GITHUB_WORKSPACE/engine/forward_valuation"
+          export PYTHONPATH="$GITHUB_WORKSPACE/engine/forward_valuation:$GITHUB_WORKSPACE/engine/rl_after"
           python rl_export.py 2>&1 | tee ../../build/task004/claude-export.log
       - name: Regenerate authoritative registry
         run: PYTHONPATH=vnext python vnext/active_universe.py --out build/task004/registry
