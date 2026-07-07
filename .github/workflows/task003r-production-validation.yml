@@ -1,0 +1,61 @@
+name: TASK-003R production validation
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task003r-production-validation.yml'
+      - 'vnext/model_artifacts_task003q.py'
+      - 'vnext/validate_task003r_production.py'
+      - 'vnext/train_model_artifacts.py'
+      - 'vnext/task003q_hybrid.py'
+  workflow_dispatch:
+
+jobs:
+  validate-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - run: python -m pip install -r requirements-vnext.txt
+      - name: Verify frozen legacy files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Regenerate authoritative registry
+        run: PYTHONPATH=vnext python vnext/active_universe.py --out reports/task-002-active-universe
+      - name: Build annual training data
+        run: python vnext/build_annual_dataset.py --data engine/rl_after/rl_model_data.json --out build/task003r/annual_rows.csv --min-origin 2008 --max-origin 2026
+      - name: Train unchanged current artifacts
+        run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task003r/annual_rows.csv --out build/task003r/current --module model_artifacts --target-cutoff 2025
+      - name: Train TASK-003Q production artifacts
+        run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task003r/annual_rows.csv --out build/task003r/task003q --module model_artifacts_task003q --target-cutoff 2025
+      - name: Generate current and TASK-003Q boards
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p build/task003r
+          PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task003r/current --candidate-artifacts build/task003r/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task003r/review 2>&1 | tee build/task003r/board.log
+      - name: Validate production output and build Claude handoff
+        run: PYTHONPATH=vnext python vnext/validate_task003r_production.py --review-dir build/task003r/review --out build/task003r/claude-handoff
+      - name: Run vNext tests
+        if: always()
+        run: cd vnext && pytest -q
+      - name: Package handoff
+        run: cd build/task003r && zip -r claude-task003q-handoff.zip claude-handoff
+      - name: Upload production evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task003r-production-validation
+          path: |
+            build/task003r/board.log
+            build/task003r/review
+            build/task003r/claude-handoff
+            build/task003r/claude-task003q-handoff.zip
+            build/task003r/current/manifest.json
+            build/task003r/task003q/manifest.json
+          if-no-files-found: warn
