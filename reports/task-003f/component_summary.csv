@@ -1,0 +1,7 @@
+lead,slice_type,slice_value,actual_games_mean,baseline_exp_games_mean,vnext_exp_games_mean,vnext_points_bias
+1,position,RUC,8.21,7.56,5.54,-319
+3,age_band,24-26,11.70,13.00,8.00,-333
+4,age_band,24-26,10.72,12.60,6.73,-377
+4,tenure_band,4-5,11.00,11.15,7.54,-292
+1,pick_band,61+ / undrafted,7.84,7.28,4.53,-245
+1,age_band,27-29,13.32,14.46,10.80,-232
