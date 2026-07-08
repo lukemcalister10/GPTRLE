@@ -1,0 +1,84 @@
+name: TASK-005 terminal remaining-career value
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task005-terminal-value.yml'
+      - 'vnext/task005_terminal_value.py'
+  workflow_dispatch:
+
+jobs:
+  evaluate-terminal-value:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-vnext.txt
+          python -m pip install Unidecode
+      - name: Verify frozen legacy files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Recreate legacy runtime paths
+        run: |
+          sudo mkdir -p /home/claude/rl_build /home/claude/rl_workspace
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/rl_after" /home/claude/rl_after
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/forward_valuation" /home/claude/rl_workspace/forward_valuation
+          echo '{"active":[]}' | sudo tee /home/claude/rl_build/rl_app_data.json >/dev/null
+      - name: Generate unchanged Claude board
+        working-directory: engine/rl_after
+        run: |
+          export RL_FV="$GITHUB_WORKSPACE/engine/forward_valuation"
+          export PYTHONPATH="$GITHUB_WORKSPACE/engine/forward_valuation:$GITHUB_WORKSPACE/engine/rl_after"
+          python rl_export.py
+      - name: Build historical cohorts
+        run: PYTHONPATH=vnext python vnext/build_historical_cohorts.py --out build/task005/cohorts
+      - name: Generate leakage-safe TASK-003Q historical predictions
+        run: PYTHONPATH=vnext python vnext/run_task003k_folds.py --cohort-dir build/task005/cohorts --out build/task005/historical --rebuild
+      - name: Build production annual data and artifacts
+        run: |
+          PYTHONPATH=vnext python vnext/active_universe.py --out build/task005/registry
+          python vnext/build_annual_dataset.py --data engine/rl_after/rl_model_data.json --out build/task005/annual_rows.csv --min-origin 2008 --max-origin 2026
+          PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task005/annual_rows.csv --out build/task005/current --module model_artifacts --target-cutoff 2025
+          PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task005/annual_rows.csv --out build/task005/task003q --module model_artifacts_task003q --target-cutoff 2025
+          PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task005/current --candidate-artifacts build/task005/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task005/forecast-review
+      - name: Generate TASK-004 comparison inputs
+        run: >-
+          PYTHONPATH=vnext python vnext/task004_claude_adapter.py
+          --claude-board engine/rl_after/rl_app_data.json
+          --registry build/task005/registry/authoritative_universe.csv
+          --current-forecast build/task005/forecast-review/current_board_annual.csv
+          --task003q-forecast build/task005/forecast-review/candidate_board_annual.csv
+          --out build/task005/task004
+      - name: Evaluate terminal remaining-career model
+        run: >-
+          PYTHONPATH=vnext python vnext/task005_terminal_value.py
+          --players engine/rl_after/rl_model_data.json
+          --predictions build/task005/historical/vnext_predictions.csv
+          --snapshots build/task005/cohorts/included_snapshots.csv
+          --claude-board engine/rl_after/rl_app_data.json
+          --current-forecast build/task005/forecast-review/candidate_board_annual.csv
+          --task004-board build/task005/task004/unblinded_three_board_comparison.csv
+          --out build/task005/results
+      - name: Run vNext tests
+        if: always()
+        run: cd vnext && python -m pytest -q
+      - name: Package evidence
+        if: always()
+        run: cd build/task005 && zip -r task005-terminal-value.zip results
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task005-terminal-value
+          path: |
+            build/task005/results
+            build/task005/task005-terminal-value.zip
+          if-no-files-found: warn
