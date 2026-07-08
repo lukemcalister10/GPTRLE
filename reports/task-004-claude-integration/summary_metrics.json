@@ -1,0 +1,26 @@
+{
+  "status": "diagnostic_complete_user_decision_required",
+  "workflow_run": 28906995187,
+  "workflow_artifact_digest": "sha256:278823bfbaf2f07448477f81d24e3cb6dc8dba49eae0497fc7d3347ccd3bb0d1",
+  "authoritative_players": 804,
+  "claude_active_rows": 805,
+  "legacy_only_player": "Taylor Adams",
+  "forecast_rows_per_model": 4020,
+  "claude_vs_task003q": {
+    "spearman": 0.7419768068629213,
+    "mean_absolute_rank_change": 126.31218905472637,
+    "top_100_overlap": 72
+  },
+  "current_vnext_vs_task003q": {
+    "spearman": 0.999900184259672,
+    "mean_absolute_rank_change": 2.1517412935323383,
+    "top_100_overlap": 99
+  },
+  "capital_share": {
+    "claude_top_100": 0.4734030218431617,
+    "task003q_top_100": 0.8526762288074693,
+    "claude_bottom_half": 0.10290649873964385,
+    "task003q_bottom_half": 0.00046534866980649106
+  },
+  "recommendation": "Do not adopt the direct five-year adapter. Test a frozen full-career hybrid that replaces Claude's first five annual contributions with TASK-003Q forecasts and preserves a continuous Claude tail from year six."
+}

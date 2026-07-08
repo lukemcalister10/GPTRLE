@@ -1,0 +1,79 @@
+name: TASK-004 Claude integration diagnostic
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task004-claude-integration.yml'
+      - 'vnext/task004_claude_adapter.py'
+      - 'vnext/tests/test_task004_claude_adapter.py'
+  workflow_dispatch:
+
+jobs:
+  compare-three-boards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-vnext.txt
+          python -m pip install Unidecode
+      - name: Verify frozen legacy files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Recreate legacy runtime paths
+        run: |
+          sudo mkdir -p /home/claude/rl_build /home/claude/rl_workspace
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/rl_after" /home/claude/rl_after
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/forward_valuation" /home/claude/rl_workspace/forward_valuation
+          echo '{"active":[]}' | sudo tee /home/claude/rl_build/rl_app_data.json >/dev/null
+      - name: Generate unchanged Claude board
+        working-directory: engine/rl_after
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ../../build/task004
+          export RL_FV="$GITHUB_WORKSPACE/engine/forward_valuation"
+          export PYTHONPATH="$GITHUB_WORKSPACE/engine/forward_valuation:$GITHUB_WORKSPACE/engine/rl_after"
+          python rl_export.py 2>&1 | tee ../../build/task004/claude-export.log
+      - name: Regenerate authoritative registry
+        run: PYTHONPATH=vnext python vnext/active_universe.py --out build/task004/registry
+      - name: Build annual training data
+        run: python vnext/build_annual_dataset.py --data engine/rl_after/rl_model_data.json --out build/task004/annual_rows.csv --min-origin 2008 --max-origin 2026
+      - name: Train current-vNext artifacts
+        run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task004/annual_rows.csv --out build/task004/current --module model_artifacts --target-cutoff 2025
+      - name: Train TASK-003Q artifacts
+        run: PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task004/annual_rows.csv --out build/task004/task003q --module model_artifacts_task003q --target-cutoff 2025
+      - name: Generate validated annual forecasts
+        run: PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task004/current --candidate-artifacts build/task004/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task004/forecast-review
+      - name: Generate three-board comparison
+        run: >-
+          PYTHONPATH=vnext python vnext/task004_claude_adapter.py
+          --claude-board engine/rl_after/rl_app_data.json
+          --registry build/task004/registry/authoritative_universe.csv
+          --current-forecast build/task004/forecast-review/current_board_annual.csv
+          --task003q-forecast build/task004/forecast-review/candidate_board_annual.csv
+          --out build/task004/comparison
+      - name: Run vNext tests
+        if: always()
+        run: cd vnext && python -m pytest -q
+      - name: Package diagnostic
+        run: cd build/task004 && zip -r task004-three-board-comparison.zip comparison
+      - name: Upload TASK-004 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task004-claude-integration
+          path: |
+            build/task004/claude-export.log
+            build/task004/comparison
+            build/task004/task004-three-board-comparison.zip
+            build/task004/forecast-review/validation_checks.csv
+            engine/rl_after/rl_app_data.json
+          if-no-files-found: warn
