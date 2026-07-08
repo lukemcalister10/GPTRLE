@@ -58,15 +58,20 @@ jobs:
           --task003q-forecast build/task005/forecast-review/candidate_board_annual.csv
           --out build/task005/task004
       - name: Evaluate terminal remaining-career model
-        run: >-
-          PYTHONPATH=vnext python vnext/task005_terminal_value.py
-          --players engine/rl_after/rl_model_data.json
-          --predictions build/task005/historical/vnext_predictions.csv
-          --snapshots build/task005/cohorts/included_snapshots.csv
-          --claude-board engine/rl_after/rl_app_data.json
-          --current-forecast build/task005/forecast-review/candidate_board_annual.csv
-          --task004-board build/task005/task004/unblinded_three_board_comparison.csv
-          --out build/task005/results
+        id: terminal
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p build/task005/results
+          PYTHONPATH=vnext python vnext/task005_terminal_value.py \
+            --players engine/rl_after/rl_model_data.json \
+            --predictions build/task005/historical/vnext_predictions.csv \
+            --snapshots build/task005/cohorts/included_snapshots.csv \
+            --claude-board engine/rl_after/rl_app_data.json \
+            --current-forecast build/task005/forecast-review/candidate_board_annual.csv \
+            --task004-board build/task005/task004/unblinded_three_board_comparison.csv \
+            --out build/task005/results 2>&1 | tee build/task005/results/evaluation.log
       - name: Run vNext tests
         if: always()
         run: cd vnext && python -m pytest -q
@@ -82,3 +87,6 @@ jobs:
             build/task005/results
             build/task005/task005-terminal-value.zip
           if-no-files-found: warn
+      - name: Final verdict
+        if: always()
+        run: test "${{ steps.terminal.outcome }}" = success
