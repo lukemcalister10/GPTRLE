@@ -1,0 +1,34 @@
+{
+  "status": "defect_confirmed",
+  "players": 804,
+  "current_formula": "sum(weight * (expected_utility - risk_aversion * uncertainty))",
+  "uncertainty_proxy": "conditional_points * sqrt(p_meaningful * (1-p_meaningful))",
+  "negative_player_values": {
+    "contender": 54,
+    "balanced": 29,
+    "rebuilder": 14
+  },
+  "minimum_value": {
+    "contender": -12.631972068742364,
+    "balanced": -3.433728603240842,
+    "rebuilder": -1.7712253490742413
+  },
+  "annual_negative_probability_threshold": {
+    "contender": 0.10913140311804007,
+    "balanced": 0.058823529411764705,
+    "rebuilder": 0.031383542538354254
+  },
+  "zero_values": {
+    "contender": 0,
+    "balanced": 0,
+    "rebuilder": 0
+  },
+  "cohort_health": {
+    "zero_history_players": 178,
+    "zero_history_distinct_combined_values": 172,
+    "established_low_ceiling_players": 199,
+    "established_low_ceiling_distinct_values": 199
+  },
+  "interpretation": "Negative values arise mechanically when the linear uncertainty penalty exceeds expected utility at low meaningful-season probabilities. The primary value layer contains no explicit salary, contract, draft-cost or roster-slot cost that would justify a negative player asset value.",
+  "decision": "Treat negative values as a utility-layer defect. Do not floor values to zero because that would reintroduce a tied zero-value tail. Test a positive monotone risk discount as a separate hypothesis."
+}
