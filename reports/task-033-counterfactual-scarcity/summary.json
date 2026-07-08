@@ -1,0 +1,36 @@
+{
+  "status": "accepted_diagnostic",
+  "players": 804,
+  "method": "increase in globally optimised 368-slot league utility after relaxing constrained slots to unrestricted eligibility",
+  "first_slot_cost": {
+    "contender": {
+      "GDEF": 0.0,
+      "KDEF": 57.29556338908151,
+      "MID": 0.0,
+      "RUC": 52.253274985356256,
+      "GFWD": 0.0,
+      "KFWD": 0.0
+    },
+    "balanced": {
+      "GDEF": 0.0,
+      "KDEF": 53.79740011849208,
+      "MID": 0.0,
+      "RUC": 14.549455586238764,
+      "GFWD": 0.0,
+      "KFWD": 0.0
+    },
+    "rebuilder": {
+      "GDEF": 0.0,
+      "KDEF": 73.95715075556654,
+      "MID": 0.0,
+      "RUC": 54.910676977422554,
+      "GFWD": 0.0,
+      "KFWD": 0.0
+    }
+  },
+  "finding": "Only key-defender and ruck constraints reduce optimal league utility in the current forecast and eligibility distribution.",
+  "assignment_label_invariant": true,
+  "owner_independent": true,
+  "production_changed": false,
+  "next_step": "test a player-level allocation of KDEF and RUC scarcity cost without double-counting intrinsic production"
+}
