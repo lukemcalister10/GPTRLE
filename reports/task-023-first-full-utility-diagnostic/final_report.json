@@ -1,0 +1,93 @@
+{
+  "status": "diagnostic_only",
+  "production_changed": false,
+  "task006_used": false,
+  "forecast_stack": "TASK-009 + TASK-012",
+  "players": 804,
+  "forecast_years": [2027, 2028, 2029, 2030, 2031],
+  "scoring_slots": 368,
+  "position_constrained_slots": 288,
+  "free_choice_slots": 80,
+  "artifact": {
+    "github_actions_artifact_id": 8157996496,
+    "sha256": "5534660164853f730631db02dce9c5a9ec0322dac8ea90fa0159b8b6cde3e47a"
+  },
+  "profiles": {
+    "contender": {
+      "total_selected_utility": 288198.2658107614,
+      "selected_players": 368,
+      "median_selected_marginal_utility": 407.177167301008,
+      "maximum_marginal_utility": 1799.0195825806004,
+      "positive_flexibility_players": 32,
+      "maximum_flexibility_value": 67.7361433217884,
+      "minimum_selected_by_slot": {
+        "GDEF": 399.76249114247946,
+        "KDEF": 263.3163872293124,
+        "MID": 373.36996487985425,
+        "RUC": 268.3586756330592,
+        "GFWD": 329.43945237015237,
+        "KFWD": 326.9337989497453,
+        "FREE": 320.9265132172702
+      }
+    },
+    "balanced": {
+      "total_selected_utility": 286713.1360604277,
+      "selected_players": 368,
+      "median_selected_marginal_utility": 422.75059183410485,
+      "maximum_marginal_utility": 1778.4037496746168,
+      "positive_flexibility_players": 31,
+      "maximum_flexibility_value": 62.6007367837592,
+      "minimum_selected_by_slot": {
+        "GDEF": 328.88827051881947,
+        "KDEF": 254.91440571385348,
+        "MID": 363.90718161826965,
+        "RUC": 294.1623502461174,
+        "GFWD": 330.05718862952887,
+        "KFWD": 362.99643115712024,
+        "FREE": 310.36203679271017
+      },
+      "replacement_captain_utility": 1579.258558701883
+    },
+    "rebuilder": {
+      "total_selected_utility": 283098.8295550962,
+      "selected_players": 368,
+      "median_selected_marginal_utility": 401.7769774340559,
+      "maximum_marginal_utility": 1755.8372109476477,
+      "positive_flexibility_players": 31,
+      "maximum_flexibility_value": 91.66126352350692,
+      "minimum_selected_by_slot": {
+        "GDEF": 324.05297445874464,
+        "KDEF": 233.5389295521611,
+        "MID": 316.44748437819,
+        "RUC": 252.5854033303138,
+        "GFWD": 310.0311687712493,
+        "KFWD": 314.2718804428711,
+        "FREE": 310.29294441814443
+      }
+    }
+  },
+  "selection_overlap": {
+    "contender_vs_balanced": 360,
+    "balanced_vs_rebuilder": 361,
+    "contender_vs_rebuilder": 353
+  },
+  "top100_overlap": {
+    "contender_vs_balanced": 96,
+    "balanced_vs_rebuilder": 94,
+    "contender_vs_rebuilder": 90
+  },
+  "ownership_audit": {
+    "named_teams": 16,
+    "expected_roster_size": 42,
+    "observed_roster_size_min": 44,
+    "observed_roster_size_max": 46,
+    "free_agent_rows": 75,
+    "status": "requires_reconciliation"
+  },
+  "limitations": {
+    "captaincy": "league-optimal potential reported separately; excluded from rankings until ownership rosters reconcile",
+    "partial_2026": "not overlaid because accepted snapshots already contain the 2026 row; shrinkage must occur before prediction",
+    "uncertainty": "meaningful-season mixture proxy only; conditional scoring variance is absent from the current-board export",
+    "emergencies": "excluded because they do not score unless activated"
+  }
+}
