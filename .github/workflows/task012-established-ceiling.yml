@@ -1,0 +1,60 @@
+name: TASK-012 established ceiling
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task012-established-ceiling.yml'
+      - 'vnext/model_artifacts_established_ceiling.py'
+      - 'vnext/run_task012_baseline_folds.py'
+      - 'vnext/run_task012_established_ceiling_folds.py'
+      - 'vnext/compare_task012_established_ceiling.py'
+      - 'vnext/tests/test_task012_established_ceiling.py'
+      - 'docs/tasks/TASK-012-ESTABLISHED-CEILING.md'
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-vnext.txt
+          python -m pip install Unidecode
+      - name: Verify frozen Claude files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Build locked cohorts
+        run: PYTHONPATH=vnext python vnext/build_historical_cohorts.py --out build/task012/cohorts
+      - name: Generate accepted TASK-009 baseline folds
+        run: PYTHONPATH=vnext python vnext/run_task012_baseline_folds.py --cohort-dir build/task012/cohorts --out build/task012/baseline --rebuild
+      - name: Generate TASK-012 candidate folds
+        run: PYTHONPATH=vnext python vnext/run_task012_established_ceiling_folds.py --cohort-dir build/task012/cohorts --out build/task012/candidate --rebuild
+      - name: Compare candidate with TASK-009
+        run: |
+          PYTHONPATH=vnext python vnext/compare_task012_established_ceiling.py \
+            --baseline build/task012/baseline/vnext_predictions.csv \
+            --candidate build/task012/candidate/vnext_predictions.csv \
+            --targets build/task012/cohorts/targets.csv \
+            --snapshots build/task012/cohorts/included_snapshots.csv \
+            --out build/task012/results
+      - name: Run vNext tests
+        run: cd vnext && python -m pytest -q
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task012-established-ceiling
+          path: |
+            build/task012/results
+            build/task012/baseline/prediction_manifest.json
+            build/task012/candidate/prediction_manifest.json
+          if-no-files-found: error
