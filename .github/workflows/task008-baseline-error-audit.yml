@@ -48,10 +48,13 @@ jobs:
           export RL_FV="$GITHUB_WORKSPACE/engine/forward_valuation"
           export PYTHONPATH="$GITHUB_WORKSPACE/engine/forward_valuation:$GITHUB_WORKSPACE/engine/rl_after"
           python rl_export.py
+      - name: Build authoritative registry
+        run: PYTHONPATH=vnext python vnext/active_universe.py --out build/task008-registry
       - name: Audit baseline defects
         run: |
           python vnext/audit_task008_baseline_errors.py \
             --claude-board engine/rl_after/rl_app_data.json \
+            --registry build/task008-registry/authoritative_universe.csv \
             --out build/task008
       - name: Prove TASK-006 is not an audit dependency
         run: |
@@ -59,6 +62,9 @@ jobs:
           import json
           from pathlib import Path
           data=json.loads(Path('build/task008/summary.json').read_text())
+          assert data['players'] == 804
+          assert data['raw_active_players'] == 805
+          assert data['legacy_only_keys'] == ['taylor-adams']
           print(data['value_field'])
           PY
           )" = "v"
