@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""Generate a compact handover from repository state rather than chat memory."""
+"""Generate the current repository handover from durable project state."""
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 from pathlib import Path
 import sys
 
@@ -12,50 +10,51 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "current" / "HANDOVER.md"
 
 
-def file_hash(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+def test_file_count() -> int:
+    return len(list((ROOT / "vnext").glob("test_*.py"))) + len(
+        list((ROOT / "vnext" / "tests").glob("test_*.py"))
+    )
 
 
 def render() -> str:
     active = (ROOT / "docs" / "current" / "ACTIVE_TASK").read_text(encoding="utf-8").strip()
-    task = ROOT / "docs" / "tasks" / active
-    artifact_manifest = ROOT / "artifacts" / "vnext" / "progress_05" / "manifest.json"
-    manifest = json.loads(artifact_manifest.read_text(encoding="utf-8"))
-    decisions = (ROOT / "docs" / "current" / "DECISION_LOG.md").read_text(encoding="utf-8").count("## D-")
-    lead_rows = ", ".join(
-        f"L{lead}: {details['rows']:,} rows"
-        for lead, details in sorted(manifest["leads"].items(), key=lambda item: int(item[0]))
+    decisions = (ROOT / "docs" / "current" / "DECISION_LOG.md").read_text(encoding="utf-8").count(
+        "## D-"
     )
+    tests = test_file_count()
     return f"""# Current Handover
 
 Generated from repository state. Do not treat chat history as authoritative when this file and chat disagree.
 
 ## State
-- Production: frozen legacy engine under `engine/rl_after/`.
-- Challenger: vNext progress 05 under `vnext/`.
-- Active roadmap phase: Phase 0 repository transition.
+- Production baseline: frozen unchanged Claude engine under `engine/rl_after/`.
+- Forecast challenger: accepted TASK-003Q evidence under `vnext/`; no release cutover approved.
+- Integration branch: `vnext` at merged TASK-007 state.
+- Release constraint: TASK-006 and the TASK-007 TASK-006 export must not be promoted.
+- Active workstream: post-TASK-007 baseline defects and bounded one-hypothesis experiments.
 - Active task: [`{active}`](../tasks/{active}).
 - Accepted decisions recorded: {decisions}.
+- Test files discovered under `vnext/`: {tests}.
 
-## Current vNext artifact
-- Target cutoff: {manifest['target_cutoff']}.
-- Training coverage: {lead_rows}.
-- Artifact manifest identity: `{file_hash(artifact_manifest)}`.
-- Existing integrity suite: 13 tests in `vnext/`.
+## Locked evidence
+- Authoritative current universe: 804 players.
+- Historical benchmark: 5,622 player-origin snapshots, 20,094 player-origin-lead rows per model and 25 legal rolling-origin folds.
+- TASK-003Q production forecast shape: 4,020 rows, exactly five leads per player.
+- Frozen Claude files are protected by `artifacts/legacy_manifest.json` and `scripts/verify_legacy_manifest.py`.
 
 ## Read first
 1. `AGENTS.md`
-2. `docs/current/OPERATING_MODEL.md`
+2. `docs/current/VALIDATION_PROTOCOL.md`
 3. `docs/current/ROADMAP_TO_PRODUCTION.md`
-4. `docs/current/VALIDATION_PROTOCOL.md`
-5. `docs/current/MODEL_SPEC_VNEXT.md`
+4. `docs/current/DECISION_LOG.md`
+5. `docs/current/TASK-008-BASELINE-ERROR-AUDIT.md`
 6. `docs/tasks/{active}`
 
-## Immediate next milestone
-Complete TASK-001 without changing the legacy engine or model outputs. Then activate TASK-002 to reconcile the authoritative player universe, followed by TASK-003 for the fair legacy-vNext benchmark.
+## Immediate sequence
+Complete the unchanged-Claude baseline audit, then address partial-season exposure, pedigree persistence, zero-history differentiation, established low-ceiling treatment and pathological zero values in separate pull requests. Each modelling PR must preserve the frozen Claude files and show locked historical before/after evidence plus full-population current-board effects.
 
 ## Decision rule
-No forecast or utility component replaces production because it looks more plausible. Replacement requires the locked outcome-based evidence in `VALIDATION_PROTOCOL.md` and Luke's explicit release approval.
+No component replaces production because selected current players look more plausible. Promotion requires locked outcome-based evidence and Luke's explicit release approval. TASK-006 is specifically release-blocked.
 """
 
 
