@@ -1,0 +1,46 @@
+{
+  "status": "accepted_with_dynamic-scarcity interpretation",
+  "players": 804,
+  "baseline_budget": {
+    "contender": {"KDEF": 260.6137677380466, "RUC": 52.63266907254001},
+    "balanced": {"KDEF": 231.5390193082858, "RUC": 19.962889239308424},
+    "rebuilder": {"KDEF": 358.2061582885799, "RUC": 103.2762026990531}
+  },
+  "boundary_additions": {
+    "KDEF": {
+      "players_added": ["James Sicily", "Karl Amon", "Luke McDonald", "Cameron Zurhaar"],
+      "one_player_balanced_budget": 171.96668476605555,
+      "two_player_balanced_budget": 119.2794268647558,
+      "four_player_balanced_budget": 49.97809771227185
+    },
+    "RUC": {
+      "players_added": ["Harrison Petty", "Noah Balta", "Harry McKay", "Jordan Croft"],
+      "one_player_balanced_budget": 19.962889239308424,
+      "two_player_balanced_budget": 19.962889239308424,
+      "four_player_balanced_budget": 4.689404439995997
+    }
+  },
+  "boundary_removals": {
+    "KDEF": {
+      "players_removed": ["Harrison Petty", "Noah Balta", "Leek Aleer", "Brennan Cox"],
+      "one_player_balanced_budget": 294.4729711213731,
+      "two_player_balanced_budget": 375.91261120524723,
+      "four_player_balanced_budget": 564.5726097183069
+    },
+    "RUC": {
+      "players_removed": ["Jake Riccardi", "Peter Wright", "Campbell Gray", "Lachlan Blakiston"],
+      "one_player_balanced_budget": 80.41107433626894,
+      "two_player_balanced_budget": 132.66267977107782,
+      "four_player_balanced_budget": 154.265735377674
+    }
+  },
+  "findings": [
+    "Scarcity responds strongly and monotonically to realistic supply changes near the league replacement boundary.",
+    "KDEF is deeper but remains materially binding after one or two additions; four useful additions reduce but do not eliminate its budget.",
+    "RUC scarcity is shallower and can be nearly removed by four plausible tall-forward additions, while one or two additions may be non-binding.",
+    "Removing one to four currently useful eligibilities increases scarcity sharply, as expected.",
+    "Cross-position effects occur because the 80 unrestricted scoring slots re-optimise, but the direction remains economically interpretable."
+  ],
+  "decision": "Accept dynamic recomputation on each official position update. Do not freeze positional premiums or replacement lines across seasons. Position sensitivity is a feature of the market model, not instability, provided each published board records the exact eligibility snapshot and scarcity budgets used.",
+  "production_changed": false
+}
