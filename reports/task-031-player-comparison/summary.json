@@ -1,0 +1,23 @@
+{
+  "forecast_years": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "owner_affects_value": false,
+  "players": 804,
+  "rank_correlations": {
+    "balanced_rebuilder": 0.9970942607568886,
+    "contender_balanced": 0.9971514533487278,
+    "contender_rebuilder": 0.9891976886065408
+  },
+  "status": "diagnostic_only",
+  "top100_overlap": {
+    "balanced_rebuilder": 95,
+    "contender_balanced": 96,
+    "contender_rebuilder": 91
+  },
+  "uncertainty_proxy": "conditional_points * sqrt(p_meaningful * (1-p_meaningful))"
+}
