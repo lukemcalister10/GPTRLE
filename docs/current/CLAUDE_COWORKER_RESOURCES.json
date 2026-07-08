@@ -1,0 +1,111 @@
+{
+  "purpose": "Compact resource index for improving the Claude-era keeper project with validated vNext evidence.",
+  "recommended_architecture": {
+    "forecast_provider": "TASK-003Q",
+    "keeper_utility_spine": "Claude incumbent utility",
+    "integration": "TASK-006 marginal overlay",
+    "formula": "Claude_value + (TASK003Q_fed_five_year_utility - current_vNext_fed_five_year_utility)",
+    "double_survival_fade": false,
+    "year6_plus_replaced": false
+  },
+  "locked_counts": {
+    "authoritative_players": 804,
+    "production_player_lead_rows": 4020,
+    "historical_snapshots": 5622,
+    "historical_rows_per_model": 20094,
+    "rolling_origin_folds": 25
+  },
+  "forecast_evidence": {
+    "vnext_vs_original": {
+      "meaningful_brier_improvement_pct": 30.1,
+      "games_mae_improvement_pct": 11.7,
+      "points_mae_improvement_pct": 13.5
+    },
+    "task003q_vs_current_vnext": {
+      "meaningful_brier_improvement_pct": 0.3224,
+      "logloss_improvement_pct": 0.3722,
+      "games_mae_improvement_pct": 0.2385,
+      "points_mae_improvement_pct": 0.1797
+    }
+  },
+  "utility_experiments": {
+    "direct_five_year_surplus": {
+      "accepted": false,
+      "top100_share": 0.85268,
+      "bottom_half_share": 0.00047,
+      "reason": "Structural capital collapse; not a complete keeper-value model."
+    },
+    "terminal_years_6_to_10": {
+      "accepted": false,
+      "observations": 12483,
+      "model_mae": 51.46,
+      "monotone_decay_mae": 42.47,
+      "model_regression_pct": 21.16,
+      "age30_regression_pct": 34.0,
+      "reason": "Historically worse than simple decay and did not repair capital concentration."
+    },
+    "task006_overlay": {
+      "accepted": true,
+      "top100_overlap_with_claude": 99,
+      "mean_absolute_rank_move": 1.56,
+      "maximum_rank_move": 33,
+      "marginal_direction_preservation": 1.0,
+      "total_capital_error": 0.0,
+      "top100_share": 0.47310,
+      "bottom_half_share": 0.10190
+    }
+  },
+  "identity_rules": {
+    "primary_key": "stable_player_id",
+    "controlled_bridge": "legacy_key",
+    "name_only_join_allowed": false,
+    "named_collision_test": ["Max King", "Maxwell King"]
+  },
+  "files": {
+    "identity": [
+      "vnext/active_universe.py"
+    ],
+    "forecast": [
+      "vnext/train_model_artifacts.py",
+      "vnext/model_artifacts_task003q.py",
+      "vnext/task003q_hybrid.py",
+      "vnext/validate_task003r_production.py"
+    ],
+    "historical_validation": [
+      "vnext/build_historical_cohorts.py",
+      "vnext/run_historical_folds.py",
+      "vnext/run_task003k_folds.py",
+      "vnext/benchmark.py"
+    ],
+    "utility_integration": [
+      "vnext/task004_claude_adapter.py",
+      "vnext/task006_claude_delta_overlay.py"
+    ],
+    "workflows": [
+      ".github/workflows/task003r-production-validation.yml",
+      ".github/workflows/task006-claude-delta-overlay.yml"
+    ],
+    "human_review": [
+      "docs/current/CLAUDE_COWORKER_REVIEW.md",
+      "reports/task-006-claude-delta-overlay/README.md"
+    ]
+  },
+  "workflow_evidence": {
+    "task003r": {
+      "run_id": 28904555873,
+      "artifact_sha256": "068b78541b28b0e72db436c5dc5945a6dd629bdb11ebbd68c3274802fc377245"
+    },
+    "task006": {
+      "run_id": 28909797978,
+      "artifact_sha256": "35f253042cc208c25a9f8a0a83be78f11bc6526354d8058c72d347e8abc33e95"
+    }
+  },
+  "priority_order": [
+    "Productionise TASK-006 in the normal export and UI path.",
+    "Preserve Claude base value and TASK-003Q adjustment as separate fields.",
+    "Remove name joins, object-identity membership and import-order dependence.",
+    "Separate forecast, keeper utility, capital allocation and export interfaces.",
+    "Add component ablations and locked acceptance gates.",
+    "Define an independent historical keeper-value target before a full utility rewrite."
+  ]
+}
