@@ -6,12 +6,12 @@ from pathlib import Path
 from typing import Any
 
 import run_historical_folds as locked
-from model_artifacts_task003q import predict as predict_baseline
-from model_artifacts_task003q import train_lead as train_baseline
+from model_artifacts_zero_history import predict as predict_baseline
+from model_artifacts_zero_history import train_lead as train_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "build" / "task011-baseline"
-MODEL_ID = "vnext_task003q_hybrid"
+MODEL_ID = "vnext_task009_zero_history_state"
 
 
 def run(
@@ -28,6 +28,7 @@ def run(
             "task": "TASK-011-baseline",
             "model_id": MODEL_ID,
             "state": "accepted_baseline",
+            "accepted_change": "TASK-009 zero-history state separation",
             "production_changed": False,
         }
     )
