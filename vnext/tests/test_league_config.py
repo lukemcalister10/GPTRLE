@@ -10,8 +10,12 @@ def test_authoritative_lineup_counts():
     assert cfg.teams == 16
     assert cfg.active_slots == 18
     assert cfg.listed_lineup_slots == 23
+    assert cfg.weekly_scoring_slots == 23
     assert cfg.in_season_roster_size == 42
     assert cfg.offseason_roster_size == 37
+    assert cfg.captain_multiplier == 2.0
+    assert cfg.vice_captain_fallback is True
+    assert cfg.emergencies_score_only_when_activated is True
 
 
 def test_slot_mix_matches_league_rules():
@@ -28,17 +32,17 @@ def test_slot_mix_matches_league_rules():
         "RUC": 1,
         "GFWD": 4,
         "KFWD": 2,
-        "BENCH": 5,
+        "FREE": 5,
     }
 
 
-def test_bench_accepts_every_position_and_defaults_to_zero_scoring_weight():
-    bench = [slot for slot in build_authoritative_slots() if slot.slot_id.startswith("BENCH-")]
-    assert len(bench) == 5
-    assert all(slot.utility_multiplier == 0.0 for slot in bench)
+def test_free_choice_slots_accept_every_position_and_score_fully():
+    free = [slot for slot in build_authoritative_slots() if slot.slot_id.startswith("FREE-")]
+    assert len(free) == 5
+    assert all(slot.utility_multiplier == 1.0 for slot in free)
     assert all(
         slot.accepted_positions == frozenset({"GDEF", "KDEF", "MID", "RUC", "GFWD", "KFWD"})
-        for slot in bench
+        for slot in free
     )
 
 
