@@ -38,10 +38,6 @@ jobs:
           export RL_FV="$GITHUB_WORKSPACE/engine/forward_valuation"
           export PYTHONPATH="$GITHUB_WORKSPACE/engine/forward_valuation:$GITHUB_WORKSPACE/engine/rl_after"
           python rl_export.py
-      - name: Build historical cohorts
-        run: PYTHONPATH=vnext python vnext/build_historical_cohorts.py --out build/task005/cohorts
-      - name: Generate leakage-safe TASK-003Q historical predictions
-        run: PYTHONPATH=vnext python vnext/run_task003k_folds.py --cohort-dir build/task005/cohorts --out build/task005/historical --rebuild
       - name: Build production annual data and artifacts
         run: |
           PYTHONPATH=vnext python vnext/active_universe.py --out build/task005/registry
@@ -66,8 +62,6 @@ jobs:
           mkdir -p build/task005/results
           PYTHONPATH=vnext python vnext/task005_terminal_value.py \
             --players engine/rl_after/rl_model_data.json \
-            --predictions build/task005/historical/vnext_predictions.csv \
-            --snapshots build/task005/cohorts/included_snapshots.csv \
             --claude-board engine/rl_after/rl_app_data.json \
             --current-forecast build/task005/forecast-review/candidate_board_annual.csv \
             --task004-board build/task005/task004/unblinded_three_board_comparison.csv \
