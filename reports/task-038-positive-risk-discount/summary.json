@@ -1,0 +1,56 @@
+{
+  "status": "accepted_diagnostic",
+  "players": 804,
+  "formula": "expected_utility * exp(-risk_aversion * uncertainty / expected_utility)",
+  "negative_values": {
+    "contender": 0,
+    "balanced": 0,
+    "rebuilder": 0
+  },
+  "zero_values": {
+    "contender": 0,
+    "balanced": 0,
+    "rebuilder": 0
+  },
+  "minimum_value": {
+    "contender": 8.164961381415205e-07,
+    "balanced": 1.5977501580540956e-05,
+    "rebuilder": 0.00012012843903905435
+  },
+  "spearman_rank_correlation_with_linear_baseline": {
+    "contender": 0.998837353342967,
+    "balanced": 0.9997857759922956,
+    "rebuilder": 0.9999526666074807
+  },
+  "top100_overlap_with_linear_baseline": {
+    "contender": 100,
+    "balanced": 99,
+    "rebuilder": 100
+  },
+  "top200_overlap_with_linear_baseline": {
+    "contender": 199,
+    "balanced": 200,
+    "rebuilder": 200
+  },
+  "maximum_absolute_rank_move": {
+    "contender": 83,
+    "balanced": 29,
+    "rebuilder": 12
+  },
+  "median_absolute_rank_move": {
+    "contender": 2,
+    "balanced": 1,
+    "rebuilder": 1
+  },
+  "bottom100_overlap_with_linear_baseline": {
+    "contender": 91,
+    "balanced": 95,
+    "rebuilder": 98
+  },
+  "cohort_health": {
+    "zero_history_distinct_values": 172,
+    "established_low_ceiling_distinct_values": 199
+  },
+  "finding": "The exponential discount removes mathematically negative values without creating a tied zero tail. Ranking changes are concentrated in the low-value tail while the top of the market is nearly unchanged.",
+  "production_changed": false
+}
