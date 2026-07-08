@@ -1,0 +1,54 @@
+{
+  "status": "accepted_diagnostic",
+  "players": 804,
+  "legacy_reference": "frozen TASK-006 production board",
+  "current_reference": "positive-risk plus budgeted-scarcity balanced diagnostic board",
+  "spearman_rank_correlation": 0.701755,
+  "cohorts": {
+    "zero_history": {
+      "players": 111,
+      "legacy_median_rank": 481.0,
+      "current_median_rank": 666.0,
+      "current_distinct_values": 105,
+      "current_zero_values": 0
+    },
+    "established_low_ceiling": {
+      "players": 119,
+      "legacy_median_rank": 697.0,
+      "current_median_rank": 530.0,
+      "current_distinct_values": 119,
+      "current_zero_values": 0
+    },
+    "partial_season": {
+      "players": 312,
+      "legacy_median_rank": 233.5,
+      "current_median_rank": 200.0,
+      "current_distinct_values": 312,
+      "current_zero_values": 0
+    },
+    "pathological_zero_values": {
+      "players": 5,
+      "legacy_median_rank": 802.0,
+      "current_median_rank": 748.0,
+      "current_rank_range": [435, 787],
+      "current_distinct_values": 5,
+      "current_zero_values": 0
+    },
+    "pedigree_persistence": {
+      "players": 86,
+      "legacy_median_rank": 139.5,
+      "current_median_rank": 107.5,
+      "current_distinct_values": 86,
+      "current_zero_values": 0
+    }
+  },
+  "findings": [
+    "The current board is materially different from the frozen legacy board rather than a rescaled copy.",
+    "Zero-history players move lower as a cohort while retaining substantial within-cohort differentiation.",
+    "Established low-ceiling and partial-season players move higher, consistent with the earlier defect audits.",
+    "The five pathological-zero cases no longer collapse together and span 353 ranking places.",
+    "Pedigree-persistence players remain strong without requiring a rejected permanent pedigree effect."
+  ],
+  "decision": "Accept the current construction as structurally improved over legacy for the audited cohorts. Legacy rank is context only and is not a truth label.",
+  "production_changed": false
+}
