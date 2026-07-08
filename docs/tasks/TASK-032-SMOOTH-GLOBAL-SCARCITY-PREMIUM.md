@@ -2,72 +2,48 @@
 
 ## Status
 
-Implementation candidate. This task adds a league-wide, owner-independent scarcity adjustment to intrinsic player value.
+Rejected after the full 804-player diagnostic.
 
-## Hypothesis
+## Hypothesis tested
 
-Positional scarcity should add value where a position's global replacement line is stronger than the unrestricted scoring-slot replacement line. The adjustment should not:
-
-- replace intrinsic forecast value;
-- depend on current owner or one named roster;
-- force every player outside the optimal 368 to zero;
-- sum multiple position bonuses and double-count production;
-- use fixed permanent replacement marks.
-
-## Formula
+Positional scarcity would be represented by the difference between each assigned positional minimum and the assigned unrestricted-slot minimum, activated smoothly around the positional line.
 
 For each eligible position:
 
-`scarcity gap = max(0, position cut line − unrestricted cut line)`
+`scarcity gap = max(0, assigned position minimum − assigned unrestricted minimum)`
 
-The player's activation around that position is:
+The proposed player premium was the largest eligible gap multiplied by a logistic activation. Multiple position premiums were not summed, ownership was excluded and every player retained intrinsic value.
 
-`logistic((intrinsic value − position cut line) / bandwidth)`
+## Defect found
 
-The position premium is:
+Assigned slot-family minimums are not invariant replacement lines when the optimiser contains both constrained and unrestricted scoring slots.
 
-`premium scale × scarcity gap × activation`
+A player eligible for a constrained position can be assigned to a free slot while another equivalent player is assigned to the named slot. Different but equally optimal assignment labels can therefore change the recorded minimum for `GDEF`, `MID`, `FREE` or another family without changing total league utility.
 
-A multi-position player receives the **largest** eligible premium, not the sum of all premiums.
+This created a pathological balanced diagnostic:
 
-The combined diagnostic value is:
+- unrestricted assigned minimum: 310.36;
+- GDEF assigned minimum: 394.63;
+- resulting maximum scarcity premium: 84.27;
+- maximum premium share of combined value: 13.6%;
+- maximum rank movement: 24 places.
 
-`intrinsic value + scarcity premium`
+The contender and rebuilder views produced maximum premiums around 10 points. There is no credible structural reason for GDEF scarcity to become dramatically larger under only the balanced horizon weights. The result is an assignment-label artefact.
 
-## Why this form
+## Decision
 
-- Cut lines come from the current global 16-team, 368-slot allocation and therefore update when forecasts or eligibility change.
-- The unrestricted cut line is the comparison baseline because all players can occupy those 80 scoring slots.
-- Only the additional difficulty of filling a constrained slot is rewarded.
-- The logistic activation avoids a hard cliff at player 368 and allows below-cut-line prospects or depth players to retain a small continuous scarcity signal.
-- Taking the best eligible position preserves asymmetric DPP value without awarding a generic bonus for holding multiple labels.
+Do not use assigned slot minima as replacement lines. Do not promote the proposed scarcity premium.
 
-## Parameters
+The code remains diagnostic evidence of the rejected formulation and must not be wired into comparison exports or production.
 
-Initial diagnostic defaults:
+## Next hypothesis
 
-- bandwidth: 40 utility points;
-- premium scale: 1.0.
+Estimate scarcity from optimisation-invariant counterfactuals, such as the increase in optimal league utility when one constrained slot is relaxed to unrestricted eligibility. Counterfactual relaxation cost depends on the constraint itself rather than the arbitrary label assigned to equivalent optimal players.
 
-Both are explicit sensitivity parameters and are not accepted production calibration.
+Any successor must still remain:
 
-## Interpretation
-
-This is an additive **scarcity premium**, not a replacement-value score. Intrinsic production and risk-adjusted horizon value remain the main comparison signal.
-
-A position whose constrained cut line is below the unrestricted cut line receives no premium. This prevents scarcity logic from rewarding a position merely because it has a named slot.
-
-## Required validation
-
-The full 804-player diagnostic must report:
-
-- positional and unrestricted cut lines for each lens;
-- premium distribution and maximum share of combined value;
-- rank changes against the intrinsic TASK-031 baseline;
-- whether non-selected players retain continuous nonzero values;
-- DPP cases where additional eligibility adds zero or material value;
-- sensitivity to bandwidth and premium scale.
-
-## Acceptance rule
-
-Accept only if the adjustment produces modest, interpretable rank movement concentrated around genuinely constrained positions, remains owner-independent, does not create a tied zero tail and does not overwhelm intrinsic forecast value.
+- league-wide and owner-independent;
+- additive rather than a replacement for intrinsic value;
+- continuous below the optimal 368;
+- asymmetric for current multi-position eligibility;
+- modest relative to intrinsic forecast value.
