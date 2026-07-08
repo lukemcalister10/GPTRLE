@@ -1,0 +1,52 @@
+{
+  "artifacts": {
+    "calibration_by_predicted_avg_band.csv": {
+      "rows": 25
+    },
+    "error_by_age_band.csv": {
+      "rows": 28
+    },
+    "error_by_elite_prior.csv": {
+      "rows": 10
+    },
+    "error_by_establishment.csv": {
+      "rows": 10
+    },
+    "error_by_position.csv": {
+      "rows": 20
+    },
+    "error_by_prior_avg_band.csv": {
+      "rows": 30
+    },
+    "largest_overpredictions.csv": {
+      "rows": 50
+    },
+    "largest_underpredictions.csv": {
+      "rows": 50
+    },
+    "metrics_by_lead.csv": {
+      "rows": 5
+    },
+    "shrinkage_by_prior_avg_band.csv": {
+      "rows": 30
+    }
+  },
+  "benchmark_protocol_changed": false,
+  "inputs": {
+    "features": "build/task012-candidate/training_dataset.csv",
+    "predictions": "build/task012-candidate/vnext_predictions.csv",
+    "targets": "build/task-003-cohorts/targets.csv"
+  },
+  "meaningful_target_rows": 10848,
+  "model_changed": false,
+  "overall": {
+    "bias": -6.538466971779288,
+    "mae": 14.608600844656529,
+    "mean_shrinkage_from_recent_demonstrated_avg": -1.1080006046398205
+  },
+  "reproduction_command": "python vnext/analyse_task045_conditional_compression.py --predictions build/task012-candidate/vnext_predictions.csv --targets build/task-003-cohorts/targets.csv --features build/task012-candidate/training_dataset.csv --out reports/task-045-conditional-average-compression-audit",
+  "state": "diagnostic",
+  "target_failures": 0,
+  "task": "TASK-045-conditional-average-compression-audit",
+  "total_prediction_rows": 20094
+}

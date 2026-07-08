@@ -12,7 +12,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 - Numerical continuity: TASK-013 removes exact `vP1`/`vP2` zeros in an isolated adapter; it is not wired into production export.
 - Current-board composition: TASK-014 validates the accepted TASK-009 + TASK-012 stack across all 804 authoritative players without changing keeper utility or production.
 - Active task: [`TASK-014-CURRENT-BOARD-COMPOSITION.md`](../tasks/TASK-014-CURRENT-BOARD-COMPOSITION.md).
-- Accepted decisions recorded: 10.
+- Accepted decisions recorded: 14.
 
 ## Locked evidence
 - Authoritative current universe: 804 players; raw Claude export: 805 rows with legacy-only Taylor Adams.
