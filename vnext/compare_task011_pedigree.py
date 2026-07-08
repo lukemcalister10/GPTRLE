@@ -26,43 +26,51 @@ def score(frame: pd.DataFrame, prefix: str) -> dict[str, float]:
     }
 
 
-def changes(base: dict[str, float], cand: dict[str, float]) -> dict[str, float]:
+def changes(base: dict[str, float], candidate: dict[str, float]) -> dict[str, float]:
     return {
-        metric: 100.0 * (cand[metric] - base[metric]) / base[metric]
+        metric: 100.0 * (candidate[metric] - base[metric]) / base[metric]
         for metric in METRICS
     }
 
 
 def bootstrap(frame: pd.DataFrame, draws: int = 1000) -> dict[str, dict[str, float]]:
-    rows = []
+    blocks = []
     for _, group in frame.groupby("player_key", sort=True):
         actual = group["meaningful"].to_numpy(float)
-        rows.append(
+        blocks.append(
             {
                 "n": len(group),
                 "base_brier": float(np.square(group["baseline_p"].to_numpy(float) - actual).sum()),
-                "cand_brier": float(np.square(group["candidate_p"].to_numpy(float) - actual).sum()),
+                "candidate_brier": float(np.square(group["candidate_p"].to_numpy(float) - actual).sum()),
                 "base_points": float(np.abs(group["baseline_points"] - group["points"]).sum()),
-                "cand_points": float(np.abs(group["candidate_points"] - group["points"]).sum()),
+                "candidate_points": float(np.abs(group["candidate_points"] - group["points"]).sum()),
             }
         )
-    values = pd.DataFrame(rows)
+    values = pd.DataFrame(blocks)
     rng = np.random.default_rng(9011)
-    brier: list[float] = []
-    points: list[float] = []
+    brier_differences: list[float] = []
+    points_differences: list[float] = []
     for _ in range(draws):
         sample = values.iloc[rng.integers(0, len(values), len(values))]
         n = float(sample["n"].sum())
-        brier.append(float((sample["cand_brier"].sum() - sample["base_brier"].sum()) / n))
-        points.append(float((sample["cand_points"].sum() - sample["base_points"].sum()) / n))
+        brier_differences.append(
+            float((sample["candidate_brier"].sum() - sample["base_brier"].sum()) / n)
+        )
+        points_differences.append(
+            float((sample["candidate_points"].sum() - sample["base_points"].sum()) / n)
+        )
 
-    def interval(values: list[float]) -> dict[str, float]:
-        q = np.quantile(values, [0.025, 0.5, 0.975])
-        return {"lower": float(q[0]), "median": float(q[1]), "upper": float(q[2])}
+    def interval(samples: list[float]) -> dict[str, float]:
+        quantiles = np.quantile(samples, [0.025, 0.5, 0.975])
+        return {
+            "lower": float(quantiles[0]),
+            "median": float(quantiles[1]),
+            "upper": float(quantiles[2]),
+        }
 
     return {
-        "brier_difference": interval(brier),
-        "points_mae_difference": interval(points),
+        "brier_difference": interval(brier_differences),
+        "points_mae_difference": interval(points_differences),
     }
 
 
@@ -105,7 +113,11 @@ def main() -> int:
             on=KEY,
             validate="one_to_one",
         )
-        .merge(targets[KEY + ["meaningful", "games", "points"]], on=KEY, validate="one_to_one")
+        .merge(
+            targets[KEY + ["meaningful", "games", "points"]],
+            on=KEY,
+            validate="one_to_one",
+        )
         .merge(
             snapshots[["player_key", "origin_year", "total_games"]],
             on=["player_key", "origin_year"],
@@ -120,27 +132,33 @@ def main() -> int:
         "under_50": total_games < 50,
         "zero_history": total_games == 0,
     }
+
     results: dict[str, Any] = {}
-    rows = []
-    for name, mask in cohorts.items():
+    metric_rows = []
+    for cohort, mask in cohorts.items():
         part = frame.loc[mask]
         base = score(part, "baseline")
-        cand = score(part, "candidate")
-        delta = changes(base, cand)
-        results[name] = {"task003q": base, "task011": cand, "change_pct": delta}
-        rows.extend(
+        candidate_score = score(part, "candidate")
+        delta = changes(base, candidate_score)
+        results[cohort] = {
+            "task009": base,
+            "task011": candidate_score,
+            "change_pct": delta,
+        }
+        metric_rows.extend(
             [
-                {"cohort": name, "model": "task003q", **base},
-                {"cohort": name, "model": "task011", **cand},
+                {"cohort": cohort, "model": "task009", **base},
+                {"cohort": cohort, "model": "task011", **candidate_score},
             ]
         )
-    pd.DataFrame(rows).to_csv(args.out / "metrics_by_cohort.csv", index=False)
+    pd.DataFrame(metric_rows).to_csv(args.out / "metrics_by_cohort.csv", index=False)
 
     established = frame.loc[cohorts["established_50_plus"]]
     boot = bootstrap(established)
     (args.out / "established_bootstrap.json").write_text(
         json.dumps(boot, indent=2, sort_keys=True) + "\n"
     )
+
     e50 = results["established_50_plus"]["change_pct"]
     e100 = results["established_100_plus"]["change_pct"]
     under = results["under_50"]["change_pct"]
@@ -160,6 +178,7 @@ def main() -> int:
     }
     report = {
         "status": "pass" if all(gates.values()) else "reject",
+        "baseline": "TASK-009",
         "hypothesis": "draft pedigree should fade to neutral as observed AFL evidence reaches 50 games",
         "single_change": "origin-safe draft pick and draft type representation",
         "gates": gates,
