@@ -44,6 +44,26 @@ def pct_change(baseline: dict[str, float], candidate: dict[str, float]) -> dict[
     }
 
 
+def scores_from_metrics(metrics: pd.DataFrame) -> dict[str, dict[str, dict[str, float]]]:
+    scores: dict[str, dict[str, dict[str, float]]] = {}
+    for cohort in ("all", "zero_history", "played_history"):
+        part = (
+            metrics.loc[metrics["cohort"] == cohort]
+            .drop(columns="cohort")
+            .set_index("model")
+        )
+        if set(part.index) != {"task003q", "task009"}:
+            raise ValueError(f"{cohort} metrics must contain task003q and task009")
+        base = {key: float(part.loc["task003q", key]) for key in part.columns}
+        cand = {key: float(part.loc["task009", key]) for key in part.columns}
+        scores[cohort] = {
+            "task003q": base,
+            "task009": cand,
+            "change_pct": pct_change(base, cand),
+        }
+    return scores
+
+
 def block_bootstrap(frame: pd.DataFrame, draws: int = 1000) -> dict[str, dict[str, float]]:
     grouped = []
     for _, group in frame.groupby("player_key", sort=True):
@@ -150,13 +170,7 @@ def main() -> int:
         lead_rows.append({"lead": int(lead), "n": len(subset), **pct_change(base, cand)})
     pd.DataFrame(lead_rows).to_csv(args.out / "zero_history_changes_by_lead.csv", index=False)
 
-    scores: dict[str, dict[str, dict[str, float]]] = {}
-    for cohort in ("all", "zero_history", "played_history"):
-        part = metrics[metrics["cohort"] == cohort].set_index("model")
-        base = {key: float(part.loc["task003q", key]) for key in part.columns}
-        cand = {key: float(part.loc["task009", key]) for key in part.columns}
-        scores[cohort] = {"task003q": base, "task009": cand, "change_pct": pct_change(base, cand)}
-
+    scores = scores_from_metrics(metrics)
     bootstrap = block_bootstrap(zero)
     (args.out / "zero_history_bootstrap.json").write_text(
         json.dumps(bootstrap, indent=2, sort_keys=True) + "\n"
