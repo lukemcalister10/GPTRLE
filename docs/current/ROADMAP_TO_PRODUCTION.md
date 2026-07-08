@@ -57,23 +57,30 @@ Deliverables:
 - games and scoring distributions conditional on state;
 - position-specific and role-sensitive development/decline where supported;
 - correlated career simulation through remaining career;
-- proper +1/+2 future asset-value distributions.
+- proper +1/+2 future asset-value distributions;
+- current partial-season evidence integration that separates observed scoring rate from availability, shrinks small samples, and applies conservative asymmetric negative availability updates.
 
 Exit gate:
 - one-, three-, and five-year forecasts beat the legacy engine on declared primary metrics;
 - long-horizon results are stable under sensitivity tests;
-- no generic youth boost is required to create plausible upside.
+- no generic youth boost is required to create plausible upside;
+- current partial-season handling is explicit, reproducible and does not treat missed-game fraction as a direct penalty weight.
 
 ## Phase 4 — keeper-utility validation
 **Goal:** test rather than assume the value conversion for this league.
 
 Deliverables:
-- formal specification of replacement, lineup, bench, key-position, captaincy, list-size, and acquisition constraints;
-- roster optimiser or simulation representing 16 heterogeneous teams;
+- formal specification of a 16-team league with 42-player in-season lists, offseason reduction to 37, legal starting/utility/bench assignments, key-position and captaincy rules, and no retention price;
+- deterministic roster optimiser or simulation representing heterogeneous contender, balanced and rebuilder strategies;
+- dynamic marginal roster utility calculated by removing a player and re-optimising the feasible roster;
+- replacement and positional scarcity derived from current official eligibility and the actual player pool rather than fixed positional-rank thresholds;
+- asymmetric dual-position flexibility value that can be zero and is recalculated whenever official positions change;
 - comparison of explicit marginal roster utility with the current reduced-form REPL/captaincy formula;
-- sensitivity analysis for replacement marks, discounting, gamma compression, and captaincy threshold.
+- sensitivity analysis for horizon weights, bench usage, risk, replacement allocation, discounting, gamma compression and captaincy threshold.
 
 Exit gate:
+- contender, balanced and rebuilder values reconcile to the same underlying forecast distribution and differ only through declared strategy weights;
+- present official positions are used for every forecast year, with no projected future eligibility;
 - retain the current utility formula if it approximates explicit roster utility well;
 - otherwise adopt only changes that improve the declared utility objective without sacrificing forecast validity.
 
@@ -99,7 +106,7 @@ Deliverables:
 - source-controlled UI assets;
 - UI consumes authoritative exported values;
 - player explanation panel showing forecast, utility, and policy components;
-- filters for horizon, position, age, tenure, and risk;
+- filters for horizon, position, age, tenure, strategy and risk;
 - rebuild and parity tests.
 
 Exit gate:
