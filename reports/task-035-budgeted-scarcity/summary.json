@@ -1,0 +1,42 @@
+{
+  "status": "accepted_diagnostic",
+  "players": 804,
+  "method": "allocate each position's full-relaxation scarcity budget in proportion to exact position-specific player pivotality",
+  "scarcity_budget": {
+    "contender": 307.7763159155729,
+    "balanced": 249.65478184248786,
+    "rebuilder": 463.8493775948882
+  },
+  "allocated_budget": {
+    "contender": 307.7763159155729,
+    "balanced": 249.65478184248786,
+    "rebuilder": 463.8493775948882
+  },
+  "positive_premium_players": {
+    "contender": 48,
+    "balanced": 48,
+    "rebuilder": 48
+  },
+  "maximum_player_premium": {
+    "contender": 9.303558587954676,
+    "balanced": 8.266535702903756,
+    "rebuilder": 13.58114480054717
+  },
+  "maximum_premium_share_of_combined_value": {
+    "contender": 0.027209696025402155,
+    "balanced": 0.02457823896359748,
+    "rebuilder": 0.040311699599089784
+  },
+  "maximum_absolute_rank_move": {
+    "contender": 7,
+    "balanced": 6,
+    "rebuilder": 9
+  },
+  "top100_overlap_with_intrinsic": {
+    "contender": 100,
+    "balanced": 100,
+    "rebuilder": 100
+  },
+  "finding": "The finite scarcity budget is conserved exactly, intrinsic value remains dominant, and rank movement is modest and concentrated among pivotal KDEF/RUC players.",
+  "production_changed": false
+}
