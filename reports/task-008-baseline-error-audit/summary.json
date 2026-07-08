@@ -1,7 +1,11 @@
 {
-  "duplicate_rank_values": 132,
+  "duplicate_rank_values": 0,
   "established_below_zero_history_median": 143,
   "established_low_ceiling_players": 119,
+  "legacy_only_keys": [
+    "taylor-adams"
+  ],
+  "legacy_only_players": 1,
   "non_finite_component_players": 0,
   "non_finite_value_players": 0,
   "notes": {
@@ -12,16 +16,18 @@
     "task006": "not evaluated or promoted; claudeV is used when present"
   },
   "partial_season_observed_players": 312,
-  "partial_season_pn_bias_vs_current": 21.42038080769231,
+  "partial_season_pn_bias_vs_current": 21.420380807692307,
   "partial_season_pn_mae_vs_current": 22.764710557692307,
   "pathological_forward_zero_players": 4,
   "pedigree_persistence_100_plus_games": 9,
   "pedigree_persistence_50_plus_games": 86,
   "players": 804,
+  "raw_active_players": 805,
+  "raw_unique_keys": 805,
   "status": "diagnostic_complete",
-  "tied_rank_rows": 333,
+  "tied_rank_rows": 0,
   "unique_keys": 804,
-  "value_field": "claudeV",
+  "value_field": "v",
   "value_floor_players": 5,
   "zero_history_median_value": 288.0,
   "zero_history_players": 111
