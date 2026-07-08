@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation candidate. This task adds an isolated current-season evidence adapter and sensitivity tests. It is not wired into production and does not retrain the accepted forecast stack.
+Accepted diagnostic infrastructure. This task adds an isolated current-season evidence adapter and sensitivity tests. It is not wired into production and does not retrain the accepted forecast stack.
 
 ## Hypothesis
 
@@ -29,17 +29,19 @@ A strong short sample can improve the player's scoring outlook, but it cannot re
 
 ## Availability update
 
-Observed availability is `games played / rounds observed` and is compared with the player's prior availability expectation.
+Observed availability is `games played / matches available` and is compared with the player's prior availability expectation.
 
 Positive evidence uses:
 
-`rounds observed / (rounds observed + 8)`
+`matches available / (matches available + 8)`
 
 Negative evidence uses only the expected-game deficit:
 
 `deficit / (deficit + 22)`
 
-This deliberately makes absence weaker evidence than direct proportional weighting. With a prior availability expectation of 100%, 12 games from 24 rounds creates a 12-game deficit and receives 35.3% negative credibility, not 50%. The resulting availability estimate is 82.4%, rather than mechanically falling to 75% or 50%.
+This deliberately makes absence weaker evidence than direct proportional weighting. The 12-of-24 example remains a sensitivity illustration: with a 100% prior availability expectation it creates a 12-game deficit and receives 35.3% negative credibility, not 50%.
+
+For the current 2026 snapshot, all players have passed through 14 rounds and one bye, so every player has 13 possible matches. Use 13 uniformly as the availability denominator.
 
 ## Key behaviour
 
@@ -53,8 +55,8 @@ This deliberately makes absence weaker evidence than direct proportional weighti
 
 The annual historical data cannot identify the correct intra-season credibility constants because it lacks historical round-level snapshots. These constants are therefore declared sensitivity parameters, not learned truth. They must be compared across plausible alternatives and replaced by outcome-tested estimates once round-by-round snapshots accumulate.
 
-Applying this adapter to every 2026 player also requires the number of rounds represented by each observation. The available source is known to contain observations made between rounds 14 and 24, but the current annual player rows do not yet carry a per-player `rounds_observed` field. The adapter fails rather than silently assuming a common round.
+The previously stated need for a per-player observation round is resolved for the current snapshot: the authoritative context is uniformly 14 rounds elapsed and 13 matches available.
 
 ## Acceptance rule
 
-Accept as isolated diagnostic infrastructure if scoring and availability remain separate, the 12-of-24 example receives approximately 35% negative credibility, exposure errors fail explicitly and no production output changes.
+Accept as isolated diagnostic infrastructure if scoring and availability remain separate, negative availability credibility remains deliberately sub-proportional, exposure errors fail explicitly and no production output changes.

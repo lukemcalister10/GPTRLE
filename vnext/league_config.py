@@ -1,4 +1,4 @@
-"""Authoritative AFL RL keeper-league lineup configuration."""
+"""Authoritative AFL RL keeper-league lineup and scoring configuration."""
 
 from __future__ import annotations
 
@@ -21,6 +21,10 @@ class LeagueLineup:
     free_choice_bench: int = 5
     in_season_roster_size: int = 42
     offseason_roster_size: int = 37
+    all_selected_players_score: bool = True
+    captain_multiplier: float = 2.0
+    vice_captain_fallback: bool = True
+    emergencies_score_only_when_activated: bool = True
 
     @property
     def active_slots(self) -> int:
@@ -37,16 +41,21 @@ class LeagueLineup:
     def listed_lineup_slots(self) -> int:
         return self.active_slots + self.free_choice_bench
 
+    @property
+    def weekly_scoring_slots(self) -> int:
+        return self.listed_lineup_slots if self.all_selected_players_score else self.active_slots
+
 
 AUTHORITATIVE_LINEUP = LeagueLineup()
 
 
-def build_authoritative_slots(*, bench_multiplier: float = 0.0) -> tuple[RosterSlot, ...]:
-    """Build the league's 18 active and five free-choice bench slots.
+def build_authoritative_slots(*, bench_multiplier: float = 1.0) -> tuple[RosterSlot, ...]:
+    """Build the league's 18 positional and five free-choice scoring slots.
 
-    Bench scoring utility is deliberately configurable.  A zero default means the
-    bench supplies eligibility/coverage but is not assumed to contribute weekly
-    scoring until the utility model explicitly prices coverage and future use.
+    All 23 selected players contribute their score.  The five free-choice slots accept
+    every position and therefore also represent lineup flexibility.  Emergencies are
+    outside this 23-player scoring lineup unless a manager actively promotes one into
+    the selected side for that round.
     """
 
     cfg = AUTHORITATIVE_LINEUP
@@ -57,7 +66,7 @@ def build_authoritative_slots(*, bench_multiplier: float = 0.0) -> tuple[RosterS
         ("RUC", cfg.rucks, frozenset({"RUC"}), 1.0),
         ("GFWD", cfg.general_forwards, frozenset({"GFWD"}), 1.0),
         ("KFWD", cfg.key_forwards, frozenset({"KFWD"}), 1.0),
-        ("BENCH", cfg.free_choice_bench, ALL_POSITIONS, bench_multiplier),
+        ("FREE", cfg.free_choice_bench, ALL_POSITIONS, bench_multiplier),
     )
     slots: list[RosterSlot] = []
     for prefix, count, positions, multiplier in specs:

@@ -1,4 +1,4 @@
-"""League-wide active-lineup allocation and marginal utility diagnostics.
+"""League-wide lineup allocation and marginal utility diagnostics.
 
 This module uses the current official eligibility set and an externally supplied
 utility vector. It does not forecast positions or define keeper utility itself.
@@ -7,13 +7,13 @@ utility vector. It does not forecast positions or define keeper utility itself.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, Sequence
+from typing import Sequence
 
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-from league_config import AUTHORITATIVE_LINEUP
-from roster_optimiser import Assignment, OptimisedRoster, PlayerUtility, RosterSlot
+from league_config import ALL_POSITIONS, AUTHORITATIVE_LINEUP
+from roster_optimiser import Assignment, PlayerUtility, RosterSlot
 
 
 @dataclass(frozen=True, slots=True)
@@ -27,11 +27,7 @@ class LeagueAllocation:
 
 
 def build_league_active_slots() -> tuple[RosterSlot, ...]:
-    """Return 16 copies of the league's 18 active positional slots.
-
-    Bench slots are excluded from this active-production allocation. Bench coverage
-    is a separate utility component and must not distort active replacement lines.
-    """
+    """Return 16 copies of the league's 18 position-constrained slots."""
 
     cfg = AUTHORITATIVE_LINEUP
     templates = (
@@ -55,11 +51,27 @@ def build_league_active_slots() -> tuple[RosterSlot, ...]:
     return tuple(slots)
 
 
+def build_league_scoring_slots() -> tuple[RosterSlot, ...]:
+    """Return all 368 weekly scoring slots: 288 constrained and 80 free choice."""
+
+    slots = list(build_league_active_slots())
+    cfg = AUTHORITATIVE_LINEUP
+    for team_index in range(1, cfg.teams + 1):
+        for slot_index in range(1, cfg.free_choice_bench + 1):
+            slots.append(
+                RosterSlot(
+                    slot_id=f"T{team_index:02d}-FREE-{slot_index}",
+                    accepted_positions=ALL_POSITIONS,
+                )
+            )
+    return tuple(slots)
+
+
 def optimise_league_active_lineups(
     players: Sequence[PlayerUtility],
     slots: Sequence[RosterSlot] | None = None,
 ) -> LeagueAllocation:
-    """Maximise active-lineup utility across the full league player pool."""
+    """Maximise utility across supplied slots; defaults to 288 constrained slots."""
 
     slots = tuple(slots or build_league_active_slots())
     if len({player.player_id for player in players}) != len(players):
@@ -67,7 +79,7 @@ def optimise_league_active_lineups(
     if len({slot.slot_id for slot in slots}) != len(slots):
         raise ValueError("slot_id values must be unique")
     if len(players) < len(slots):
-        raise ValueError("not enough players to fill all league active slots")
+        raise ValueError("not enough players to fill all league slots")
 
     ordered_players = tuple(sorted(players, key=lambda item: item.player_id))
     ordered_slots = tuple(sorted(slots, key=lambda item: item.slot_id))
@@ -82,10 +94,10 @@ def optimise_league_active_lineups(
 
     row_indices, column_indices = linear_sum_assignment(costs)
     if len(column_indices) != len(ordered_slots):
-        raise ValueError("league active slots cannot all be filled")
+        raise ValueError("league slots cannot all be filled")
     selected_costs = costs[row_indices, column_indices]
     if np.any(selected_costs >= impossible / 2):
-        raise ValueError("league active slots cannot all be filled from current eligibility")
+        raise ValueError("league slots cannot all be filled from current eligibility")
 
     assignments = [
         Assignment(
@@ -102,12 +114,18 @@ def optimise_league_active_lineups(
     )
 
 
+def optimise_league_scoring_lineups(players: Sequence[PlayerUtility]) -> LeagueAllocation:
+    """Maximise weekly utility across all 368 scoring slots."""
+
+    return optimise_league_active_lineups(players, build_league_scoring_slots())
+
+
 def marginal_league_utility(
     players: Sequence[PlayerUtility],
     player_id: str,
     slots: Sequence[RosterSlot] | None = None,
 ) -> float:
-    """Return active-production utility lost after removing and re-optimising."""
+    """Return utility lost after removing and re-optimising."""
 
     if player_id not in {player.player_id for player in players}:
         raise KeyError(player_id)
@@ -148,7 +166,7 @@ def league_flexibility_value(
 
 
 def assigned_position_summary(allocation: LeagueAllocation) -> dict[str, dict[str, float]]:
-    """Summarise assigned active utility by positional slot family."""
+    """Summarise assigned utility by slot family."""
 
     grouped: dict[str, list[float]] = {}
     for assignment in allocation.assignments:

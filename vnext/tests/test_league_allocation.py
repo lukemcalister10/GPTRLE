@@ -1,6 +1,7 @@
 from league_allocation import (
     assigned_position_summary,
     build_league_active_slots,
+    build_league_scoring_slots,
     league_flexibility_value,
     marginal_league_utility,
     optimise_league_active_lineups,
@@ -21,15 +22,19 @@ def slot(slot_id, positions):
     return RosterSlot(slot_id=slot_id, accepted_positions=frozenset(positions))
 
 
-def test_authoritative_league_has_288_active_slots():
-    slots = build_league_active_slots()
-    assert len(slots) == 16 * 18
-    assert sum("-GDEF-" in item.slot_id for item in slots) == 16 * 4
-    assert sum("-KDEF-" in item.slot_id for item in slots) == 16 * 2
-    assert sum("-MID-" in item.slot_id for item in slots) == 16 * 5
-    assert sum("-RUC-" in item.slot_id for item in slots) == 16
-    assert sum("-GFWD-" in item.slot_id for item in slots) == 16 * 4
-    assert sum("-KFWD-" in item.slot_id for item in slots) == 16 * 2
+def test_authoritative_league_has_288_constrained_and_368_scoring_slots():
+    active = build_league_active_slots()
+    scoring = build_league_scoring_slots()
+
+    assert len(active) == 16 * 18
+    assert len(scoring) == 16 * 23
+    assert sum("-GDEF-" in item.slot_id for item in active) == 16 * 4
+    assert sum("-KDEF-" in item.slot_id for item in active) == 16 * 2
+    assert sum("-MID-" in item.slot_id for item in active) == 16 * 5
+    assert sum("-RUC-" in item.slot_id for item in active) == 16
+    assert sum("-GFWD-" in item.slot_id for item in active) == 16 * 4
+    assert sum("-KFWD-" in item.slot_id for item in active) == 16 * 2
+    assert sum("-FREE-" in item.slot_id for item in scoring) == 16 * 5
 
 
 def test_fast_solver_matches_reference_solver_on_small_problem():
