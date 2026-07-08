@@ -1,0 +1,93 @@
+name: TASK-014 current-board composition
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task014-current-board-composition.yml'
+      - 'vnext/summarize_task014_current_board.py'
+      - 'docs/tasks/TASK-014-CURRENT-BOARD-COMPOSITION.md'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-vnext.txt
+          python -m pip install Unidecode
+      - name: Verify frozen Claude files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Regenerate authoritative registry
+        run: PYTHONPATH=vnext python vnext/active_universe.py --out build/task014/registry
+      - name: Build annual training data
+        run: |
+          python vnext/build_annual_dataset.py \
+            --data engine/rl_after/rl_model_data.json \
+            --out build/task014/annual_rows.csv \
+            --min-origin 2008 \
+            --max-origin 2026
+      - name: Train accepted TASK-009 artifacts
+        run: |
+          PYTHONPATH=vnext python vnext/train_model_artifacts.py \
+            --dataset build/task014/annual_rows.csv \
+            --out build/task014/task009 \
+            --module model_artifacts_zero_history \
+            --target-cutoff 2025
+      - name: Train accepted TASK-012 artifacts
+        run: |
+          PYTHONPATH=vnext python vnext/train_model_artifacts.py \
+            --dataset build/task014/annual_rows.csv \
+            --out build/task014/task012 \
+            --module model_artifacts_established_ceiling \
+            --target-cutoff 2025
+      - name: Generate full-population current-board review
+        run: |
+          PYTHONPATH=vnext python vnext/review_task003n_current_board.py \
+            --current-artifacts build/task014/task009 \
+            --candidate-artifacts build/task014/task012 \
+            --current-module model_artifacts_zero_history \
+            --candidate-module model_artifacts_established_ceiling \
+            --out build/task014/review
+      - name: Summarise cumulative effects
+        run: |
+          PYTHONPATH=vnext python vnext/summarize_task014_current_board.py \
+            --review-dir build/task014/review \
+            --out build/task014/results
+      - name: Enforce diagnostic invariants
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('build/task014/results/final_report.json').read_text())
+          assert report['status'] == 'current_board_composition_validated'
+          assert report['players'] == 804
+          assert report['rows_per_model'] == 4020
+          assert report['all_required_invariants_exact']
+          assert report['task006_used'] is False
+          assert report['production_changed'] is False
+          PY
+      - name: Run vNext tests
+        run: cd vnext && python -m pytest -q
+      - name: Upload full-population evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task014-current-board-composition
+          path: |
+            build/task014/results
+            build/task014/review
+            build/task014/task009/manifest.json
+            build/task014/task012/manifest.json
+          if-no-files-found: error
