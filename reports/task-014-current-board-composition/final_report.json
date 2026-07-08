@@ -1,0 +1,126 @@
+{
+  "all_required_invariants_exact": true,
+  "baseline": "TASK-009",
+  "candidate": "TASK-009 + TASK-012",
+  "changed_rows": {
+    "cond_avg": 4018,
+    "exp_avg": 4018,
+    "exp_points": 3987
+  },
+  "cohorts": {
+    "all": {
+      "mean_abs_cond_avg_delta": 0.5564477610189505,
+      "mean_abs_exp_points_delta": 3.3788374368328884,
+      "mean_cond_avg_delta": -0.08724048695638564,
+      "mean_exp_points_delta": -0.2700043194923883,
+      "negative_exp_points_rows": 2132,
+      "players": 804,
+      "positive_exp_points_rows": 1855,
+      "rows": 4020,
+      "unchanged_exp_points_rows": 33
+    },
+    "established_50_plus": {
+      "mean_abs_cond_avg_delta": 0.5759833036040973,
+      "mean_abs_exp_points_delta": 3.669344118088837,
+      "mean_cond_avg_delta": 0.05718375345182688,
+      "mean_exp_points_delta": 1.4612465846473757,
+      "negative_exp_points_rows": 892,
+      "players": 405,
+      "positive_exp_points_rows": 1102,
+      "rows": 2025,
+      "unchanged_exp_points_rows": 31
+    },
+    "established_low_ceiling": {
+      "mean_abs_cond_avg_delta": 0.3856363831211386,
+      "mean_abs_exp_points_delta": 1.2143871607236485,
+      "mean_cond_avg_delta": 0.11499100912094377,
+      "mean_exp_points_delta": -0.073155453915261,
+      "negative_exp_points_rows": 80,
+      "players": 39,
+      "positive_exp_points_rows": 108,
+      "rows": 195,
+      "unchanged_exp_points_rows": 7
+    },
+    "established_other": {
+      "mean_abs_cond_avg_delta": 0.5962661721801503,
+      "mean_abs_exp_points_delta": 3.9309378922343083,
+      "mean_cond_avg_delta": 0.051023963913314395,
+      "mean_exp_points_delta": 1.6247484412155255,
+      "negative_exp_points_rows": 812,
+      "players": 366,
+      "positive_exp_points_rows": 994,
+      "rows": 1830,
+      "unchanged_exp_points_rows": 24
+    },
+    "under_50_games": {
+      "mean_abs_cond_avg_delta": 0.5366184508761325,
+      "mean_abs_exp_points_delta": 3.083962234054294,
+      "mean_cond_avg_delta": -0.2338365204534435,
+      "mean_exp_points_delta": -2.027289071814705,
+      "negative_exp_points_rows": 1240,
+      "players": 399,
+      "positive_exp_points_rows": 753,
+      "rows": 1995,
+      "unchanged_exp_points_rows": 2
+    },
+    "zero_history": {
+      "mean_abs_cond_avg_delta": 0.39919055537910064,
+      "mean_abs_exp_points_delta": 0.8071921967523289,
+      "mean_cond_avg_delta": 0.3964932089319284,
+      "mean_exp_points_delta": 0.8058280482653402,
+      "negative_exp_points_rows": 14,
+      "players": 111,
+      "positive_exp_points_rows": 541,
+      "rows": 555,
+      "unchanged_exp_points_rows": 0
+    }
+  },
+  "diagnostic_only": true,
+  "exp_points_rank_effects": {
+    "maximum_absolute_rank_change": 9,
+    "mean_absolute_rank_change": 1.5497512437810945,
+    "top100_overlap": 99
+  },
+  "forecast_leads": 5,
+  "invariant_max_absolute_differences": {
+    "cond_games": 0.0,
+    "exp_games": 0.0,
+    "p100": 0.0,
+    "p110": 0.0,
+    "p120": 0.0,
+    "p80": 0.0,
+    "p90": 0.0,
+    "p_meaningful": 0.0
+  },
+  "notes": {
+    "career_best_threshold": "65 is reporting-only and is not supplied to TASK-012",
+    "github_actions": "New hosted jobs failed before step 1; reproduction used an earlier successful CI annual dataset and registry with merged deterministic model code.",
+    "utility": "No keeper utility, board value or capital allocation calculated"
+  },
+  "player_five_year_points": {
+    "max_delta": 149.0348643767993,
+    "mean_absolute_delta": 16.70790869530419,
+    "mean_delta": -1.350021597461936,
+    "median_delta": -0.4831901216265777,
+    "min_delta": -99.4202822246425,
+    "negative_players": 420,
+    "positive_players": 384,
+    "unchanged_players": 0
+  },
+  "players": 804,
+  "production_changed": false,
+  "rows_per_model": 4020,
+  "source_evidence": {
+    "annual_dataset": "successful TASK-003N CI artifact from PR #40; sha256 650a2e2399af1776127807d653bffe113aeba4baaf4d928671721172f7991766",
+    "authoritative_registry": "successful TASK-003N CI artifact from PR #40; sha256 40a01c6f653453ce8ee75539e7458f0fc652862f5c415a64156c8b23340e09b4",
+    "github_actions_artifact_id": 8157996496,
+    "github_actions_run_id": 28916943549,
+    "model_code": "merged vnext TASK-009 and TASK-012 modules",
+    "model_code_blobs": {
+      "model_artifacts_established_ceiling.py": "7a6af010793e5354ba613d080d3b5ffa8de13a20",
+      "model_artifacts_zero_history.py": "97874e9d8223a27a873a214b2fa38cddd64a2999"
+    }
+  },
+  "status": "current_board_composition_validated_locally",
+  "task006_used": false
+}
