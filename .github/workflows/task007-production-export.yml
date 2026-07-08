@@ -1,0 +1,100 @@
+name: TASK-007 production export
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task007-production-export.yml'
+      - 'vnext/task007_production_export.py'
+      - 'vnext/task006_claude_delta_overlay.py'
+      - 'vnext/task004_claude_adapter.py'
+      - 'docs/current/CLAUDE_COWORKER_REVIEW.md'
+      - 'docs/current/CLAUDE_COWORKER_RESOURCES.json'
+  workflow_dispatch:
+
+jobs:
+  build-production-board:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-vnext.txt
+          python -m pip install Unidecode
+      - name: Verify frozen legacy files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Recreate legacy runtime paths
+        run: |
+          sudo mkdir -p /home/claude/rl_build /home/claude/rl_workspace
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/rl_after" /home/claude/rl_after
+          sudo ln -sfn "$GITHUB_WORKSPACE/engine/forward_valuation" /home/claude/rl_workspace/forward_valuation
+          echo '{"active":[]}' | sudo tee /home/claude/rl_build/rl_app_data.json >/dev/null
+      - name: Generate unchanged Claude board
+        working-directory: engine/rl_after
+        run: |
+          export RL_FV="$GITHUB_WORKSPACE/engine/forward_valuation"
+          export PYTHONPATH="$GITHUB_WORKSPACE/engine/forward_valuation:$GITHUB_WORKSPACE/engine/rl_after"
+          python rl_export.py
+      - name: Build registry and forecast artifacts
+        run: |
+          PYTHONPATH=vnext python vnext/active_universe.py --out build/task007/registry
+          python vnext/build_annual_dataset.py --data engine/rl_after/rl_model_data.json --out build/task007/annual_rows.csv --min-origin 2008 --max-origin 2026
+          PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task007/annual_rows.csv --out build/task007/current --module model_artifacts --target-cutoff 2025
+          PYTHONPATH=vnext python vnext/train_model_artifacts.py --dataset build/task007/annual_rows.csv --out build/task007/task003q --module model_artifacts_task003q --target-cutoff 2025
+          PYTHONPATH=vnext python vnext/review_task003n_current_board.py --current-artifacts build/task007/current --candidate-artifacts build/task007/task003q --current-module model_artifacts --candidate-module model_artifacts_task003q --out build/task007/forecast-review
+      - name: Build comparison and TASK-006 overlay
+        run: |
+          PYTHONPATH=vnext python vnext/task004_claude_adapter.py \
+            --claude-board engine/rl_after/rl_app_data.json \
+            --registry build/task007/registry/authoritative_universe.csv \
+            --current-forecast build/task007/forecast-review/current_board_annual.csv \
+            --task003q-forecast build/task007/forecast-review/candidate_board_annual.csv \
+            --out build/task007/task004
+          PYTHONPATH=vnext python vnext/task006_claude_delta_overlay.py \
+            --task004-board build/task007/task004/unblinded_three_board_comparison.csv \
+            --out build/task007/task006
+      - name: Generate production package twice
+        run: |
+          PYTHONPATH=vnext python vnext/task007_production_export.py \
+            --claude-board engine/rl_after/rl_app_data.json \
+            --registry build/task007/registry/authoritative_universe.csv \
+            --task003q-forecast build/task007/forecast-review/candidate_board_annual.csv \
+            --task006-board build/task007/task006/task006_overlay_board.csv \
+            --out build/task007/run-a
+          PYTHONPATH=vnext python vnext/task007_production_export.py \
+            --claude-board engine/rl_after/rl_app_data.json \
+            --registry build/task007/registry/authoritative_universe.csv \
+            --task003q-forecast build/task007/forecast-review/candidate_board_annual.csv \
+            --task006-board build/task007/task006/task006_overlay_board.csv \
+            --out build/task007/run-b
+      - name: Prove deterministic production output
+        run: |
+          cmp build/task007/run-a/rl_app_data_task006.json build/task007/run-b/rl_app_data_task006.json
+          cmp build/task007/run-a/task006_production_board.csv build/task007/run-b/task006_production_board.csv
+          cmp build/task007/run-a/validation_report.json build/task007/run-b/validation_report.json
+      - name: Run vNext tests
+        run: cd vnext && python -m pytest -q
+      - name: Package evidence
+        run: |
+          mkdir -p build/task007/evidence
+          cp -r build/task007/run-a/* build/task007/evidence/
+          cp build/task007/task006/task006_report.json build/task007/evidence/
+          cp build/task007/task004/validation_report.json build/task007/evidence/task004_validation_report.json
+          cd build/task007 && zip -r task007-production-export.zip evidence
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: task007-production-export
+          path: |
+            build/task007/evidence
+            build/task007/task007-production-export.zip
+          if-no-files-found: error
