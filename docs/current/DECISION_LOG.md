@@ -49,3 +49,22 @@ Use one ChatGPT Project and fresh chats at coherent milestone boundaries. Each n
 **Status:** accepted
 
 TASK-006 and the TASK-007 package that exports it remain merged experimental history, but neither is eligible for promotion or release. The unchanged Claude board remains the production baseline while the identified defects are audited and addressed through separate one-hypothesis pull requests.
+
+## D-011 — Current partial season is recent but incomplete evidence
+**Status:** accepted
+
+Use the available 2026 data, which reflects different player snapshots between rounds 14 and 24, as recent partial-season evidence rather than discarding it or treating it as a completed season. Separate scoring rate from availability. Shrink small-sample performance toward the prior forecast and update negative availability conservatively: ambiguous missed games must not impose a penalty proportional to the fraction of the season missed. Positive demonstrated performance or selection may receive credibility faster than absence receives negative credibility. Do not mechanically prorate every player to a full-season games total.
+
+## D-012 — Keeper value is dynamic marginal roster utility
+**Status:** accepted
+
+With no salary, contract or draft-round retention cost, keeper value represents the risk-adjusted multi-year improvement created by retaining a player on a 42-player roster that must be reduced to 37 each offseason. Present contender, balanced and rebuilder views with heavier weight on the immediate and nearer future in every view. Forecast production, keeper utility and owner policy remain separate.
+
+Replacement and positional scarcity must be derived from feasible roster allocation rather than a fixed positional-rank cutoff. The utility layer should optimise eligible starting, utility and bench assignments across a 16-team league and measure the marginal loss when a player is removed and the roster is re-optimised. This allows scarce lower-scoring positions to carry more value than plentiful higher-scoring positions when they solve a harder roster constraint.
+
+## D-013 — Position eligibility uses current official data only
+**Status:** accepted
+
+Do not project future position eligibility pools. Apply the official positions currently known at the valuation date to every forecast season, and recalculate current and multi-year keeper utility whenever new preseason or in-season position updates are issued.
+
+Dual-position value must emerge from roster optimisation rather than a symmetric fixed bonus. Adding midfield eligibility to a forward will usually provide little or no benefit, while adding forward eligibility to a midfielder may be valuable when it relieves a scarce forward constraint. The optimiser must be capable of producing zero flexibility value when the added eligibility does not improve the best feasible roster.
