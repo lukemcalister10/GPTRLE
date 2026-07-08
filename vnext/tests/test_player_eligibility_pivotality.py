@@ -14,6 +14,7 @@ def slot(slot_id, positions):
 def test_blocking_pivotal_position_loses_league_utility_but_preserves_free_slot_access():
     players = [
         player("key_def", 80, {"KDEF"}),
+        player("replacement_key_def", 10, {"KDEF"}),
         player("mid_100", 100, {"MID"}),
         player("mid_90", 90, {"MID"}),
     ]
