@@ -1,0 +1,53 @@
+name: TASK-011 pedigree fade
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task011-pedigree-fade.yml'
+      - 'vnext/model_artifacts_pedigree_fade.py'
+      - 'vnext/run_task011_baseline_folds.py'
+      - 'vnext/run_task011_pedigree_folds.py'
+      - 'vnext/compare_task011_pedigree.py'
+      - 'vnext/tests/test_task011_pedigree_fade.py'
+      - 'docs/tasks/TASK-011-PEDIGREE-FADE.md'
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-vnext.txt
+          python -m pip install Unidecode
+      - run: python scripts/verify_legacy_manifest.py
+      - run: PYTHONPATH=vnext python vnext/build_historical_cohorts.py --out build/task011/cohorts
+      - run: PYTHONPATH=vnext python vnext/run_task011_baseline_folds.py --cohort-dir build/task011/cohorts --out build/task011/baseline --rebuild
+      - run: PYTHONPATH=vnext python vnext/run_task011_pedigree_folds.py --cohort-dir build/task011/cohorts --out build/task011/candidate --rebuild
+      - run: |
+          PYTHONPATH=vnext python vnext/compare_task011_pedigree.py \
+            --baseline build/task011/baseline/vnext_predictions.csv \
+            --candidate build/task011/candidate/vnext_predictions.csv \
+            --targets build/task011/cohorts/targets.csv \
+            --snapshots build/task011/cohorts/included_snapshots.csv \
+            --out build/task011/results
+      - run: cd vnext && python -m pytest -q
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task011-pedigree-fade
+          path: |
+            build/task011/results
+            build/task011/baseline/prediction_manifest.json
+            build/task011/candidate/prediction_manifest.json
+          if-no-files-found: error
