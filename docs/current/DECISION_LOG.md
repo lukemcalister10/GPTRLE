@@ -44,3 +44,8 @@ Luke's football and keeper intuition is used to identify anomalies and formulate
 **Status:** accepted
 
 Use one ChatGPT Project and fresh chats at coherent milestone boundaries. Each new chat reads a generated repository handover and active task rather than relying on a long conversation.
+
+## D-010 — TASK-006 release block
+**Status:** accepted
+
+TASK-006 and the TASK-007 package that exports it remain merged experimental history, but neither is eligible for promotion or release. The unchanged Claude board remains the production baseline while the identified defects are audited and addressed through separate one-hypothesis pull requests.
