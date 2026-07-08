@@ -2,13 +2,13 @@
 
 ## Status
 
-Implementation and diagnostic candidate. No production board, forecast or frozen Claude file changed.
+Accepted as a feasibility baseline only. It is not a complete strategic roster objective and must not be used by itself for contender, balanced or rebuilder recommendations.
 
 ## Objective
 
 For each owned roster above 40 players, retain exactly 40 players while:
 
-1. maximising the sum of the selected strategy's multi-year player utility;
+1. maximising the sum of one scalar player-utility input;
 2. preserving the ability to field a legal 23-player scoring lineup;
 3. respecting current official multi-position eligibility.
 
@@ -29,7 +29,7 @@ Teams at 40 or fewer remain unchanged.
 
 ## Full current-roster diagnostic
 
-The calculation was run for all 16 current rosters under contender, balanced and rebuilder utility.
+The calculation was run for all 16 current rosters under contender, balanced and rebuilder scalar utility.
 
 Current compulsory cuts per strategy:
 
@@ -44,8 +44,6 @@ Strategy overlap:
 - balanced and rebuilder agree on 82 of 89 cuts;
 - contender and rebuilder agree on 77 of 89 cuts.
 
-This shows that the strategy lenses alter a meaningful minority of marginal retention decisions without generating unrelated lists.
-
 ## Effect of positional constraints
 
 Compared with simply cutting the lowest individual utility players, legal-lineup protection changed:
@@ -54,24 +52,19 @@ Compared with simply cutting the lowest individual utility players, legal-lineup
 - 3 teams in the balanced view;
 - 4 teams in the rebuilder view.
 
-The binding cases preserved scarce positional cover, principally reserve rucks and key defenders. In most cases the utility cost of protecting lineup feasibility was small, but the rule prevented an invalid post-cut roster.
+The binding cases preserved scarce positional cover, principally reserve rucks and key defenders.
 
-One rebuilder tie involved equivalent key-forward/general-forward utility; the deterministic optimiser selected one of the equal-value alternatives. Equal-utility cut identities should be presented as interchangeable rather than falsely ordered.
+## Material limitation identified after acceptance
 
-## Interpretation
+A strategic roster is not the 40 highest scalar-valued players.
 
-The optimiser answers: “Which 40 currently owned players maximise this strategy's retained forecast utility while preserving one legal scoring lineup?”
+- A contender should concentrate winning production in roughly its best 23–26 players and may prefer low-value positional emergencies beyond that core rather than leave substantial trade value stranded outside the winning lineup.
+- A valuable non-core contender asset should often be classified as a trade candidate, not automatically retained because its standalone keeper value is high.
+- A rebuilder may deliberately hold elite current production because it preserves trade lines, even when those points do not improve the rebuilding objective directly.
+- A rebuilder may also retain development assets whose present production is low.
 
-It does not yet price:
+Therefore TASK-026 answers only: “Can this 40-player set preserve one legal lineup while retaining the largest supplied scalar total?” It does not answer the strategic portfolio question.
 
-- trade return available before cutting;
-- probability of redrafting a cut player;
-- free-agent replacement quality after the draft;
-- more than one layer of positional emergency depth;
-- manager-specific preferences.
+## Decision
 
-Therefore these remain diagnostic cut candidates rather than final instructions to delist players.
-
-## Acceptance rule
-
-Accept if the retained roster contains exactly 40 players, can field a legal 23, maximises declared player utility, and exposes when positional feasibility changes the naive cut order.
+Retain the optimiser as a deterministic feasibility component and comparison baseline. Do not use its cut identities as final contender, balanced or rebuilder recommendations. TASK-027 defines the required portfolio-role separation.
