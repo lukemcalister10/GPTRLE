@@ -1,0 +1,42 @@
+{
+  "status": "accepted_diagnostic",
+  "players": 804,
+  "components": ["intrinsic TASK-031 value", "budgeted TASK-035 scarcity premium"],
+  "positive_scarcity_players": {
+    "contender": 48,
+    "balanced": 48,
+    "rebuilder": 48
+  },
+  "maximum_player_premium": {
+    "contender": 9.303558587954676,
+    "balanced": 8.266535702903756,
+    "rebuilder": 13.58114480054717
+  },
+  "maximum_absolute_rank_move": {
+    "contender": 7,
+    "balanced": 6,
+    "rebuilder": 9
+  },
+  "maximum_relative_rank_loss_for_nonpremium_players": {
+    "contender": 3,
+    "balanced": 3,
+    "rebuilder": 4
+  },
+  "top100_overlap_with_intrinsic": {
+    "contender": 100,
+    "balanced": 100,
+    "rebuilder": 100
+  },
+  "balanced_largest_gainers": [
+    {"player": "Harrison Petty", "rank_before": 352, "rank_after": 346, "gain": 6},
+    {"player": "Brennan Cox", "rank_before": 364, "rank_after": 358, "gain": 6},
+    {"player": "Callum Wilkie", "rank_before": 114, "rank_after": 109, "gain": 5},
+    {"player": "Charlie Comben", "rank_before": 277, "rank_after": 272, "gain": 5},
+    {"player": "Tylar Young", "rank_before": 321, "rank_after": 316, "gain": 5},
+    {"player": "Noah Balta", "rank_before": 349, "rank_after": 344, "gain": 5},
+    {"player": "Lachlan Blakiston", "rank_before": 325, "rank_after": 320, "gain": 5}
+  ],
+  "finding": "Rank changes are modest, concentrated among KDEF/RUC-eligible players, and do not alter top-100 membership.",
+  "owner_affects_value": false,
+  "production_changed": false
+}
