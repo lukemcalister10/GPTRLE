@@ -155,5 +155,51 @@ def test_audit_flags_non_finite_values() -> None:
         ]
     }
     audit, _, summary = build_audit(payload)
-    assert bool(audit.loc[audit.key == "bad", "non_finite_value"].item())
+    assert bool(audit.iloc[0].non_finite_value)
     assert summary["non_finite_value_players"] == 1
+
+
+def test_authoritative_registry_excludes_legacy_only_from_metrics() -> None:
+    payload = {
+        "active": [
+            _player(
+                "authoritative",
+                games=80,
+                value=50,
+                overlay_value=50,
+                pn=60,
+                ped_decay=0,
+                v_p1=50,
+                v_p2=50,
+            ),
+            _player(
+                "legacy-only",
+                games=80,
+                value=40,
+                overlay_value=40,
+                pn=60,
+                ped_decay=0,
+                v_p1=40,
+                v_p2=40,
+            ),
+            _player(
+                "zero",
+                games=0,
+                value=100,
+                overlay_value=100,
+                pn=80,
+                ped_decay=1,
+                v_p1=100,
+                v_p2=100,
+            ),
+        ]
+    }
+
+    audit, cohorts, summary = build_audit(payload, {"authoritative", "zero"})
+
+    assert summary["raw_active_players"] == 3
+    assert summary["players"] == 2
+    assert summary["legacy_only_keys"] == ["legacy-only"]
+    assert summary["established_below_zero_history_median"] == 1
+    assert int(cohorts.loc[cohorts.cohort == "all", "players"].item()) == 2
+    assert bool(audit.loc[audit.key == "legacy-only", "legacy_only"].item())
