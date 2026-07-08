@@ -8,7 +8,7 @@ This task is diagnostic only. It does not change a model, utility transform, boa
 
 ## Audited population
 
-The audit covers all 804 authoritative players and selects the unchanged Claude value:
+The raw Claude export contains 805 unique rows. It is reconciled through the authoritative registry to 804 current players; Taylor Adams is retained only in a separately reported legacy-only row. Defect metrics use the authoritative 804 and select the unchanged Claude value:
 
 - raw Claude export: `v`;
 - TASK-007 review package: `claudeV`, explicitly ignoring TASK-006 `v`.
@@ -57,6 +57,7 @@ The ordering separates information-boundary corrections from forecast structure 
 ```bash
 python vnext/audit_task008_baseline_errors.py \
   --claude-board engine/rl_after/rl_app_data.json \
+  --registry reports/task-002-active-universe/authoritative_universe.csv \
   --out build/task008
 ```
 
