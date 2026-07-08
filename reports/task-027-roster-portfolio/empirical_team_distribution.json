@@ -1,0 +1,27 @@
+{
+  "status": "diagnostic_only",
+  "source": "current authoritative 804-player ownership plus accepted TASK-009 + TASK-012 forecasts",
+  "teams": 16,
+  "interpretation": "Observed ownership is used as market-calibration evidence, not as a direct truth label for team strategy.",
+  "findings": {
+    "strong_lineups_are_not_uniformly_old": true,
+    "older_elite_producers_are_more_common_on_some_strong_teams_but_not_exclusive_to_them": true,
+    "high_production_assets_exist_on weaker_or_rebuilding_rosters": true,
+    "top26_production_concentration_varies_materially_between_teams": true,
+    "team_window_cannot_be_inferred_from_age_alone": true
+  },
+  "rank_correlations": {
+    "balanced_lineup_strength_vs_mean_roster_age": -0.12126925088483408,
+    "balanced_lineup_strength_vs_count_of_older_elite_assets": 0.1686226748415987,
+    "balanced_lineup_strength_vs_count_of_young_high_future_assets": 0.5544472028592596,
+    "balanced_lineup_strength_vs_top26_positive_utility_share": -0.33408045739629144
+  },
+  "modelling_consequence": {
+    "player_market_value_and_roster_slot_value_must_be_separate": true,
+    "elite_non_core_contender_assets_should_be_trade_candidates_not_automatic_keepers": true,
+    "rebuilders_may_hold_current_production_as_trade_inventory": true,
+    "contenders_should_be_allowed_to_concentrate winning utility in roughly 23_to_26 players": true,
+    "low_value emergency depth can be rational outside the core": true
+  },
+  "warning": "These correlations are descriptive across only 16 current teams and must not be treated as fitted causal coefficients."
+}
