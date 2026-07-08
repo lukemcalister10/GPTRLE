@@ -53,7 +53,9 @@ TASK-006 and the TASK-007 package that exports it remain merged experimental his
 ## D-011 — Current partial season is recent but incomplete evidence
 **Status:** accepted
 
-Use the available 2026 data, which reflects different player snapshots between rounds 14 and 24, as recent partial-season evidence rather than discarding it or treating it as a completed season. Separate scoring rate from availability. Shrink small-sample performance toward the prior forecast and update negative availability conservatively: ambiguous missed games must not impose a penalty proportional to the fraction of the season missed. Positive demonstrated performance or selection may receive credibility faster than absence receives negative credibility. Do not mechanically prorate every player to a full-season games total.
+Use the available 2026 data as recent partial-season evidence rather than discarding it or treating it as a completed season. Separate scoring rate from availability. Shrink small-sample performance toward the prior forecast and update negative availability conservatively: ambiguous missed games must not impose a penalty proportional to the fraction of the season missed. Positive demonstrated performance or selection may receive credibility faster than absence receives negative credibility. Do not mechanically prorate every player to a full-season games total.
+
+The current snapshot is uniformly after 14 rounds. Every player has had one bye and therefore 13 possible matches. Use 13 as the current availability denominator for every player.
 
 ## D-012 — Keeper value is dynamic marginal roster utility
 **Status:** accepted
@@ -68,3 +70,12 @@ Replacement and positional scarcity must be derived from feasible roster allocat
 Do not project future position eligibility pools. Apply the official positions currently known at the valuation date to every forecast season, and recalculate current and multi-year keeper utility whenever new preseason or in-season position updates are issued.
 
 Dual-position value must emerge from roster optimisation rather than a symmetric fixed bonus. Adding midfield eligibility to a forward will usually provide little or no benefit, while adding forward eligibility to a midfielder may be valuable when it relieves a scarce forward constraint. The optimiser must be capable of producing zero flexibility value when the added eligibility does not improve the best feasible roster.
+
+## D-014 — All selected players score; captaincy has vice fallback
+**Status:** accepted
+
+Each team selects 23 scoring players: 18 position-constrained players and five free-choice players. All 23 contribute their weekly score. The five free-choice slots therefore have full scoring value and accept every position.
+
+A designated captain scores double. If the captain does not play, a designated vice captain receives the double-score bonus. If neither plays, no captain bonus is awarded.
+
+Emergencies are outside the selected 23 and do not score automatically. A manager may deliberately activate an emergency into the selected side to cover an unavailable player; the activated player then scores as part of the 23 and the unavailable player does not.
