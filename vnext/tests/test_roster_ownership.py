@@ -4,19 +4,17 @@ from roster_ownership import (
     AUTHORITATIVE_ROSTER_RULES,
     build_ownership_records,
     is_free_agent_label,
+    required_offseason_cuts,
     roster_counts,
-    senior_cut_status,
     validate_roster_universe,
 )
 
 
-def test_roster_limits_allow_42_seniors_plus_four_rookies():
+def test_roster_limits_are_total_46_and_offseason_40():
     rules = AUTHORITATIVE_ROSTER_RULES
     assert rules.teams == 16
-    assert rules.senior_list_max == 42
-    assert rules.rookie_list_max == 4
     assert rules.total_list_max == 46
-    assert rules.offseason_senior_list == 37
+    assert rules.offseason_list_max == 40
 
 
 def test_free_agent_spelling_and_case_are_normalised():
@@ -64,7 +62,7 @@ def test_named_rosters_up_to_46_are_valid():
 def test_team_above_46_fails():
     rows = []
     for team_index in range(16):
-        count = 47 if team_index == 0 else 42
+        count = 47 if team_index == 0 else 40
         for player_index in range(count):
             rows.append(
                 {
@@ -78,12 +76,12 @@ def test_team_above_46_fails():
         validate_roster_universe(records)
 
 
-def test_exact_senior_cut_requires_rookie_identification():
-    can_cut, reason = senior_cut_status(46, known_rookies=None)
-    assert can_cut is False
-    assert "rookie status" in reason
+def test_required_offseason_cuts_are_based_on_total_list_only():
+    assert required_offseason_cuts(46) == 6
+    assert required_offseason_cuts(45) == 5
+    assert required_offseason_cuts(44) == 4
+    assert required_offseason_cuts(40) == 0
+    assert required_offseason_cuts(37) == 0
 
-    can_cut, reason = senior_cut_status(46, known_rookies=4)
-    assert can_cut is True
-    assert "42" in reason
-    assert "37" in reason
+    with pytest.raises(ValueError, match="exceeds"):
+        required_offseason_cuts(47)
