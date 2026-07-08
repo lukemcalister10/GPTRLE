@@ -1,4 +1,9 @@
-"""TASK-011 demonstrated-exposure pedigree-fade candidate."""
+"""TASK-011 demonstrated-exposure pedigree-fade candidate.
+
+The accepted TASK-009 zero-history event representation is retained. The only
+candidate change is the origin-safe draft-pedigree representation supplied to
+that accepted stack.
+"""
 from __future__ import annotations
 
 from typing import Any
@@ -6,7 +11,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-import model_artifacts_task003q
+import model_artifacts_zero_history
 
 FULL_EVIDENCE_GAMES = 50.0
 NEUTRAL_PICK = 80.0
@@ -17,7 +22,8 @@ def fade_pedigree_features(rows: pd.DataFrame) -> pd.DataFrame:
     """Fade draft-pick signal smoothly to neutral by 50 observed AFL games.
 
     Draft pathway remains known until 50 games and then maps to one established
-    category. All other origin-safe inputs are unchanged.
+    category. All other origin-safe inputs are unchanged. Zero-history rows are
+    byte-equivalent for both draft fields because their observed games equal zero.
     """
 
     out = rows.copy()
@@ -40,13 +46,13 @@ def fade_pedigree_features(rows: pd.DataFrame) -> pd.DataFrame:
 
 
 def train_lead(train: pd.DataFrame, lead: int) -> Any:
-    return model_artifacts_task003q.train_lead(fade_pedigree_features(train), lead)
+    return model_artifacts_zero_history.train_lead(fade_pedigree_features(train), lead)
 
 
 def predict(artifact: Any, rows: pd.DataFrame) -> pd.DataFrame:
-    out = model_artifacts_task003q.predict(
+    out = model_artifacts_zero_history.predict(
         artifact,
         fade_pedigree_features(rows),
     ).copy()
-    out["model_id"] = "vnext_task011_pedigree_fade"
+    out["model_id"] = "vnext_task011_pedigree_fade_on_task009"
     return out
