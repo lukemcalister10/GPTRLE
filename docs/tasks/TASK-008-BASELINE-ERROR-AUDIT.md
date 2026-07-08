@@ -50,7 +50,7 @@ The thresholds create reproducible diagnostic cohorts. They do not encode player
 
 - unchanged Claude export completes;
 - frozen-file manifest passes;
-- exactly one row per legacy player key;
+- raw Claude coverage is 805 unique legacy keys, reconciled to 804 authoritative keys and one declared legacy-only row;
 - every required field is present or the audit fails closed;
 - no silent row drops;
 - vNext test suite passes;
