@@ -1,0 +1,28 @@
+{
+  "duplicate_rank_values": 132,
+  "established_below_zero_history_median": 143,
+  "established_low_ceiling_players": 119,
+  "non_finite_component_players": 0,
+  "non_finite_value_players": 0,
+  "notes": {
+    "current_average": "track entry s=1; diagnostic only because the 2026 season is incomplete",
+    "established": "at least 50 career games",
+    "low_ceiling": "pn below 65.0",
+    "pathological_zero": "vP1 or vP2 equals exactly zero",
+    "task006": "not evaluated or promoted; claudeV is used when present"
+  },
+  "partial_season_observed_players": 312,
+  "partial_season_pn_bias_vs_current": 21.42038080769231,
+  "partial_season_pn_mae_vs_current": 22.764710557692307,
+  "pathological_forward_zero_players": 4,
+  "pedigree_persistence_100_plus_games": 9,
+  "pedigree_persistence_50_plus_games": 86,
+  "players": 804,
+  "status": "diagnostic_complete",
+  "tied_rank_rows": 333,
+  "unique_keys": 804,
+  "value_field": "claudeV",
+  "value_floor_players": 5,
+  "zero_history_median_value": 288.0,
+  "zero_history_players": 111
+}
