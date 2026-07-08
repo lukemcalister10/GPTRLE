@@ -11,13 +11,18 @@ FREE_AGENT_LABELS = frozenset({"free agents", "free agent"})
 @dataclass(frozen=True, slots=True)
 class RosterRules:
     teams: int = 16
-    senior_list_max: int = 42
-    rookie_list_max: int = 4
-    offseason_senior_list: int = 37
+    total_list_max: int = 46
+    offseason_list_max: int = 40
 
-    @property
-    def total_list_max(self) -> int:
-        return self.senior_list_max + self.rookie_list_max
+    def __post_init__(self) -> None:
+        if self.teams <= 0:
+            raise ValueError("teams must be positive")
+        if self.total_list_max <= 0:
+            raise ValueError("total_list_max must be positive")
+        if self.offseason_list_max <= 0:
+            raise ValueError("offseason_list_max must be positive")
+        if self.offseason_list_max > self.total_list_max:
+            raise ValueError("offseason_list_max cannot exceed total_list_max")
 
 
 AUTHORITATIVE_ROSTER_RULES = RosterRules()
@@ -83,30 +88,19 @@ def validate_roster_universe(
         raise ValueError(f"expected {rules.teams} named teams, found {len(teams)}")
     over = {name: count for name, count in teams.items() if count > rules.total_list_max}
     if over:
-        raise ValueError(f"teams exceed senior-plus-rookie maximum: {over}")
+        raise ValueError(f"teams exceed total list maximum: {over}")
     return counts
 
 
-def senior_cut_status(
+def required_offseason_cuts(
     team_size: int,
     *,
-    known_rookies: int | None,
     rules: RosterRules = AUTHORITATIVE_ROSTER_RULES,
-) -> tuple[bool, str]:
-    """Return whether an exact 42-to-37 senior cut can be calculated.
-
-    Total team size alone is insufficient when rookie status is not identified.
-    """
+) -> int:
+    """Return the number of players required to reduce a roster to 40 or fewer."""
 
     if team_size < 0:
         raise ValueError("team_size must be non-negative")
     if team_size > rules.total_list_max:
-        raise ValueError("team_size exceeds senior-plus-rookie maximum")
-    if known_rookies is None:
-        return False, "rookie status is required to isolate the senior list"
-    if known_rookies < 0 or known_rookies > rules.rookie_list_max:
-        raise ValueError("known_rookies is outside the allowed range")
-    senior_size = team_size - known_rookies
-    if senior_size > rules.senior_list_max:
-        raise ValueError("derived senior list exceeds maximum")
-    return True, f"senior list contains {senior_size}; target is {rules.offseason_senior_list}"
+        raise ValueError("team_size exceeds total list maximum")
+    return max(0, team_size - rules.offseason_list_max)
