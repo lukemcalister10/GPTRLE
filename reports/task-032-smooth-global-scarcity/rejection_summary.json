@@ -1,0 +1,29 @@
+{
+  "status": "rejected",
+  "players": 804,
+  "hypothesis": "derive smooth scarcity premiums from assigned positional minimums relative to the assigned unrestricted minimum",
+  "rejection_reason": "assigned slot-family minimums are not invariant when constrained and unrestricted slots are interchangeable within the same optimal allocation",
+  "diagnostic": {
+    "contender": {
+      "maximum_premium": 9.631609623360589,
+      "maximum_absolute_rank_move": 8,
+      "top100_overlap": 100
+    },
+    "balanced": {
+      "unrestricted_cut_line": 310.36203679271017,
+      "reported_gdef_cut_line": 394.6278177537869,
+      "maximum_premium": 84.26578096107669,
+      "maximum_premium_share": 0.13600027366954234,
+      "maximum_absolute_rank_move": 24,
+      "top100_overlap": 97
+    },
+    "rebuilder": {
+      "maximum_premium": 10.238125840299972,
+      "maximum_absolute_rank_move": 6,
+      "top100_overlap": 100
+    }
+  },
+  "interpretation": "The balanced GDEF result is an assignment-label artefact rather than credible evidence that GDEF scarcity is dramatically larger under only one horizon lens.",
+  "decision": "Do not use assigned slot minima as replacement lines and do not promote the proposed premium.",
+  "next_hypothesis": "derive owner-independent scarcity from counterfactual relaxation costs or optimisation dual information that is invariant to equivalent assignment labels"
+}
