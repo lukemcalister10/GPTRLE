@@ -1,0 +1,37 @@
+{
+  "status": "accepted_diagnostic_rejected_as_direct_premium",
+  "players": 804,
+  "method": "block each player's ability to fill KDEF or RUC constrained slots while preserving unrestricted-slot eligibility, then re-optimise",
+  "positive_pivotality_players": {
+    "contender": 48,
+    "balanced": 48,
+    "rebuilder": 48
+  },
+  "maximum_player_loss": {
+    "contender": 67.7361433217884,
+    "balanced": 62.6007367837592,
+    "rebuilder": 91.66126352350693
+  },
+  "sum_of_individual_losses": {
+    "contender": 2953.8397144681658,
+    "balanced": 2720.678444847348,
+    "rebuilder": 3561.8990663845325
+  },
+  "total_full_constraint_cost": {
+    "contender": {
+      "KDEF": 255.52304093021667,
+      "RUC": 52.253274985356256
+    },
+    "balanced": {
+      "KDEF": 227.41193424601806,
+      "RUC": 22.2428475964698
+    },
+    "rebuilder": {
+      "KDEF": 357.99651818419807,
+      "RUC": 105.85285941069014
+    }
+  },
+  "pathology": "many selected players independently inherit the same full replacement loss, so summed individual pivotality greatly exceeds the total league scarcity budget",
+  "decision": "retain as a player-level pivotality diagnostic but do not add raw losses to player values",
+  "next_hypothesis": "allocate the finite position-level scarcity budget across pivotal players using normalized auditable weights"
+}
