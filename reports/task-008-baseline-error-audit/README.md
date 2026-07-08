@@ -6,7 +6,7 @@ The committed summary was generated from the merged TASK-007 evidence package wh
 
 Key counts:
 
-- 804 players;
+- 805 raw Claude rows reconciled to 804 authoritative players plus legacy-only Taylor Adams;
 - 111 zero-history players;
 - 312 partial-season observed players;
 - 86 players with pedigree persistence after 50+ career games;
