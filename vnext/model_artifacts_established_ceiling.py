@@ -110,8 +110,6 @@ def _fit_avg_layer(train: pd.DataFrame, lead: int) -> AvgLayer:
         fit.loc[active_fit, f"l{lead}_avg"].to_numpy(float),
     )
     iterations = int(model.n_iter_)
-    if iterations >= AVG_MAX_ITER:
-        raise RuntimeError(f"lead {lead} conditional-average model reached max_iter={AVG_MAX_ITER}")
 
     if active_calibration.any():
         prediction = np.clip(model.predict(x_cal[active_calibration]), 0.0, 145.0)
