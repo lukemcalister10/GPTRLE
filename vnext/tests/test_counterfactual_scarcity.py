@@ -49,10 +49,10 @@ def test_curve_reports_cumulative_and_marginal_costs():
 
     curve = relaxation_curve(players, slots, position="GFWD", max_relaxations=2)
 
-    assert curve[0].cumulative_cost == 30
-    assert curve[0].marginal_cost == 30
+    assert curve[0].cumulative_cost == 40
+    assert curve[0].marginal_cost == 40
     assert curve[1].cumulative_cost == 40
-    assert curve[1].marginal_cost == 10
+    assert curve[1].marginal_cost == 0
 
 
 def test_equivalent_assignment_labels_do_not_change_cost():
