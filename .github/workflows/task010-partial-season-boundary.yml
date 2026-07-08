@@ -1,0 +1,43 @@
+name: TASK-010 partial-season data boundary
+
+on:
+  pull_request:
+    branches: [vnext]
+    paths:
+      - '.github/workflows/task010-partial-season-boundary.yml'
+      - 'vnext/audit_partial_season_support.py'
+      - 'vnext/tests/test_partial_season_support.py'
+      - 'docs/tasks/TASK-010-PARTIAL-SEASON-DATA-BOUNDARY.md'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-vnext.txt
+      - run: python -m pip install -r requirements-vnext.txt
+      - name: Verify frozen Claude files
+        run: python scripts/verify_legacy_manifest.py
+      - name: Audit temporal support
+        run: PYTHONPATH=vnext python vnext/audit_partial_season_support.py --out build/task010
+      - name: Require explicit blocker
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('build/task010/partial_season_support.json').read_text())
+          assert report['status'] == 'blocked_by_missing_origin_safe_intraseason_data'
+          assert not report['intraseason_fields_present']
+          PY
+      - name: Run focused tests
+        run: cd vnext && python -m pytest -q tests/test_partial_season_support.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task010-partial-season-boundary
+          path: build/task010
+          if-no-files-found: error
