@@ -1,0 +1,70 @@
+{
+  "status": "accepted_diagnostic",
+  "players": 804,
+  "intrinsic_transform": "positive exponential risk discount from TASK-038",
+  "binding_positions": ["KDEF", "RUC"],
+  "scarcity_budget": {
+    "contender": {
+      "KDEF": 260.6137677380466,
+      "RUC": 52.63266907254001,
+      "total": 313.2464368105866
+    },
+    "balanced": {
+      "KDEF": 231.539019308344,
+      "RUC": 19.962889239366632,
+      "total": 251.50190854771063
+    },
+    "rebuilder": {
+      "KDEF": 358.2061582885799,
+      "RUC": 103.27620269911131,
+      "total": 461.4823609876912
+    }
+  },
+  "budget_change_vs_linear_risk_percent": {
+    "contender": 1.777303724268872,
+    "balanced": 0.7392658187582689,
+    "rebuilder": -0.5103039583887164
+  },
+  "positive_premium_players": {
+    "contender": 48,
+    "balanced": 48,
+    "rebuilder": 48
+  },
+  "maximum_player_premium": {
+    "contender": 9.549381629562927,
+    "balanced": 8.472323013483479,
+    "rebuilder": 13.498262309811242
+  },
+  "maximum_premium_share_of_combined_value": {
+    "contender": 0.026763030381023283,
+    "balanced": 0.024837318202724754,
+    "rebuilder": 0.04027697113303821
+  },
+  "maximum_absolute_rank_move_from_positive_intrinsic": {
+    "contender": 9,
+    "balanced": 10,
+    "rebuilder": 12
+  },
+  "top100_overlap_with_positive_intrinsic": {
+    "contender": 100,
+    "balanced": 100,
+    "rebuilder": 100
+  },
+  "top200_overlap_with_positive_intrinsic": {
+    "contender": 200,
+    "balanced": 200,
+    "rebuilder": 199
+  },
+  "negative_combined_values": {
+    "contender": 0,
+    "balanced": 0,
+    "rebuilder": 0
+  },
+  "exact_zero_combined_values": {
+    "contender": 0,
+    "balanced": 0,
+    "rebuilder": 0
+  },
+  "finding": "The positive-risk transform removes the negative tail without materially changing which positional constraints bind or the scale of budget-conserving scarcity premiums.",
+  "production_changed": false
+}
