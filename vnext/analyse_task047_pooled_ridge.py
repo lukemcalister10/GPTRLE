@@ -40,8 +40,43 @@ def _summarise(frame: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
     ).reset_index().sort_values(["model"] + groups).reset_index(drop=True)
 
 
+def _summarise_points(frame: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
+    if frame.empty:
+        return pd.DataFrame(columns=["model"] + groups + ["n", "mae", "bias", "actual_points", "pred_points"])
+    return frame.groupby(["model"] + groups, dropna=False).agg(
+        n=("points_error", "size"),
+        mae=("points_abs_error", "mean"),
+        bias=("points_error", "mean"),
+        actual_points=("actual_points", "mean"),
+        pred_points=("exp_points", "mean"),
+    ).reset_index().sort_values(["model"] + groups).reset_index(drop=True)
+
+
 def _load_one(path: Path, model: str) -> pd.DataFrame:
-    out = pd.read_csv(path, usecols=KEY + ["cond_avg"])
+    columns = pd.read_csv(path, nrows=0).columns
+    keep = [
+        c for c in [
+            *KEY,
+            "p_meaningful",
+            "exp_games",
+            "cond_games",
+            "cond_avg",
+            "exp_avg",
+            "exp_points",
+            "p_avg_ge_80",
+            "p_avg_ge_90",
+            "p_avg_ge_100",
+            "p_avg_ge_110",
+            "p_avg_ge_120",
+            "points_q10",
+            "points_q25",
+            "points_q50",
+            "points_q75",
+            "points_q90",
+            "points_q97",
+        ] if c in columns
+    ]
+    out = pd.read_csv(path, usecols=keep)
     out["model"] = model
     return out
 
@@ -100,6 +135,64 @@ def _current_board_changes(path: Path | None) -> tuple[pd.DataFrame, pd.DataFram
     return rises, falls, summary
 
 
+
+def _unchanged_output_invariants(preds: pd.DataFrame) -> pd.DataFrame:
+    invariant_columns = [
+        c for c in [
+            "p_meaningful",
+            "exp_games",
+            "cond_games",
+            "p_avg_ge_80",
+            "p_avg_ge_90",
+            "p_avg_ge_100",
+            "p_avg_ge_110",
+            "p_avg_ge_120",
+        ] if c in preds.columns
+    ]
+    if not invariant_columns:
+        return pd.DataFrame(columns=["column", "max_abs_delta", "rows_compared", "violations_gt_1e_12"])
+    wide = preds.pivot(index=KEY, columns="model", values=invariant_columns)
+    rows = []
+    for column in invariant_columns:
+        delta = (wide[(column, "task047")] - wide[(column, "task012")]).abs()
+        rows.append({
+            "column": column,
+            "max_abs_delta": float(delta.max()),
+            "rows_compared": int(delta.notna().sum()),
+            "violations_gt_1e_12": int((delta > 1e-12).sum()),
+        })
+    return pd.DataFrame(rows)
+
+
+def _uncertainty_output_changes(preds: pd.DataFrame) -> pd.DataFrame:
+    quantile_columns = [c for c in ["points_q10", "points_q25", "points_q50", "points_q75", "points_q90", "points_q97"] if c in preds.columns]
+    if not quantile_columns:
+        return pd.DataFrame(columns=["lead", "quantile", "n", "mean_delta", "mean_abs_delta", "max_abs_delta"])
+    wide = preds.pivot(index=KEY, columns="model", values=quantile_columns).reset_index()
+    rows = []
+    for lead, group in wide.groupby("lead", dropna=False):
+        for column in quantile_columns:
+            delta = group[(column, "task047")] - group[(column, "task012")]
+            rows.append({
+                "lead": int(lead),
+                "quantile": column,
+                "n": int(delta.notna().sum()),
+                "mean_delta": float(delta.mean()),
+                "mean_abs_delta": float(delta.abs().mean()),
+                "max_abs_delta": float(delta.abs().max()),
+            })
+    return pd.DataFrame(rows).sort_values(["lead", "quantile"]).reset_index(drop=True)
+
+
+def _uncertainty_blocker() -> pd.DataFrame:
+    return pd.DataFrame([
+        {
+            "status": "blocked_for_acceptance",
+            "reason": "TASK-047 changes the conditional-average residual scale and point quantiles mechanically, but the locked benchmark does not contain an acceptance rule for point-quantile calibration or coverage.",
+            "required_follow_up": "Before promoting uncertainty outputs, run a separate uncertainty-calibration task with coverage by lead and subgroup. Do not accept TASK-047 on uncertainty quality.",
+        }
+    ])
+
 def build_tables(
     baseline: pd.DataFrame,
     candidate: pd.DataFrame,
@@ -115,12 +208,16 @@ def build_tables(
     joined = preds.merge(target, on=KEY, how="inner", validate="many_to_one").merge(feat, on=["player_key", "origin_year"], how="left", validate="many_to_one")
     if len(joined) != len(preds):
         raise ValueError(f"joined row count changed: predictions={len(preds)} joined={len(joined)}")
+    joined["broad_position"] = joined.get("position", pd.Series("unknown", index=joined.index)).fillna("unknown").astype(str)
+    joined["actual_points"] = np.where(joined["meaningful"].astype(bool), joined["games"].astype(float) * joined["avg"].astype(float), 0.0)
+    joined["points_error"] = joined["exp_points"].astype(float) - joined["actual_points"].astype(float)
+    joined["points_abs_error"] = joined["points_error"].abs()
+
     active = joined[joined["meaningful"].astype(bool)].copy()
     if active.empty:
         raise ValueError("no meaningful target rows")
     active["error"] = active["cond_avg"].astype(float) - active["avg"].astype(float)
     active["abs_error"] = active["error"].abs()
-    active["broad_position"] = active.get("position", pd.Series("unknown", index=active.index)).fillna("unknown").astype(str)
     active["recent_demonstrated_avg"] = active["weighted_avg"].fillna(active["last_avg"]).fillna(active["career_best"]).fillna(0.0).astype(float)
     active["established"] = np.where(pd.to_numeric(active["total_games"], errors="coerce").fillna(0) >= 50, "established_50_plus", "under_50")
     active["elite_prior"] = np.where(active["recent_demonstrated_avg"] >= 105, "prior_105_plus", "under_105")
@@ -137,6 +234,12 @@ def build_tables(
         "calibration_by_predicted_avg_band": _summarise(active, ["lead", "predicted_avg_band"]),
         "position_by_lead": _summarise(active, ["lead", "broad_position"]),
         "residual_sd_by_lead": _summarise(active, ["lead"])[["model", "lead", "n", "residual_sd"]],
+        "expected_points_whole_population": _summarise_points(joined, []),
+        "expected_points_by_lead": _summarise_points(joined, ["lead"]),
+        "expected_points_by_position_lead": _summarise_points(joined, ["lead", "broad_position"]),
+        "unchanged_output_invariants": _unchanged_output_invariants(preds),
+        "uncertainty_output_changes_by_lead": _uncertainty_output_changes(preds),
+        "uncertainty_acceptance_blocker": _uncertainty_blocker(),
         "selected_ridge_alpha_by_fold_lead": pd.read_csv(alpha_by_fold) if alpha_by_fold is not None else pd.DataFrame(columns=["lead", "origin_year", "selected_alpha", "alpha_scores_json"]),
         "largest_current_board_rises": rises,
         "largest_current_board_falls": falls,
@@ -153,12 +256,16 @@ def write_outputs(active: pd.DataFrame, tables: dict[str, pd.DataFrame], out: Pa
         artifacts[path.name] = {"rows": int(len(table))}
     failures = {"target_failures": 0, "fold_failures": 0}
     summary_rows = tables["whole_population"]
+    invariant_rows = tables["unchanged_output_invariants"]
     summary = {
         "task": "TASK-047-pooled-ridge-conditional-average",
         "state": "candidate",
         "hypothesis": "replace the pooled conditional-average SGDRegressor with a pooled Ridge regressor tuned on the fold-local temporal calibration split",
         "meaningful_target_rows_per_model": {str(k): int(v) for k, v in active.groupby("model").size().items()},
         "overall": summary_rows.to_dict("records"),
+        "expected_points_overall": tables["expected_points_whole_population"].to_dict("records"),
+        "unchanged_output_invariants": invariant_rows.to_dict("records"),
+        "uncertainty_acceptance_blocker": tables["uncertainty_acceptance_blocker"].to_dict("records"),
         "failures": failures,
         "current_board_diagnostics": board_summary,
         "inputs": {k: (None if v is None else str(v)) for k, v in inputs.items()},

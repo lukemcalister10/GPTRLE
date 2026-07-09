@@ -82,6 +82,58 @@ python vnext/analyse_task047_pooled_ridge.py --baseline build/task012-candidate/
 |task047|4|54|15.15|-2.13|97.94|95.81|19.42|
 |task047|5|39|16.24|-0.68|94.14|93.46|20.96|
 
+
+## End-to-end expected-points evidence
+
+The accepted forecast stack computes expected points as meaningful-season probability × conditional games × conditional average. TASK-047 intentionally changes only the conditional-average estimator, so end-to-end expected-points movement is expected but must be measured on the full locked population, including non-meaningful outcomes as zero realised points.
+
+### Whole population expected points
+
+|model|n|mae|bias|actual_points|pred_points|
+|---|---|---|---|---|---|
+|task012|20094|455.52|-178.26|715.33|537.07|
+|task047|20094|454.81|-138.84|715.33|576.49|
+
+### Expected points by lead
+
+|model|lead|n|mae|bias|actual_points|pred_points|
+|---|---|---|---|---|---|---|
+|task012|1|5622|405.22|-111.64|783.56|671.92|
+|task012|2|4818|460.29|-153.46|741.89|588.44|
+|task012|3|4016|493.53|-213.97|715.41|501.44|
+|task012|4|3217|488.06|-234.59|651.52|416.93|
+|task012|5|2421|456.51|-248.24|588.67|340.43|
+|task047|1|5622|403.36|-83.87|783.56|699.70|
+|task047|2|4818|457.60|-116.34|741.89|625.56|
+|task047|3|4016|491.72|-168.72|715.41|546.68|
+|task047|4|3217|491.49|-183.28|651.52|468.24|
+|task047|5|2421|458.81|-202.67|588.67|386.00|
+
+## Unchanged-output invariants
+
+The review-required non-average forecast layers are unchanged. The locked historical predictions confirm exact equality at tolerance `1e-12` for meaningful-season probability, expected/conditional games and elite-threshold probabilities.
+
+|column|max_abs_delta|rows_compared|violations_gt_1e_12|
+|---|---|---|---|
+|p_meaningful|0.00|20094|0|
+|exp_games|0.00|20094|0|
+|cond_games|0.00|20094|0|
+|p_avg_ge_80|0.00|20094|0|
+|p_avg_ge_90|0.00|20094|0|
+|p_avg_ge_100|0.00|20094|0|
+|p_avg_ge_110|0.00|20094|0|
+|p_avg_ge_120|0.00|20094|0|
+
+## Uncertainty evidence and blocker
+
+TASK-047 changes the conditional-average residual scale and therefore point quantiles mechanically. This PR does not claim uncertainty-output acceptance because the locked benchmark does not define a point-quantile calibration or coverage acceptance rule.
+
+|status|reason|required_follow_up|
+|---|---|---|
+|blocked_for_acceptance|TASK-047 changes the conditional-average residual scale and point quantiles mechanically, but the locked benchmark does not contain an acceptance rule for point-quantile calibration or coverage.|Before promoting uncertainty outputs, run a separate uncertainty-calibration task with coverage by lead and subgroup. Do not accept TASK-047 on uncertainty quality.|
+
+The report includes `uncertainty_output_changes_by_lead.csv` to quantify quantile movement as diagnostic evidence only. The mean absolute point-quantile changes by lead/quantile are recorded for 30 rows.
+
 ## Current-board diagnostics
 
 The current-board comparison contains exactly 804 players. Mean absolute five-year expected-points change is 254.77; mean signed change is 219.94; largest rise is 1684.87; largest fall is -779.23. Mean absolute rank movement is 18.56 and median absolute rank movement is 14.00.

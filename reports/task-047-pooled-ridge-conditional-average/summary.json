@@ -15,6 +15,15 @@
     "established_by_lead.csv": {
       "rows": 10
     },
+    "expected_points_by_lead.csv": {
+      "rows": 10
+    },
+    "expected_points_by_position_lead.csv": {
+      "rows": 46
+    },
+    "expected_points_whole_population.csv": {
+      "rows": 2
+    },
     "largest_current_board_falls.csv": {
       "rows": 50
     },
@@ -33,6 +42,15 @@
     "selected_ridge_alpha_by_fold_lead.csv": {
       "rows": 25
     },
+    "uncertainty_acceptance_blocker.csv": {
+      "rows": 1
+    },
+    "uncertainty_output_changes_by_lead.csv": {
+      "rows": 30
+    },
+    "unchanged_output_invariants.csv": {
+      "rows": 8
+    },
     "whole_population.csv": {
       "rows": 2
     }
@@ -45,6 +63,24 @@
     "players": 804,
     "source": "build/task047-current/review/player_rollup_rank_changes.csv"
   },
+  "expected_points_overall": [
+    {
+      "actual_points": 715.3286473574201,
+      "bias": -178.26048684203707,
+      "mae": 455.51551497537463,
+      "model": "task012",
+      "n": 20094,
+      "pred_points": 537.068160515383
+    },
+    {
+      "actual_points": 715.3286473574201,
+      "bias": -138.84106483276318,
+      "mae": 454.8149636983788,
+      "model": "task047",
+      "n": 20094,
+      "pred_points": 576.4875825246569
+    }
+  ],
   "failures": {
     "fold_failures": 0,
     "target_failures": 0
@@ -83,5 +119,62 @@
     }
   ],
   "state": "candidate",
-  "task": "TASK-047-pooled-ridge-conditional-average"
+  "task": "TASK-047-pooled-ridge-conditional-average",
+  "uncertainty_acceptance_blocker": [
+    {
+      "reason": "TASK-047 changes the conditional-average residual scale and point quantiles mechanically, but the locked benchmark does not contain an acceptance rule for point-quantile calibration or coverage.",
+      "required_follow_up": "Before promoting uncertainty outputs, run a separate uncertainty-calibration task with coverage by lead and subgroup. Do not accept TASK-047 on uncertainty quality.",
+      "status": "blocked_for_acceptance"
+    }
+  ],
+  "unchanged_output_invariants": [
+    {
+      "column": "p_meaningful",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "exp_games",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "cond_games",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "p_avg_ge_80",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "p_avg_ge_90",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "p_avg_ge_100",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "p_avg_ge_110",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    },
+    {
+      "column": "p_avg_ge_120",
+      "max_abs_delta": 0.0,
+      "rows_compared": 20094,
+      "violations_gt_1e_12": 0
+    }
+  ]
 }

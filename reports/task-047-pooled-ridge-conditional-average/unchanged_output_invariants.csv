@@ -1,0 +1,9 @@
+column,max_abs_delta,rows_compared,violations_gt_1e_12
+p_meaningful,0.0,20094,0
+exp_games,0.0,20094,0
+cond_games,0.0,20094,0
+p_avg_ge_80,0.0,20094,0
+p_avg_ge_90,0.0,20094,0
+p_avg_ge_100,0.0,20094,0
+p_avg_ge_110,0.0,20094,0
+p_avg_ge_120,0.0,20094,0
