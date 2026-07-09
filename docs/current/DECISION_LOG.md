@@ -79,3 +79,10 @@ Each team selects 23 scoring players: 18 position-constrained players and five f
 A designated captain scores double. If the captain does not play, a designated vice captain receives the double-score bonus. If neither plays, no captain bonus is awarded.
 
 Emergencies are outside the selected 23 and do not score automatically. A manager may deliberately activate an emergency into the selected side to cover an unavailable player; the activated player then scores as part of the 23 and the unavailable player does not.
+
+## D-015 — Pooled Ridge accepted for conditional-average point forecasts only
+**Status:** accepted
+
+TASK-047 replaces the accepted TASK-012 pooled conditional-average `SGDRegressor` with a leakage-safe pooled Ridge estimator selected inside each rolling-origin training fold. It is accepted for conditional-average point forecasts because it materially improves conditional-average MAE overall and across the diagnosed ruck and elite-prior cohorts, while improving locked total-points MAE overall and preserving every non-average forecast output exactly.
+
+This decision does not accept TASK-047 residual scales, point quantiles, keeper utility, current-board production or a release cutover. Uncertainty outputs remain blocked until a separate calibration audit evaluates pinball loss, quantile calibration and interval coverage against the locked `points` target.
