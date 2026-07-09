@@ -18,7 +18,13 @@ DEFAULT_OUT = ROOT / "reports" / "task-046-position-aware-conditional-average"
 
 
 def _band(series: pd.Series) -> pd.Series:
-    return pd.cut(pd.to_numeric(series, errors="coerce"), [0, 60, 75, 90, 105, 120, 200], labels=["<60", "60-75", "75-90", "90-105", "105-120", "120+"], include_lowest=True, right=False).astype("string").fillna("unknown")
+    return pd.cut(
+        pd.to_numeric(series, errors="coerce"),
+        [0, 60, 75, 90, 105, 120, 200],
+        labels=["<60", "60-75", "75-90", "90-105", "105-120", "120+"],
+        include_lowest=True,
+        right=False,
+    ).astype("string").fillna("unknown")
 
 
 def _summarise(frame: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
@@ -34,12 +40,72 @@ def _summarise(frame: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
 
 
 def _load_one(path: Path, model: str) -> pd.DataFrame:
-    out = pd.read_csv(path, usecols=KEY + ["cond_avg", "exp_points"])
+    out = pd.read_csv(path, usecols=KEY + ["cond_avg"])
     out["model"] = model
     return out
 
 
-def build_tables(baseline: pd.DataFrame, candidate: pd.DataFrame, targets: pd.DataFrame, features: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, pd.DataFrame]]:
+def _empty_board_changes() -> pd.DataFrame:
+    return pd.DataFrame(
+        columns=[
+            "stable_player_id",
+            "key",
+            "player_name",
+            "position",
+            "position_utility",
+            "current_exp_points_5y",
+            "candidate_exp_points_5y",
+            "delta_exp_points_5y",
+            "current_rank_exp_points_5y",
+            "candidate_rank_exp_points_5y",
+            "rank_change_exp_points_5y",
+        ]
+    )
+
+
+def _current_board_changes(path: Path | None) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, object] | None]:
+    if path is None:
+        return _empty_board_changes(), _empty_board_changes(), None
+    rollup = pd.read_csv(path)
+    required = {
+        "stable_player_id",
+        "key",
+        "player_name",
+        "position",
+        "position_utility",
+        "current_exp_points_5y",
+        "candidate_exp_points_5y",
+        "delta_exp_points_5y",
+        "current_rank_exp_points_5y",
+        "candidate_rank_exp_points_5y",
+        "rank_change_exp_points_5y",
+    }
+    missing = sorted(required - set(rollup.columns))
+    if missing:
+        raise ValueError(f"current-board rollup missing required columns: {missing}")
+    if len(rollup) != 804 or rollup["stable_player_id"].nunique() != 804:
+        raise ValueError("current-board rollup must contain exactly 804 players")
+    cols = [c for c in _empty_board_changes().columns if c in rollup.columns]
+    rises = rollup.nlargest(50, "delta_exp_points_5y")[cols].reset_index(drop=True)
+    falls = rollup.nsmallest(50, "delta_exp_points_5y")[cols].reset_index(drop=True)
+    summary = {
+        "source": str(path),
+        "players": int(len(rollup)),
+        "mean_delta_exp_points_5y": float(rollup["delta_exp_points_5y"].mean()),
+        "mean_abs_delta_exp_points_5y": float(rollup["delta_exp_points_5y"].abs().mean()),
+        "max_rise_exp_points_5y": float(rollup["delta_exp_points_5y"].max()),
+        "max_fall_exp_points_5y": float(rollup["delta_exp_points_5y"].min()),
+    }
+    return rises, falls, summary
+
+
+def build_tables(
+    baseline: pd.DataFrame,
+    candidate: pd.DataFrame,
+    targets: pd.DataFrame,
+    features: pd.DataFrame,
+    current_board_rollup: Path | None = None,
+) -> tuple[pd.DataFrame, dict[str, pd.DataFrame], dict[str, object] | None]:
     preds = pd.concat([baseline, candidate], ignore_index=True)
     target = targets[KEY + ["games", "avg", "meaningful"]].copy()
     feat_cols = ["key", "origin_year", "position", "total_games", "weighted_avg", "last_avg", "career_best"]
@@ -58,15 +124,7 @@ def build_tables(baseline: pd.DataFrame, candidate: pd.DataFrame, targets: pd.Da
     active["elite_prior"] = np.where(active["recent_demonstrated_avg"] >= 105, "prior_105_plus", "under_105")
     active["predicted_avg_band"] = _band(active["cond_avg"])
 
-    current = active[active["origin_year"].eq(active["origin_year"].max())].copy()
-    wide = current.pivot_table(index=KEY, columns="model", values="exp_points", aggfunc="first").reset_index()
-    if {"task012", "task046"}.issubset(wide.columns):
-        board_delta = wide.assign(delta=wide["task046"] - wide["task012"]).merge(feat, on=["player_key", "origin_year"], how="left")
-        rises = board_delta.sort_values("delta", ascending=False).head(50)
-        falls = board_delta.sort_values("delta").head(50)
-    else:
-        rises = pd.DataFrame(); falls = pd.DataFrame()
-
+    rises, falls, board_summary = _current_board_changes(current_board_rollup)
     tables = {
         "conditional_average_by_lead": _summarise(active, ["lead"]),
         "whole_population": _summarise(active, []),
@@ -79,10 +137,10 @@ def build_tables(baseline: pd.DataFrame, candidate: pd.DataFrame, targets: pd.Da
         "largest_current_board_rises": rises,
         "largest_current_board_falls": falls,
     }
-    return active, tables
+    return active, tables, board_summary
 
 
-def write_outputs(active: pd.DataFrame, tables: dict[str, pd.DataFrame], out: Path, inputs: dict[str, Path]) -> dict[str, object]:
+def write_outputs(active: pd.DataFrame, tables: dict[str, pd.DataFrame], out: Path, inputs: dict[str, Path | None], board_summary: dict[str, object] | None) -> dict[str, object]:
     out.mkdir(parents=True, exist_ok=True)
     artifacts = {}
     for name, table in tables.items():
@@ -98,11 +156,12 @@ def write_outputs(active: pd.DataFrame, tables: dict[str, pd.DataFrame], out: Pa
         "meaningful_target_rows_per_model": {str(k): int(v) for k, v in active.groupby("model").size().items()},
         "overall": summary_rows.to_dict("records"),
         "failures": failures,
-        "inputs": {k: str(v) for k, v in inputs.items()},
+        "current_board_diagnostics": board_summary,
+        "inputs": {k: (None if v is None else str(v)) for k, v in inputs.items()},
         "artifacts": artifacts,
     }
     (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
-    (out / "README.md").write_text("# TASK-046 position-aware conditional average\n\nCandidate benchmark comparison against accepted TASK-012. See summary.json and CSV tables.\n")
+    (out / "README.md").write_text("# TASK-046 position-aware conditional average\n\nCandidate benchmark comparison against accepted TASK-012. See summary.json and CSV tables. Current-board rise/fall CSVs are populated only from the 804-player current-board rollup input, not from historical validation rows.\n")
     return summary
 
 
@@ -112,12 +171,31 @@ def main() -> int:
     p.add_argument("--candidate", type=Path, default=DEFAULT_CANDIDATE)
     p.add_argument("--targets", type=Path, default=DEFAULT_TARGETS)
     p.add_argument("--features", type=Path, default=DEFAULT_FEATURES)
+    p.add_argument("--current-board-rollup", type=Path)
     p.add_argument("--out", type=Path, default=DEFAULT_OUT)
     args = p.parse_args()
     baseline = _load_one(args.baseline, "task012")
     candidate = _load_one(args.candidate, "task046")
-    active, tables = build_tables(baseline, candidate, pd.read_csv(args.targets), pd.read_csv(args.features))
-    summary = write_outputs(active, tables, args.out, {"baseline": args.baseline, "candidate": args.candidate, "targets": args.targets, "features": args.features})
+    active, tables, board_summary = build_tables(
+        baseline,
+        candidate,
+        pd.read_csv(args.targets),
+        pd.read_csv(args.features),
+        args.current_board_rollup,
+    )
+    summary = write_outputs(
+        active,
+        tables,
+        args.out,
+        {
+            "baseline": args.baseline,
+            "candidate": args.candidate,
+            "targets": args.targets,
+            "features": args.features,
+            "current_board_rollup": args.current_board_rollup,
+        },
+        board_summary,
+    )
     print(json.dumps(summary, indent=2, sort_keys=True))
     return 0
 

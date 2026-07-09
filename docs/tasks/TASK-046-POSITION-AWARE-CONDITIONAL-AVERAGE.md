@@ -2,28 +2,53 @@
 
 ## Status
 
-Candidate complete against the locked rolling-origin benchmark. This PR changes only the conditional-average model layer under `vnext/` and adds benchmark evidence under `reports/task-046-position-aware-conditional-average/`.
+Candidate rerun after PR #75 review. The review-required implementation keeps the accepted TASK-012 conditional-average estimator, preprocessing, fitting rules and hyperparameters unchanged for both the pooled model and every position-specific model. The only modelling difference is fold-local routing to a broad-position model when that position has enough meaningful training rows; otherwise the unchanged pooled model is used as fallback.
+
+This candidate is evidence complete but the locked benchmark does **not** support acceptance as-is: ruck bias improves at short leads, but ruck MAE deteriorates at every lead and whole-population MAE deteriorates.
 
 ## Hypothesis
 
-The TASK-012 conditional-average model has a systematic broad-position defect, especially for rucks. The isolated candidate fits broad-position conditional-average regressors inside every rolling-origin training fold, with a pooled regressor available as the fallback when a position-fold meaningful-season sample is insufficient.
+The TASK-012 conditional-average model has a systematic broad-position defect, especially for rucks. The isolated candidate fits broad-position conditional-average regressors inside every rolling-origin training fold, with a pooled TASK-012 regressor available as the fallback when a position-fold meaningful-season sample is insufficient.
 
 ## Model layer changed
 
-- Conditional-average regressor only: `vnext/model_artifacts_position_aware_conditional_average.py`.
+- Conditional-average routing only: `vnext/model_artifacts_position_aware_conditional_average.py`.
+- The pooled and position-specific average regressors all use TASK-012's `SGDRegressor(loss="huber", alpha=0.002, max_iter=800, tol=1e-3, random_state=lead + 20)` and TASK-012's average preprocessor.
 - Locked fold runner only wires that model into the existing benchmark: `vnext/run_task046_position_aware_folds.py`.
 - The meaningful-season event model, conditional-games model, benchmark protocol, keeper utility, replacement-aware value, future option value, legacy engine and frozen Claude files are unchanged.
 
 ## Reproduction commands
 
 ```bash
-python vnext/run_task012_established_ceiling_folds.py --out build/task012-candidate
+python vnext/run_task012_established_ceiling_folds.py --out build/task012-candidate --rebuild
 python vnext/run_task046_position_aware_folds.py --out build/task046-position-aware-conditional-average --rebuild
+python vnext/build_annual_dataset.py \
+  --data engine/rl_after/rl_model_data.json \
+  --out build/task046-current/annual_rows.csv \
+  --min-origin 2008 \
+  --max-origin 2026
+PYTHONPATH=vnext python vnext/train_model_artifacts.py \
+  --dataset build/task046-current/annual_rows.csv \
+  --out build/task046-current/task012 \
+  --module model_artifacts_established_ceiling \
+  --target-cutoff 2025
+PYTHONPATH=vnext python vnext/train_model_artifacts.py \
+  --dataset build/task046-current/annual_rows.csv \
+  --out build/task046-current/task046 \
+  --module model_artifacts_position_aware_conditional_average \
+  --target-cutoff 2025
+PYTHONPATH=vnext python vnext/review_task003n_current_board.py \
+  --current-artifacts build/task046-current/task012 \
+  --candidate-artifacts build/task046-current/task046 \
+  --current-module model_artifacts_established_ceiling \
+  --candidate-module model_artifacts_position_aware_conditional_average \
+  --out build/task046-current/review
 python vnext/analyse_task046_position_aware.py \
   --baseline build/task012-candidate/vnext_predictions.csv \
   --candidate build/task046-position-aware-conditional-average/vnext_predictions.csv \
   --targets build/task-003-cohorts/targets.csv \
   --features build/task046-position-aware-conditional-average/training_dataset.csv \
+  --current-board-rollup build/task046-current/review/player_rollup_rank_changes.csv \
   --out reports/task-046-position-aware-conditional-average
 ```
 
@@ -32,7 +57,7 @@ python vnext/analyse_task046_position_aware.py \
 |model|n|mae|bias|actual_avg|pred_avg|
 |---|---|---|---|---|---|
 |task012|10848|14.61|-6.54|72.56|66.02|
-|task046|10848|11.90|2.22|72.56|74.79|
+|task046|10848|16.43|-9.18|72.56|63.39|
 
 ## Ruck before/after by lead
 
@@ -43,11 +68,11 @@ python vnext/analyse_task046_position_aware.py \
 |task012|3|139|33.74|-33.27|86.44|53.17|
 |task012|4|101|40.10|-39.43|88.95|49.53|
 |task012|5|68|47.63|-46.90|91.46|44.56|
-|task046|1|196|11.73|-1.98|86.10|84.12|
-|task046|2|171|13.37|-2.13|85.74|83.61|
-|task046|3|139|13.93|-2.10|86.44|84.33|
-|task046|4|101|14.08|-4.99|88.95|83.97|
-|task046|5|68|16.09|-9.62|91.46|81.85|
+|task046|1|196|24.07|-11.18|86.10|74.93|
+|task046|2|171|31.66|-21.62|85.74|64.12|
+|task046|3|139|39.83|-35.72|86.44|50.72|
+|task046|4|101|48.24|-47.10|88.95|41.86|
+|task046|5|68|53.05|-52.54|91.46|38.92|
 
 ## Elite-prior before/after by lead
 
@@ -58,11 +83,21 @@ python vnext/analyse_task046_position_aware.py \
 |task012|3|70|18.80|-14.78|101.18|86.40|
 |task012|4|54|20.77|-14.60|97.94|83.35|
 |task012|5|39|21.11|-11.41|94.14|82.72|
-|task046|1|103|11.10|-7.15|108.35|101.20|
-|task046|2|87|12.80|-6.94|105.21|98.27|
-|task046|3|70|13.94|-6.10|101.18|95.09|
-|task046|4|54|16.36|-7.28|97.94|90.66|
-|task046|5|39|18.68|-6.83|94.14|87.30|
+|task046|1|103|10.45|-1.86|108.35|106.49|
+|task046|2|87|13.31|-4.20|105.21|101.02|
+|task046|3|70|14.39|-5.08|101.18|96.11|
+|task046|4|54|18.81|-4.47|97.94|93.47|
+|task046|5|39|21.72|1.66|94.14|95.80|
+
+## Current-board diagnostics
+
+The largest rise/fall CSVs now come from the 804-player current-board rollup generated by `review_task003n_current_board.py`, not from historical validation target rows.
+
+- players: 804;
+- mean five-year expected-points delta: -135.31;
+- mean absolute five-year expected-points delta: 179.54;
+- largest five-year rise: 1712.95;
+- largest five-year fall: -1269.92.
 
 ## Required evidence artifacts
 
@@ -77,8 +112,8 @@ The report directory contains concise CSV tables for:
 - calibration by predicted-average band;
 - position-by-lead diagnostics;
 - target and fold failures in `summary.json`;
-- largest current-board rises and falls as diagnostics only.
+- largest current-board rises and falls as diagnostics only, sourced from the 804-player current-board rollup.
 
 ## Decision notes
 
-The candidate materially improves ruck MAE and bias at every lead and improves the upper-tail elite-prior slice while also improving whole-population MAE. Whole-population bias moves from underprediction to mild overprediction, so review should focus on calibration-band and non-ruck position tables before acceptance.
+Under the review-required constraint that TASK-012's estimator and hyperparameters remain unchanged, the isolated broad-position routing hypothesis does not meet acceptance. It materially reduces ruck underprediction bias at leads 1 and 2, but ruck MAE deteriorates at every lead, ruck long-lead bias worsens, and whole-population MAE deteriorates from 14.61 to 16.43. The result should be treated as a rejected candidate or diagnostic evidence for a later, separately scoped hypothesis.

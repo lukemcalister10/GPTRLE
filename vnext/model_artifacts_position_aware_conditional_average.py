@@ -13,7 +13,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import SGDRegressor
 
 import model_artifacts
 import model_artifacts_established_ceiling as task012
@@ -56,8 +56,16 @@ def broad_position_values(rows: pd.DataFrame) -> pd.Series:
     return pos.mask(pos.eq("") | pos.eq("NAN"), "UNK").astype("string")
 
 
-def _new_avg_model(lead: int, salt: int = 0) -> Ridge:
-    return Ridge(alpha=20.0)
+def _new_avg_model(lead: int) -> SGDRegressor:
+    """Return the unchanged TASK-012 conditional-average estimator."""
+
+    return SGDRegressor(
+        loss="huber",
+        alpha=0.002,
+        max_iter=task012.AVG_MAX_ITER,
+        tol=1e-3,
+        random_state=lead + 20,
+    )
 
 
 def _fit_avg_layer(train: pd.DataFrame, lead: int) -> PositionAwareAvgLayer:
@@ -84,7 +92,7 @@ def _fit_avg_layer(train: pd.DataFrame, lead: int) -> PositionAwareAvgLayer:
         count = int(mask.sum())
         position_training_rows[str(position)] = count
         if count >= MIN_POSITION_MEANINGFUL_ROWS:
-            position_models[str(position)] = _new_avg_model(lead, offset + 1).fit(
+            position_models[str(position)] = _new_avg_model(lead).fit(
                 x_fit[mask],
                 fit.loc[mask, f"l{lead}_avg"].to_numpy(float),
             )
@@ -98,7 +106,7 @@ def _fit_avg_layer(train: pd.DataFrame, lead: int) -> PositionAwareAvgLayer:
                 pooled_model=pooled_model,
                 position_models=position_models,
                 residual_sd=12.0,
-                iterations=1,
+                iterations=int(pooled_model.n_iter_),
                 position_training_rows=position_training_rows,
                 fallback_positions=fallback_positions,
             ),
@@ -110,7 +118,7 @@ def _fit_avg_layer(train: pd.DataFrame, lead: int) -> PositionAwareAvgLayer:
     else:
         residual_sd = 12.0
 
-    iterations = 1 + sum(1 for m in position_models.values())
+    iterations = int(pooled_model.n_iter_) + sum(int(m.n_iter_) for m in position_models.values())
     return PositionAwareAvgLayer(
         preprocessor=preprocessor,
         pooled_model=pooled_model,

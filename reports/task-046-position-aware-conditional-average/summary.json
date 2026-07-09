@@ -1,7 +1,7 @@
 {
   "artifacts": {
     "calibration_by_predicted_avg_band.csv": {
-      "rows": 50
+      "rows": 53
     },
     "conditional_average_by_lead.csv": {
       "rows": 10
@@ -31,6 +31,14 @@
       "rows": 2
     }
   },
+  "current_board_diagnostics": {
+    "max_fall_exp_points_5y": -1269.9212948334548,
+    "max_rise_exp_points_5y": 1712.9495538097408,
+    "mean_abs_delta_exp_points_5y": 179.53821955948624,
+    "mean_delta_exp_points_5y": -135.30887325294893,
+    "players": 804,
+    "source": "build/task046-current/review/player_rollup_rank_changes.csv"
+  },
   "failures": {
     "fold_failures": 0,
     "target_failures": 0
@@ -39,6 +47,7 @@
   "inputs": {
     "baseline": "build/task012-candidate/vnext_predictions.csv",
     "candidate": "build/task046-position-aware-conditional-average/vnext_predictions.csv",
+    "current_board_rollup": "build/task046-current/review/player_rollup_rank_changes.csv",
     "features": "build/task046-position-aware-conditional-average/training_dataset.csv",
     "targets": "build/task-003-cohorts/targets.csv"
   },
@@ -57,11 +66,11 @@
     },
     {
       "actual_avg": 72.56219303097346,
-      "bias": 2.2244567389220617,
-      "mae": 11.901859602334003,
+      "bias": -9.175027905454018,
+      "mae": 16.43252475988253,
       "model": "task046",
       "n": 10848,
-      "pred_avg": 74.78664976989552
+      "pred_avg": 63.38716512551943
     }
   ],
   "state": "candidate",

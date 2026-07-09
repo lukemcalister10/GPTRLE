@@ -36,3 +36,16 @@ def test_position_specific_prediction_uses_pooled_fallback_for_unfitted_position
     )
     rows = pd.DataFrame({"position": ["RUC", "DEF", "MID"]})
     assert task046._predict_avg(layer, rows).tolist() == [95.0, 70.0, 70.0]
+
+
+def test_current_board_changes_require_complete_804_player_rollup(tmp_path):
+    path = tmp_path / "rollup.csv"
+    pd.DataFrame({"stable_player_id": ["only-one"]}).to_csv(path, index=False)
+    from analyse_task046_position_aware import _current_board_changes
+
+    try:
+        _current_board_changes(path)
+    except ValueError as exc:
+        assert "missing required columns" in str(exc)
+    else:
+        raise AssertionError("incomplete current-board rollup must fail")
