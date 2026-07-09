@@ -89,6 +89,14 @@ class Task012Artifact:
         return getattr(base, name)
 
 
+def select_ridge_alpha(alpha_scores: dict[float, float]) -> float:
+    """Select the lowest-MAE Ridge alpha, breaking exact ties toward smaller alpha."""
+
+    if not alpha_scores:
+        raise ValueError("alpha_scores must not be empty")
+    return float(min(alpha_scores, key=lambda a: (alpha_scores[a], a)))
+
+
 def _fit_avg_layer(train: pd.DataFrame, lead: int) -> AvgLayer:
     fit, calibration = model_artifacts.split_temporal(train, lead)
     fit_features = add_ceiling_evidence_feature(fit)
@@ -110,7 +118,7 @@ def _fit_avg_layer(train: pd.DataFrame, lead: int) -> AvgLayer:
             candidate = Ridge(alpha=float(alpha)).fit(x_fit[active_fit], y_fit)
             prediction = np.clip(candidate.predict(x_cal[active_calibration]), 0.0, 145.0)
             alpha_scores[float(alpha)] = float(np.mean(np.abs(prediction - y_cal)))
-        selected_alpha = min(alpha_scores, key=lambda a: (alpha_scores[a], a))
+        selected_alpha = select_ridge_alpha(alpha_scores)
     else:
         selected_alpha = 10.0
 

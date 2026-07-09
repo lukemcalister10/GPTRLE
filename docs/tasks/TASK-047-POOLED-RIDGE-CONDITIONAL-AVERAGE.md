@@ -85,29 +85,29 @@ python vnext/analyse_task047_pooled_ridge.py --baseline build/task012-candidate/
 
 ## End-to-end expected-points evidence
 
-The accepted forecast stack computes expected points as meaningful-season probability × conditional games × conditional average. TASK-047 intentionally changes only the conditional-average estimator, so end-to-end expected-points movement is expected but must be measured on the full locked population, including non-meaningful outcomes as zero realised points.
+The accepted forecast stack computes expected points as meaningful-season probability × conditional games × conditional average. TASK-047 intentionally changes only the conditional-average estimator, so end-to-end expected-points movement is expected but must be measured against the existing locked `points` column from `targets.csv`, including non-meaningful rows that can still have nonzero realised points.
 
 ### Whole population expected points
 
 |model|n|mae|bias|actual_points|pred_points|
 |---|---|---|---|---|---|
-|task012|20094|455.52|-178.26|715.33|537.07|
-|task047|20094|454.81|-138.84|715.33|576.49|
+|task012|20094|449.43|-190.75|727.81|537.07|
+|task047|20094|447.15|-151.33|727.81|576.49|
 
 ### Expected points by lead
 
 |model|lead|n|mae|bias|actual_points|pred_points|
 |---|---|---|---|---|---|---|
-|task012|1|5622|405.22|-111.64|783.56|671.92|
-|task012|2|4818|460.29|-153.46|741.89|588.44|
-|task012|3|4016|493.53|-213.97|715.41|501.44|
-|task012|4|3217|488.06|-234.59|651.52|416.93|
-|task012|5|2421|456.51|-248.24|588.67|340.43|
-|task047|1|5622|403.36|-83.87|783.56|699.70|
-|task047|2|4818|457.60|-116.34|741.89|625.56|
-|task047|3|4016|491.72|-168.72|715.41|546.68|
-|task047|4|3217|491.49|-183.28|651.52|468.24|
-|task047|5|2421|458.81|-202.67|588.67|386.00|
+|task012|1|5622|397.30|-129.32|801.25|671.92|
+|task012|2|4818|453.31|-167.35|755.78|588.44|
+|task012|3|4016|487.39|-224.28|725.72|501.44|
+|task012|4|3217|483.68|-243.04|659.96|416.93|
+|task012|5|2421|454.28|-254.85|595.28|340.43|
+|task047|1|5622|393.23|-101.55|801.25|699.70|
+|task047|2|4818|448.95|-130.22|755.78|625.56|
+|task047|3|4016|484.29|-179.03|725.72|546.68|
+|task047|4|3217|485.94|-191.72|659.96|468.24|
+|task047|5|2421|455.64|-209.28|595.28|386.00|
 
 ## Unchanged-output invariants
 

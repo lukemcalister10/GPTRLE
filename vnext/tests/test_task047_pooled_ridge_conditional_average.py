@@ -16,6 +16,10 @@ def test_task047_declares_small_fold_local_ridge_alpha_grid():
     assert task047.RIDGE_ALPHA_GRID == (0.1, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0)
 
 
+def test_select_ridge_alpha_breaks_ties_toward_smaller_alpha():
+    assert task047.select_ridge_alpha({30.0: 8.0, 10.0: 8.0, 3.0: 8.1}) == 10.0
+
+
 def test_avg_layer_records_ridge_model_and_selected_alpha():
     layer = task047.AvgLayer(
         preprocessor=object(),
@@ -70,8 +74,9 @@ def test_analysis_adds_expected_points_invariants_and_uncertainty_blocker(tmp_pa
             "player_key": ["a", "b"],
             "origin_year": [2020, 2020],
             "lead": [1, 1],
-            "games": [10.0, 0.0],
-            "avg": [80.0, 0.0],
+            "games": [10.0, 2.0],
+            "avg": [80.0, 25.0],
+            "points": [800.0, 50.0],
             "meaningful": [True, False],
         }
     )
@@ -99,7 +104,7 @@ def test_analysis_adds_expected_points_invariants_and_uncertainty_blocker(tmp_pa
 
     points = tables["expected_points_whole_population"].set_index("model")
     assert points.loc["task012", "mae"] == 62.5
-    assert points.loc["task047", "mae"] == 25.0
+    assert points.loc["task047", "mae"] == 20.0
 
     invariants = tables["unchanged_output_invariants"].set_index("column")
     assert invariants.loc["p_meaningful", "max_abs_delta"] == 0.0

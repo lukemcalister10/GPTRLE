@@ -202,14 +202,14 @@ def build_tables(
     alpha_by_fold: Path | None = None,
 ) -> tuple[pd.DataFrame, dict[str, pd.DataFrame], dict[str, object] | None]:
     preds = pd.concat([baseline, candidate], ignore_index=True)
-    target = targets[KEY + ["games", "avg", "meaningful"]].copy()
+    target = targets[KEY + ["games", "avg", "points", "meaningful"]].copy()
     feat_cols = ["key", "origin_year", "position", "total_games", "weighted_avg", "last_avg", "career_best"]
     feat = features[[c for c in feat_cols if c in features.columns]].rename(columns={"key": "player_key"})
     joined = preds.merge(target, on=KEY, how="inner", validate="many_to_one").merge(feat, on=["player_key", "origin_year"], how="left", validate="many_to_one")
     if len(joined) != len(preds):
         raise ValueError(f"joined row count changed: predictions={len(preds)} joined={len(joined)}")
     joined["broad_position"] = joined.get("position", pd.Series("unknown", index=joined.index)).fillna("unknown").astype(str)
-    joined["actual_points"] = np.where(joined["meaningful"].astype(bool), joined["games"].astype(float) * joined["avg"].astype(float), 0.0)
+    joined["actual_points"] = joined["points"].astype(float)
     joined["points_error"] = joined["exp_points"].astype(float) - joined["actual_points"].astype(float)
     joined["points_abs_error"] = joined["points_error"].abs()
 
