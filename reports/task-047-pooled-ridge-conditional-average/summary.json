@@ -1,0 +1,87 @@
+{
+  "artifacts": {
+    "calibration_by_predicted_avg_band.csv": {
+      "rows": 50
+    },
+    "conditional_average_by_lead.csv": {
+      "rows": 10
+    },
+    "def_mid_fwd_by_lead.csv": {
+      "rows": 30
+    },
+    "elite_prior_by_lead.csv": {
+      "rows": 10
+    },
+    "established_by_lead.csv": {
+      "rows": 10
+    },
+    "largest_current_board_falls.csv": {
+      "rows": 50
+    },
+    "largest_current_board_rises.csv": {
+      "rows": 50
+    },
+    "position_by_lead.csv": {
+      "rows": 40
+    },
+    "residual_sd_by_lead.csv": {
+      "rows": 10
+    },
+    "ruck_by_lead.csv": {
+      "rows": 10
+    },
+    "selected_ridge_alpha_by_fold_lead.csv": {
+      "rows": 25
+    },
+    "whole_population.csv": {
+      "rows": 2
+    }
+  },
+  "current_board_diagnostics": {
+    "max_fall_exp_points_5y": -779.2312894032748,
+    "max_rise_exp_points_5y": 1684.8671179393796,
+    "mean_abs_delta_exp_points_5y": 254.774040425348,
+    "mean_delta_exp_points_5y": 219.93924518142143,
+    "players": 804,
+    "source": "build/task047-current/review/player_rollup_rank_changes.csv"
+  },
+  "failures": {
+    "fold_failures": 0,
+    "target_failures": 0
+  },
+  "hypothesis": "replace the pooled conditional-average SGDRegressor with a pooled Ridge regressor tuned on the fold-local temporal calibration split",
+  "inputs": {
+    "alpha_by_fold": "build/task047-pooled-ridge-conditional-average/selected_ridge_alpha_by_fold_lead.csv",
+    "baseline": "build/task012-candidate/vnext_predictions.csv",
+    "candidate": "build/task047-pooled-ridge-conditional-average/vnext_predictions.csv",
+    "current_board_rollup": "build/task047-current/review/player_rollup_rank_changes.csv",
+    "features": "build/task047-pooled-ridge-conditional-average/training_dataset.csv",
+    "targets": "build/task-003-cohorts/targets.csv"
+  },
+  "meaningful_target_rows_per_model": {
+    "task012": 10848,
+    "task047": 10848
+  },
+  "overall": [
+    {
+      "actual_avg": 72.56219303097346,
+      "bias": -6.538466971779288,
+      "mae": 14.60860084465653,
+      "model": "task012",
+      "n": 10848,
+      "pred_avg": 66.02372605919416,
+      "residual_sd": 17.92219139817628
+    },
+    {
+      "actual_avg": 72.56219303097346,
+      "bias": 1.706270110061164,
+      "mae": 11.650184452240145,
+      "model": "task047",
+      "n": 10848,
+      "pred_avg": 74.26846314103462,
+      "residual_sd": 14.640040564368192
+    }
+  ],
+  "state": "candidate",
+  "task": "TASK-047-pooled-ridge-conditional-average"
+}
