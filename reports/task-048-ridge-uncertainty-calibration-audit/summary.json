@@ -1,0 +1,142 @@
+{
+  "accepted_uncertainty_outputs": false,
+  "artifacts": {
+    "acceptance_gates.csv": {
+      "bytes": 536,
+      "rows": 7,
+      "sha256": "979138bc049b0b130e397e94708e56c0f07fdb28c37577e35594a38fab25447f"
+    },
+    "bootstrap_confidence_intervals.csv": {
+      "bytes": 664,
+      "rows": 7,
+      "sha256": "c1e3c2e0cc6d88c0f0df47802bd8f9be272a02068337cdb9b1888f5dbff91baa"
+    },
+    "bootstrap_observed_invariant.csv": {
+      "bytes": 576,
+      "rows": 7,
+      "sha256": "fd1ea403957aa0f35a976c249d094f21f1250cb14415656a921ac03b53cada8e"
+    },
+    "fold_level_differences.csv": {
+      "bytes": 15164,
+      "rows": 150,
+      "sha256": "daba249fe6db756062ae0e3f2d423c1f997b6feab89676856eb65913b0056599"
+    },
+    "integrity_checks.csv": {
+      "bytes": 2433,
+      "rows": 17,
+      "sha256": "9a35c2d7c77a7ab7bc9682b217f436c95373c3439544765d23183281217b0fcf"
+    },
+    "interval_coverage_by_lead.csv": {
+      "bytes": 3385,
+      "rows": 30,
+      "sha256": "f4c4b0f65ee2d281c70d44efd6059df1d7b760d18ccbf8a0bcb54d9f77ac8055"
+    },
+    "interval_coverage_by_position.csv": {
+      "bytes": 3182,
+      "rows": 30,
+      "sha256": "ed080be32000c2040c4b3b521bf7a6eac800469b7e09f048f163535ab15d46ea"
+    },
+    "interval_coverage_by_prior_history.csv": {
+      "bytes": 2395,
+      "rows": 18,
+      "sha256": "1ac7bfbac3bb825e285c4696875d92c22ad47bfa565d46310f63a71f39804be6"
+    },
+    "interval_coverage_overall.csv": {
+      "bytes": 747,
+      "rows": 6,
+      "sha256": "00e6bc854e8f01bd3fe7f8e3812db6be7fef7a2d72bd32943989dd2cf9c03c27"
+    },
+    "pinball_by_lead.csv": {
+      "bytes": 2967,
+      "rows": 30,
+      "sha256": "dd49954945620dcbd3689f12b889058a601aec3d952a6f7b8ea2969f8a07ffd5"
+    },
+    "pinball_overall.csv": {
+      "bytes": 653,
+      "rows": 6,
+      "sha256": "d218de7a45aad162ec223e1a259a4c12d1135598f88370b31e1b37c1c2a10ab6"
+    },
+    "primary_pinball.csv": {
+      "bytes": 85,
+      "rows": 2,
+      "sha256": "c0989ea4897462a8cb8b0c4f843e7f29ca11e2e31a18d0ca5cbcf5ec980c5863"
+    },
+    "quantile_calibration_by_lead.csv": {
+      "bytes": 7680,
+      "rows": 60,
+      "sha256": "9217a3cf8137fb33ae2312b2ede4699713d2f60206a4ef489dc290e43561930c"
+    },
+    "quantile_calibration_by_position.csv": {
+      "bytes": 7341,
+      "rows": 60,
+      "sha256": "77adad6081bdbadfd7e37648c3c89874014289e3e376c1845d482c829de25ed5"
+    },
+    "quantile_calibration_by_prior_history.csv": {
+      "bytes": 5303,
+      "rows": 36,
+      "sha256": "2effadd8e516bbb562ddc9b2303d1ccddd1c34f82f2fa2ae9a5fee846bacf271"
+    },
+    "quantile_calibration_overall.csv": {
+      "bytes": 1621,
+      "rows": 12,
+      "sha256": "d170c904b58e92781bd3c262cbba7e0e9c866dcc79287465030f1b19d7013ff3"
+    },
+    "structural_zero_mass_by_lead.csv": {
+      "bytes": 1731,
+      "rows": 10,
+      "sha256": "d700790f9002173f72948856d19535ad29e31a2b0bf342992c68575f4c232b27"
+    },
+    "structural_zero_mass_cohort_calibration.csv": {
+      "bytes": 5031,
+      "rows": 36,
+      "sha256": "29b8f8185e006c3679881a50b8482eec988e8df5eccfd9ee883dd54c5ab7cb51"
+    },
+    "structural_zero_mass_cohort_pinball.csv": {
+      "bytes": 2175,
+      "rows": 18,
+      "sha256": "56d7a2af298beeb48758e34ba4c2b7588ea7f20714776190d2848e8bf3ba4f43"
+    }
+  },
+  "bootstrap_replications": 2000,
+  "bootstrap_seed": 48047,
+  "bootstrap_statistic": "pooled row-weighted TASK-047 minus TASK-012 mean pinball difference after player-block resampling",
+  "failed_gates": [
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "folds": 25,
+  "inputs": {
+    "baseline": "build/task012-candidate/vnext_predictions.csv",
+    "candidate": "build/task047-pooled-ridge-conditional-average/vnext_predictions.csv",
+    "features": "build/task047-pooled-ridge-conditional-average/training_dataset.csv",
+    "targets": "build/task-003-cohorts/targets.csv"
+  },
+  "player_origin_snapshots": 5622,
+  "primary_mean_pinball": [
+    {
+      "model": "task012",
+      "primary_mean_pinball_loss": 149.96898283216692
+    },
+    {
+      "model": "task047",
+      "primary_mean_pinball_loss": 141.1074210933937
+    }
+  ],
+  "recommended_next_task": "TASK-049: isolate a target-compatible uncertainty repair for structural one-to-five-game positive-points mass and interval calibration",
+  "reproduction_commands": [
+    "python vnext/run_task012_established_ceiling_folds.py --out build/task012-candidate --rebuild",
+    "python vnext/run_task047_pooled_ridge_folds.py --out build/task047-pooled-ridge-conditional-average --rebuild",
+    "python vnext/analyse_task048_ridge_uncertainty.py --baseline build/task012-candidate/vnext_predictions.csv --candidate build/task047-pooled-ridge-conditional-average/vnext_predictions.csv --targets build/task-003-cohorts/targets.csv --features build/task047-pooled-ridge-conditional-average/training_dataset.csv --out reports/task-048-ridge-uncertainty-calibration-audit"
+  ],
+  "rows_per_model": {
+    "task012": 20094,
+    "task047": 20094
+  },
+  "target_points_source": "targets.csv points column used directly",
+  "task": "TASK-048-ridge-uncertainty-calibration-audit",
+  "tie_rule": "actual_points <= predicted_quantile",
+  "uncertainty_status": "blocked"
+}

@@ -1,0 +1,18 @@
+check,passed,detail
+row_count_per_model,True,"{""task012"": 20094, ""task047"": 20094}"
+player_origin_snapshots,True,5622
+legal_folds,True,25
+target_points_used_directly,True,joined targets.csv points column without reconstruction
+task012_quantiles_non_negative,True,0
+task047_quantiles_non_negative,True,0
+task012_quantiles_non_crossing,True,0
+task047_quantiles_non_crossing,True,0
+bootstrap_observed_equals_pooled_tables,True,"{""points_q10"": 7.271960811294775e-15, ""points_q25"": 6.994405055138486e-15, ""points_q50"": 1.9539925233402755e-14, ""points_q75"": 4.440892098500626e-14, ""points_q90"": 1.4210854715202004e-14, ""points_q97"": 7.105427357601002e-15, ""primary_mean_pinball"": 1.9539925233402755e-14}"
+task012_artifact_target_failures,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task012_artifact_fold_failures,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task012_artifact_prediction_rows,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task012_artifact_snapshot_rows,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_target_failures,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_fold_failures,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_prediction_rows,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_snapshot_rows,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"

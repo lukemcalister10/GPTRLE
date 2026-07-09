@@ -86,3 +86,10 @@ Emergencies are outside the selected 23 and do not score automatically. A manage
 TASK-047 replaces the accepted TASK-012 pooled conditional-average `SGDRegressor` with a leakage-safe pooled Ridge estimator selected inside each rolling-origin training fold. It is accepted for conditional-average point forecasts because it materially improves conditional-average MAE overall and across the diagnosed ruck and elite-prior cohorts, while improving locked total-points MAE overall and preserving every non-average forecast output exactly.
 
 This decision does not accept TASK-047 residual scales, point quantiles, keeper utility, current-board production or a release cutover. Uncertainty outputs remain blocked until a separate calibration audit evaluates pinball loss, quantile calibration and interval coverage against the locked `points` target.
+
+## D-016 — TASK-048 keeps Ridge uncertainty outputs blocked
+**Status:** accepted
+
+TASK-048 is an evaluation-only audit of unchanged TASK-047 point quantiles against the locked `targets.csv` `points` target on the exact 20,094 rows per model and 25 legal folds. The audit improves primary mean pinball loss versus TASK-012, but uncertainty acceptance fails predeclared gates 3, 4, 5, 6 and 7: overall absolute quantile calibration error is too high, q25-q75 coverage is too wide, lead-level central interval coverage has material failures, and broad-position/prior-history subgroup coverage has material failures, and the locked target includes 1,776 one-to-five-game positive-point rows that the current exact non-meaningful zero-mass approximation cannot represent.
+
+TASK-047 remains accepted only for conditional-average point forecasts. Its uncertainty outputs, keeper utility, current-board production and release promotion remain blocked. The next uncertainty work should be at most one isolated TASK-049 hypothesis for a target-compatible uncertainty repair; TASK-048 does not repair, recalibrate, blend or change the uncertainty model.
