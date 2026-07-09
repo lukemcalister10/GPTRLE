@@ -7,5 +7,12 @@ task012_quantiles_non_negative,True,0
 task047_quantiles_non_negative,True,0
 task012_quantiles_non_crossing,True,0
 task047_quantiles_non_crossing,True,0
-no_model_artifacts_or_fitting,True,"analysis-only script reads predictions, targets and features"
-point_forecast_inputs_unchanged_by_audit,True,audit does not write prediction inputs or model artifacts
+bootstrap_observed_equals_pooled_tables,True,"{""points_q10"": 7.271960811294775e-15, ""points_q25"": 6.994405055138486e-15, ""points_q50"": 1.9539925233402755e-14, ""points_q75"": 4.440892098500626e-14, ""points_q90"": 1.4210854715202004e-14, ""points_q97"": 7.105427357601002e-15, ""primary_mean_pinball"": 1.9539925233402755e-14}"
+task012_artifact_target_failures,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task012_artifact_fold_failures,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task012_artifact_prediction_rows,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task012_artifact_snapshot_rows,True,"{""artifact_dir"": ""build/task012-candidate"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_target_failures,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_fold_failures,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_prediction_rows,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"
+task047_artifact_snapshot_rows,True,"{""artifact_dir"": ""build/task047-pooled-ridge-conditional-average"", ""fold_failure_rows"": 0, ""included_snapshot_rows"": 5622, ""prediction_rows"": 20094, ""target_failure_rows"": 0}"

@@ -1,14 +1,19 @@
 {
   "artifacts": {
     "acceptance_gates.csv": {
-      "bytes": 426,
+      "bytes": 536,
       "rows": 7,
-      "sha256": "47bc17b6150f3aa23c75d9298f783b13acd582808fd7238d3868b77878bb20d4"
+      "sha256": "979138bc049b0b130e397e94708e56c0f07fdb28c37577e35594a38fab25447f"
     },
     "bootstrap_confidence_intervals.csv": {
-      "bytes": 665,
+      "bytes": 664,
       "rows": 7,
-      "sha256": "2b57c229d68ee1504aa6af8bac888459a3926c7ef8e82d588c59a1f0f9db401f"
+      "sha256": "c1e3c2e0cc6d88c0f0df47802bd8f9be272a02068337cdb9b1888f5dbff91baa"
+    },
+    "bootstrap_observed_invariant.csv": {
+      "bytes": 576,
+      "rows": 7,
+      "sha256": "fd1ea403957aa0f35a976c249d094f21f1250cb14415656a921ac03b53cada8e"
     },
     "fold_level_differences.csv": {
       "bytes": 15164,
@@ -16,9 +21,9 @@
       "sha256": "daba249fe6db756062ae0e3f2d423c1f997b6feab89676856eb65913b0056599"
     },
     "integrity_checks.csv": {
-      "bytes": 585,
-      "rows": 10,
-      "sha256": "fb83f2a1093209ef0a6ddf6092ec71e27308029df90ff3a0ff87b54707b64b4a"
+      "bytes": 2433,
+      "rows": 17,
+      "sha256": "9a35c2d7c77a7ab7bc9682b217f436c95373c3439544765d23183281217b0fcf"
     },
     "interval_coverage_by_lead.csv": {
       "bytes": 3385,

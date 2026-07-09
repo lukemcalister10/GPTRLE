@@ -19,7 +19,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 - TASK-047 reduces meaningful-season conditional-average MAE from 14.61 to 11.65 and improves ruck and elite-prior errors materially while preserving every non-average forecast output exactly.
 - Using the locked `points` target, TASK-047 improves total-points MAE from 449.43 to 447.15 overall; leads 1-3 improve and leads 4-5 worsen slightly.
 - Frozen Claude files are protected by `artifacts/legacy_manifest.json` and `scripts/verify_legacy_manifest.py`.
-- TASK-048 evaluated 20,094 rows per model and rejected TASK-047 uncertainty outputs: mean pinball improved from 149.97 to 141.11, but gates 3, 4, 5 and 6 failed (mean absolute quantile calibration error 0.1273; q25-q75 coverage 0.5877; max lead central interval coverage error 0.1663; max subgroup coverage error 0.2540).
+- TASK-048 evaluated 20,094 rows per model and rejected TASK-047 uncertainty outputs: mean pinball improved from 149.97 to 141.11, but gates 3, 4, 5, 6 and 7 failed (mean absolute quantile calibration error 0.1273; q25-q75 coverage 0.5877; max lead central interval coverage error 0.1663; max subgroup coverage error 0.2540; 1,776 one-to-five-game positive-point rows expose structural zero-mass incompatibility).
 
 ## Read first
 1. `AGENTS.md`

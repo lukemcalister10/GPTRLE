@@ -47,3 +47,39 @@ def test_build_audit_rejects_mismatched_keys_before_scoring():
         assert "prediction keys are not identical" in str(exc)
     else:
         raise AssertionError("mismatched target keys must fail")
+
+
+def test_bootstrap_observed_differences_equal_pooled_tables():
+    baseline = _pred("task012").assign(
+        points_q10=[0.0, 400.0],
+        points_q25=[0.0, 600.0],
+        points_q50=[50.0, 800.0],
+        points_q75=[200.0, 1000.0],
+        points_q90=[350.0, 1200.0],
+        points_q97=[500.0, 1400.0],
+    )
+    candidate = _pred("task047")
+    targets = pd.DataFrame(
+        {
+            "player_key": ["p1", "p2"],
+            "origin_year": [2020, 2020],
+            "lead": [1, 1],
+            "games": [0, 10],
+            "points": [0.0, 900.0],
+        }
+    )
+    features = pd.DataFrame(
+        {
+            "key": ["p1", "p2"],
+            "origin_year": [2020, 2020],
+            "position": ["MID", "RUC"],
+            "total_games": [0, 50],
+        }
+    )
+
+    tables, _summary = audit.build_audit(
+        baseline, candidate, targets, features, bootstrap_replications=10
+    )
+    invariant = tables["bootstrap_observed_invariant.csv"]
+
+    assert (invariant["abs_delta"] <= 1e-10).all()
