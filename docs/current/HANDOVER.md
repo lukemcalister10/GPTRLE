@@ -3,37 +3,34 @@
 Generated from repository state. Do not treat chat history as authoritative when this file and chat disagree.
 
 ## State
-- Production baseline: frozen unchanged Claude engine under `engine/rl_after/`.
-- Accepted forecast evidence: TASK-003Q, TASK-009 zero-history state separation and TASK-012 evidence-weighted demonstrated ceiling; no release cutover approved.
-- Integration branch: `vnext` includes TASK-008, TASK-009, TASK-010, TASK-012, TASK-013 and TASK-014.
-- Rejected experiment: TASK-011 pedigree fade failed predeclared zero-history and 100+ cohort gates and was not merged.
+- Production baseline: frozen unchanged Claude engine under `engine/rl_after/`; no release cutover has been approved.
+- Accepted point-forecast evidence: TASK-003Q, TASK-009 zero-history state separation, TASK-012 evidence-weighted demonstrated ceiling and TASK-047 pooled Ridge conditional-average point forecasts.
+- Conditional-average defect work is recorded through TASK-047: TASK-044 and TASK-045 diagnosed broad compression, TASK-046 rejected broad-position routing, and TASK-047 accepted pooled Ridge for point forecasts.
+- Uncertainty status: TASK-047 point forecasts are accepted, but its point quantiles and residual-based uncertainty outputs remain blocked pending TASK-048 calibration evidence.
 - Release constraint: TASK-006 and the TASK-007 TASK-006 export must not be promoted.
-- Partial-season exposure: formally blocked until origin-safe historical intra-season snapshots exist.
-- Numerical continuity: TASK-013 removes exact `vP1`/`vP2` zeros in an isolated adapter; it is not wired into production export.
-- Current-board composition: TASK-014 validates the accepted TASK-009 + TASK-012 stack across all 804 authoritative players without changing keeper utility or production.
-- Active task: [`TASK-014-CURRENT-BOARD-COMPOSITION.md`](../tasks/TASK-014-CURRENT-BOARD-COMPOSITION.md).
-- Accepted decisions recorded: 14.
+- Partial-season exposure remains blocked until origin-safe historical intra-season snapshots exist.
+- Forecast, uncertainty, keeper utility and owner policy remain separate layers; no production or keeper-value promotion is implied by TASK-047.
+- Active task: [`TASK-048-RIDGE-UNCERTAINTY-CALIBRATION-AUDIT.md`](../tasks/TASK-048-RIDGE-UNCERTAINTY-CALIBRATION-AUDIT.md).
+- Accepted decisions recorded: 15.
 
 ## Locked evidence
 - Authoritative current universe: 804 players; raw Claude export: 805 rows with legacy-only Taylor Adams.
-- Historical benchmark: 5,622 player-origin snapshots, 20,094 player-origin-lead rows per model and 25 legal rolling-origin folds.
-- TASK-009 improved zero-history Brier, log loss, games MAE and points MAE while also improving every pooled primary metric.
-- TASK-012 improved established low-ceiling conditional-average MAE by 0.33% and points MAE by 0.52%, with event, games and threshold outputs unchanged.
-- TASK-010 found 11,243 annual scoring rows but no historical round/date or games-available fields.
-- TASK-013 changes seven exact-zero fields across four authoritative players and changes no current value, rank or non-zero forecast.
-- TASK-014 preserves every event, games and threshold output exactly; five-year expected-points rank movement averages 1.55 places, peaks at nine and retains 99 of the top 100.
+- Historical benchmark: 5,622 player-origin snapshots, 20,094 player-origin-lead rows per model and 25 legal rolling-origin folds, with zero target failures and zero fold failures.
+- TASK-047 reduces meaningful-season conditional-average MAE from 14.61 to 11.65 and improves ruck and elite-prior errors materially while preserving every non-average forecast output exactly.
+- Using the locked `points` target, TASK-047 improves total-points MAE from 449.43 to 447.15 overall; leads 1-3 improve and leads 4-5 worsen slightly.
+- TASK-047 uncertainty outputs are not accepted because quantile calibration, pinball performance and interval coverage have not yet passed a predeclared audit.
 - Frozen Claude files are protected by `artifacts/legacy_manifest.json` and `scripts/verify_legacy_manifest.py`.
 
 ## Read first
 1. `AGENTS.md`
-2. `docs/current/VALIDATION_PROTOCOL.md`
-3. `docs/current/ROADMAP_TO_PRODUCTION.md`
-4. `docs/current/DECISION_LOG.md`
-5. `docs/current/TASK-008-BASELINE-ERROR-AUDIT.md`
-6. `docs/tasks/TASK-014-CURRENT-BOARD-COMPOSITION.md`
+2. `docs/current/PROJECT_STATE.json`
+3. `docs/current/VALIDATION_PROTOCOL.md`
+4. `docs/current/ROADMAP_TO_PRODUCTION.md`
+5. `docs/current/DECISION_LOG.md`
+6. `docs/tasks/TASK-048-RIDGE-UNCERTAINTY-CALIBRATION-AUDIT.md`
 
 ## Immediate sequence
-The currently testable defect workstream is complete. Further partial-season work requires origin-safe historical intra-season data. Further keeper-utility or release work requires an independent historical keeper-value target or an explicit owner release decision. Preserve TASK-011 as rejected evidence and do not promote TASK-006.
+Complete TASK-048 as an evaluation-only audit of the accepted TASK-047 point-forecast distribution. Measure pinball loss, empirical quantile calibration, interval coverage and the structural effect of treating all non-meaningful seasons as zero-point mass. Do not alter the accepted Ridge point forecasts or uncertainty generator in the same pull request. If the audit fails, preserve the blocker and formulate one separate repair hypothesis.
 
 ## Decision rule
-No component replaces production because selected current players look more plausible. Promotion requires locked outcome-based evidence and Luke's explicit release approval. TASK-006 is specifically release-blocked.
+No component replaces production because selected current players look more plausible. Point-forecast acceptance, uncertainty acceptance, keeper-utility acceptance and production release are separate decisions. Production promotion still requires locked outcome-based evidence and Luke's explicit release approval; TASK-006 remains specifically release-blocked.
