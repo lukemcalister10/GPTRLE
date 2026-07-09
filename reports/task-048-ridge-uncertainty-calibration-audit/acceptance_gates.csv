@@ -1,0 +1,8 @@
+gate,passed,detail
+1,True,"primary pct diff=-0.059089; bootstrap absolute CI=(-5.953845,-3.585632)"
+2,True,max individual quantile pct diff=-0.002584
+3,False,mean abs calibration error=0.127288
+4,False,q25-q75=0.587738; q10-q90=0.775804
+5,False,max lead central interval abs coverage error=0.166254
+6,False,max subgroup abs coverage error=0.254048
+7,True,one-to-five positive rows=1776; mean zero-quantile proportion=0.474850
