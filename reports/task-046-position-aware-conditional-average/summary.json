@@ -1,0 +1,78 @@
+{
+  "artifacts": {
+    "calibration_by_predicted_avg_band.csv": {
+      "rows": 53
+    },
+    "conditional_average_by_lead.csv": {
+      "rows": 10
+    },
+    "def_mid_fwd_by_lead.csv": {
+      "rows": 30
+    },
+    "elite_prior_by_lead.csv": {
+      "rows": 10
+    },
+    "established_by_lead.csv": {
+      "rows": 10
+    },
+    "largest_current_board_falls.csv": {
+      "rows": 50
+    },
+    "largest_current_board_rises.csv": {
+      "rows": 50
+    },
+    "position_by_lead.csv": {
+      "rows": 40
+    },
+    "ruck_by_lead.csv": {
+      "rows": 10
+    },
+    "whole_population.csv": {
+      "rows": 2
+    }
+  },
+  "current_board_diagnostics": {
+    "max_fall_exp_points_5y": -1269.9212948334548,
+    "max_rise_exp_points_5y": 1712.9495538097408,
+    "mean_abs_delta_exp_points_5y": 179.53821955948624,
+    "mean_delta_exp_points_5y": -135.30887325294893,
+    "players": 804,
+    "source": "build/task046-current/review/player_rollup_rank_changes.csv"
+  },
+  "failures": {
+    "fold_failures": 0,
+    "target_failures": 0
+  },
+  "hypothesis": "separate broad-position conditional-average regressors with pooled fallback improve ruck and upper-tail calibration",
+  "inputs": {
+    "baseline": "build/task012-candidate/vnext_predictions.csv",
+    "candidate": "build/task046-position-aware-conditional-average/vnext_predictions.csv",
+    "current_board_rollup": "build/task046-current/review/player_rollup_rank_changes.csv",
+    "features": "build/task046-position-aware-conditional-average/training_dataset.csv",
+    "targets": "build/task-003-cohorts/targets.csv"
+  },
+  "meaningful_target_rows_per_model": {
+    "task012": 10848,
+    "task046": 10848
+  },
+  "overall": [
+    {
+      "actual_avg": 72.56219303097346,
+      "bias": -6.538466971779288,
+      "mae": 14.60860084465653,
+      "model": "task012",
+      "n": 10848,
+      "pred_avg": 66.02372605919416
+    },
+    {
+      "actual_avg": 72.56219303097346,
+      "bias": -9.175027905454018,
+      "mae": 16.43252475988253,
+      "model": "task046",
+      "n": 10848,
+      "pred_avg": 63.38716512551943
+    }
+  ],
+  "state": "candidate",
+  "task": "TASK-046-position-aware-conditional-average"
+}
