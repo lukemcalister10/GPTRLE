@@ -94,3 +94,11 @@ Persist reproduction commands, input hashes, artifact hashes, state-probability 
 ## Decision boundary
 
 TASK-049 can accept uncertainty outputs only. It cannot promote keeper utility, the current board or production. If rejected, record the evidence and stop before another uncertainty hypothesis.
+
+## Conclusion
+
+TASK-049 is complete and rejected. The implementation replaced only the point-distribution generator with a fold-local empirical three-state generator, preserved accepted TASK-047 point forecasts through moment reconciliation within `1e-8`, and kept non-uncertainty outputs unchanged.
+
+The locked comparison evaluated exactly 20,094 rows per model, 5,622 player-origin snapshots and 25 legal folds against `targets.csv` `points`, using deterministic pooled row-weighted player-block bootstrap seed `49049` with 2,000 replications. The primary mean pinball loss worsened from 141.11 for TASK-047 to 141.65 for TASK-049. Gates 1, 2, 3, 4, 5, 6 and 7 failed; gates 8 and 9 passed. Uncertainty outputs remain blocked, and this task does not promote keeper utility, current-board production or release.
+
+Recommended subsequent hypothesis: at most one separately locked distribution-shape repair audit; do not tune or repair TASK-049 in this PR.

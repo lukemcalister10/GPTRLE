@@ -93,3 +93,11 @@ This decision does not accept TASK-047 residual scales, point quantiles, keeper 
 TASK-048 is an evaluation-only audit of unchanged TASK-047 point quantiles against the locked `targets.csv` `points` target on the exact 20,094 rows per model and 25 legal folds. The audit improves primary mean pinball loss versus TASK-012, but uncertainty acceptance fails predeclared gates 3, 4, 5, 6 and 7: overall absolute quantile calibration error is too high, q25-q75 coverage is too wide, lead-level central interval coverage has material failures, and broad-position/prior-history subgroup coverage has material failures, and the locked target includes 1,776 one-to-five-game positive-point rows that the current exact non-meaningful zero-mass approximation cannot represent.
 
 TASK-047 remains accepted only for conditional-average point forecasts. Its uncertainty outputs, keeper utility, current-board production and release promotion remain blocked. The next uncertainty work should be at most one isolated TASK-049 hypothesis for a target-compatible uncertainty repair; TASK-048 does not repair, recalibrate, blend or change the uncertainty model.
+
+## D-017 — TASK-049 three-state uncertainty repair rejected
+
+TASK-049 replaced only the TASK-047 two-state point-distribution generator with a fold-local empirical three-state generator for zero-game, one-to-five-game positive-point and meaningful-season states. The accepted TASK-047 point forecasts and non-uncertainty outputs were preserved, and evaluation used the locked `targets.csv` points target on 20,094 rows per model, 5,622 player-origin snapshots and 25 legal folds.
+
+Result: TASK-049 uncertainty outputs are **not accepted**. The primary mean pinball loss worsened from 141.11 to 141.65, and gates 1, 2, 3, 4, 5, 6 and 7 failed. Integrity gates 8 and 9 passed: distribution means reconciled to accepted `exp_points` within 1e-8, row/fold counts and failure counts remained exact, and quantiles were deterministic, non-negative and non-crossing.
+
+Uncertainty remains blocked. This decision does not change keeper utility, current-board production or release status. The recommended next work is at most one separately locked distribution-shape hypothesis; do not tune or repair TASK-049 in this PR.

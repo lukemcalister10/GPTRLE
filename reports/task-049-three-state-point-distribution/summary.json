@@ -1,0 +1,131 @@
+{
+  "accepted_uncertainty_outputs": false,
+  "artifacts": {
+    "acceptance_gates.csv": {
+      "bytes": 421,
+      "rows": 9,
+      "sha256": "e269fca5b685d0bf0fb1393f9c15a86e9ae982562785ec0a9d0658a02f15ef7b"
+    },
+    "bootstrap_confidence_intervals.csv": {
+      "bytes": 659,
+      "rows": 7,
+      "sha256": "07f0754dd4b7bdb58cb37623c68d168a150c973d399d8ae4244afa1a4e4cbb65"
+    },
+    "fold_level_differences.csv": {
+      "bytes": 15088,
+      "rows": 150,
+      "sha256": "357a8cd695e58c76357ca961fc8f31b3ae433d9c433f055da2466869e55bfc5e"
+    },
+    "integrity_checks.csv": {
+      "bytes": 445,
+      "rows": 9,
+      "sha256": "76d29961c8e6c300664b4ee7ddc839b5556faa341313c8e57a5db36001ca0275"
+    },
+    "interval_coverage_by_lead.csv": {
+      "bytes": 3403,
+      "rows": 30,
+      "sha256": "4473db98ad976cadc3cc01cf98ffbb9f62381bf0aa5594e0d40faff924f28eb2"
+    },
+    "interval_coverage_by_position.csv": {
+      "bytes": 3190,
+      "rows": 30,
+      "sha256": "f5be0ee29768f75eefd5593e6544157dcaf1e2567d32b88ef275a90a1518dcd7"
+    },
+    "interval_coverage_by_prior_history.csv": {
+      "bytes": 2396,
+      "rows": 18,
+      "sha256": "e8e022a42ba31ada622aae1e4c9bfe8ac4d2298a3d2c8fb3d5bb8622b2dec1e5"
+    },
+    "interval_coverage_overall.csv": {
+      "bytes": 749,
+      "rows": 6,
+      "sha256": "0d4e951116dd633cee1265ae2abc9bccb414a0f63649a1c4409e3ba15679383a"
+    },
+    "pinball_by_lead.csv": {
+      "bytes": 2954,
+      "rows": 30,
+      "sha256": "4327a4169140d94ca25ec9779dde0b5fdc359cb114e437cd6a00bf52e70e4098"
+    },
+    "pinball_overall.csv": {
+      "bytes": 649,
+      "rows": 6,
+      "sha256": "908400c553673ce6c497e854a6ffa1c1736c8da38bc36e19023022cc08f37075"
+    },
+    "primary_pinball.csv": {
+      "bytes": 86,
+      "rows": 2,
+      "sha256": "4999bcd502123d5ffdf5880a501c596a93985ad1e493b6529d700c4ad5492cf2"
+    },
+    "quantile_calibration_by_lead.csv": {
+      "bytes": 7672,
+      "rows": 60,
+      "sha256": "260769b735886299cd681483136f2f40c0d92bd427606b3999d483ecd91c9e5b"
+    },
+    "quantile_calibration_by_position.csv": {
+      "bytes": 7346,
+      "rows": 60,
+      "sha256": "9cd25eedbc75c90846c110015cf64befd038dee2978dd1e895a5294ffcfc96c6"
+    },
+    "quantile_calibration_by_prior_history.csv": {
+      "bytes": 5300,
+      "rows": 36,
+      "sha256": "db2aeb9cb01b7ddeed6d2344483e3ce256630e83774b12c26008fd8c9a5216f7"
+    },
+    "quantile_calibration_overall.csv": {
+      "bytes": 1617,
+      "rows": 12,
+      "sha256": "ebbce8d7d84944c1b22019c0299f3f4d728f58ae3608b02f8102a43ff1df37df"
+    },
+    "realised_state_cohorts_by_lead.csv": {
+      "bytes": 1730,
+      "rows": 10,
+      "sha256": "cf2de4a88e977f53c9127bdadc4615254aaca57577023e692f576365034e8872"
+    },
+    "short_season_evidence.csv": {
+      "bytes": 204834,
+      "rows": 25,
+      "sha256": "1fba4ca2839812692d6c7ebfd936a4080636ec2ed3eec2b9440a044b395b26bf"
+    },
+    "state_probability_reconciliation.csv": {
+      "bytes": 2513033,
+      "rows": 20094,
+      "sha256": "69ddb52ecdcc0fdf55752a7d698f3e2b67c1e977d03f2283d92c28bb2bf4aa5b"
+    }
+  },
+  "bootstrap_replications": 2000,
+  "bootstrap_seed": 49049,
+  "failed_gates": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "folds": 25,
+  "input_hashes": {
+    "baseline": "4812201506d152b3652b3050248bccad81de7d55a31dcd5cb91f11d8b18d2259",
+    "candidate": "87860dc33e39ef856122b9a48e3ca55d0a5a346d42c03fae614ce447ff3e497d",
+    "features": "5dbca9cabd0e318cc4505f65716df1e82081030df1280b48fe6dd0ede3d84da9",
+    "targets": "e7bd7a101332b9384955cfd3fdbfa136812c7316c9a026e3e0a9eed52cff00f8"
+  },
+  "player_origin_snapshots": 5622,
+  "primary_mean_pinball": [
+    {
+      "model": "task047",
+      "primary_mean_pinball_loss": 141.10742105684253
+    },
+    {
+      "model": "task049",
+      "primary_mean_pinball_loss": 141.65297300037767
+    }
+  ],
+  "recommended_next_hypothesis": "Audit whether the moment-preserving short-season mixture needs a predeclared distribution-shape repair; do not tune TASK-049.",
+  "rows_per_model": {
+    "task047": 20094,
+    "task049": 20094
+  },
+  "task": "TASK-049-three-state-point-distribution",
+  "uncertainty_status": "blocked"
+}

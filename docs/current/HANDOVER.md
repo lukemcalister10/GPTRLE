@@ -8,11 +8,11 @@ Generated from repository state. Do not treat chat history as authoritative when
 - Conditional-average defect work is recorded through TASK-047: TASK-044 and TASK-045 diagnosed broad compression, TASK-046 rejected broad-position routing, and TASK-047 accepted pooled Ridge for point forecasts.
 - Release constraint: TASK-006 and the TASK-007 TASK-006 export must not be promoted.
 - Uncertainty status: TASK-048 rejected acceptance of TASK-047 uncertainty outputs; point quantiles remain blocked after failed calibration, interval-coverage and structural-support gates.
-- TASK-049 is the active isolated uncertainty hypothesis: replace the exact non-meaningful zero-mass branch with a three-state zero-game, one-to-five-game and meaningful-season distribution while preserving accepted TASK-047 point forecasts exactly.
 - Partial-season exposure remains blocked until origin-safe historical intra-season snapshots exist.
+- TASK-049 three-state point distribution was rejected; uncertainty remains blocked after failed gates 1, 2, 3, 4, 5, 6, 7, with TASK-049 mean pinball 141.65 versus TASK-047 141.11.
 - Forecast, uncertainty, keeper utility and owner policy remain separate layers; no production or keeper-value promotion is implied by TASK-047 or TASK-049.
 - Active task: [`TASK-049-THREE-STATE-POINT-DISTRIBUTION.md`](../tasks/TASK-049-THREE-STATE-POINT-DISTRIBUTION.md).
-- Accepted decisions recorded: 16.
+- Accepted decisions recorded: 17.
 
 ## Locked evidence
 - Authoritative current universe: 804 players; raw Claude export: 805 rows with legacy-only Taylor Adams.
@@ -21,6 +21,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 - Using the locked `points` target, TASK-047 improves total-points MAE from 449.43 to 447.15 overall; leads 1-3 improve and leads 4-5 worsen slightly.
 - Frozen Claude files are protected by `artifacts/legacy_manifest.json` and `scripts/verify_legacy_manifest.py`.
 - TASK-048 evaluated 20,094 rows per model and rejected TASK-047 uncertainty outputs: mean pinball improved from 149.97 to 141.11, but gates 3, 4, 5, 6 and 7 failed (mean absolute quantile calibration error 0.1273; q25-q75 coverage 0.5877; max lead central interval coverage error 0.1663; max subgroup coverage error 0.2540; 1,776 one-to-five-game positive-point rows expose structural zero-mass incompatibility).
+- TASK-049 evaluated 20094 rows per model, 5622 player-origin snapshots and 25 legal folds with bootstrap seed 49049 and 2000 replications; gates 1, 2, 3, 4, 5, 6, 7 failed, so uncertainty outputs remain blocked.
 
 ## Read first
 1. `AGENTS.md`
@@ -31,7 +32,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 6. `docs/tasks/TASK-049-THREE-STATE-POINT-DISTRIBUTION.md`
 
 ## Immediate sequence
-Implement TASK-049 exactly as locked: test one target-compatible three-state point-distribution hypothesis, preserve every accepted TASK-047 point and non-uncertainty output, and accept or reject solely on the predeclared uncertainty gates.
+TASK-049 is complete and rejected. Keep uncertainty blocked; if more uncertainty work is attempted, use no more than one separately locked hypothesis and do not tune TASK-049.
 
 ## Decision rule
 No component replaces production because selected current players look more plausible. Point-forecast acceptance, uncertainty acceptance, keeper-utility acceptance and production release are separate decisions. Production promotion still requires locked outcome-based evidence and Luke's explicit release approval; TASK-006 remains specifically release-blocked.
