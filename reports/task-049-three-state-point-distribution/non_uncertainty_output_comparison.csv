@@ -1,0 +1,15 @@
+column,changed_rows,max_abs_delta
+model_id,0,
+player_key,0,
+origin_year,0,0.0
+lead,0,0.0
+p_meaningful,0,0.0
+cond_games,0,3.552713678800501e-15
+cond_avg,0,0.0
+exp_games,0,3.552713678800501e-15
+exp_points,0,4.547473508864641e-13
+p_avg_ge_80,0,0.0
+p_avg_ge_90,0,0.0
+p_avg_ge_100,0,0.0
+p_avg_ge_110,0,0.0
+p_avg_ge_120,0,0.0

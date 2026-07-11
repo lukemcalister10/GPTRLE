@@ -2,59 +2,89 @@
   "accepted_uncertainty_outputs": false,
   "artifacts": {
     "acceptance_gates.csv": {
-      "bytes": 421,
+      "bytes": 439,
       "rows": 9,
-      "sha256": "e269fca5b685d0bf0fb1393f9c15a86e9ae982562785ec0a9d0658a02f15ef7b"
+      "sha256": "d1ce3caf34232c4db16b320839b77a781253ab11524dd705916d5a87eb2aeb18"
     },
     "bootstrap_confidence_intervals.csv": {
-      "bytes": 659,
+      "bytes": 795,
       "rows": 7,
-      "sha256": "07f0754dd4b7bdb58cb37623c68d168a150c973d399d8ae4244afa1a4e4cbb65"
+      "sha256": "c14f94f450912ddcd2a80b4a21f1751f819a43e7814c97734be60011d18a9c4d"
+    },
+    "bootstrap_pooled_statistic_invariant.csv": {
+      "bytes": 571,
+      "rows": 7,
+      "sha256": "f892e68b709fe4059d2cc1f1a1e71229946efc572b16704c2827feca4e8eceed"
     },
     "fold_level_differences.csv": {
-      "bytes": 15088,
+      "bytes": 15133,
       "rows": 150,
-      "sha256": "357a8cd695e58c76357ca961fc8f31b3ae433d9c433f055da2466869e55bfc5e"
+      "sha256": "36ec773939ce1546023dc4cead8ac5c5a7f7393d0d9b9e434a1dc9003f233fe1"
     },
     "integrity_checks.csv": {
-      "bytes": 445,
-      "rows": 9,
-      "sha256": "76d29961c8e6c300664b4ee7ddc839b5556faa341313c8e57a5db36001ca0275"
+      "bytes": 2472,
+      "rows": 16,
+      "sha256": "6512151a91c81412c8b5085d1cf5adef98ffa1732d85270ab6fb04f80fe86c41"
     },
     "interval_coverage_by_lead.csv": {
-      "bytes": 3403,
+      "bytes": 3400,
       "rows": 30,
-      "sha256": "4473db98ad976cadc3cc01cf98ffbb9f62381bf0aa5594e0d40faff924f28eb2"
+      "sha256": "b33b37b7638538eb3a0ee44c00a2b5c30731d0ca0f6e66ef2277ab0b59824f82"
     },
     "interval_coverage_by_position.csv": {
-      "bytes": 3190,
+      "bytes": 3187,
       "rows": 30,
-      "sha256": "f5be0ee29768f75eefd5593e6544157dcaf1e2567d32b88ef275a90a1518dcd7"
+      "sha256": "7042f5b42edfe22c86da96e6194887cb10361c8e900bebf7be7f6fdc96a52f58"
     },
     "interval_coverage_by_prior_history.csv": {
       "bytes": 2396,
       "rows": 18,
-      "sha256": "e8e022a42ba31ada622aae1e4c9bfe8ac4d2298a3d2c8fb3d5bb8622b2dec1e5"
+      "sha256": "0fc18ab3d8b42872a68a09105b37ee1ee8b06768dbc68f4806b8463ce918e2fd"
+    },
+    "interval_coverage_by_realised_cohort.csv": {
+      "bytes": 2443,
+      "rows": 18,
+      "sha256": "c80787b849667db617a138af31b3fad1e98009921a0cbf72246234872b1d989c"
     },
     "interval_coverage_overall.csv": {
-      "bytes": 749,
+      "bytes": 747,
       "rows": 6,
-      "sha256": "0d4e951116dd633cee1265ae2abc9bccb414a0f63649a1c4409e3ba15679383a"
+      "sha256": "b66a41f27d83c8c9a52b20b12c3aac788ed78e8367581db21c643b25b689c336"
+    },
+    "non_uncertainty_output_comparison.csv": {
+      "bytes": 320,
+      "rows": 14,
+      "sha256": "a2d0af65c56e0c42a8ec5ee67018ae3ca20476ec9b3d1e5ffb307bca3ad1ce9a"
+    },
+    "one_to_five_cohort_calibration.csv": {
+      "bytes": 1629,
+      "rows": 12,
+      "sha256": "7c80ec586b967d3c99634b794aed8f097e62d5ce0102af61b8a390316bcfe127"
+    },
+    "one_to_five_cohort_pinball.csv": {
+      "bytes": 651,
+      "rows": 6,
+      "sha256": "3fa973430124b94a195ba973bc55264b0658744f6d41fac2c72ecb9695b2e04d"
     },
     "pinball_by_lead.csv": {
-      "bytes": 2954,
+      "bytes": 2955,
       "rows": 30,
-      "sha256": "4327a4169140d94ca25ec9779dde0b5fdc359cb114e437cd6a00bf52e70e4098"
+      "sha256": "86e80dcc697f3ded5d6dc4474e204bd5fee673b948eccd4634aa5c43a83bf9dc"
     },
     "pinball_overall.csv": {
-      "bytes": 649,
+      "bytes": 647,
       "rows": 6,
-      "sha256": "908400c553673ce6c497e854a6ffa1c1736c8da38bc36e19023022cc08f37075"
+      "sha256": "2a1b0a5d70e5c9e9558f7ca2e469f410503e735062060a9768c6d18f3054f470"
+    },
+    "predicted_vs_realised_state_frequency.csv": {
+      "bytes": 3377,
+      "rows": 25,
+      "sha256": "d67ad3f75f6bec486156e3a7dc9b34047d5f318431a835fecce7e4f86a34af93"
     },
     "primary_pinball.csv": {
-      "bytes": 86,
+      "bytes": 85,
       "rows": 2,
-      "sha256": "4999bcd502123d5ffdf5880a501c596a93985ad1e493b6529d700c4ad5492cf2"
+      "sha256": "632b8f80dc16054ace8b2d10e8b0d57c88bd36e8531662274b59cd4fbdef09d3"
     },
     "quantile_calibration_by_lead.csv": {
       "bytes": 7672,
@@ -71,6 +101,11 @@
       "rows": 36,
       "sha256": "db2aeb9cb01b7ddeed6d2344483e3ce256630e83774b12c26008fd8c9a5216f7"
     },
+    "quantile_calibration_by_realised_cohort.csv": {
+      "bytes": 5034,
+      "rows": 36,
+      "sha256": "70457e6b1aec2d99fe2d4b96e70abba1ad3f15b311e8b22157ac9134e696212f"
+    },
     "quantile_calibration_overall.csv": {
       "bytes": 1617,
       "rows": 12,
@@ -81,15 +116,20 @@
       "rows": 10,
       "sha256": "cf2de4a88e977f53c9127bdadc4615254aaca57577023e692f576365034e8872"
     },
+    "short_season_calibration.csv": {
+      "bytes": 1918,
+      "rows": 14,
+      "sha256": "3b1a05ccca7695a2ebfae0597549f235938d15bae4289d35b8a5d294be5cbee9"
+    },
     "short_season_evidence.csv": {
-      "bytes": 204834,
+      "bytes": 204830,
       "rows": 25,
-      "sha256": "1fba4ca2839812692d6c7ebfd936a4080636ec2ed3eec2b9440a044b395b26bf"
+      "sha256": "12a2ef78daf9342a8f2ff721a41d5fea72b7a833cf5650a1fdab210de3a02d8f"
     },
     "state_probability_reconciliation.csv": {
-      "bytes": 2513033,
+      "bytes": 2515055,
       "rows": 20094,
-      "sha256": "69ddb52ecdcc0fdf55752a7d698f3e2b67c1e977d03f2283d92c28bb2bf4aa5b"
+      "sha256": "4d947cd289cdb380eba4ea84787169be18fe0b3e05bbaf83d1bbcb6be50c06c5"
     }
   },
   "bootstrap_replications": 2000,
@@ -105,26 +145,46 @@
   ],
   "folds": 25,
   "input_hashes": {
-    "baseline": "4812201506d152b3652b3050248bccad81de7d55a31dcd5cb91f11d8b18d2259",
-    "candidate": "87860dc33e39ef856122b9a48e3ca55d0a5a346d42c03fae614ce447ff3e497d",
+    "baseline": "481485d84c0dddc05ef01a9ecd50c6be5092538b70064aba50a887a0812f43f4",
+    "candidate": "3782fb531a4a7c147501151f937ec7a7f723b51ef1fe6adb070d0e21f17bb6f8",
     "features": "5dbca9cabd0e318cc4505f65716df1e82081030df1280b48fe6dd0ede3d84da9",
+    "moment_reconciliation": "6105251066efbbe87c9f75bb988dbd2de0856d0cfebe1df332000af69f751a2f",
+    "short_evidence": "9dcfbceed2336eb2b5582c0b40e4d183d99561b898ea7c7eea5747d1c84dd2cc",
     "targets": "e7bd7a101332b9384955cfd3fdbfa136812c7316c9a026e3e0a9eed52cff00f8"
   },
   "player_origin_snapshots": 5622,
   "primary_mean_pinball": [
     {
       "model": "task047",
-      "primary_mean_pinball_loss": 141.10742105684253
+      "primary_mean_pinball_loss": 141.1074210933937
     },
     {
       "model": "task049",
-      "primary_mean_pinball_loss": 141.65297300037767
+      "primary_mean_pinball_loss": 141.65297296100084
     }
   ],
   "recommended_next_hypothesis": "Audit whether the moment-preserving short-season mixture needs a predeclared distribution-shape repair; do not tune TASK-049.",
   "rows_per_model": {
     "task047": 20094,
     "task049": 20094
+  },
+  "target_and_fold_failures": {
+    "task047": {
+      "artifact_dir": "build/task047-pooled-ridge-conditional-average",
+      "fold_failure_rows": 0,
+      "included_snapshot_rows": 5622,
+      "manifest_path": "build/task047-pooled-ridge-conditional-average/prediction_manifest.json",
+      "prediction_rows": 20094,
+      "target_failure_rows": 0
+    },
+    "task049": {
+      "artifact_dir": "build/task049-three-state-point-distribution",
+      "fold_failure_rows": 0,
+      "included_snapshot_rows": 5622,
+      "manifest_path": "build/task049-three-state-point-distribution/prediction_manifest.json",
+      "prediction_rows": 20094,
+      "target_failure_rows": 0
+    }
   },
   "task": "TASK-049-three-state-point-distribution",
   "uncertainty_status": "blocked"

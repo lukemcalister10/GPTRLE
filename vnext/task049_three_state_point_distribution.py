@@ -102,8 +102,21 @@ def generate_three_state_predictions(predictions: pd.DataFrame, training_dataset
     for (lead, origin), idx in out.groupby(["lead", "origin_year"]).groups.items():
         ev = estimate_short_season_evidence(training_dataset, int(lead), int(origin))
         fm = fold_manifest[(fold_manifest.lead == lead) & (fold_manifest.origin_year == origin)]
-        games_sd = float(fm.games_resid_sd.iloc[0]) if len(fm) and "games_resid_sd" in fm else 3.0
-        avg_sd = float(fm.avg_resid_sd.iloc[0]) if len(fm) and "avg_resid_sd" in fm else 12.0
+        if len(fm) != 1:
+            raise ValueError(
+                f"expected exactly one fold manifest row for lead={lead} origin_year={origin}; got {len(fm)}"
+            )
+        missing_manifest_cols = sorted({"games_resid_sd", "avg_resid_sd"} - set(fm.columns))
+        if missing_manifest_cols:
+            raise ValueError(
+                f"fold manifest missing residual-scale columns for TASK-049: {missing_manifest_cols}"
+            )
+        games_sd = float(fm.games_resid_sd.iloc[0])
+        avg_sd = float(fm.avg_resid_sd.iloc[0])
+        if not np.isfinite(games_sd) or games_sd <= 0 or not np.isfinite(avg_sd) or avg_sd <= 0:
+            raise ValueError(
+                f"invalid residual scales for lead={lead} origin_year={origin}: games={games_sd}, avg={avg_sd}"
+            )
         evidence_rows.append(ev.__dict__ | {"short_games": "|".join(map(str, ev.short_games)), "short_rates_count": len(ev.short_rates), "games_resid_sd": games_sd, "avg_resid_sd": avg_sd})
         for ridx in idx:
             qs, sim_mean, pz, ps = _row_quantiles(out.loc[ridx], ev, games_sd, avg_sd, sample_count)

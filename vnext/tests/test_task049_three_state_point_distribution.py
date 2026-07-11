@@ -82,3 +82,28 @@ def test_unequal_row_count_pooled_cluster_bootstrap_runs():
 def test_fail_loud_missing_short_support():
     with pytest.raises(ValueError, match='missing short-season training support'):
         estimate_short_season_evidence(dataset(short=False),1,2018)
+
+
+def test_generated_branch_fails_on_missing_manifest_residual_scales():
+    with pytest.raises(ValueError, match='missing residual-scale columns'):
+        generate_three_state_predictions(
+            predictions(),
+            dataset(),
+            pd.DataFrame({'lead': [1], 'origin_year': [2018], 'games_resid_sd': [1.0]}),
+            sample_count=256,
+        )
+
+
+def test_generated_branch_fails_on_duplicate_manifest_rows():
+    dup = pd.concat([fold_manifest(), fold_manifest()], ignore_index=True)
+    with pytest.raises(ValueError, match='expected exactly one fold manifest row'):
+        generate_three_state_predictions(predictions(), dataset(), dup, sample_count=256)
+
+
+def test_generated_branch_outputs_state_reconciliation_schema():
+    out, evidence, recon = generate_three_state_predictions(predictions(), dataset(), fold_manifest(), sample_count=4096)
+    assert list(out[QCOLS].columns) == QCOLS
+    assert {'p_zero_state', 'p_short_state', 'p_meaningful_state', 'abs_delta'} <= set(recon.columns)
+    assert {'n_zero', 'n_short', 'n_meaningful', 'short_rates_count'} <= set(evidence.columns)
+    assert (evidence.n_short > 0).all()
+    assert (recon.abs_delta <= 1e-8).all()
