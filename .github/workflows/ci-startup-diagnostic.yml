@@ -1,0 +1,29 @@
+name: CI startup diagnostic
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/ci-startup-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  startup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Print environment
+        run: |
+          python --version
+          git rev-parse HEAD
+          echo "GitHub Actions startup succeeded"
