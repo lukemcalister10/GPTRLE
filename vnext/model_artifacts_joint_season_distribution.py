@@ -151,7 +151,7 @@ def state_target(rows: pd.DataFrame, lead: int) -> np.ndarray:
 
 
 def choose_min_score(scores: dict[float, float]) -> float:
-    """Select the lowest score, breaking exact ties toward less regularisation."""
+    """Select the lowest score, breaking exact ties toward the lower grid value."""
     if not scores:
         raise ValueError("selection scores must not be empty")
     if not all(np.isfinite(float(score)) for score in scores.values()):
@@ -169,8 +169,8 @@ def _aligned_state_probabilities(model: LogisticRegression, x: Any) -> np.ndarra
         if label_int not in (0, 1, 2):
             raise ValueError(f"unexpected state label: {label_int}")
         out[:, label_int] = raw[:, index]
-    if not np.isfinite(out).all() or (out < 0.0).any():
-        raise ValueError("state model returned invalid probabilities")
+    if not np.isfinite(out).all() or (out <= 0.0).any():
+        raise ValueError("state model returned non-positive or non-finite probabilities")
     row_sums = out.sum(axis=1, keepdims=True)
     if (row_sums <= 0.0).any():
         raise ValueError("state model returned a zero-mass probability row")
@@ -258,8 +258,6 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
     fit, calibration = model_artifacts.split_temporal(train, lead)
     if fit.empty or calibration.empty:
         raise ValueError(f"lead {lead} temporal split is empty")
-    if int((train.origin_year + lead).max()) >= int(train.origin_year.max() + lead + 1):
-        raise AssertionError("unreachable target-boundary invariant")
 
     fit_features = add_joint_features(fit)
     calibration_features = add_joint_features(calibration)
@@ -384,10 +382,10 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
 def allocate_state_counts(probabilities: np.ndarray, sample_count: int) -> np.ndarray:
     """Discretise state mass reproducibly while retaining support for all states.
 
-    The largest-remainder allocation differs from the fitted probability by no
-    more than one draw of mass (``1 / sample_count``) per state. Retaining one
-    draw for every positive-probability state keeps conditional outputs defined
-    without imposing a material probability floor.
+    Largest-remainder allocation is followed by support repair when a fitted
+    state receives less than one draw. With three states, this can move at most
+    two draws of mass from the dominant state, so the audited maximum error is
+    bounded by ``2 / sample_count``.
     """
     probabilities = np.asarray(probabilities, dtype=float)
     if probabilities.shape != (3,) or not np.isfinite(probabilities).all():
@@ -419,8 +417,11 @@ def allocate_state_counts(probabilities: np.ndarray, sample_count: int) -> np.nd
         counts[state] += 1
     if int(counts.sum()) != int(sample_count) or (counts <= 0).any():
         raise ValueError(f"invalid state allocation: {counts.tolist()}")
-    if np.max(np.abs(counts / sample_count - probabilities)) > 1.0 / sample_count + 1e-12:
-        raise ValueError("state discretisation exceeded one draw of probability error")
+    maximum_error = float(np.max(np.abs(counts / sample_count - probabilities)))
+    if maximum_error > 2.0 / sample_count + 1e-12:
+        raise ValueError(
+            "state discretisation exceeded two draws of probability error"
+        )
     return counts
 
 
