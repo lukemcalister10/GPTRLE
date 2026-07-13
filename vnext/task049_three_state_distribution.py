@@ -18,12 +18,12 @@ QCOLS = ["points_q10", "points_q25", "points_q50", "points_q75", "points_q90", "
 QLEVELS = np.array([0.10, 0.25, 0.50, 0.75, 0.90, 0.97])
 NON_QUANTILE_TOL = 1e-10
 MEAN_TOL = 1e-8
-SAMPLE_COUNT = 512
-GENERATOR_ID = "TASK-049-three-state-point-distribution-v1"
+SAMPLE_COUNT = 2048
+GENERATOR_ID = "TASK-049"
 
 
 def seed_for(player_key: str, origin_year: int, lead: int) -> int:
-    digest = hashlib.sha256(f"{GENERATOR_ID}|{player_key}|{origin_year}|{lead}".encode()).digest()
+    digest = hashlib.sha256(f"TASK-049|{player_key}|{origin_year}|{lead}".encode()).digest()
     return int.from_bytes(digest[:8], "little") & 0xFFFFFFFF
 
 
@@ -159,8 +159,34 @@ def generate_three_state_predictions(predictions: pd.DataFrame, supports: dict[t
             "adjusted_short_points_max": float(values[short_mask].max()) if short_mask.any() else np.nan,
             "meaningful_draw_count": int(meaningful_mask.sum()), "meaningful_games_min": float(mg.min()) if len(mg) else np.nan,
             "meaningful_games_max": float(mg.max()) if len(mg) else np.nan, "pred_short_games_mean": float(sum(k*v for k,v in sup.game_probs.items())),
-            "pred_short_rate_mean": float(np.mean(sup.rate_values)), "moment_delta": delta, "draw_mean_after": float(values.mean())})
+            "pred_short_rate_mean": float(np.mean(sup.rate_values)), "moment_delta": delta, "moment_error_after": float(values.mean() - target_mean), "draw_mean_after": float(values.mean())})
     return out, pd.DataFrame(diagnostics)
+
+
+def short_support_training_summary(supports: dict[tuple[int, int], ShortSupport]) -> pd.DataFrame:
+    rows = []
+    for (origin, lead), sup in sorted(supports.items()):
+        rec = {
+            "origin_year": origin,
+            "lead": lead,
+            "training_rows": sup.training_rows,
+            "short_rows": sup.short_rows,
+            "zero_prob_in_non_meaningful_training": sup.zero_prob,
+            "short_prob_in_non_meaningful_training": sup.short_prob,
+            "rate_mean": float(np.mean(sup.rate_values)),
+            "rate_sd": float(np.std(sup.rate_values, ddof=1)) if len(sup.rate_values) > 1 else 0.0,
+            "rate_q10": float(np.quantile(sup.rate_values, 0.10)),
+            "rate_q25": float(np.quantile(sup.rate_values, 0.25)),
+            "rate_q50": float(np.quantile(sup.rate_values, 0.50)),
+            "rate_q75": float(np.quantile(sup.rate_values, 0.75)),
+            "rate_q90": float(np.quantile(sup.rate_values, 0.90)),
+            "games_resid_sd": sup.games_resid_sd,
+            "avg_resid_sd": sup.avg_resid_sd,
+        }
+        for games in range(1, 6):
+            rec[f"games_{games}_prob"] = sup.game_probs[games]
+        rows.append(rec)
+    return pd.DataFrame(rows)
 
 
 def compare_unchanged_outputs(baseline: pd.DataFrame, candidate: pd.DataFrame, exclude: list[str] | None = None, tol: float = NON_QUANTILE_TOL) -> pd.DataFrame:

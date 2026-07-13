@@ -7,4 +7,4 @@ task012_quantiles_non_negative,True,0
 task047_quantiles_non_negative,True,0
 task012_quantiles_non_crossing,True,0
 task047_quantiles_non_crossing,True,0
-bootstrap_observed_equals_pooled_tables,True,"{""points_q10"": 2.275957200481571e-15, ""points_q25"": 1.3600232051658168e-14, ""points_q50"": 3.3306690738754696e-14, ""points_q75"": 3.952393967665557e-14, ""points_q90"": 1.0880185641326534e-14, ""points_q97"": 1.7763568394002505e-15, ""primary_mean_pinball"": 4.9960036108132044e-15}"
+bootstrap_observed_equals_pooled_tables,True,"{""points_q10"": 1.0519363158323358e-14, ""points_q25"": 4.2847669856627135e-15, ""points_q50"": 2.1316282072803006e-14, ""points_q75"": 2.930988785010413e-14, ""points_q90"": 7.105427357601002e-15, ""points_q97"": 6.217248937900877e-15, ""primary_mean_pinball"": 2.2315482794965646e-14}"

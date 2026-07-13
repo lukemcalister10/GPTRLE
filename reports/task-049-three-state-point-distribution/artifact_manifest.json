@@ -1,44 +1,44 @@
 {
   "artifacts": {
     "acceptance_gates.csv": {
-      "bytes": 554,
+      "bytes": 742,
       "rows": 9,
-      "sha256": "c322e96932a0506a9f867255cd57e3096676f45d9dfef11f6b196a2ce8bee0ba"
+      "sha256": "baf1fe2412113bb215215be6979e08e19d6b0ca3ca2097abd541a8b21dd490b2"
     },
     "bootstrap_confidence_intervals.csv": {
-      "bytes": 810,
+      "bytes": 812,
       "rows": 7,
-      "sha256": "42f6b86fd7af7b550304213df1ce9a7d9c0f0ae83fd9aa0995ca73530736af90"
+      "sha256": "9541a3c670d572fc90a71153589ce2f7b72f5acf1983c848ecbede3d1243f01e"
     },
     "bootstrap_pooled_statistic_invariant.csv": {
-      "bytes": 442,
+      "bytes": 446,
       "rows": 7,
-      "sha256": "fabe05bea3d1deaf985628b7b9b85c1c312d70b0291b3d61ade2e525d69ba0c5"
+      "sha256": "24132abcf24c1ae4f1390e106791fe8cad1ad5998c99748ae091543a3834d762"
     },
     "integrity_checks.csv": {
-      "bytes": 719,
+      "bytes": 718,
       "rows": 9,
-      "sha256": "789dd78850c70a05b4f622dd1aa109636f275c4c6717b31feb64b6f1c38972dd"
+      "sha256": "1158ed4fecb9023051c29f52d714b6b2b0cf4b89756eb8e6f3124f199fbd6c53"
     },
     "interval_coverage_by_lead.csv": {
-      "bytes": 3401,
+      "bytes": 3399,
       "rows": 30,
-      "sha256": "185c847c0eed220ce658e0f661ee0f8aa780405cef7bcb1b986510af0d60eb0d"
+      "sha256": "aa71e18b9aede0be5542d387a2c461e5a02ea4f156c248add2109f890e6c5d89"
     },
     "interval_coverage_by_position.csv": {
-      "bytes": 3187,
+      "bytes": 3192,
       "rows": 30,
-      "sha256": "6db75bccf7c33800b2158ce61264a1d5210862c7e1fd1ed511efad9dc1194186"
+      "sha256": "90301cf73ecf86ce36d3039effd085f569e673375812061f07da1145a445755f"
     },
     "interval_coverage_by_prior_history.csv": {
       "bytes": 2395,
       "rows": 18,
-      "sha256": "d56229c081a186aaab5332ab142babad2d94343d78c3899353eab52cf1fbbfe4"
+      "sha256": "384b71001a8d109da59eeeb4b14715019c47b8d916d7930400847f448044fbfa"
     },
     "interval_coverage_overall.csv": {
-      "bytes": 747,
+      "bytes": 749,
       "rows": 6,
-      "sha256": "832001635b22f8ac4074bf169e3a87d9af417cfee42867eba003cd9dc224c7d5"
+      "sha256": "10a64e5bbb6184621c42ffead1776cf039c71885c2887ce1a823430a3a687f89"
     },
     "non_uncertainty_output_comparison.csv": {
       "bytes": 611,
@@ -46,24 +46,24 @@
       "sha256": "576c96b1c7a53e004d1c357f10c8336a4bdab118eee2691fa47ce4187b65fc59"
     },
     "one_to_five_cohort_calibration.csv": {
-      "bytes": 5023,
-      "rows": 36,
-      "sha256": "0ba51dfc59d75e43c83721be6d4ad4c9dbc03310dde2fed957e7e217c7cbeaee"
+      "bytes": 1535,
+      "rows": 12,
+      "sha256": "b25267e5bda4dfdda6d04f9de8b535cd3d7782d370e660b9c21d2402aeef328d"
     },
     "one_to_five_cohort_pinball.csv": {
-      "bytes": 2186,
-      "rows": 18,
-      "sha256": "a2c62afe8b6f8a68e9909f84c9e19c638bc4a9631d2d98d21e369cb6ed7734ac"
+      "bytes": 888,
+      "rows": 6,
+      "sha256": "6e46b1ffba9ca52da5ba0010cf4a3e6898f347d0ffcb950038ad29f6239d0fc2"
     },
     "pinball_by_lead.csv": {
-      "bytes": 2963,
+      "bytes": 2962,
       "rows": 30,
-      "sha256": "3af4ae3c96a8614c40a3e062af88c3a65d308eb920df957c74a250ee960f97ef"
+      "sha256": "49709c2ce3c054f47c54e47c852353cb576b023daef9e64c840dde4afb5e2178"
     },
     "pinball_overall.csv": {
-      "bytes": 652,
+      "bytes": 648,
       "rows": 6,
-      "sha256": "40cb9bdf22b1963ceb9292f4f4eeb76394b1cd86a6fc87c883d1adcc15e8689a"
+      "sha256": "81b29bd3b2a5efa26ba69061a27e1d45266c6106c482fdbf1085f55835ebcbf9"
     },
     "predicted_vs_realised_state_frequency.csv": {
       "bytes": 4962,
@@ -71,39 +71,39 @@
       "sha256": "a133949256535172cd41c4804fb4093c23424e7674a83178aee650db41d2665b"
     },
     "primary_pinball.csv": {
-      "bytes": 62,
+      "bytes": 85,
       "rows": 2,
-      "sha256": "cf8cc828dd38d0b3d312fb1735ecc9fd1b6d6de1de463ab40ae5291002ad280a"
+      "sha256": "fd42f24f1646effb7d66ade4c0bc44776fcf2adb28f570b5ac30036e3c108706"
     },
     "quantile_calibration_by_lead.csv": {
-      "bytes": 7683,
+      "bytes": 7687,
       "rows": 60,
-      "sha256": "48ca9dfa6dd83c430e27a85eff07fc3685e491f995282bd0aa907acd3acab0b6"
+      "sha256": "aafa5bace6412c1f494f529c2d2f5c95f9730922e4367bb45f5e3f1e0ba5da03"
     },
     "quantile_calibration_by_position.csv": {
-      "bytes": 7354,
+      "bytes": 7343,
       "rows": 60,
-      "sha256": "a0b982f2081c51eafd49e42993c6308bf2d0f3b6208115cd7963ffa5be7ad4d9"
+      "sha256": "20f09db8294ace2568ae4e986f2dfb05b4a6df0d9cc574da6ff2a866b4303a06"
     },
     "quantile_calibration_by_prior_history.csv": {
-      "bytes": 5301,
+      "bytes": 5308,
       "rows": 36,
-      "sha256": "05211b2eb4473ab654bacf452d48a8cfe81845419846c49a91a86e0bfd1333ea"
+      "sha256": "d0ceb69a35a0d5f87d12a4969e88ae2be1efeed1500ce27130b50728a3f4b654"
     },
     "quantile_calibration_overall.csv": {
       "bytes": 1624,
       "rows": 12,
-      "sha256": "fb68ee780b18ab6a2187047ec8214327bbb5cc2d04e527e7fbcdcc54c0f24e3c"
+      "sha256": "45ddcf9006f08822a4e66bf60bff5be1ff00008be37d48330ba5e96888bf1a19"
     },
     "short_season_calibration_by_fold_lead.csv": {
-      "bytes": 7770,
+      "bytes": 7290,
       "rows": 25,
-      "sha256": "b7e7ebe9a0122ad0672a02ec7dc78c1844e0b67b2111d0e1c763c8330df2a818"
+      "sha256": "20974498544ef34d113461baba7332fbdf2219a13f581e74b75833ebe8905f22"
     },
     "short_season_training_summary.csv": {
-      "bytes": 564,
-      "rows": 5,
-      "sha256": "2d697c8a53b3ef95e5a65db771f3d55b0f4e0098da23ecd54197fbb0b13f83ca"
+      "bytes": 6621,
+      "rows": 25,
+      "sha256": "87b3743e6e3f61dc8361fc40d85363d307c93905ad621a8808c9a0164ecfbce1"
     }
   },
   "no_committed_file_over_100kb": true,

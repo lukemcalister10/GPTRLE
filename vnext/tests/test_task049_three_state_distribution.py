@@ -3,8 +3,8 @@ import pandas as pd
 import pytest
 
 from task049_three_state_distribution import (
-    KEY, QCOLS, build_short_support, candidate_minus_baseline_bootstrap,
-    compare_unchanged_outputs, generate_three_state_predictions, validate_fold_manifest,
+    QCOLS, SAMPLE_COUNT, build_short_support, candidate_minus_baseline_bootstrap,
+    compare_unchanged_outputs, generate_three_state_predictions, seed_for, validate_fold_manifest,
 )
 
 
@@ -36,6 +36,13 @@ def test_branch_diagnostics_and_invariants():
     assert (cand[QCOLS].to_numpy() >= 0).all()
     assert (np.diff(cand[QCOLS].to_numpy(), axis=1) >= -1e-12).all()
     assert np.allclose(diag.draw_mean_after, preds().exp_points, atol=1e-8)
+    assert diag.moment_error_after.abs().max() <= 1e-8
+
+
+def test_locked_generator_contract():
+    assert SAMPLE_COUNT == 2048
+    expected = 709084106
+    assert seed_for("player-a", 2020, 3) == expected
 
 
 def test_schema_and_non_quantile_unchanged():

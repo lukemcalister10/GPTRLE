@@ -1,37 +1,13 @@
-realised_cohort,model,quantile,tau,n,empirical_p_actual_le_predicted_quantile,signed_calibration_error,absolute_calibration_error,tie_rule
-meaningful_six_plus,task012,points_q10,0.1,10848,0.012352507374631269,-0.08764749262536874,0.08764749262536874,actual_points <= predicted_quantile
-meaningful_six_plus,task047,points_q10,0.1,10848,0.014472713864306784,-0.08552728613569321,0.08552728613569321,actual_points <= predicted_quantile
-meaningful_six_plus,task012,points_q25,0.25,10848,0.0694137168141593,-0.1805862831858407,0.1805862831858407,actual_points <= predicted_quantile
-meaningful_six_plus,task047,points_q25,0.25,10848,0.07734144542772861,-0.1726585545722714,0.1726585545722714,actual_points <= predicted_quantile
-meaningful_six_plus,task012,points_q50,0.5,10848,0.20123525073746312,-0.2987647492625369,0.2987647492625369,actual_points <= predicted_quantile
-meaningful_six_plus,task047,points_q50,0.5,10848,0.21773598820058998,-0.28226401179941,0.28226401179941,actual_points <= predicted_quantile
-meaningful_six_plus,task012,points_q75,0.75,10848,0.4144542772861357,-0.3355457227138643,0.3355457227138643,actual_points <= predicted_quantile
-meaningful_six_plus,task047,points_q75,0.75,10848,0.43307522123893805,-0.31692477876106195,0.31692477876106195,actual_points <= predicted_quantile
-meaningful_six_plus,task012,points_q90,0.9,10848,0.6249078171091446,-0.27509218289085546,0.27509218289085546,actual_points <= predicted_quantile
-meaningful_six_plus,task047,points_q90,0.9,10848,0.6310840707964602,-0.2689159292035398,0.2689159292035398,actual_points <= predicted_quantile
-meaningful_six_plus,task012,points_q97,0.97,10848,0.7892699115044248,-0.18073008849557515,0.18073008849557515,actual_points <= predicted_quantile
-meaningful_six_plus,task047,points_q97,0.97,10848,0.7755346607669616,-0.19446533923303833,0.19446533923303833,actual_points <= predicted_quantile
-one_to_five_positive_points,task012,points_q10,0.1,1776,0.03434684684684685,-0.06565315315315315,0.06565315315315315,actual_points <= predicted_quantile
-one_to_five_positive_points,task047,points_q10,0.1,1776,0.04560810810810811,-0.0543918918918919,0.0543918918918919,actual_points <= predicted_quantile
-one_to_five_positive_points,task012,points_q25,0.25,1776,0.16047297297297297,-0.08952702702702703,0.08952702702702703,actual_points <= predicted_quantile
-one_to_five_positive_points,task047,points_q25,0.25,1776,0.17792792792792791,-0.07207207207207209,0.07207207207207209,actual_points <= predicted_quantile
-one_to_five_positive_points,task012,points_q50,0.5,1776,0.40315315315315314,-0.09684684684684686,0.09684684684684686,actual_points <= predicted_quantile
-one_to_five_positive_points,task047,points_q50,0.5,1776,0.4329954954954955,-0.06700450450450451,0.06700450450450451,actual_points <= predicted_quantile
-one_to_five_positive_points,task012,points_q75,0.75,1776,0.6773648648648649,-0.07263513513513509,0.07263513513513509,actual_points <= predicted_quantile
-one_to_five_positive_points,task047,points_q75,0.75,1776,0.7246621621621622,-0.02533783783783783,0.02533783783783783,actual_points <= predicted_quantile
-one_to_five_positive_points,task012,points_q90,0.9,1776,0.9031531531531531,0.003153153153153121,0.003153153153153121,actual_points <= predicted_quantile
-one_to_five_positive_points,task047,points_q90,0.9,1776,0.902027027027027,0.002027027027026951,0.002027027027026951,actual_points <= predicted_quantile
-one_to_five_positive_points,task012,points_q97,0.97,1776,0.9617117117117117,-0.008288288288288315,0.008288288288288315,actual_points <= predicted_quantile
-one_to_five_positive_points,task047,points_q97,0.97,1776,0.9436936936936937,-0.02630630630630626,0.02630630630630626,actual_points <= predicted_quantile
-zero_game_zero_point,task012,points_q10,0.1,7470,1.0,0.9,0.9,actual_points <= predicted_quantile
-zero_game_zero_point,task047,points_q10,0.1,7470,1.0,0.9,0.9,actual_points <= predicted_quantile
-zero_game_zero_point,task012,points_q25,0.25,7470,1.0,0.75,0.75,actual_points <= predicted_quantile
-zero_game_zero_point,task047,points_q25,0.25,7470,1.0,0.75,0.75,actual_points <= predicted_quantile
-zero_game_zero_point,task012,points_q50,0.5,7470,1.0,0.5,0.5,actual_points <= predicted_quantile
-zero_game_zero_point,task047,points_q50,0.5,7470,1.0,0.5,0.5,actual_points <= predicted_quantile
-zero_game_zero_point,task012,points_q75,0.75,7470,1.0,0.25,0.25,actual_points <= predicted_quantile
-zero_game_zero_point,task047,points_q75,0.75,7470,1.0,0.25,0.25,actual_points <= predicted_quantile
-zero_game_zero_point,task012,points_q90,0.9,7470,1.0,0.09999999999999998,0.09999999999999998,actual_points <= predicted_quantile
-zero_game_zero_point,task047,points_q90,0.9,7470,1.0,0.09999999999999998,0.09999999999999998,actual_points <= predicted_quantile
-zero_game_zero_point,task012,points_q97,0.97,7470,1.0,0.030000000000000027,0.030000000000000027,actual_points <= predicted_quantile
-zero_game_zero_point,task047,points_q97,0.97,7470,1.0,0.030000000000000027,0.030000000000000027,actual_points <= predicted_quantile
+realised_cohort,model,quantile,tau,n,empirical_p_actual_le_predicted_quantile,signed_calibration_error,absolute_calibration_error
+one_to_five_positive_points,task047,points_q10,0.1,1776,0.03434684684684685,-0.06565315315315315,0.06565315315315315
+one_to_five_positive_points,task049,points_q10,0.1,1776,0.04222972972972973,-0.05777027027027028,0.05777027027027028
+one_to_five_positive_points,task047,points_q25,0.25,1776,0.16047297297297297,-0.08952702702702703,0.08952702702702703
+one_to_five_positive_points,task049,points_q25,0.25,1776,0.1751126126126126,-0.0748873873873874,0.0748873873873874
+one_to_five_positive_points,task047,points_q50,0.5,1776,0.40315315315315314,-0.09684684684684686,0.09684684684684686
+one_to_five_positive_points,task049,points_q50,0.5,1776,0.43074324324324326,-0.06925675675675674,0.06925675675675674
+one_to_five_positive_points,task047,points_q75,0.75,1776,0.6773648648648649,-0.07263513513513509,0.07263513513513509
+one_to_five_positive_points,task049,points_q75,0.75,1776,0.722972972972973,-0.027027027027026973,0.027027027027026973
+one_to_five_positive_points,task047,points_q90,0.9,1776,0.9031531531531531,0.003153153153153121,0.003153153153153121
+one_to_five_positive_points,task049,points_q90,0.9,1776,0.902027027027027,0.002027027027026951,0.002027027027026951
+one_to_five_positive_points,task047,points_q97,0.97,1776,0.9617117117117117,-0.008288288288288315,0.008288288288288315
+one_to_five_positive_points,task049,points_q97,0.97,1776,0.9425675675675675,-0.02743243243243243,0.02743243243243243
