@@ -4,10 +4,11 @@
     "Accepted point-forecast evidence: TASK-003Q, TASK-009 zero-history state separation, TASK-012 evidence-weighted demonstrated ceiling and TASK-047 pooled Ridge conditional-average point forecasts.",
     "Conditional-average defect work is recorded through TASK-047: TASK-044 and TASK-045 diagnosed broad compression, TASK-046 rejected broad-position routing, and TASK-047 accepted pooled Ridge for point forecasts.",
     "Release constraint: TASK-006 and the TASK-007 TASK-006 export must not be promoted.",
-    "Uncertainty status: TASK-049 is rejected; the three-state point distribution worsened mean pinball versus accepted TASK-047 uncertainty outputs and failed gates 1-7. Gates 8-9 pass after integrity evidence, but point quantiles remain blocked.",
-    "Partial-season exposure remains blocked until origin-safe historical intra-season snapshots exist.",
-    "Forecast, uncertainty, keeper utility and owner policy remain separate layers; no production or keeper-value promotion is implied by TASK-047 or TASK-049.",
-    "Do not start TASK-050 in this branch; another uncertainty hypothesis requires a separate decision."
+    "Uncertainty status: TASK-049 is rejected; point quantiles remain blocked after failed proper-score, calibration, interval-coverage, subgroup and short-season gates.",
+    "TASK-050 is the active forecast-layer hypothesis: fit one coherent zero/short/meaningful season-outcome distribution and derive expected outcomes, quantiles and threshold probabilities from the same deterministic draws without row-level moment forcing.",
+    "Historical partial-season snapshots are unavailable and excluded from TASK-050 validation. A later current-board adapter may use current-season games only as a separately reported inference component, with each current game weighted at least as strongly as one immediately prior-season game and no direct missed-game scoring penalty.",
+    "Forecast distribution, career trajectory, keeper utility, owner policy and production release remain separate decisions.",
+    "CI startup remains an open engineering blocker under issue #82 and diagnostic PR #83; no workflow is represented as green until executable Actions steps run."
   ],
   "locked_evidence": [
     "Authoritative current universe: 804 players; raw Claude export: 805 rows with legacy-only Taylor Adams.",
@@ -15,9 +16,9 @@
     "TASK-047 reduces meaningful-season conditional-average MAE from 14.61 to 11.65 and improves ruck and elite-prior errors materially while preserving every non-average forecast output exactly.",
     "Using the locked `points` target, TASK-047 improves total-points MAE from 449.43 to 447.15 overall; leads 1-3 improve and leads 4-5 worsen slightly.",
     "Frozen Claude files are protected by `artifacts/legacy_manifest.json` and `scripts/verify_legacy_manifest.py`.",
-    "TASK-048 evaluated 20,094 rows per model and rejected TASK-047 uncertainty outputs: mean pinball improved from 149.97 to 141.11, but gates 3, 4, 5, 6 and 7 failed (mean absolute quantile calibration error 0.1273; q25-q75 coverage 0.5877; max lead central interval coverage error 0.1663; max subgroup coverage error 0.2540; 1,776 one-to-five-game positive-point rows expose structural zero-mass incompatibility).",
-    "TASK-049 evaluated a deterministic three-state transformation of verified TASK-047 rows. Mean pinball is approximately 141.65 versus TASK-047 141.11; gates 1-7 fail, gates 8-9 pass after integrity checks, TASK-049 transformation failures are zero, and large row-level artifacts are retained only under build/."
+    "TASK-048 evaluated 20,094 rows per model and rejected TASK-047 uncertainty outputs: mean pinball improved from 149.97 to 141.11, but calibration, interval-coverage, subgroup and structural-support gates failed.",
+    "TASK-049 exactly reproduced the locked three-state candidate and was rejected: mean pinball 141.65 versus TASK-047 141.11; gates 1-7 failed and gates 8-9 passed."
   ],
-  "immediate_sequence": "Stop after TASK-049 rejected evidence. Uncertainty remains blocked; another uncertainty hypothesis requires a separate decision.",
-  "decision_rule": "No component replaces production because selected current players look more plausible. Point-forecast acceptance, uncertainty acceptance, keeper-utility acceptance and production release are separate decisions. Production promotion still requires locked outcome-based evidence and Luke's explicit release approval; TASK-006 remains specifically release-blocked."
+  "immediate_sequence": "Lock and implement TASK-050 exactly as declared. Keep current partial-season evidence outside historical validation. In parallel, diagnose GitHub Actions startup through issue #82 and PR #83.",
+  "decision_rule": "TASK-050 may replace only the vNext forecast distribution if every predeclared gate passes. It cannot approve keeper utility, current-board partial-season adjustment, player/pick currency or production release. Production still requires locked keeper-utility evidence and Luke's explicit approval."
 }
