@@ -204,8 +204,9 @@ def run(
         ],
         "state_discretization": (
             "support-preserving largest-remainder allocation; maximum per-state "
-            "probability error is audited against 1/sample_count"
+            "probability error is audited against 2/sample_count"
         ),
+        "state_discretization_max_abs_error": 2.0 / SAMPLE_COUNT,
         "components": [
             "fold-local multinomial logistic state probabilities",
             "short-season Ridge log scoring-rate mean with paired empirical games/rate residual draws",
