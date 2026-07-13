@@ -84,6 +84,9 @@ def seed_for(player_key: str, origin_year: int, lead: int) -> int:
 
 def broad_position(value: Any) -> str:
     text = str(value or "UNK").strip().upper()
+    primary = text.replace("-", "/").split("/")[0].strip()
+    if primary in {"RUC", "KPD", "KPF", "DEF", "FWD", "MID"}:
+        return primary
     for token in ("RUC", "KPD", "KPF", "DEF", "FWD", "MID"):
         if token in text:
             return token
@@ -92,8 +95,7 @@ def broad_position(value: Any) -> str:
 
 def add_joint_features(rows: pd.DataFrame) -> pd.DataFrame:
     out = add_ceiling_evidence_feature(rows)
-    out = model_artifacts_zero_history.add_zero_history_features(out)
-    return out
+    return model_artifacts_zero_history.add_zero_history_features(out)
 
 
 def make_joint_preprocessor() -> ColumnTransformer:
@@ -135,27 +137,65 @@ def state_target(rows: pd.DataFrame, lead: int) -> np.ndarray:
     meaningful = games.ge(6)
     valid = zero | short | meaningful
     if not valid.all():
-        sample = rows.loc[~valid, ["key", "origin_year", f"l{lead}_games", f"l{lead}_points"]].head(5)
+        columns = [
+            column
+            for column in ["key", "origin_year", f"l{lead}_games", f"l{lead}_points"]
+            if column in rows.columns
+        ]
+        sample = rows.loc[~valid, columns].head(5)
         raise ValueError(
-            f"lead {lead} contains unsupported season-state rows: {sample.to_dict('records')}"
+            f"lead {lead} contains unsupported season-state rows: "
+            f"{sample.to_dict('records')}"
         )
     return np.select([zero, short, meaningful], [0, 1, 2]).astype(int)
 
 
-def _choose_min_score(scores: dict[float, float]) -> float:
+def choose_min_score(scores: dict[float, float]) -> float:
+    """Select the lowest score, breaking exact ties toward less regularisation."""
     if not scores:
         raise ValueError("selection scores must not be empty")
+    if not all(np.isfinite(float(score)) for score in scores.values()):
+        raise ValueError("selection scores must all be finite")
     return float(min(scores, key=lambda value: (scores[value], value)))
 
 
 def _aligned_state_probabilities(model: LogisticRegression, x: Any) -> np.ndarray:
-    raw = model.predict_proba(x)
+    raw = np.asarray(model.predict_proba(x), dtype=float)
+    if raw.ndim != 2 or raw.shape[1] != len(model.classes_):
+        raise ValueError("state model returned an invalid probability matrix")
     out = np.zeros((raw.shape[0], 3), dtype=float)
     for index, label in enumerate(model.classes_):
-        out[:, int(label)] = raw[:, index]
-    out = np.clip(out, 1e-9, 1.0)
-    out /= out.sum(axis=1, keepdims=True)
-    return out
+        label_int = int(label)
+        if label_int not in (0, 1, 2):
+            raise ValueError(f"unexpected state label: {label_int}")
+        out[:, label_int] = raw[:, index]
+    if not np.isfinite(out).all() or (out < 0.0).any():
+        raise ValueError("state model returned invalid probabilities")
+    row_sums = out.sum(axis=1, keepdims=True)
+    if (row_sums <= 0.0).any():
+        raise ValueError("state model returned a zero-mass probability row")
+    return out / row_sums
+
+
+def _validate_short_pool(pool: ShortResidualPool, label: str) -> None:
+    if len(pool.games) != len(pool.log_rate_residuals) or len(pool.games) == 0:
+        raise ValueError(f"short residual pool {label} is empty or unpaired")
+    if not np.isfinite(pool.games).all() or not np.isfinite(pool.log_rate_residuals).all():
+        raise ValueError(f"short residual pool {label} contains non-finite values")
+    if not ((pool.games >= 1.0) & (pool.games <= 5.0)).all():
+        raise ValueError(f"short residual pool {label} contains games outside 1-5")
+
+
+def _validate_meaningful_pool(pool: MeaningfulResidualPool, label: str) -> None:
+    if (
+        len(pool.games_residuals) != len(pool.avg_residuals)
+        or len(pool.games_residuals) == 0
+    ):
+        raise ValueError(f"meaningful residual pool {label} is empty or unpaired")
+    if not np.isfinite(pool.games_residuals).all() or not np.isfinite(
+        pool.avg_residuals
+    ).all():
+        raise ValueError(f"meaningful residual pool {label} contains non-finite values")
 
 
 def _build_short_pools(
@@ -171,12 +211,16 @@ def _build_short_pools(
             f"requires at least {MIN_RESIDUAL_ROWS}"
         )
     pools: dict[str, ShortResidualPool] = {
-        ALL_POOL: ShortResidualPool(games.copy(), residuals.copy())
+        ALL_POOL: ShortResidualPool(games.copy(), np.asarray(residuals, dtype=float).copy())
     }
     for position in sorted(set(positions)):
         mask = positions == position
         if int(mask.sum()) >= POSITION_POOL_MIN_ROWS:
-            pools[position] = ShortResidualPool(games[mask].copy(), residuals[mask].copy())
+            pools[position] = ShortResidualPool(
+                games[mask].copy(), np.asarray(residuals, dtype=float)[mask].copy()
+            )
+    for label, pool in pools.items():
+        _validate_short_pool(pool, label)
     return pools
 
 
@@ -192,8 +236,12 @@ def _build_meaningful_pools(
             f"lead {lead} has only {len(games_residuals)} meaningful calibration residuals; "
             f"requires at least {MIN_RESIDUAL_ROWS}"
         )
+    games_residuals = np.asarray(games_residuals, dtype=float)
+    avg_residuals = np.asarray(avg_residuals, dtype=float)
     pools: dict[str, MeaningfulResidualPool] = {
-        ALL_POOL: MeaningfulResidualPool(games_residuals.copy(), avg_residuals.copy())
+        ALL_POOL: MeaningfulResidualPool(
+            games_residuals.copy(), avg_residuals.copy()
+        )
     }
     for position in sorted(set(positions)):
         mask = positions == position
@@ -201,6 +249,8 @@ def _build_meaningful_pools(
             pools[position] = MeaningfulResidualPool(
                 games_residuals[mask].copy(), avg_residuals[mask].copy()
             )
+    for label, pool in pools.items():
+        _validate_meaningful_pool(pool, label)
     return pools
 
 
@@ -208,6 +258,8 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
     fit, calibration = model_artifacts.split_temporal(train, lead)
     if fit.empty or calibration.empty:
         raise ValueError(f"lead {lead} temporal split is empty")
+    if int((train.origin_year + lead).max()) >= int(train.origin_year.max() + lead + 1):
+        raise AssertionError("unreachable target-boundary invariant")
 
     fit_features = add_joint_features(fit)
     calibration_features = add_joint_features(calibration)
@@ -219,6 +271,8 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
     y_cal = state_target(calibration, lead)
     if set(np.unique(y_fit)) != {0, 1, 2}:
         raise ValueError(f"lead {lead} state fit rows do not contain all three states")
+    if set(np.unique(y_cal)) != {0, 1, 2}:
+        raise ValueError(f"lead {lead} state calibration rows do not contain all three states")
 
     state_scores: dict[float, float] = {}
     for c_value in STATE_C_GRID:
@@ -230,9 +284,13 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
             tol=1e-5,
         ).fit(x_fit, y_fit)
         state_scores[float(c_value)] = float(
-            log_loss(y_cal, _aligned_state_probabilities(candidate, x_cal), labels=[0, 1, 2])
+            log_loss(
+                y_cal,
+                _aligned_state_probabilities(candidate, x_cal),
+                labels=[0, 1, 2],
+            )
         )
-    selected_c = _choose_min_score(state_scores)
+    selected_c = choose_min_score(state_scores)
     state_model = LogisticRegression(
         C=selected_c,
         solver="lbfgs",
@@ -261,13 +319,19 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
     for alpha in RIDGE_ALPHA_GRID:
         candidate = Ridge(alpha=float(alpha)).fit(x_fit[short_fit], y_short_fit_log)
         predicted_rate = np.exp(
-            np.clip(candidate.predict(x_cal[short_cal]), np.log(1e-6), np.log(145.0))
+            np.clip(
+                candidate.predict(x_cal[short_cal]),
+                np.log(1e-6),
+                np.log(145.0),
+            )
         )
         short_alpha_scores[float(alpha)] = float(
             np.mean(np.abs(predicted_rate - y_short_cal_rate))
         )
-    selected_short_alpha = _choose_min_score(short_alpha_scores)
-    short_model = Ridge(alpha=selected_short_alpha).fit(x_fit[short_fit], y_short_fit_log)
+    selected_short_alpha = choose_min_score(short_alpha_scores)
+    short_model = Ridge(alpha=selected_short_alpha).fit(
+        x_fit[short_fit], y_short_fit_log
+    )
     short_log_prediction = short_model.predict(x_cal[short_cal])
     short_log_actual = np.log(y_short_cal_rate)
     short_residuals = short_log_actual - short_log_prediction
@@ -279,7 +343,8 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
     meaningful_cal = cal_games >= 6
     if int(meaningful_cal.sum()) < MIN_RESIDUAL_ROWS:
         raise ValueError(
-            f"lead {lead} lacks meaningful calibration support: {int(meaningful_cal.sum())}"
+            f"lead {lead} lacks meaningful calibration support: "
+            f"{int(meaningful_cal.sum())}"
         )
     games_residuals = (
         cal_games[meaningful_cal]
@@ -317,35 +382,57 @@ def train_lead(train: pd.DataFrame, lead: int) -> JointSeasonArtifact:
 
 
 def allocate_state_counts(probabilities: np.ndarray, sample_count: int) -> np.ndarray:
+    """Discretise state mass reproducibly while retaining support for all states.
+
+    The largest-remainder allocation differs from the fitted probability by no
+    more than one draw of mass (``1 / sample_count``) per state. Retaining one
+    draw for every positive-probability state keeps conditional outputs defined
+    without imposing a material probability floor.
+    """
     probabilities = np.asarray(probabilities, dtype=float)
     if probabilities.shape != (3,) or not np.isfinite(probabilities).all():
         raise ValueError("state probabilities must be a finite length-three vector")
-    if (probabilities < 0).any() or probabilities.sum() <= 0:
-        raise ValueError("state probabilities must be non-negative with positive mass")
+    if sample_count < 3:
+        raise ValueError("sample_count must be at least three")
+    if (probabilities <= 0).any() or probabilities.sum() <= 0:
+        raise ValueError("state probabilities must have strictly positive mass")
     probabilities = probabilities / probabilities.sum()
     raw = probabilities * int(sample_count)
     counts = np.floor(raw).astype(int)
     remaining = int(sample_count - counts.sum())
     if remaining:
-        order = np.argsort(-(raw - counts))
+        order = np.argsort(-(raw - counts), kind="stable")
         counts[order[:remaining]] += 1
-    for state in np.flatnonzero((probabilities > 0) & (counts == 0)):
-        donors = np.argsort(-counts)
-        donor = next((int(value) for value in donors if value != state and counts[value] > 1), None)
+    for state in np.flatnonzero(counts == 0):
+        donors = np.argsort(-counts, kind="stable")
+        donor = next(
+            (
+                int(value)
+                for value in donors
+                if value != state and counts[value] > 1
+            ),
+            None,
+        )
         if donor is None:
-            raise ValueError("cannot allocate positive support to every state")
+            raise ValueError("cannot retain support for every state")
         counts[donor] -= 1
         counts[state] += 1
     if int(counts.sum()) != int(sample_count) or (counts <= 0).any():
         raise ValueError(f"invalid state allocation: {counts.tolist()}")
+    if np.max(np.abs(counts / sample_count - probabilities)) > 1.0 / sample_count + 1e-12:
+        raise ValueError("state discretisation exceeded one draw of probability error")
     return counts
 
 
-def _select_short_pool(artifact: JointSeasonArtifact, position: Any) -> tuple[str, ShortResidualPool]:
+def _select_short_pool(
+    artifact: JointSeasonArtifact, position: Any
+) -> tuple[str, ShortResidualPool]:
     key = broad_position(position)
     if key not in artifact.short_pools:
         key = ALL_POOL
-    return key, artifact.short_pools[key]
+    pool = artifact.short_pools[key]
+    _validate_short_pool(pool, key)
+    return key, pool
 
 
 def _select_meaningful_pool(
@@ -354,7 +441,9 @@ def _select_meaningful_pool(
     key = broad_position(position)
     if key not in artifact.meaningful_pools:
         key = ALL_POOL
-    return key, artifact.meaningful_pools[key]
+    pool = artifact.meaningful_pools[key]
+    _validate_meaningful_pool(pool, key)
+    return key, pool
 
 
 def predict_with_diagnostics(
@@ -364,10 +453,16 @@ def predict_with_diagnostics(
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     if sample_count < 100:
         raise ValueError("sample_count must be at least 100")
+    required = {"player_key", "origin_year", "lead", "position"}
+    missing = sorted(required - set(rows.columns))
+    if missing:
+        raise ValueError(f"prediction rows missing columns: {missing}")
     features = add_joint_features(rows)
     x = artifact.state_preprocessor.transform(features)
     state_probabilities = _aligned_state_probabilities(artifact.state_model, x)
-    short_log_means = artifact.short_rate_model.predict(x)
+    short_log_means = np.asarray(artifact.short_rate_model.predict(x), dtype=float)
+    if not np.isfinite(short_log_means).all():
+        raise ValueError("short scoring-rate model returned non-finite values")
     task047 = predict_task047(artifact.task047_artifact, rows)
 
     prediction_rows: list[dict[str, float | str]] = []
@@ -376,8 +471,13 @@ def predict_with_diagnostics(
         probabilities = state_probabilities[row_index]
         counts = allocate_state_counts(probabilities, sample_count)
         zero_count, short_count, meaningful_count = map(int, counts)
+        draw_probabilities = counts.astype(float) / sample_count
         rng = np.random.default_rng(
-            seed_for(str(row["player_key"]), int(row["origin_year"]), int(row["lead"]))
+            seed_for(
+                str(row["player_key"]),
+                int(row["origin_year"]),
+                int(row["lead"]),
+            )
         )
 
         points = np.zeros(sample_count, dtype=float)
@@ -385,7 +485,7 @@ def predict_with_diagnostics(
         averages = np.zeros(sample_count, dtype=float)
         states = np.zeros(sample_count, dtype=int)
 
-        short_key, short_pool = _select_short_pool(artifact, row.get("position"))
+        short_key, short_pool = _select_short_pool(artifact, row["position"])
         short_indices = rng.integers(0, len(short_pool.games), size=short_count)
         short_games = short_pool.games[short_indices].astype(float)
         short_log_rates = (
@@ -403,10 +503,12 @@ def predict_with_diagnostics(
         points[short_start:short_end] = short_games * short_rates
 
         meaningful_key, meaningful_pool = _select_meaningful_pool(
-            artifact, row.get("position")
+            artifact, row["position"]
         )
         meaningful_indices = rng.integers(
-            0, len(meaningful_pool.games_residuals), size=meaningful_count
+            0,
+            len(meaningful_pool.games_residuals),
+            size=meaningful_count,
         )
         meaningful_games = np.clip(
             np.rint(
@@ -431,57 +533,72 @@ def predict_with_diagnostics(
         quantiles = np.maximum.accumulate(
             np.maximum(0.0, np.quantile(points, QUANTILE_LEVELS))
         )
+        threshold_probabilities = {
+            int(threshold): float(
+                np.mean((states == 2) & (averages >= threshold))
+            )
+            for threshold in TH
+        }
         prediction: dict[str, float | str] = {
-            "p_meaningful": meaningful_count / sample_count,
+            "p_meaningful": float(draw_probabilities[2]),
             "cond_games": float(meaningful_games.mean()),
             "cond_avg": float(meaningful_avg.mean()),
             "exp_games": float(games.mean()),
             "exp_points": float(points.mean()),
             "model_id": "vnext_task050_joint_season_distribution",
         }
-        for threshold in TH:
-            prediction[f"p{threshold}"] = float(
-                np.mean((states == 2) & (averages >= threshold))
-            )
+        for threshold, probability in threshold_probabilities.items():
+            prediction[f"p{threshold}"] = probability
         for column, value in zip(QUANTILE_COLUMNS, quantiles, strict=True):
             prediction[column] = float(value)
         prediction_rows.append(prediction)
 
-        diagnostic_rows.append(
-            {
-                "player_key": str(row["player_key"]),
-                "origin_year": int(row["origin_year"]),
-                "lead": int(row["lead"]),
-                "position_pool": broad_position(row.get("position")),
-                "short_pool": short_key,
-                "meaningful_pool": meaningful_key,
-                "state_model_p_zero": float(probabilities[0]),
-                "state_model_p_short": float(probabilities[1]),
-                "state_model_p_meaningful": float(probabilities[2]),
-                "draw_p_zero": zero_count / sample_count,
-                "draw_p_short": short_count / sample_count,
-                "draw_p_meaningful": meaningful_count / sample_count,
-                "zero_draw_count": zero_count,
-                "short_draw_count": short_count,
-                "meaningful_draw_count": meaningful_count,
-                "short_games_min": float(short_games.min()),
-                "short_games_max": float(short_games.max()),
-                "short_points_min": float((short_games * short_rates).min()),
-                "short_points_max": float((short_games * short_rates).max()),
-                "meaningful_games_min": float(meaningful_games.min()),
-                "meaningful_games_max": float(meaningful_games.max()),
-                "draw_exp_games": float(games.mean()),
-                "draw_exp_points": float(points.mean()),
-                "threshold_monotonic": int(
-                    all(
-                        prediction[f"p{left}"] >= prediction[f"p{right}"]
-                        for left, right in zip(TH[:-1], TH[1:])
-                    )
-                ),
-            }
-        )
+        diagnostic: dict[str, float | int | str] = {
+            "player_key": str(row["player_key"]),
+            "origin_year": int(row["origin_year"]),
+            "lead": int(row["lead"]),
+            "position_pool": broad_position(row["position"]),
+            "short_pool": short_key,
+            "meaningful_pool": meaningful_key,
+            "state_model_p_zero": float(probabilities[0]),
+            "state_model_p_short": float(probabilities[1]),
+            "state_model_p_meaningful": float(probabilities[2]),
+            "draw_p_zero": float(draw_probabilities[0]),
+            "draw_p_short": float(draw_probabilities[1]),
+            "draw_p_meaningful": float(draw_probabilities[2]),
+            "state_probability_max_abs_discretization_error": float(
+                np.max(np.abs(draw_probabilities - probabilities))
+            ),
+            "zero_draw_count": zero_count,
+            "short_draw_count": short_count,
+            "meaningful_draw_count": meaningful_count,
+            "short_games_min": float(short_games.min()),
+            "short_games_max": float(short_games.max()),
+            "short_points_min": float((short_games * short_rates).min()),
+            "short_points_max": float((short_games * short_rates).max()),
+            "meaningful_games_min": float(meaningful_games.min()),
+            "meaningful_games_max": float(meaningful_games.max()),
+            "draw_cond_games": float(meaningful_games.mean()),
+            "draw_cond_avg": float(meaningful_avg.mean()),
+            "draw_exp_games": float(games.mean()),
+            "draw_exp_points": float(points.mean()),
+            "threshold_monotonic": int(
+                all(
+                    threshold_probabilities[left]
+                    >= threshold_probabilities[right]
+                    for left, right in zip(TH[:-1], TH[1:])
+                )
+            ),
+        }
+        for threshold, probability in threshold_probabilities.items():
+            diagnostic[f"draw_p{threshold}"] = float(probability)
+        for column, value in zip(QUANTILE_COLUMNS, quantiles, strict=True):
+            diagnostic[f"draw_{column}"] = float(value)
+        diagnostic_rows.append(diagnostic)
 
-    return pd.DataFrame(prediction_rows, index=rows.index), pd.DataFrame(diagnostic_rows)
+    prediction_frame = pd.DataFrame(prediction_rows, index=rows.index)
+    diagnostic_frame = pd.DataFrame(diagnostic_rows)
+    return prediction_frame, diagnostic_frame
 
 
 def predict(
@@ -489,5 +606,9 @@ def predict(
     rows: pd.DataFrame,
     sample_count: int = SAMPLE_COUNT,
 ) -> pd.DataFrame:
-    prediction, _ = predict_with_diagnostics(artifact, rows, sample_count=sample_count)
+    prediction, _ = predict_with_diagnostics(
+        artifact,
+        rows,
+        sample_count=sample_count,
+    )
     return prediction
