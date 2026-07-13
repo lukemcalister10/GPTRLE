@@ -75,3 +75,32 @@ def test_pooled_bootstrap_unequal_player_rows_hand_computed():
     expected=np.mean([-.1,-.2,-.3])
     assert ci.loc[ci.metric.eq("points_q10"),"observed_diff_candidate_minus_baseline"].iloc[0] == pytest.approx(expected)
     assert (inv.abs_delta <= 1e-12).all()
+
+
+def test_short_support_uses_matching_lead_and_legal_target_years_only():
+    support_rows = pd.DataFrame(
+        {
+            "origin_year": [2009, 2010, 2011, 2009, 2010],
+            "target_year": [2010, 2011, 2012, 2011, 2012],
+            "lead": [1, 1, 1, 2, 2],
+            "games": [2, 0, 4, 5, 1],
+            "points": [100, 0, 400, 500, 50],
+        }
+    )
+    folds = pd.DataFrame(
+        {
+            "origin_year": [2012, 2012],
+            "lead": [1, 2],
+            "games_resid_sd": [2.0, 2.0],
+            "avg_resid_sd": [5.0, 5.0],
+        }
+    )
+
+    supports = build_short_support(support_rows, folds)
+
+    assert supports[(2012, 1)].short_rows == 1
+    assert supports[(2012, 1)].training_rows == 2
+    assert supports[(2012, 1)].short_games_values.tolist() == [2.0]
+    assert supports[(2012, 2)].short_rows == 1
+    assert supports[(2012, 2)].training_rows == 1
+    assert supports[(2012, 2)].short_games_values.tolist() == [5.0]

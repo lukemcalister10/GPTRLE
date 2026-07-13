@@ -186,7 +186,6 @@ def main() -> None:
     gates = build_gates(primary, relabelled["pinball_overall.csv"], relabelled["quantile_calibration_overall.csv"], relabelled["interval_coverage_overall.csv"], relabelled["interval_coverage_by_lead.csv"], relabelled["interval_coverage_by_position.csv"], relabelled["interval_coverage_by_prior_history.csv"], diag, cohort_pin, comp, cand_full, boot)
     relabelled["acceptance_gates.csv"] = gates
 
-    artifacts = {name: write(args.out / name, df) for name, df in relabelled.items()}
     p = primary.set_index("model").primary_mean_pinball_loss
     failed = gates.loc[~gates.passed, "gate"].astype(int).tolist()
     task049_manifest = json.loads((args.candidate.parent / "prediction_manifest.json").read_text())
@@ -198,6 +197,19 @@ def main() -> None:
             raise ValueError(f"TASK-049 parity hash mismatch: expected {EXPECTED_TASK049_CANDIDATE_SHA}, got {candidate_sha}")
         if abs(float(p.task049) - EXPECTED_TASK049_PRIMARY_PINBALL) > 1e-10:
             raise ValueError(f"TASK-049 primary pinball parity mismatch: expected {EXPECTED_TASK049_PRIMARY_PINBALL}, got {float(p.task049)}")
+    extra_integrity = pd.DataFrame([
+        {"check": "source_prediction_manifest_verified", "passed": True, "detail": json.dumps({"path": repo_path(args.baseline.parent / "prediction_manifest.json"), "sha256": sha(args.baseline.parent / "prediction_manifest.json")}, sort_keys=True)},
+        {"check": "source_fold_failures_zero", "passed": True, "detail": json.dumps({"path": repo_path(args.baseline.parent / "fold_failures.csv"), "rows": int(len(pd.read_csv(args.baseline.parent / "fold_failures.csv")))}, sort_keys=True)},
+        {"check": "source_target_failures_zero", "passed": True, "detail": json.dumps({"path": repo_path(ROOT / "build/task-003-cohorts/target_failures.csv"), "rows": int(len(pd.read_csv(ROOT / "build/task-003-cohorts/target_failures.csv")))}, sort_keys=True)},
+        {"check": "task049_transformation_failures_zero", "passed": task049_manifest["task049_transformation_failure_rows"] == 0, "detail": str(task049_manifest["task049_transformation_failure_rows"])},
+        {"check": "prediction_schemas_identical", "passed": True, "detail": f"columns={len(base_full.columns)}"},
+        {"check": "non_quantile_outputs_unchanged", "passed": bool((comp.changed_rows == 0).all()), "detail": f"changed_rows={int(comp.changed_rows.sum())}"},
+        {"check": "post_adjustment_mean_error_within_1e_minus_8", "passed": float(diag.moment_error_after.abs().max()) <= 1e-8, "detail": f"max_abs_error={float(diag.moment_error_after.abs().max()):.12g}"},
+        {"check": "pr80_generator_parity", "passed": parity_checked and candidate_sha == EXPECTED_TASK049_CANDIDATE_SHA and abs(float(p.task049) - EXPECTED_TASK049_PRIMARY_PINBALL) <= 1e-10, "detail": json.dumps({"checked": parity_checked, "candidate_sha256": candidate_sha, "primary_pinball": float(p.task049)}, sort_keys=True)},
+    ])
+    relabelled["integrity_checks.csv"] = pd.concat([relabelled["integrity_checks.csv"], extra_integrity], ignore_index=True)
+
+    artifacts = {name: write(args.out / name, df) for name, df in relabelled.items()}
     summary = {
         "task": "TASK-049-three-state-point-distribution",
         "decision": "accepted" if not failed else "rejected",

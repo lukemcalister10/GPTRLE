@@ -17,9 +17,9 @@
       "sha256": "92f6a5efcd95f714b2d7a6bd38daeb07b9bf2bd2b71765518eb691b073333a71"
     },
     "integrity_checks.csv": {
-      "bytes": 718,
-      "rows": 9,
-      "sha256": "f725b14e9d6f5f518fe1bcd58c6d09109c9032f84b26d9222e9a3f2ca6b5c384"
+      "bytes": 1569,
+      "rows": 17,
+      "sha256": "5818c0c32581ddf8e9739c3a029de292385162eee5ddbcfaee5b8674d45c5bf9"
     },
     "interval_coverage_by_lead.csv": {
       "bytes": 3400,
