@@ -1,0 +1,15 @@
+column,baseline_dtype,candidate_dtype,changed_rows,max_abs_difference,mismatch_count
+model_id,object,object,0,,0
+player_key,object,object,0,,0
+origin_year,int64,int64,0,0.0,0
+lead,int64,int64,0,0.0,0
+p_meaningful,float64,float64,0,0.0,0
+cond_games,float64,float64,0,3.552713678800501e-15,0
+cond_avg,float64,float64,0,0.0,0
+exp_games,float64,float64,0,3.552713678800501e-15,0
+exp_points,float64,float64,0,4.547473508864641e-13,0
+p_avg_ge_80,float64,float64,0,0.0,0
+p_avg_ge_90,float64,float64,0,0.0,0
+p_avg_ge_100,float64,float64,0,0.0,0
+p_avg_ge_110,float64,float64,0,0.0,0
+p_avg_ge_120,float64,float64,0,0.0,0

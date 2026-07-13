@@ -1,0 +1,18 @@
+check,passed,detail
+row_count_per_model,True,"{""task047"": 20094, ""task049"": 20094}"
+player_origin_snapshots,True,5622
+legal_folds,True,25
+target_points_used_directly,True,joined targets.csv points column without reconstruction
+task047_quantiles_non_negative,True,0
+task049_quantiles_non_negative,True,0
+task047_quantiles_non_crossing,True,0
+task049_quantiles_non_crossing,True,0
+bootstrap_observed_equals_pooled_tables,True,"{""points_q10"": 7.355227538141662e-16, ""points_q25"": 4.454769886308441e-15, ""points_q50"": 2.4424906541753444e-14, ""points_q75"": 3.9968028886505635e-15, ""points_q90"": 6.661338147750939e-16, ""points_q97"": 2.6645352591003757e-15, ""primary_mean_pinball"": 1.4988010832439613e-14}"
+source_prediction_manifest_verified,True,"{""path"": ""build/task047-pooled-ridge-conditional-average/prediction_manifest.json"", ""sha256"": ""0e2b386d2d3a3b45aefaf05dad199511d543b6a595c49b45d942f14284debb1f""}"
+source_fold_failures_zero,True,"{""path"": ""build/task047-pooled-ridge-conditional-average/fold_failures.csv"", ""rows"": 0}"
+source_target_failures_zero,True,"{""path"": ""build/task-003-cohorts/target_failures.csv"", ""rows"": 0}"
+task049_transformation_failures_zero,True,0
+prediction_schemas_identical,True,columns=20
+non_quantile_outputs_unchanged,True,changed_rows=0
+post_adjustment_mean_error_within_1e_minus_8,True,max_abs_error=9.09494701773e-13
+pr80_generator_parity,True,"{""candidate_sha256"": ""3782fb531a4a7c147501151f937ec7a7f723b51ef1fe6adb070d0e21f17bb6f8"", ""checked"": true, ""primary_pinball"": 141.65297296100084}"

@@ -1,0 +1,10 @@
+gate,passed,detail
+1,False,"primary pct diff=0.003866; bootstrap candidate-minus-baseline CI=(-0.125946,1.200343)"
+2,False,max individual quantile pct worsen=0.115567
+3,False,task049 mean abs calibration=0.129005; task047=0.127288
+4,False,q25-q75=0.591818; q10-q90=0.775605
+5,False,max lead central abs coverage error=0.165428
+6,False,max subgroup central abs coverage error=0.260216
+7,False,short_supported=True; positive_draws=False; positive_adjusted_points=False; short_games_1_to_5=True; improved_quantiles=3; no_worsen_above_5pct=False
+8,True,non_quantile_changed_rows=0; max post-adjustment mean error=9.09494701773e-13
+9,True,"candidate quantiles are deterministic, non-negative and non-crossing; key/failure checks passed before audit"
