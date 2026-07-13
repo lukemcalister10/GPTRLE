@@ -1,0 +1,10 @@
+gate,passed,detail
+1,False,failed under locked TASK-049 evidence
+2,False,failed under locked TASK-049 evidence
+3,False,failed under locked TASK-049 evidence
+4,False,failed under locked TASK-049 evidence
+5,False,failed under locked TASK-049 evidence
+6,False,failed under locked TASK-049 evidence
+7,False,failed under locked TASK-049 evidence
+8,True,TASK-049 rejected; known locked result mean pinball approx 141.65 vs TASK-047 141.11; gates 1-7 fail; integrity gate passes
+9,True,deterministic non-negative non-crossing quantiles and exact inherited keys

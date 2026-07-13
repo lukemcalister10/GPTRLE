@@ -2,6 +2,8 @@
 
 ## Status
 
+Rejected evidence recorded. TASK-049 worsened mean pinball (approximately 141.65 versus TASK-047 141.11); gates 1-7 fail; gates 8-9 pass after integrity evidence; uncertainty remains blocked and another uncertainty hypothesis requires a separate decision.
+
 Protocol locked before outcome inspection. This is one isolated uncertainty-model hypothesis. It must not change accepted TASK-047 point forecasts, Ridge fitting, event probabilities, conditional games, conditional averages, benchmark cohorts, targets, keeper utility or production exports.
 
 ## Hypothesis
@@ -94,3 +96,10 @@ Persist reproduction commands, input hashes, artifact hashes, state-probability 
 ## Decision boundary
 
 TASK-049 can accept uncertainty outputs only. It cannot promote keeper utility, the current board or production. If rejected, record the evidence and stop before another uncertainty hypothesis.
+
+
+## Outcome
+
+TASK-049 is rejected. The implementation is a deterministic transformation of verified TASK-047 rows, not an independent target or fold constructor. The committed concise report under `reports/task-049-three-state-point-distribution/` records hashes and row counts for omitted row-level build artifacts, exact key inheritance, zero TASK-049 transformation failures, identical prediction schemas, unchanged non-quantile outputs and aggregate branch/state calibration diagnostics.
+
+Do not tune this hypothesis further or start TASK-050 in this branch.
