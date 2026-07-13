@@ -8,6 +8,8 @@ from model_artifacts_joint_season_distribution import (
     MeaningfulResidualPool,
     ShortResidualPool,
     allocate_state_counts,
+    broad_position,
+    choose_min_score,
     predict_with_diagnostics,
     seed_for,
     state_target,
@@ -35,7 +37,6 @@ class FakeTask047:
     selected_avg_alpha = 10.0
 
 
-
 def rows():
     return pd.DataFrame(
         {
@@ -61,7 +62,6 @@ def rows():
             "draft_type": ["ND", "ND"],
         }
     )
-
 
 
 def fake_artifact():
@@ -93,6 +93,16 @@ def fake_artifact():
     )
 
 
+def fake_task047_predict(_artifact, input_rows):
+    return pd.DataFrame(
+        {
+            "cond_games": np.full(len(input_rows), 12.0),
+            "cond_avg": np.full(len(input_rows), 80.0),
+            "exp_points": np.full(len(input_rows), 9999.0),
+        },
+        index=input_rows.index,
+    )
+
 
 def test_seed_and_sample_contract():
     assert task050.SAMPLE_COUNT == 4096
@@ -100,42 +110,52 @@ def test_seed_and_sample_contract():
     assert task050.SEED_PREFIX == "TASK-050"
 
 
-
-def test_allocate_state_counts_preserves_total_and_positive_support():
-    counts = allocate_state_counts(np.array([0.9998, 0.0001, 0.0001]), 4096)
+def test_allocate_state_counts_preserves_total_support_and_declared_error_bound():
+    probabilities = np.array([0.9998, 0.0001, 0.0001])
+    counts = allocate_state_counts(probabilities, 4096)
     assert counts.sum() == 4096
     assert (counts > 0).all()
     assert counts[0] > counts[1]
+    assert np.max(np.abs(counts / 4096 - probabilities)) <= 2 / 4096 + 1e-12
 
 
+def test_selection_ties_break_toward_lower_grid_value():
+    assert choose_min_score({0.3: 1.0, 0.1: 1.0, 1.0: 2.0}) == 0.1
+    with pytest.raises(ValueError):
+        choose_min_score({})
+    with pytest.raises(ValueError):
+        choose_min_score({0.1: np.nan})
 
-def test_state_target_has_exact_three_state_contract():
+
+def test_state_target_has_exact_three_state_and_lead_isolation_contract():
     frame = pd.DataFrame(
         {
             "key": ["z", "s", "m"],
             "origin_year": [2010, 2010, 2010],
             "l1_games": [0, 4, 8],
             "l1_points": [0.0, 200.0, 700.0],
+            "l2_games": [8, 0, 2],
+            "l2_points": [700.0, 0.0, 100.0],
         }
     )
     assert state_target(frame, 1).tolist() == [0, 1, 2]
+    assert state_target(frame, 2).tolist() == [2, 0, 1]
+    changed_lead_two = frame.copy()
+    changed_lead_two[["l2_games", "l2_points"]] = [0, 0.0]
+    assert state_target(changed_lead_two, 1).tolist() == [0, 1, 2]
     bad = frame.copy()
     bad.loc[1, "l1_points"] = 0.0
     with pytest.raises(ValueError, match="unsupported season-state"):
         state_target(bad, 1)
 
 
+def test_broad_position_uses_primary_eligibility():
+    assert broad_position("MID/FWD") == "MID"
+    assert broad_position("RUC-FWD") == "RUC"
+    assert broad_position("unknown") == "UNK"
 
-def test_joint_draws_are_deterministic_coherent_and_supported(monkeypatch):
-    def fake_task047_predict(_artifact, input_rows):
-        return pd.DataFrame(
-            {
-                "cond_games": np.full(len(input_rows), 12.0),
-                "cond_avg": np.full(len(input_rows), 80.0),
-            },
-            index=input_rows.index,
-        )
 
+def test_joint_draws_are_deterministic_coherent_and_exactly_reconciled(monkeypatch):
     monkeypatch.setattr(task050, "predict_task047", fake_task047_predict)
     artifact = fake_artifact()
     prediction, diagnostics = predict_with_diagnostics(artifact, rows())
@@ -148,7 +168,14 @@ def test_joint_draws_are_deterministic_coherent_and_supported(monkeypatch):
         diagnostics[["draw_p_zero", "draw_p_short", "draw_p_meaningful"]].sum(axis=1),
         1.0,
     )
-    assert (diagnostics[["zero_draw_count", "short_draw_count", "meaningful_draw_count"]] > 0).all(axis=None)
+    assert (
+        diagnostics[["zero_draw_count", "short_draw_count", "meaningful_draw_count"]]
+        > 0
+    ).all(axis=None)
+    assert (
+        diagnostics.state_probability_max_abs_discretization_error
+        <= 2 / task050.SAMPLE_COUNT + 1e-12
+    ).all()
     assert diagnostics.short_games_min.between(1, 5).all()
     assert diagnostics.short_games_max.between(1, 5).all()
     assert diagnostics.short_points_min.gt(0).all()
@@ -157,8 +184,15 @@ def test_joint_draws_are_deterministic_coherent_and_supported(monkeypatch):
     assert diagnostics.threshold_monotonic.eq(1).all()
 
     assert np.allclose(prediction.p_meaningful, diagnostics.draw_p_meaningful)
+    assert np.allclose(prediction.cond_games, diagnostics.draw_cond_games)
+    assert np.allclose(prediction.cond_avg, diagnostics.draw_cond_avg)
     assert np.allclose(prediction.exp_games, diagnostics.draw_exp_games)
     assert np.allclose(prediction.exp_points, diagnostics.draw_exp_points)
+
+    for threshold in task050.TH:
+        assert np.allclose(prediction[f"p{threshold}"], diagnostics[f"draw_p{threshold}"])
+    for column in task050.QUANTILE_COLUMNS:
+        assert np.allclose(prediction[column], diagnostics[f"draw_{column}"])
 
     quantiles = prediction[task050.QUANTILE_COLUMNS].to_numpy(float)
     assert (quantiles >= 0).all()
@@ -168,26 +202,38 @@ def test_joint_draws_are_deterministic_coherent_and_supported(monkeypatch):
     assert (np.diff(thresholds, axis=1) <= 1e-12).all()
 
 
-
 def test_joint_prediction_is_not_forced_to_task047_mean(monkeypatch):
-    def fake_task047_predict(_artifact, input_rows):
-        return pd.DataFrame(
-            {
-                "cond_games": np.full(len(input_rows), 12.0),
-                "cond_avg": np.full(len(input_rows), 80.0),
-                "exp_points": np.full(len(input_rows), 9999.0),
-            },
-            index=input_rows.index,
-        )
-
     monkeypatch.setattr(task050, "predict_task047", fake_task047_predict)
     prediction, _ = predict_with_diagnostics(fake_artifact(), rows())
     assert not np.allclose(prediction.exp_points, 9999.0)
 
 
+def test_prediction_path_performs_no_fitting(monkeypatch):
+    monkeypatch.setattr(task050, "predict_task047", fake_task047_predict)
 
-def test_invalid_state_probabilities_fail_loudly():
+    def fail_fit(*_args, **_kwargs):
+        raise AssertionError("fit called during inference")
+
+    monkeypatch.setattr(task050.LogisticRegression, "fit", fail_fit)
+    monkeypatch.setattr(task050.Ridge, "fit", fail_fit)
+    prediction, _ = predict_with_diagnostics(fake_artifact(), rows())
+    assert len(prediction) == 2
+
+
+def test_invalid_state_probabilities_and_residual_pools_fail_loudly(monkeypatch):
     with pytest.raises(ValueError):
         allocate_state_counts(np.array([0.5, np.nan, 0.5]), 4096)
     with pytest.raises(ValueError):
         allocate_state_counts(np.array([0.5, -0.1, 0.6]), 4096)
+    with pytest.raises(ValueError):
+        allocate_state_counts(np.array([0.5, 0.5, 0.0]), 4096)
+
+    monkeypatch.setattr(task050, "predict_task047", fake_task047_predict)
+    artifact = fake_artifact()
+    artifact.short_pools = {
+        ALL_POOL: ShortResidualPool(
+            games=np.array([0.0]), log_rate_residuals=np.array([0.0])
+        )
+    }
+    with pytest.raises(ValueError, match="outside 1-5"):
+        predict_with_diagnostics(artifact, rows())
