@@ -93,7 +93,9 @@ def _artifact_details(out_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
     return manifest, detail_frame
 
 
-def _write_diagnostics(out_dir: Path, cohort_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
+def _write_diagnostics(
+    out_dir: Path, cohort_dir: Path
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     cohorts = locked.load_or_build_cohorts(cohort_dir)
     targets = cohorts["targets"].sort_values(PREDICTION_KEY).reset_index(drop=True)
     keys = prediction_keys_from_targets(targets)
@@ -115,12 +117,15 @@ def _write_diagnostics(out_dir: Path, cohort_dir: Path) -> tuple[pd.DataFrame, p
             on=["player_key", "origin_year"],
             how="left",
             validate="many_to_one",
+            indicator=True,
         )
-        if joined.isna().any(axis=None):
-            bad = joined[joined.isna().any(axis=1)][PREDICTION_KEY].head(5)
+        missing_join = joined["_merge"].ne("both")
+        if missing_join.any():
+            bad = joined.loc[missing_join, PREDICTION_KEY].head(5)
             raise ValueError(
                 f"TASK-050 diagnostic snapshot join failed: {bad.to_dict('records')}"
             )
+        joined = joined.drop(columns=["_merge"])
         _, diagnostics = predict_with_diagnostics(artifact, joined)
         pieces.append(diagnostics)
 
@@ -131,6 +136,8 @@ def _write_diagnostics(out_dir: Path, cohort_dir: Path) -> tuple[pd.DataFrame, p
         raise ValueError(
             f"TASK-050 diagnostic row count changed: {len(diagnostic_frame)}"
         )
+    if diagnostic_frame.duplicated(PREDICTION_KEY).any():
+        raise ValueError("TASK-050 diagnostics contain duplicate prediction keys")
     diagnostic_path = out_dir / "branch_diagnostics.csv"
     diagnostic_frame.to_csv(diagnostic_path, index=False, lineterminator="\n")
 
@@ -144,6 +151,10 @@ def _write_diagnostics(out_dir: Path, cohort_dir: Path) -> tuple[pd.DataFrame, p
             draw_p_zero=("draw_p_zero", "mean"),
             draw_p_short=("draw_p_short", "mean"),
             draw_p_meaningful=("draw_p_meaningful", "mean"),
+            max_state_probability_discretization_error=(
+                "state_probability_max_abs_discretization_error",
+                "max",
+            ),
             zero_draw_count=("zero_draw_count", "sum"),
             short_draw_count=("short_draw_count", "sum"),
             meaningful_draw_count=("meaningful_draw_count", "sum"),
@@ -191,6 +202,10 @@ def run(
             "one-to-five games with positive points",
             "six-plus games",
         ],
+        "state_discretization": (
+            "support-preserving largest-remainder allocation; maximum per-state "
+            "probability error is audited against 1/sample_count"
+        ),
         "components": [
             "fold-local multinomial logistic state probabilities",
             "short-season Ridge log scoring-rate mean with paired empirical games/rate residual draws",
