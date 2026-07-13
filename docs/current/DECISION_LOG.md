@@ -101,4 +101,13 @@ TASK-049 tested one locked uncertainty hypothesis: a deterministic three-state z
 
 Integrity gates 8-9 pass after the corrected provenance checks: TASK-047 prediction-manifest, fold-failure and target-failure artifacts are hashed; candidate keys are inherited exactly from TASK-047; TASK-049 transformation failures are zero; baseline and candidate schemas are identical; and non-quantile outputs are unchanged. Large row-level predictions and diagnostics remain under `build/` and are represented in the committed report by hashes, row counts and concise aggregate tables.
 
-Do not start TASK-050 in this branch. Another uncertainty hypothesis requires a separate decision.
+Do not tune TASK-049 further.
+
+## D-018 — Proceed to a coherent joint season distribution
+**Status:** accepted
+
+The next forecast challenger is TASK-050. It will fit one zero/short/meaningful season-outcome distribution and derive expected games, conditional outcomes, total points, quantiles and scoring-threshold probabilities from the same deterministic draws. It may replace TASK-047 only if every predeclared point-accuracy, proper-score, calibration, subgroup and integrity gate passes.
+
+TASK-050 must not force simulated means back to TASK-047 point forecasts, apply post-hoc quantile corrections, tune against named players or change keeper utility. TASK-047 remains the accepted point-forecast benchmark until TASK-050 earns replacement.
+
+Historical partial-season snapshots are not required for TASK-050 and current-season observations cannot enter its retrospective validation. A later current-board adapter may use current-season games as a separate, transparent inference component. Each current-season game must carry at least the evidence weight of one immediately prior-season game; scoring-rate and availability updates remain separate, and missed games are not a direct scoring penalty.
