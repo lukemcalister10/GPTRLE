@@ -2,44 +2,44 @@
   "accepted_uncertainty_outputs": false,
   "artifacts": {
     "acceptance_gates.csv": {
-      "bytes": 742,
+      "bytes": 745,
       "rows": 9,
-      "sha256": "baf1fe2412113bb215215be6979e08e19d6b0ca3ca2097abd541a8b21dd490b2"
+      "sha256": "cd4a1123e323d38109020797965ba9bd3cf37ee2f532c925d7b637e5bf2ec954"
     },
     "bootstrap_confidence_intervals.csv": {
-      "bytes": 812,
+      "bytes": 806,
       "rows": 7,
-      "sha256": "9541a3c670d572fc90a71153589ce2f7b72f5acf1983c848ecbede3d1243f01e"
+      "sha256": "5777306c6296f5959dea98bc090c00364cade8fc9684eee73f396c1e087b6682"
     },
     "bootstrap_pooled_statistic_invariant.csv": {
-      "bytes": 446,
+      "bytes": 436,
       "rows": 7,
-      "sha256": "24132abcf24c1ae4f1390e106791fe8cad1ad5998c99748ae091543a3834d762"
+      "sha256": "92f6a5efcd95f714b2d7a6bd38daeb07b9bf2bd2b71765518eb691b073333a71"
     },
     "integrity_checks.csv": {
       "bytes": 718,
       "rows": 9,
-      "sha256": "1158ed4fecb9023051c29f52d714b6b2b0cf4b89756eb8e6f3124f199fbd6c53"
+      "sha256": "f725b14e9d6f5f518fe1bcd58c6d09109c9032f84b26d9222e9a3f2ca6b5c384"
     },
     "interval_coverage_by_lead.csv": {
-      "bytes": 3399,
+      "bytes": 3400,
       "rows": 30,
-      "sha256": "aa71e18b9aede0be5542d387a2c461e5a02ea4f156c248add2109f890e6c5d89"
+      "sha256": "b33b37b7638538eb3a0ee44c00a2b5c30731d0ca0f6e66ef2277ab0b59824f82"
     },
     "interval_coverage_by_position.csv": {
-      "bytes": 3192,
+      "bytes": 3187,
       "rows": 30,
-      "sha256": "90301cf73ecf86ce36d3039effd085f569e673375812061f07da1145a445755f"
+      "sha256": "7042f5b42edfe22c86da96e6194887cb10361c8e900bebf7be7f6fdc96a52f58"
     },
     "interval_coverage_by_prior_history.csv": {
-      "bytes": 2395,
+      "bytes": 2396,
       "rows": 18,
-      "sha256": "384b71001a8d109da59eeeb4b14715019c47b8d916d7930400847f448044fbfa"
+      "sha256": "0fc18ab3d8b42872a68a09105b37ee1ee8b06768dbc68f4806b8463ce918e2fd"
     },
     "interval_coverage_overall.csv": {
-      "bytes": 749,
+      "bytes": 747,
       "rows": 6,
-      "sha256": "10a64e5bbb6184621c42ffead1776cf039c71885c2887ce1a823430a3a687f89"
+      "sha256": "b66a41f27d83c8c9a52b20b12c3aac788ed78e8367581db21c643b25b689c336"
     },
     "non_uncertainty_output_comparison.csv": {
       "bytes": 611,
@@ -47,64 +47,64 @@
       "sha256": "576c96b1c7a53e004d1c357f10c8336a4bdab118eee2691fa47ce4187b65fc59"
     },
     "one_to_five_cohort_calibration.csv": {
-      "bytes": 1535,
+      "bytes": 1540,
       "rows": 12,
-      "sha256": "b25267e5bda4dfdda6d04f9de8b535cd3d7782d370e660b9c21d2402aeef328d"
+      "sha256": "43dd09a45dd3d8b5a6d91849c495e0911e44219102e140c8833a28a0c44f133e"
     },
     "one_to_five_cohort_pinball.csv": {
-      "bytes": 888,
+      "bytes": 893,
       "rows": 6,
-      "sha256": "6e46b1ffba9ca52da5ba0010cf4a3e6898f347d0ffcb950038ad29f6239d0fc2"
+      "sha256": "89362be33dc1f87e72549e2d5890708c94973bfb2a2937d767f568fdd2e1662d"
     },
     "pinball_by_lead.csv": {
-      "bytes": 2962,
+      "bytes": 2955,
       "rows": 30,
-      "sha256": "49709c2ce3c054f47c54e47c852353cb576b023daef9e64c840dde4afb5e2178"
+      "sha256": "86e80dcc697f3ded5d6dc4474e204bd5fee673b948eccd4634aa5c43a83bf9dc"
     },
     "pinball_overall.csv": {
-      "bytes": 648,
+      "bytes": 647,
       "rows": 6,
-      "sha256": "81b29bd3b2a5efa26ba69061a27e1d45266c6106c482fdbf1085f55835ebcbf9"
+      "sha256": "2a1b0a5d70e5c9e9558f7ca2e469f410503e735062060a9768c6d18f3054f470"
     },
     "predicted_vs_realised_state_frequency.csv": {
-      "bytes": 4962,
+      "bytes": 4980,
       "rows": 25,
-      "sha256": "a133949256535172cd41c4804fb4093c23424e7674a83178aee650db41d2665b"
+      "sha256": "9945d1e2dd42ed05184c35ad3698548d9479b6d331af6be2ce8716e4f366d5d4"
     },
     "primary_pinball.csv": {
       "bytes": 85,
       "rows": 2,
-      "sha256": "fd42f24f1646effb7d66ade4c0bc44776fcf2adb28f570b5ac30036e3c108706"
+      "sha256": "632b8f80dc16054ace8b2d10e8b0d57c88bd36e8531662274b59cd4fbdef09d3"
     },
     "quantile_calibration_by_lead.csv": {
-      "bytes": 7687,
+      "bytes": 7672,
       "rows": 60,
-      "sha256": "aafa5bace6412c1f494f529c2d2f5c95f9730922e4367bb45f5e3f1e0ba5da03"
+      "sha256": "260769b735886299cd681483136f2f40c0d92bd427606b3999d483ecd91c9e5b"
     },
     "quantile_calibration_by_position.csv": {
-      "bytes": 7343,
+      "bytes": 7346,
       "rows": 60,
-      "sha256": "20f09db8294ace2568ae4e986f2dfb05b4a6df0d9cc574da6ff2a866b4303a06"
+      "sha256": "9cd25eedbc75c90846c110015cf64befd038dee2978dd1e895a5294ffcfc96c6"
     },
     "quantile_calibration_by_prior_history.csv": {
-      "bytes": 5308,
+      "bytes": 5300,
       "rows": 36,
-      "sha256": "d0ceb69a35a0d5f87d12a4969e88ae2be1efeed1500ce27130b50728a3f4b654"
+      "sha256": "db2aeb9cb01b7ddeed6d2344483e3ce256630e83774b12c26008fd8c9a5216f7"
     },
     "quantile_calibration_overall.csv": {
-      "bytes": 1624,
+      "bytes": 1617,
       "rows": 12,
-      "sha256": "45ddcf9006f08822a4e66bf60bff5be1ff00008be37d48330ba5e96888bf1a19"
+      "sha256": "ebbce8d7d84944c1b22019c0299f3f4d728f58ae3608b02f8102a43ff1df37df"
     },
     "short_season_calibration_by_fold_lead.csv": {
-      "bytes": 7290,
+      "bytes": 7388,
       "rows": 25,
-      "sha256": "20974498544ef34d113461baba7332fbdf2219a13f581e74b75833ebe8905f22"
+      "sha256": "6582f3ad7ea1a67010bc1cc81da771f26841d461f41e499ac9dc0a9294eff391"
     },
     "short_season_training_summary.csv": {
-      "bytes": 6621,
+      "bytes": 6710,
       "rows": 25,
-      "sha256": "87b3743e6e3f61dc8361fc40d85363d307c93905ad621a8808c9a0164ecfbce1"
+      "sha256": "9f84051de1c947bac5bdd0ca508952926d8db06c7638d9c2653f4a093e5a8a8b"
     }
   },
   "bootstrap_replications": 2000,
@@ -123,23 +123,32 @@
     "build/task049-three-state-point-distribution/vnext_predictions.csv",
     "build/task049-three-state-point-distribution/branch_diagnostics.csv"
   ],
+  "parity_with_pr80_generator": {
+    "actual_candidate_sha256": "3782fb531a4a7c147501151f937ec7a7f723b51ef1fe6adb070d0e21f17bb6f8",
+    "actual_primary_pinball": 141.65297296100084,
+    "actual_source_prediction_sha256": "481485d84c0dddc05ef01a9ecd50c6be5092538b70064aba50a887a0812f43f4",
+    "checked": true,
+    "expected_candidate_sha256": "3782fb531a4a7c147501151f937ec7a7f723b51ef1fe6adb070d0e21f17bb6f8",
+    "expected_primary_pinball": 141.65297296100084,
+    "expected_source_prediction_sha256": "481485d84c0dddc05ef01a9ecd50c6be5092538b70064aba50a887a0812f43f4"
+  },
   "primary_mean_pinball": {
     "task047": 141.1074210933937,
-    "task049": 141.70952611577337
+    "task049": 141.65297296100084
   },
   "sample_count": 2048,
   "seed_contract": "sha256(TASK-049|player_key|origin_year|lead)",
   "source_fold_failures": {
-    "path": "/workspace/GPTRLE/build/task047-pooled-ridge-conditional-average/fold_failures.csv",
+    "path": "build/task047-pooled-ridge-conditional-average/fold_failures.csv",
     "rows": 0,
     "sha256": "c986fc869936dccc77d50f22ad4be16a810246befe494f60913dfd0017f919bc"
   },
   "source_prediction_manifest": {
-    "path": "/workspace/GPTRLE/build/task047-pooled-ridge-conditional-average/prediction_manifest.json",
+    "path": "build/task047-pooled-ridge-conditional-average/prediction_manifest.json",
     "sha256": "0e2b386d2d3a3b45aefaf05dad199511d543b6a595c49b45d942f14284debb1f"
   },
   "source_target_failures": {
-    "path": "/workspace/GPTRLE/build/task-003-cohorts/target_failures.csv",
+    "path": "build/task-003-cohorts/target_failures.csv",
     "rows": 0,
     "sha256": "ace0297c2e918c5b5dd75e3fc267770c9c61db9915f5e098ca31e92d86f4fabc"
   },

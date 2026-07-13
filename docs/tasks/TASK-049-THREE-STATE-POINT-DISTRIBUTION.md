@@ -2,7 +2,7 @@
 
 ## Status
 
-Rejected evidence recorded. TASK-049 worsened mean pinball (approximately 141.71 versus TASK-047 141.11); gates 1-7 fail; gates 8-9 pass after integrity evidence; uncertainty remains blocked and another uncertainty hypothesis requires a separate decision.
+Rejected evidence recorded. TASK-049 worsened mean pinball (approximately 141.65 versus TASK-047 141.11); gates 1-7 fail; gates 8-9 pass after integrity evidence; uncertainty remains blocked and another uncertainty hypothesis requires a separate decision.
 
 Protocol locked before outcome inspection. This is one isolated uncertainty-model hypothesis. It must not change accepted TASK-047 point forecasts, Ridge fitting, event probabilities, conditional games, conditional averages, benchmark cohorts, targets, keeper utility or production exports.
 

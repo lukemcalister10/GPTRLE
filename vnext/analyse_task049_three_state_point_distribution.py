@@ -18,10 +18,17 @@ from task049_three_state_distribution import (
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "reports/task-049-three-state-point-distribution"
+EXPECTED_TASK047_PREDICTION_SHA = "481485d84c0dddc05ef01a9ecd50c6be5092538b70064aba50a887a0812f43f4"
+EXPECTED_TASK049_CANDIDATE_SHA = "3782fb531a4a7c147501151f937ec7a7f723b51ef1fe6adb070d0e21f17bb6f8"
+EXPECTED_TASK049_PRIMARY_PINBALL = 141.65297296100084
 
 
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def repo_path(path: Path) -> str:
+    return str(path.resolve().relative_to(ROOT))
 
 
 def write(path: Path, frame: pd.DataFrame) -> dict[str, int | str]:
@@ -39,6 +46,10 @@ def relabel_table(frame: pd.DataFrame) -> pd.DataFrame:
     out = frame.copy()
     if "model" in out.columns:
         out["model"] = out["model"].replace({"task012": "task047", "task047": "task049"})
+    if "check" in out.columns:
+        out["check"] = out["check"].astype(str).str.replace("task012", "__BASE__", regex=False).str.replace("task047", "task049", regex=False).str.replace("__BASE__", "task047", regex=False)
+    if "detail" in out.columns:
+        out["detail"] = out["detail"].astype(str).str.replace("task012", "__BASE__", regex=False).str.replace("task047", "task049", regex=False).str.replace("__BASE__", "task047", regex=False)
     rename = {
         "task012": "task047",
         "task047": "task049",
@@ -179,6 +190,14 @@ def main() -> None:
     p = primary.set_index("model").primary_mean_pinball_loss
     failed = gates.loc[~gates.passed, "gate"].astype(int).tolist()
     task049_manifest = json.loads((args.candidate.parent / "prediction_manifest.json").read_text())
+    candidate_sha = sha(args.candidate)
+    source_sha = sha(args.baseline)
+    parity_checked = source_sha == EXPECTED_TASK047_PREDICTION_SHA
+    if parity_checked:
+        if candidate_sha != EXPECTED_TASK049_CANDIDATE_SHA:
+            raise ValueError(f"TASK-049 parity hash mismatch: expected {EXPECTED_TASK049_CANDIDATE_SHA}, got {candidate_sha}")
+        if abs(float(p.task049) - EXPECTED_TASK049_PRIMARY_PINBALL) > 1e-10:
+            raise ValueError(f"TASK-049 primary pinball parity mismatch: expected {EXPECTED_TASK049_PRIMARY_PINBALL}, got {float(p.task049)}")
     summary = {
         "task": "TASK-049-three-state-point-distribution",
         "decision": "accepted" if not failed else "rejected",
@@ -190,9 +209,10 @@ def main() -> None:
         "bootstrap_replications": 2000,
         "sample_count": int(task049_manifest["sample_count"]),
         "seed_contract": task049_manifest["seed_contract"],
-        "source_prediction_manifest": task049_manifest["source_prediction_manifest"],
-        "source_fold_failures": task049_manifest["source_fold_failures"],
-        "source_target_failures": task049_manifest["source_target_failures"],
+        "source_prediction_manifest": {"path": repo_path(args.baseline.parent / "prediction_manifest.json"), "sha256": sha(args.baseline.parent / "prediction_manifest.json")},
+        "source_fold_failures": {"path": repo_path(args.baseline.parent / "fold_failures.csv"), "rows": int(len(pd.read_csv(args.baseline.parent / "fold_failures.csv"))), "sha256": sha(args.baseline.parent / "fold_failures.csv")},
+        "source_target_failures": {"path": repo_path(ROOT / "build/task-003-cohorts/target_failures.csv"), "rows": int(len(pd.read_csv(ROOT / "build/task-003-cohorts/target_failures.csv"))), "sha256": sha(ROOT / "build/task-003-cohorts/target_failures.csv")},
+        "parity_with_pr80_generator": {"checked": parity_checked, "expected_source_prediction_sha256": EXPECTED_TASK047_PREDICTION_SHA, "actual_source_prediction_sha256": source_sha, "expected_candidate_sha256": EXPECTED_TASK049_CANDIDATE_SHA, "actual_candidate_sha256": candidate_sha, "expected_primary_pinball": EXPECTED_TASK049_PRIMARY_PINBALL, "actual_primary_pinball": float(p.task049)},
         "task049_transformation_failure_rows": task049_manifest["task049_transformation_failure_rows"],
         "large_build_artifacts_omitted": ["build/task049-three-state-point-distribution/vnext_predictions.csv", "build/task049-three-state-point-distribution/branch_diagnostics.csv"],
         "artifacts": artifacts,

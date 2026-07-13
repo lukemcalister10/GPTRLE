@@ -97,7 +97,7 @@ TASK-047 remains accepted only for conditional-average point forecasts. Its unce
 ## D-017 — TASK-049 three-state point distribution rejected
 **Status:** rejected
 
-TASK-049 tested one locked uncertainty hypothesis: a deterministic three-state zero-game, one-to-five-game and meaningful-season point-distribution transformation of verified TASK-047 rows, preserving accepted TASK-047 point forecasts and every non-quantile output. The concise evidence records TASK-049 as rejected: mean pinball is approximately 141.71 versus TASK-047 141.11, gates 1-7 fail, and uncertainty remains blocked.
+TASK-049 tested one locked uncertainty hypothesis: a deterministic three-state zero-game, one-to-five-game and meaningful-season point-distribution transformation of verified TASK-047 rows, preserving accepted TASK-047 point forecasts and every non-quantile output. The concise evidence records TASK-049 as rejected: mean pinball is approximately 141.65 versus TASK-047 141.11, gates 1-7 fail, and uncertainty remains blocked.
 
 Integrity gates 8-9 pass after the corrected provenance checks: TASK-047 prediction-manifest, fold-failure and target-failure artifacts are hashed; candidate keys are inherited exactly from TASK-047; TASK-049 transformation failures are zero; baseline and candidate schemas are identical; and non-quantile outputs are unchanged. Large row-level predictions and diagnostics remain under `build/` and are represented in the committed report by hashes, row counts and concise aggregate tables.
 

@@ -24,7 +24,7 @@ def run(source:Path=DEFAULT_SOURCE,out:Path=DEFAULT_OUT):
     ds=pd.read_csv(source/'training_dataset.csv')
     rows=[]
     for lead in range(1,6):
-        rows.append(pd.DataFrame({'origin_year':ds.origin_year,'lead':lead,'games':ds[f'l{lead}_games'],'points':ds[f'l{lead}_points']}))
+        rows.append(pd.DataFrame({'origin_year':ds.origin_year,'target_year':ds.origin_year + lead,'lead':lead,'games':ds[f'l{lead}_games'],'points':ds[f'l{lead}_points']}))
     training=pd.concat(rows, ignore_index=True).dropna(subset=['games','points'])
     folds=pd.read_csv(source/'fold_artifact_manifest.csv')
     supports=build_short_support(training, folds)

@@ -35,6 +35,7 @@ class ShortSupport:
     short_prob: float
     meaningful_prob: float
     game_probs: dict[int, float]
+    short_games_values: np.ndarray
     rate_values: np.ndarray
     games_resid_sd: float
     avg_resid_sd: float
@@ -76,7 +77,8 @@ def build_short_support(training: pd.DataFrame, fold_manifest: pd.DataFrame) -> 
     supports: dict[tuple[int, int], ShortSupport] = {}
     for fm in manifest.itertuples(index=False):
         origin = int(fm.origin_year); lead = int(fm.lead)
-        hist = training[(training.origin_year >= 2008) & ((training.origin_year + lead) < origin)].copy()
+        target_year = pd.to_numeric(training["target_year"], errors="coerce") if "target_year" in training.columns else (pd.to_numeric(training.origin_year, errors="coerce") + lead)
+        hist = training[(training.lead.astype(int) == lead) & (training.origin_year >= 2008) & (target_year < origin)].copy()
         if hist.empty:
             raise ValueError(f"missing short-season support for origin_year={origin} lead={lead}")
         games = pd.to_numeric(hist.games, errors="coerce")
@@ -99,7 +101,7 @@ def build_short_support(training: pd.DataFrame, fold_manifest: pd.DataFrame) -> 
         freqs = short_games.value_counts(normalize=True).reindex([1, 2, 3, 4, 5], fill_value=0.0)
         supports[(origin, lead)] = ShortSupport(
             origin, lead, float(zero.sum() / denom), float(short.sum() / denom), float(meaningful.mean()),
-            {int(k): float(v) for k, v in freqs.items()}, rates,
+            {int(k): float(v) for k, v in freqs.items()}, short_games.to_numpy(dtype=float), rates,
             _finite_positive(fm.games_resid_sd, "games_resid_sd", origin, lead),
             _finite_positive(fm.avg_resid_sd, "avg_resid_sd", origin, lead), int(len(hist)), int(short.sum())
         )
@@ -129,25 +131,22 @@ def generate_three_state_predictions(predictions: pd.DataFrame, supports: dict[t
         values = np.zeros(sample_count, dtype=float)
         short_mask = states == 1; meaningful_mask = states == 2
         if short_mask.any():
-            game_values = np.array(list(sup.game_probs.keys()))
-            probs = np.array(list(sup.game_probs.values()), dtype=float); probs = probs / probs.sum()
-            sg = rng.choice(game_values, size=int(short_mask.sum()), p=probs)
+            sg = rng.choice(sup.short_games_values, size=int(short_mask.sum()), replace=True)
             sr = rng.choice(sup.rate_values, size=int(short_mask.sum()), replace=True)
             raw_short = sg * sr
             values[short_mask] = raw_short
         else:
             sg = np.array([], dtype=int); raw_short = np.array([], dtype=float); sr = np.array([], dtype=float)
         if meaningful_mask.any():
-            mg = np.clip(np.rint(rng.normal(float(row.cond_games), sup.games_resid_sd, int(meaningful_mask.sum()))), 6, 23)
+            mg = np.clip(rng.normal(float(row.cond_games), sup.games_resid_sd, int(meaningful_mask.sum())), 6.0, 23.0)
             ma = np.clip(rng.normal(float(row.cond_avg), sup.avg_resid_sd, int(meaningful_mask.sum())), 1e-6, 145.0)
             values[meaningful_mask] = mg * ma
         else:
             mg = np.array([], dtype=float)
         before = float(values.mean())
         target_mean = float(row.exp_points)
-        positive = values > 0
-        if positive.any() and before > 0.0:
-            values[positive] = np.maximum(values[positive] * (target_mean / before), 1e-9)
+        if before > 0.0:
+            values = values * (target_mean / before)
         elif target_mean > MEAN_TOL:
             raise ValueError(f"cannot reconcile positive exp_points without positive draws for {row[KEY].to_dict()}")
         delta = target_mean - before
