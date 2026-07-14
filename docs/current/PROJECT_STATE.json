@@ -1,14 +1,15 @@
 {
   "state": [
     "Production baseline: frozen unchanged Claude engine under `engine/rl_after/`; no release cutover has been approved.",
+    "Roadmap Phase 1 — common player universe and fair legacy benchmark — is complete. The authoritative player reconciliation is durable, the locked legacy-versus-vNext historical benchmark is reproducible on 5,622 player-origin snapshots and 20,094 player-origin-lead rows per model across 25 legal folds, and the recorded benchmark has zero target failures, zero fold failures and passing historical information-boundary safeguards.",
     "Accepted point-forecast evidence: TASK-003Q, TASK-009 zero-history state separation, TASK-012 evidence-weighted demonstrated ceiling and TASK-047 pooled Ridge conditional-average point forecasts.",
     "Conditional-average defect work is recorded through TASK-047: TASK-044 and TASK-045 diagnosed broad compression, TASK-046 rejected broad-position routing, and TASK-047 accepted pooled Ridge for point forecasts.",
     "Release constraint: TASK-006 and the TASK-007 TASK-006 export must not be promoted.",
     "Uncertainty status: TASK-049 is rejected; point quantiles remain blocked after failed proper-score, calibration, interval-coverage, subgroup and short-season gates.",
-    "TASK-050 is the active forecast-layer hypothesis: fit one coherent zero/short/meaningful season-outcome distribution and derive expected outcomes, quantiles and threshold probabilities from the same deterministic draws without row-level moment forcing.",
+    "TASK-050 is the active Phase 2 forecast-layer hypothesis: fit one coherent zero/short/meaningful season-outcome distribution and derive expected outcomes, quantiles and threshold probabilities from the same deterministic draws without row-level moment forcing.",
     "Historical partial-season snapshots are unavailable and excluded from TASK-050 validation. A later current-board adapter may use current-season games only as a separately reported inference component, with each current game weighted at least as strongly as one immediately prior-season game and no direct missed-game scoring penalty.",
     "Forecast distribution, career trajectory, keeper utility, owner policy and production release remain separate decisions.",
-    "GitHub Actions is operational after the repository became public. vNext CI run 29330453211 executed on a fresh GitHub-hosted Ubuntu runner and passed checkout, dependency installation, frozen legacy verification, the full vNext test suite and generated-handover verification. Current `vnext` tip `450107f934f189891f258a231dbef8b3319233fb` contains the same changed file blobs as the tested PR #86 merge ref. Issue #82 is resolved."
+    "GitHub Actions is operational after the repository became public. PR #86 vNext CI run 29330453211 executed on a fresh GitHub-hosted Ubuntu runner and passed checkout, dependency installation, frozen legacy verification, the full vNext test suite and generated-handover verification; its tested merge ref and squash commit `450107f934f189891f258a231dbef8b3319233fb` contained identical changed-file blobs. Documentation PR #87 independently passed the same vNext CI sequence in run 29333601744 before merging. Issue #82 is closed as resolved."
   ],
   "locked_evidence": [
     "Authoritative current universe: 804 players; raw Claude export: 805 rows with legacy-only Taylor Adams.",
