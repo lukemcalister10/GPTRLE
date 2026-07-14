@@ -11,7 +11,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 - TASK-050 is the active forecast-layer hypothesis: fit one coherent zero/short/meaningful season-outcome distribution and derive expected outcomes, quantiles and threshold probabilities from the same deterministic draws without row-level moment forcing.
 - Historical partial-season snapshots are unavailable and excluded from TASK-050 validation. A later current-board adapter may use current-season games only as a separately reported inference component, with each current game weighted at least as strongly as one immediately prior-season game and no direct missed-game scoring penalty.
 - Forecast distribution, career trajectory, keeper utility, owner policy and production release remain separate decisions.
-- CI startup remains an open engineering blocker under issue #82 and diagnostic PR #83; no workflow is represented as green until executable Actions steps run.
+- GitHub Actions is operational after the repository became public. vNext CI run 29330453211 executed on a fresh GitHub-hosted Ubuntu runner and passed checkout, dependency installation, frozen legacy verification, the full vNext test suite and generated-handover verification. Current `vnext` tip `450107f934f189891f258a231dbef8b3319233fb` contains the same changed file blobs as the tested PR #86 merge ref. Issue #82 is resolved.
 - Active task: [`TASK-050-JOINT-SEASON-OUTCOME-DISTRIBUTION.md`](../tasks/TASK-050-JOINT-SEASON-OUTCOME-DISTRIBUTION.md).
 - Accepted decisions recorded: 18.
 
@@ -33,7 +33,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 6. `docs/tasks/TASK-050-JOINT-SEASON-OUTCOME-DISTRIBUTION.md`
 
 ## Immediate sequence
-Lock and implement TASK-050 exactly as declared. Keep current partial-season evidence outside historical validation. In parallel, diagnose GitHub Actions startup through issue #82 and PR #83.
+Complete the pre-compute evidence corrections already recorded on PR #85. Only after the corrected implementation passes focused pre-compute tests, run the locked TASK-050 benchmark once and accept or reject solely on the eleven predeclared gates. Do not tune after inspecting outcomes.
 
 ## Decision rule
 TASK-050 may replace only the vNext forecast distribution if every predeclared gate passes. It cannot approve keeper utility, current-board partial-season adjustment, player/pick currency or production release. Production still requires locked keeper-utility evidence and Luke's explicit approval.
