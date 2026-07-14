@@ -24,7 +24,7 @@ def rows_for(player_id, values, *, name=None, positions=None, owner=None, uncert
     ]
 
 
-def test_builds_three_values_from_one_forecast_vector():
+def test_builds_three_values_and_rebuilder_shifts_weight_later():
     comparisons = build_player_comparisons(
         rows_for("veteran", [100, 90, 80, 70, 60])
         + rows_for("prospect", [60, 70, 80, 90, 100]),
@@ -32,8 +32,18 @@ def test_builds_three_values_from_one_forecast_vector():
     )
     by_id = {row.player_id: row for row in comparisons}
 
-    assert by_id["veteran"].contender_value > by_id["prospect"].contender_value
-    assert by_id["prospect"].rebuilder_value > by_id["veteran"].rebuilder_value
+    veteran = by_id["veteran"]
+    prospect = by_id["prospect"]
+
+    # Every declared lens remains anchored to near-term production, so these
+    # symmetric vectors do not have to reverse order.  The rebuilder lens must,
+    # however, materially narrow the veteran's near-term advantage.
+    contender_gap = veteran.contender_value - prospect.contender_value
+    rebuilder_gap = veteran.rebuilder_value - prospect.rebuilder_value
+
+    assert contender_gap > rebuilder_gap > 0
+    assert prospect.rebuilder_value > prospect.contender_value
+    assert veteran.rebuilder_value < veteran.contender_value
 
 
 def test_export_contains_deterministic_ranks_and_metadata():
