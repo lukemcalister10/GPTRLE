@@ -111,3 +111,11 @@ The next forecast challenger is TASK-050. It will fit one zero/short/meaningful 
 TASK-050 must not force simulated means back to TASK-047 point forecasts, apply post-hoc quantile corrections, tune against named players or change keeper utility. TASK-047 remains the accepted point-forecast benchmark until TASK-050 earns replacement.
 
 Historical partial-season snapshots are not required for TASK-050 and current-season observations cannot enter its retrospective validation. A later current-board adapter may use current-season games as a separate, transparent inference component. Each current-season game must carry at least the evidence weight of one immediately prior-season game; scoring-rate and availability updates remain separate, and missed games are not a direct scoring penalty.
+
+
+## D-019 — TASK-050 pre-compute review did not produce an accepted distribution
+**Status:** rejected
+
+The TASK-050 pre-compute review in this checkout found no runnable TASK-050 fold-generation, audit or focused-test entrypoints under `vnext/` or `scripts/`. TASK-047 fold generation reproduced the locked 20,094-row benchmark artifacts, but TASK-050 prediction, calibration, subgroup, bootstrap and draw-reconciliation artifacts were not generated.
+
+All eleven TASK-050 acceptance gates are therefore not met in this repository state; gate 11 fails because exact TASK-050 keys, deterministic draws, draw-derived expected values, quantiles and threshold probabilities cannot be reconciled without a TASK-050 artifact. No model tuning or benchmark changes were made after this finding. TASK-047 remains the accepted point-forecast benchmark, TASK-050 is not accepted for the forecast distribution, and CI is not claimed green while issue #82 remains open and the local full vNext suite has one failing player-comparison-export test.

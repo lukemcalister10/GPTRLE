@@ -8,12 +8,12 @@ Generated from repository state. Do not treat chat history as authoritative when
 - Conditional-average defect work is recorded through TASK-047: TASK-044 and TASK-045 diagnosed broad compression, TASK-046 rejected broad-position routing, and TASK-047 accepted pooled Ridge for point forecasts.
 - Release constraint: TASK-006 and the TASK-007 TASK-006 export must not be promoted.
 - Uncertainty status: TASK-049 is rejected; point quantiles remain blocked after failed proper-score, calibration, interval-coverage, subgroup and short-season gates.
-- TASK-050 is the active forecast-layer hypothesis: fit one coherent zero/short/meaningful season-outcome distribution and derive expected outcomes, quantiles and threshold probabilities from the same deterministic draws without row-level moment forcing.
+- TASK-050 pre-compute review found no runnable TASK-050 fold-generation, audit or focused-test entrypoints in this checkout; no TASK-050 forecast-distribution acceptance is recorded, and TASK-047 remains the accepted point-forecast benchmark.
 - Historical partial-season snapshots are unavailable and excluded from TASK-050 validation. A later current-board adapter may use current-season games only as a separately reported inference component, with each current game weighted at least as strongly as one immediately prior-season game and no direct missed-game scoring penalty.
 - Forecast distribution, career trajectory, keeper utility, owner policy and production release remain separate decisions.
 - CI startup remains an open engineering blocker under issue #82 and diagnostic PR #83; no workflow is represented as green until executable Actions steps run.
 - Active task: [`TASK-050-JOINT-SEASON-OUTCOME-DISTRIBUTION.md`](../tasks/TASK-050-JOINT-SEASON-OUTCOME-DISTRIBUTION.md).
-- Accepted decisions recorded: 18.
+- Accepted decisions recorded: 19.
 
 ## Locked evidence
 - Authoritative current universe: 804 players; raw Claude export: 805 rows with legacy-only Taylor Adams.
@@ -23,6 +23,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 - Frozen Claude files are protected by `artifacts/legacy_manifest.json` and `scripts/verify_legacy_manifest.py`.
 - TASK-048 evaluated 20,094 rows per model and rejected TASK-047 uncertainty outputs: mean pinball improved from 149.97 to 141.11, but calibration, interval-coverage, subgroup and structural-support gates failed.
 - TASK-049 exactly reproduced the locked three-state candidate and was rejected: mean pinball 141.65 versus TASK-047 141.11; gates 1-7 failed and gates 8-9 passed.
+- TASK-050 pre-compute review on this checkout did not produce TASK-050 predictions; all eleven acceptance gates are not met/failed for lack of runnable TASK-050 artifacts, with integrity gate 11 failed.
 
 ## Read first
 1. `AGENTS.md`
@@ -33,7 +34,7 @@ Generated from repository state. Do not treat chat history as authoritative when
 6. `docs/tasks/TASK-050-JOINT-SEASON-OUTCOME-DISTRIBUTION.md`
 
 ## Immediate sequence
-Lock and implement TASK-050 exactly as declared. Keep current partial-season evidence outside historical validation. In parallel, diagnose GitHub Actions startup through issue #82 and PR #83.
+Fetch the authenticated TASK-050 branch/PR state, restore or add the locked TASK-050 implementation entrypoints without changing the predeclared hypothesis, then rerun the full locked benchmark.
 
 ## Decision rule
 TASK-050 may replace only the vNext forecast distribution if every predeclared gate passes. It cannot approve keeper utility, current-board partial-season adjustment, player/pick currency or production release. Production still requires locked keeper-utility evidence and Luke's explicit approval.
